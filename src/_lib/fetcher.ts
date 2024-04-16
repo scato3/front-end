@@ -2,11 +2,10 @@ import { constant } from "@/utils/constant";
 
 interface CustomFetchOptions {
   endpoint: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE";
-  bodyData?: Record<string, any> | null;
+  method: "GET" | "POST" | "PUT" | "DELETE";
 }
 
-export const customFetch = async ({ endpoint, method = "GET", bodyData = null }: CustomFetchOptions) => {
+export const Fetcher = async ({ endpoint, method }: CustomFetchOptions) => {
   const requestOptions: RequestInit = {
     method,
     headers: {
@@ -14,10 +13,6 @@ export const customFetch = async ({ endpoint, method = "GET", bodyData = null }:
       "Content-Type": "application/json",
     },
   };
-
-  if (method !== "GET" && bodyData) {
-    requestOptions.body = JSON.stringify(bodyData);
-  }
 
   try {
     const res = await fetch(constant.apiUrl + endpoint, requestOptions);
