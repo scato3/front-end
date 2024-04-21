@@ -11,7 +11,7 @@ export interface FunnelProps {
   children: Array<ReactElement<StepProps>>;
 }
 
-export const useFunnel = <T extends string>(defaultStep: T) => {
+export default function useFunnel<T extends string>(defaultStep: T) {
   const [step, setStep] = useState(defaultStep);
 
   const Step = (props: StepProps): ReactElement => {
@@ -24,6 +24,4 @@ export const useFunnel = <T extends string>(defaultStep: T) => {
   };
 
   return [Funnel, Step, setStep] as const;
-};
-
-export default useFunnel;
+}
