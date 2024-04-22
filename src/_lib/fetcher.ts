@@ -1,34 +1,72 @@
 import { constant } from "@/utils/constant";
 
-interface CustomFetchOptions {
+interface IFetchOptions {
   endpoint: string;
-  method: "GET" | "POST" | "PUT" | "DELETE";
   body?: any;
+  authorization?: string;
 }
 
-export const Fetcher = async ({ endpoint, method, body }: CustomFetchOptions) => {
-  const requestOptions: RequestInit = {
-    method,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
+export const GET = async ({ endpoint }: IFetchOptions) => {
+  const authorization = "";
+  const headers: HeadersInit = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
   };
 
-  if (method === "POST" && body) {
+  if (authorization) {
+    headers.Authorization = authorization;
+  }
+
+  const requestOptions: RequestInit = {
+    method: "GET",
+    headers,
+  };
+
+  try {
+    const res = await fetch(constant.apiUrl + endpoint, requestOptions);
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message);
+    }
+
+    return await res.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const POST = async ({ endpoint, body }: IFetchOptions) => {
+  const authorization = "";
+  const headers: HeadersInit = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  if (authorization) {
+    headers.Authorization = authorization;
+  }
+
+  const requestOptions: RequestInit = {
+    method: "POST",
+    headers,
+    credentials: "include",
+  };
+
+  if (body) {
     requestOptions.body = JSON.stringify(body);
   }
 
   try {
     const res = await fetch(constant.apiUrl + endpoint, requestOptions);
 
-    if (res.ok) {
-      return await res.json();
-    } else {
+    if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.message);
     }
+
+    return await res.json();
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
