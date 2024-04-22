@@ -3,9 +3,10 @@ import { constant } from "@/utils/constant";
 interface CustomFetchOptions {
   endpoint: string;
   method: "GET" | "POST" | "PUT" | "DELETE";
+  body?: any;
 }
 
-export const Fetcher = async ({ endpoint, method }: CustomFetchOptions) => {
+export const Fetcher = async ({ endpoint, method, body }: CustomFetchOptions) => {
   const requestOptions: RequestInit = {
     method,
     headers: {
@@ -13,6 +14,10 @@ export const Fetcher = async ({ endpoint, method }: CustomFetchOptions) => {
       "Content-Type": "application/json",
     },
   };
+
+  if (method === "POST" && body) {
+    requestOptions.body = JSON.stringify(body);
+  }
 
   try {
     const res = await fetch(constant.apiUrl + endpoint, requestOptions);
