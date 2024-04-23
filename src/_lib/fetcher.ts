@@ -3,7 +3,6 @@ import { constant } from "@/utils/constant";
 interface IFetchOptions {
   endpoint: string;
   body?: any;
-  authorization?: string;
 }
 
 export const GET = async ({ endpoint }: IFetchOptions) => {
