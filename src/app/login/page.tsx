@@ -1,60 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
-import useGlobalStore from "@/hooks/useGlobalStore";
+import styles from "./login.module.css";
+import Image from "next/image";
 
-export default function LoginPage() {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+import kakaoLogin from "../../../public/kakao_login_large_wide.svg";
+import Logo from "../../../public/Brand_logo.svg";
 
-  const { setIsLogin, isLogin } = useGlobalStore();
+export default function Login() {
+  const REST_API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+  const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
-    try {
-      // fetch 부분 생략
-      if (username === "admin" && password === "1234") {
-        alert("로그인 성공!");
-        setIsLogin(true);
-        console.log(isLogin);
-      } else {
-        setError("사용자 이름 또는 비밀번호가 잘못되었습니다.");
-        setIsLogin(false);
-      }
-    } catch (error) {
-      setError("로그인 중 오류가 발생했습니다.");
-    }
-    setIsLoading(false);
+  const loginHandler = () => {
+    window.location.href = link;
   };
 
   return (
-    <div>
-      <h2>로그인</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="username">사용자 이름:</label>
-          <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+    <div className={styles.loginContainer}>
+      <div className={styles.loginBox}>
+        <div className={styles.logoBox}>
+          <Image src={Logo} alt="로고" width={92} height={92} />
+          <p className={styles.loginTitle}>쇼터디</p>
+          <p className={styles.loginSubtitle}>단 하루를 위한 스터디 매칭 서비스</p>
         </div>
-        <div>
-          <label htmlFor="password">비밀번호:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+        <div className={styles.joinBox}>
+          <Image
+            src={kakaoLogin}
+            alt="카카오 로그인 버튼"
+            width={400}
+            height={60}
+            className={styles.kakaoBtn}
+            onClick={loginHandler}
           />
+          <p className={styles.preview}>둘러보기</p>
         </div>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "로그인 중..." : "로그인"}
-        </button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      </div>
     </div>
   );
 }
