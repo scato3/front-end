@@ -5,7 +5,8 @@ import { GET } from "@/_lib/fetcher";
 import useGlobalStore from "@/hooks/useGlobalStore";
 
 export default function Kakao() {
-  const { setIsLogin, setToken } = useGlobalStore();
+  const { setIsLogin, setAccessToken } = useGlobalStore();
+  const { isLogin, token } = useGlobalStore();
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
@@ -14,7 +15,7 @@ export default function Kakao() {
         try {
           const data = await GET({ endpoint: `oauth/kakao?code=${code}` });
           setIsLogin(true);
-          setToken(data.accessToken);
+          setAccessToken(data.accessToken);
           console.log(data.accessToken);
           console.log(data.profileName);
           console.log(data.email);

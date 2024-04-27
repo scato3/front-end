@@ -5,14 +5,14 @@ interface GlobalState {
   isLogin: boolean;
   token: string | null;
   setIsLogin: (isLogin: boolean) => void;
-  setToken: (token: string | null) => void;
+  setAccessToken: (token: string | null) => void;
 }
 
 const initialState: GlobalState = {
   isLogin: false,
   token: null,
   setIsLogin: () => {},
-  setToken: () => {},
+  setAccessToken: () => {},
 };
 
 const useGlobalStore = create<GlobalState>(
@@ -20,7 +20,7 @@ const useGlobalStore = create<GlobalState>(
     (set) => ({
       ...initialState,
       setIsLogin: (isLogin: boolean) => set({ isLogin }),
-      setToken: (token: string) => set({ token }),
+      setAccessToken: (token: string) => set({ token }),
     }),
     {
       name: "globalState",
