@@ -1,0 +1,61 @@
+.loginContainer {
+  height: 100vh;
+  background-color: var(--gray-800);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoBox {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginTitle {
+  margin-top: 40px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 120%;
+  color: var(--main-200);
+}
+
+.loginSubtitle {
+  margin-top: 16px;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--gray-200);
+  line-height: 160%;
+}
+
+.joinBox {
+  margin-top: -100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.kakaoBtn {
+  margin-top: 250px;
+  cursor: pointer;
+}
+
+.preview {
+  margin-top: 46px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 170%;
+  color: var(--gray-400);
+  border-bottom: 2px solid var(--gray-400);
+  cursor: pointer;
+}
