@@ -4,6 +4,8 @@ import Login from "./login/page";
 import Button from "./_component/button/Button";
 import Modal_Lg from "./_component/modal/Modal_Lg";
 import Modal_Md from "./_component/modal/Modal_Md";
+import Filter from "./_component/filter/Filter";
+import Input_Chat from "./_component/input/Input_Chat";
 
 import styles from "./_component/modal/modal.module.css";
 
@@ -47,6 +49,35 @@ export default function Home() {
       <Modal_Md>
         <p className={styles.contentTop}>쇼터디를 종료할까요?</p>
       </Modal_Md>
+      <br />
+      <Filter
+        size="large"
+        text="Filter"
+        property="deep"
+        onClick={() => {
+          return;
+        }}
+      />
+      <br />
+      <Filter
+        size="medium"
+        text="Filter"
+        property="light"
+        onClick={() => {
+          return;
+        }}
+      />
+      <br />
+      <Filter
+        size="small"
+        text="Filter"
+        property="disabled"
+        onClick={() => {
+          return;
+        }}
+      />
+      <br />
+      <Input_Chat />
     </div>
   );
 }

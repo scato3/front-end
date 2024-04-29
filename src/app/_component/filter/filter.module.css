@@ -1,0 +1,40 @@
+.large {
+    width: 130px;
+    height: 56px;
+    border: none;
+    font-size: 30px;
+    border-radius: 4px;
+}
+
+.medium {
+    width: 108px;
+    height: 47px;
+    border: none;
+    font-size: 24px;
+    border-radius: 4px;
+}
+
+.small {
+    width: 70px;
+    height: 36px;
+    border: none;
+    font-size: 20px;
+    border-radius: 4px;
+}
+
+.deep {
+    color: var(--gray-900);
+    background-color: var(--main-200);
+}
+
+.light {
+    color: var(--main-200);
+    background-color: var(--main-100);
+}
+
+.disabled{
+    color: var(--gray-400);
+    background-color: var(--gray-50);
+}
+
+
