@@ -1,41 +1,43 @@
 .large {
-    width: 404px;
-    height: 60px;
-    border: none;
-    font-size: 20px;
+  width: 404px;
+  height: 60px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .medium {
-    width: 228px;
-    height: 60px;
-    border: none;
-    font-size: 24px;
+  width: 228px;
+  height: 60px;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .small {
-    width: 138px;
-    height: 50px;
-    border: none;
-    font-size: 20px;
+  width: 138px;
+  height: 50px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .default {
-    color: var(--gray-900);
-    background-color: var(--main-200);
+  color: var(--gray-900);
+  background-color: var(--main-200);
 }
 
 .confirm {
-    color: var(--main-200);
-    background-color: var(--main-100);
+  color: var(--main-200);
+  background-color: var(--main-100);
 }
 
 .pressed {
-    color: var(--gray-400);
-    background-color: var(--main-100);
+  color: var(--gray-400);
+  background-color: var(--main-100);
 }
 
 .disabled {
-    color: var(--gray-700);
-    background-color: var(--gray-100);
+  color: var(--gray-700);
+  background-color: var(--gray-100);
 }
-

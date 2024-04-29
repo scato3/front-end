@@ -5,7 +5,7 @@ interface IModalLgConfirmProps {
   children: React.ReactNode;
 }
 
-export default function Modal_Lg_Confirm({ children }: IModalLgConfirmProps) {
+export default function Modal_Lg({ children }: IModalLgConfirmProps) {
   return (
     <div className={styles.container}>
       <div className={styles.modalLargeBox}>
