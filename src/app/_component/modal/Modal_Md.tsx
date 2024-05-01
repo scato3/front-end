@@ -11,8 +11,12 @@ export default function Modal_Md({ children }: IModalMdProps) {
       <div className={styles.modalMiddleBox}>
         {children}
         <div className={styles.twoButtonBox}>
-          <Button size="small" text="인증하기" property="disabled" onClick={() => {}}></Button>
-          <Button size="small" text="종료" onClick={() => {}}></Button>
+          <Button size="small" property="disabled" onClick={() => {}}>
+            인증하기
+          </Button>
+          <Button size="small" onClick={() => {}}>
+            종료
+          </Button>
         </div>
       </div>
     </div>

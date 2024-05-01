@@ -2,16 +2,16 @@ import styles from "./button.module.css";
 
 interface ButtonProps {
   size?: "small" | "medium" | "large";
-  text: string;
   property?: "default" | "confirm" | "pressed" | "disabled";
   onClick: () => void;
+  children?: React.ReactNode;
 }
 
-export default function Button({ size = "medium", text, property = "default", onClick }: ButtonProps) {
+export default function Button({ size = "medium", property = "default", onClick, children }: ButtonProps) {
   return (
     <div>
       <button className={`${styles[size]} ${styles[property]}`} onClick={onClick}>
-        {text}
+        {children}
       </button>
     </div>
   );
