@@ -4,10 +4,11 @@ import { useEffect } from "react";
 import useAuth from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import getKakaoCode from "@/app/api/kakao";
+import { useSearchParams } from "next/navigation";
 
 export default function Kakao() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get("code");
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
   const { setUserData } = useAuth();
 
   const { data } = useQuery({
