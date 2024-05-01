@@ -12,7 +12,6 @@ function RQProvider({ children }: Props) {
   const [client] = useState(
     new QueryClient({
       defaultOptions: {
-        // react-query 전역 설정
         queries: {
           refetchOnWindowFocus: false, // 탭 전환
           retryOnMount: true, // 컴포넌트가 unmouned됭 이후 mount 되었을때

@@ -1,29 +1,24 @@
 "use client";
 
 import { useEffect } from "react";
-import { GET } from "@/_lib/fetcher";
-import useGlobalStore from "@/hooks/useGlobalStore";
+import useAuth from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import getKakaoCode from "@/app/api/kakao";
+import { useSearchParams } from "next/navigation";
 
 export default function Kakao() {
-  const { setIsLogin, setAccessToken } = useGlobalStore();
-  const { isLogin, token } = useGlobalStore();
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
+  const { setUserData } = useAuth();
+
+  const { data } = useQuery({
+    queryKey: ["KAKAO_CODE", code],
+    queryFn: async () => getKakaoCode(code),
+  });
+
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-    if (code) {
-      const Test = async () => {
-        try {
-          const data = await GET({ endpoint: `oauth/kakao?code=${code}` });
-          setIsLogin(true);
-          setAccessToken(data.accessToken);
-          console.log(data.accessToken);
-          console.log(data.profileName);
-          console.log(data.email);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      Test();
+    if (data) {
+      setUserData(data.accessToken, true);
     }
-  }, []);
+  }, [data]);
 }
