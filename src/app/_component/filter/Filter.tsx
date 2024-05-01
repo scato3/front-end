@@ -9,10 +9,8 @@ interface FilterProps {
 
 export default function Filter({ size = "medium", property = "deep", onClick, children }: FilterProps) {
   return (
-    <div>
-      <button className={`${styles[size]} ${styles[property]}`} onClick={onClick}>
-        {children}
-      </button>
-    </div>
+    <button className={`${styles[size]} ${styles[property]}`} onClick={onClick}>
+      {children}
+    </button>
   );
 }

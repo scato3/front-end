@@ -9,10 +9,8 @@ interface ButtonProps {
 
 export default function Button({ size = "medium", property = "default", onClick, children }: ButtonProps) {
   return (
-    <div>
-      <button className={`${styles[size]} ${styles[property]}`} onClick={onClick}>
-        {children}
-      </button>
-    </div>
+    <button className={`${styles[size]} ${styles[property]}`} onClick={onClick}>
+      {children}
+    </button>
   );
 }
