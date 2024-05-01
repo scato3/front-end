@@ -10,7 +10,9 @@ export default function Modal_Lg({ children }: IModalLgConfirmProps) {
     <div className={styles.container}>
       <div className={styles.modalLargeBox}>
         {children}
-        <Button size="small" text="인증하기" property="default" onClick={() => {}}></Button>
+        <Button size="small" property="default" onClick={() => {}}>
+          인증하기
+        </Button>
       </div>
     </div>
   );

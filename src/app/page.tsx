@@ -16,28 +16,31 @@ export default function Home() {
       <br />
       <Button
         size="large"
-        text="스터디 만들기"
         onClick={() => {
           return;
         }}
-      />
+      >
+        이렇게
+      </Button>
       <br />
       <Button
-        text="가입하기"
         property="confirm"
         onClick={() => {
           return;
         }}
-      />
+      >
+        쓰면
+      </Button>
       <br />
       <Button
         size="small"
-        text="가입하기"
         property="pressed"
         onClick={() => {
           return;
         }}
-      />
+      >
+        되요
+      </Button>
       <br />
       <Modal_Lg>
         <p className={styles.contentTop}>중간 사진 인증 시간입니다.</p>
@@ -52,30 +55,33 @@ export default function Home() {
       <br />
       <Filter
         size="large"
-        text="Filter"
         property="deep"
         onClick={() => {
           return;
         }}
-      />
+      >
+        필터도
+      </Filter>
       <br />
       <Filter
         size="medium"
-        text="Filter"
         property="light"
         onClick={() => {
           return;
         }}
-      />
+      >
+        마찬
+      </Filter>
       <br />
       <Filter
         size="small"
-        text="Filter"
         property="disabled"
         onClick={() => {
           return;
         }}
-      />
+      >
+        가지구요
+      </Filter>
       <br />
       <Input_Chat />
     </div>
