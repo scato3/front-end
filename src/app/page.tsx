@@ -95,7 +95,9 @@ export default function Home() {
       <br />
       <Toggle />
       <br />
-      <Navigation onClick={() => {}}>프로필 등록</Navigation>
+      <Navigation onClick={() => {}} isSearch={true}>
+        프로필 등록
+      </Navigation>
       <br />
     </div>
   );
