@@ -8,6 +8,7 @@ import Filter from "./_component/filter/Filter";
 import Input_Chat from "./_component/input/Input_Chat";
 import Footer from "./_component/footer/footer";
 import Toggle from "./_component/toggle/toggle";
+import Navigation from "./_component/navigation/page";
 
 import styles from "./_component/modal/modal.module.css";
 
@@ -93,6 +94,8 @@ export default function Home() {
       <Footer selectedIndex={3} />
       <br />
       <Toggle />
+      <br />
+      <Navigation onClick={() => {}}>프로필 등록</Navigation>
       <br />
     </div>
   );
