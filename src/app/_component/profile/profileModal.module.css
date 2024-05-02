@@ -1,0 +1,33 @@
+.container {
+}
+
+.modalContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 348px;
+    height: 134px;
+    background-color: var(--gray-800);
+    border-radius: 10px;
+    text-align: center;
+    color: var(--gray-50);
+    font-size: 18px;
+    font-weight: 500;
+    gap: 20px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.horizonLine {
+    width: 316px;
+    height: 1px;
+    background-color: var(--gray-50);
+}
+
+.input {
+    display: none;
+}
