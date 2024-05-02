@@ -6,11 +6,14 @@ import Navigation from "../_component/navigation/page";
 import Button from "../_component/button/Button";
 import caution from "../../../public/Caution.svg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function SetProfile() {
+  const router = useRouter();
+
   return (
     <div className={styles.container}>
-      <Navigation onClick={() => {}}>프로필 등록</Navigation>
+      <Navigation onClick={() => router.push("./")}>프로필 등록</Navigation>
       <UploadProfileImage />
       <Image className={styles.caution} width={344} height={49} src={caution} alt="caution" />
       <div className={styles.inputBox}>
