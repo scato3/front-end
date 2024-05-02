@@ -1,11 +1,9 @@
 .container {
-    height: 100vh;
-    background-color: var(--gray-800);   
+  background-color: var(--gray-800);
 }
 
 .icon {
-    position: absolute;
-    left: 320px;
-    cursor: pointer;
+  position: absolute;
+  left: 320px;
+  cursor: pointer;
 }
-
