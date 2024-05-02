@@ -6,6 +6,7 @@ import Modal_Lg from "./_component/modal/Modal_Lg";
 import Modal_Md from "./_component/modal/Modal_Md";
 import Filter from "./_component/filter/Filter";
 import Input_Chat from "./_component/input/Input_Chat";
+import Footer from "./_component/footer/footer";
 
 import styles from "./_component/modal/modal.module.css";
 
@@ -84,6 +85,11 @@ export default function Home() {
       </Filter>
       <br />
       <Input_Chat />
+      <br />
+      <Footer />
+      <Footer selectedIndex={1} />
+      <Footer selectedIndex={2} />
+      <Footer selectedIndex={3} />
     </div>
   );
 }

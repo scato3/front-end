@@ -1,0 +1,12 @@
+.Container {
+  width: 100%;
+  height: 104px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--gray-800);
+}
+
+.ImageContainer {
+  cursor: pointer;
+}
