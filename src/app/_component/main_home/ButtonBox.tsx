@@ -41,7 +41,7 @@ const icons = [
     }
     ];
 
-    export default function Footer() {
+    export default function ButtonBox() {
     return (
         <div className={styles.container}>
         {icons.map((icon, index) => (
