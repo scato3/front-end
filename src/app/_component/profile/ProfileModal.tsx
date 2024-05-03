@@ -1,43 +1,60 @@
-import styles from './profileModal.module.css';
-import useStore from './profileStore';
+import styles from "./profileModal.module.css";
+import useStore from "./profileStore";
+import defaultImage from "../../../../public/Profile.svg";
 
-export default function ProfileModal() {
-    const postImg = useStore((state) => state.postImg);
-    const setPostImg = useStore((state) => state.setPostImg);
-    const previewImg = useStore((state) => state.previewImg);
-    const setPreviewImg = useStore((state) => state.setPreviewImg);
-    
-    function handleFileUpload(e: any) {
-        let fileArr = e.target.files;
-        setPostImg(Array.from(fileArr));
+interface IProfileModalProps {
+  handleCloseModal: () => void;
+}
 
-        const file = fileArr[0];
-        setPostImg([file]);
+export default function ProfileModal({ handleCloseModal }: IProfileModalProps) {
+  const { setPostImg, setPreviewImg } = useStore();
 
-        let fileRead = new FileReader();
-            fileRead.onload = () => {
-            setPreviewImg(fileRead.result);
-        };
-        fileRead.readAsDataURL(file);
+  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
+    if (!allowedExtensions.test(file.name)) {
+      alert("jpg, jpeg, png, gif, svg 형식의 이미지 파일만 선택할 수 있습니다.");
+      return;
     }
 
-    return(
-        <div className={styles.container}>
-            <div className={styles.modalContainer}>
-                <label htmlFor="file">
-                <p>앨범에서 선택</p>
-                <input className={styles.input}
-                    type="file" 
-                    id="file" 
-                    onChange={handleFileUpload}
-                    >
-                </input>
-                </label>
-                <div className={styles.horizonLine}></div>
-                <p>기본 이미지 선택</p>
-                
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewImg(fileReader.result as string);
+      handleCloseModal();
+    };
+    fileReader.readAsDataURL(file);
 
-            </div>
-        </div>
-    );
+    setPostImg([file]);
+  }
+
+  function handleDefaultImageSelect() {
+    setPreviewImg(defaultImage);
+    setPostImg([]);
+    handleCloseModal();
+  }
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
+        <label htmlFor="file">
+          <p className={styles.selectionText}>앨범에서 선택</p>
+          <input
+            className={styles.input}
+            type="file"
+            id="file"
+            accept=".jpg, .jpeg, .png, .gif, .svg"
+            onChange={handleFileUpload}
+          ></input>
+        </label>
+        <div className={styles.horizonLine}></div>
+        <p className={styles.selectionText} onClick={handleDefaultImageSelect}>
+          기본 이미지 선택
+        </p>
+      </div>
+    </div>
+  );
 }

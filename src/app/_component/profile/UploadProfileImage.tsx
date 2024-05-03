@@ -8,8 +8,7 @@ import useStore from "./profileStore";
 import { useModal } from "@/hooks/useModal";
 
 export default function UploadProfileImage() {
-  const postImg = useStore((state) => state.postImg);
-  const previewImg = useStore((state) => state.previewImg);
+  const { previewImg } = useStore();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
 
   const handleImg = () => {
@@ -21,12 +20,22 @@ export default function UploadProfileImage() {
       <div className={styles.icon} onClick={handleImg}>
         <Image width={64} height={64} src={Icon} alt="파일 업로드" />
       </div>
-      {previewImg && <Image width={254} height={254} alt="/Profile.svg" src={previewImg as string} />}
+      {previewImg && (
+        <div className={styles.circularImageContainer}>
+          <Image
+            className={styles.circularImage}
+            width={254}
+            height={254}
+            alt="미리보기 이미지"
+            src={previewImg as string}
+          />
+        </div>
+      )}
       {openModal && (
         <div className={styles.modalContainer}>
           <ModalPortal>
             <ModalContainer handleCloseModal={handleCloseModal}>
-              <ProfileModal />
+              <ProfileModal handleCloseModal={handleCloseModal} />
             </ModalContainer>
           </ModalPortal>
         </div>
