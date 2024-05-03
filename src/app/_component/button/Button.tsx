@@ -1,7 +1,7 @@
 import styles from "./button.module.css";
 
 interface ButtonProps {
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large" | "large_main";
   property?: "default" | "confirm" | "pressed" | "disabled";
   onClick: () => void;
   children?: React.ReactNode;
