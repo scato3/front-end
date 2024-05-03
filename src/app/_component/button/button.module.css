@@ -22,6 +22,14 @@
   cursor: pointer;
 }
 
+.large_main {
+  width: 452px;
+  height: 60px;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .default {
   color: var(--gray-900);
   background-color: var(--main-200);
