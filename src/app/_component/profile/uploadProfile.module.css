@@ -7,3 +7,8 @@
   left: 320px;
   cursor: pointer;
 }
+
+.circularImageContainer {
+  border-radius: 50%;
+  overflow: hidden;
+}

@@ -1,5 +1,6 @@
 import styles from "./footer.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 interface IFooterProps {
   selectedIndex?: number;
@@ -29,13 +30,15 @@ const icons = [
 ];
 
 export default function Footer({ selectedIndex = 0 }: IFooterProps) {
-  const renderImages = () => {
-    return icons.map((icon, index) => (
-      <div key={index} className={styles.ImageContainer} onClick={() => {}}>
-        <Image src={index === selectedIndex ? icon.checked : icon.default} alt={icon.alt} width={62} height={62} />
-      </div>
-    ));
-  };
-
-  return <div className={styles.Container}>{renderImages()}</div>;
+  return (
+    <div className={styles.Container}>
+      {icons.map((icon, index) => (
+        <Link key={index} href={"./"}>
+          <div className={styles.ImageContainer}>
+            <Image src={index === selectedIndex ? icon.checked : icon.default} alt={icon.alt} width={62} height={62} />
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
 }
