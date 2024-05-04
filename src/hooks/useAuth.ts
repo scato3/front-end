@@ -2,18 +2,25 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 interface GlobalState {
-  setUserData: (token: string | null, isLogin: boolean) => void;
+  isLogin: boolean;
+  setIsLogin: (isLogin: boolean) => void;
+  accessToken: string;
+  setAccessToken: (accessToken: string) => void;
 }
 
 const initialState: GlobalState = {
-  setUserData: () => {},
+  isLogin: false,
+  setIsLogin: () => {},
+  accessToken: "",
+  setAccessToken: () => {},
 };
 
 const useAuth = create<GlobalState>(
   persist(
     (set) => ({
       ...initialState,
-      setUserData: (accessToken: string | null, isLogin: boolean) => set({ accessToken, isLogin }),
+      setIsLogin: (isLogin: boolean) => set({ isLogin }),
+      setAccessToken: (accessToken: string) => set({ accessToken }),
     }),
     {
       name: "userToken",

@@ -9,7 +9,7 @@ import { useEffect } from "react";
 export default function Kakao() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
-  const { setUserData } = useAuth();
+  const { setAccessToken, setIsLogin } = useAuth();
 
   const { data } = useQuery({
     queryKey: ["KAKAO_CODE", code],
@@ -19,7 +19,8 @@ export default function Kakao() {
 
   useEffect(() => {
     if (data) {
-      setUserData(data.accessToken, true);
+      setAccessToken(data.setAccessToken);
+      setIsLogin(true);
       data?.joinDate ? router.push("/") : router.push("/setProfile");
     }
   }, [data]);
