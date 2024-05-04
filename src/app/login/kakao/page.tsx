@@ -20,7 +20,7 @@ export default function Kakao() {
   useEffect(() => {
     if (data) {
       setUserData(data.accessToken, true);
-      data?.joinDate ? router.push("/home") : router.push("/setProfile");
+      data?.joinDate ? router.push("/") : router.push("/setProfile");
     }
   }, [data]);
 }
