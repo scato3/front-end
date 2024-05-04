@@ -8,8 +8,6 @@ import Guide from "./_component/main_home/Guide";
 import Card from "./_component/main_home/Card";
 import ButtonBox from "./_component/main_home/ButtonBox";
 
-import styles from "./_component/modal/modal.module.css";
-
 export default function Home() {
   return (
     <div>

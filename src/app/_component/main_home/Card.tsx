@@ -9,12 +9,8 @@ export default function Card() {
         <div className={styles.container}>
             <div className={styles.cardBox}>
                 <div className={styles.titleBox}>
-                    <div className={styles.flag}>
-                        <p>취업</p>
-                    </div>
-                    <div className={styles.title}>
-                        <p>한국기업 면접 스터디</p>
-                    </div>
+                    <p className={styles.flag}>취업</p>
+                    <p className={styles.title}>한국기업 면접 스터디</p>
                 </div>
                 <div className={styles.tagBox}>
                     <p>#자료 공유 #모의면접 #예상 질문</p>
