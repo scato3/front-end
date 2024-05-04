@@ -1,10 +1,10 @@
 "use client";
 
-import styles from "./login.module.css";
 import Image from "next/image";
+import styles from "./login.module.css";
 
-import kakaoLogin from "../../../public/kakao_login_large_wide.svg";
 import Logo from "../../../public/Brand_logo.svg";
+import kakaoLogin from "../../../public/kakao_login_large_wide.svg";
 
 export default function Login() {
   const REST_API_KEY = process.env.NEXT_PUBLIC_API_KEY;

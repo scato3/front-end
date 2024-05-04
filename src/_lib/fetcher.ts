@@ -4,6 +4,7 @@ interface IFetchOptions {
   endpoint: string;
   body?: any;
   method?: string;
+  authorization?: string;
 }
 
 interface IGetOptions {
@@ -13,17 +14,17 @@ interface IGetOptions {
 interface IPostOptions {
   endpoint: string;
   body?: any;
+  authorization: string;
 }
 
-const _fetch = async ({ method, endpoint, body }: IFetchOptions) => {
-  const authorization = "";
+const _fetch = async ({ method, endpoint, body, authorization }: IFetchOptions) => {
   const headers: HeadersInit = {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
 
   if (authorization) {
-    headers.Authorization = authorization;
+    headers.Authorization = "Bearer " + authorization;
   }
 
   const requestOptions: RequestInit = {
@@ -54,8 +55,8 @@ const _get = async ({ endpoint }: IGetOptions) => {
   return _fetch({ method: "GET", endpoint });
 };
 
-const _post = async ({ endpoint, body }: IPostOptions) => {
-  return _fetch({ method: "POST", endpoint, body });
+const _post = async ({ endpoint, body, authorization }: IPostOptions) => {
+  return _fetch({ method: "POST", endpoint, body, authorization });
 };
 
 const api = {
