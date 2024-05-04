@@ -5,6 +5,10 @@
   justify-content: space-around;
   align-items: center;
   background-color: var(--gray-800);
+
+  position: sticky;
+  width: 500px;
+  bottom: 0;
 }
 
 .ImageContainer {
