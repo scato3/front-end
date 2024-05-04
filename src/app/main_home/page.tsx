@@ -22,7 +22,7 @@ const cards : { card: React.ReactNode }[] = [
     }
 ];
 
-export default function Main_01({onClick}:{onClick:() => void}) {
+export default function Main_home({onClick}:{onClick:() => void}) {
     return (
     <div className={styles.container}>
         <div className={styles.navBox}>
