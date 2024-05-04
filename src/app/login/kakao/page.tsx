@@ -10,13 +10,12 @@ export default function Kakao() {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
   const { setUserData } = useAuth();
-  
+
   const { data } = useQuery({
     queryKey: ["KAKAO_CODE", code],
     queryFn: async () => getKakaoCode(code),
   });
   const router = useRouter();
-
 
   useEffect(() => {
     if (data) {
