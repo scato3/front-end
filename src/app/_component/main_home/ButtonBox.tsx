@@ -2,10 +2,6 @@ import styles from "./buttonBox.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
-interface IFooterProps {
-    selectedIndex?: number;
-}
-
 const icons = [
     {
         icon: "/icons/_main01/Icon_book.svg",
