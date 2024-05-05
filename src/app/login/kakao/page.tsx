@@ -21,7 +21,7 @@ export default function Kakao() {
     if (data) {
       setAccessToken(data.accessToken);
       setIsLogin(true);
-      data?.joinDate ? router.push("/") : router.push("/setProfile");
+      data?.joinDate ? router.push("/home") : router.push("/setProfile");
     }
   }, [data]);
 }
