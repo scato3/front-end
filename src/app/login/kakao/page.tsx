@@ -19,7 +19,7 @@ export default function Kakao() {
 
   useEffect(() => {
     if (data) {
-      setAccessToken(data.setAccessToken);
+      setAccessToken(data.accessToken);
       setIsLogin(true);
       data?.joinDate ? router.push("/") : router.push("/setProfile");
     }
