@@ -7,7 +7,7 @@
 }
 
 .medium {
-  width: 228px;
+  width: calc((100% - 52px) / 2);
   height: 60px;
   border: none;
   font-size: 24px;
@@ -23,7 +23,7 @@
 }
 
 .large_main {
-  width: 452px;
+  width: calc(100% - 32px);
   height: 60px;
   border: none;
   font-size: 20px;

@@ -7,7 +7,7 @@
   background-color: var(--gray-800);
 
   position: sticky;
-  width: 500px;
+  width: 100%;
   bottom: 0;
 }
 
