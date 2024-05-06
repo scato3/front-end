@@ -105,7 +105,7 @@ export default function SetProfile({ onRegister }: { onRegister: () => void }) {
       <div className={styles.buttonBox}>
         <Button
           size="large"
-          property={validation == availableNickname ? "confirm" : "disabled"}
+          property={validation == availableNickname ? "default" : "disabled"}
           onClick={handleRegisterButton}
         >
           등록하기
