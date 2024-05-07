@@ -20,7 +20,7 @@ export default function Home() {
       <br />
       <Toggle />
       <br />
-      <Navigation onClick={() => {}} isSearch={true}>
+      <Navigation dark={true} onClick={() => {}} isSearch={true}>
         프로필 등록
       </Navigation>
       <hr />

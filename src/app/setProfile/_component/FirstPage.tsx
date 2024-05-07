@@ -90,7 +90,7 @@ export default function SetProfile({ onRegister }: { onRegister: () => void }) {
 
   return (
     <div className={styles.container}>
-      <Navigation onClick={() => router.push("./")}>프로필 등록</Navigation>
+      <Navigation dark={true} onClick={() => router.push("./")}>프로필 등록</Navigation>
       <UploadProfileImage />
 
       <Image className={styles.caution} width={344} height={49} src={validation} alt="validationNickname" />
