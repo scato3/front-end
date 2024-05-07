@@ -8,7 +8,7 @@ interface INavigationProps {
   children: React.ReactNode;
   onClick: () => void;
   isSearch?: boolean;
-  dark : boolean;
+  dark: boolean;
 }
 
 export default function Navigation({ children, onClick, isSearch, dark }: INavigationProps) {
