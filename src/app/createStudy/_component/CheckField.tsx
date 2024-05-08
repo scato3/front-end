@@ -56,7 +56,7 @@ const icons = [
   },
 ];
 
-export default function CheckField() {
+export default function CheckField({ onNext }: { onNext: () => void }) {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
   const handleIconClick = (icon: string) => {
@@ -84,7 +84,7 @@ export default function CheckField() {
         ))}
       </div>
       <div className={styles.BtnContainer}>
-        <Button size="large_main" property={selectedIcon !== null ? "confirm" : "disabled"} onClick={() => {}}>
+        <Button size="large_main" property={selectedIcon !== null ? "confirm" : "disabled"} onClick={onNext}>
           Step 1 완료
         </Button>
       </div>
