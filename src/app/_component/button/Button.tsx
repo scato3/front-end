@@ -8,8 +8,14 @@ interface ButtonProps {
 }
 
 export default function Button({ size = "medium", property = "default", onClick, children }: ButtonProps) {
+  const isDisabled = property === "disabled";
+
   return (
-    <button className={`${styles[size]} ${styles[property]}`} onClick={onClick}>
+    <button
+      className={`${styles[size]} ${styles[property]} ${!isDisabled ? styles.pointer : ""}`}
+      onClick={onClick}
+      disabled={isDisabled}
+    >
       {children}
     </button>
   );

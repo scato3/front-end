@@ -3,7 +3,6 @@
   height: 60px;
   border: none;
   font-size: 20px;
-  cursor: pointer;
 }
 
 .medium {
@@ -11,7 +10,6 @@
   height: 60px;
   border: none;
   font-size: 24px;
-  cursor: pointer;
 }
 
 .small {
@@ -19,15 +17,13 @@
   height: 50px;
   border: none;
   font-size: 20px;
-  cursor: pointer;
 }
 
 .large_main {
-  width: calc(100% - 32px);
+  width: calc(100% - 48px);
   height: 60px;
   border: none;
   font-size: 20px;
-  cursor: pointer;
 }
 
 .default {
@@ -48,4 +44,8 @@
 .disabled {
   color: var(--gray-700);
   background-color: var(--gray-100);
+}
+
+.pointer {
+  cursor: pointer;
 }
