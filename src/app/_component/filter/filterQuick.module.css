@@ -1,0 +1,39 @@
+.container {
+    width: fit-content;
+    height: 32px;
+    border: none;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.default {
+    color: var(--gray-600);
+    background-color: var(--gray-100);
+    border: none;
+}
+
+.active {
+    color: var(--main-200);
+    background-color: var(--main-100);
+    border: none;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.content {
+    padding: 0 4;
+    font-size: 16px;
+
+}
+
+.arrow {
+    padding: 0 5px 0 10px;
+}
+
