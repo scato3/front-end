@@ -9,6 +9,9 @@ import Image from "next/image";
 import Card from "../_component/main_home/Card";
 import arrowIcon from "../../../public/icons/Arrow_down.svg";
 import { useState } from "react";
+import ModalContainer from "@/app/_component/ModalContainer";
+import ModalPortal from "@/app/_component/ModalPortal";
+import QuickModal from "./_component/QuickModal";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from "swiper/modules";
@@ -82,15 +85,11 @@ const filter = [
 export default function StudyList () {
     const router = useRouter();
     const [ activeTab, setActiveTab ] = useState("전체");
-    const [ quickMatch, setQuickMatch ] = useState(false);
+    const [ isModalOpen, setIsModalOpen ] = useState(false);
 
-    const handleQuickMatch = () => {
-        if (quickMatch) {
-            setQuickMatch(false);
-        } else {
-            setQuickMatch(true);
-        }
-    };
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    }
 
     return (
         <div className={styles.container}>
@@ -146,7 +145,6 @@ export default function StudyList () {
                     <Card />
                     <Card />
             </div>
-
         </div>
     );
 }

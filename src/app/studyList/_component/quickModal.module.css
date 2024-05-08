@@ -1,0 +1,35 @@
+.container {
+    width: 500px;
+    height: 578px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+
+}
+
+.tabBox {
+    display: flex;
+
+}
+
+.tab {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 33.8px;
+    color: var(--gray-200);
+    cursor: pointer;
+}
+
+.filterBox {
+    
+}
+
+.btnBox {
+    align-self: center;
+    position: fixed;
+    bottom: 40px;
+}
