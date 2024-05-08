@@ -3,8 +3,8 @@
 import styles from "./studyList.module.css";
 import Navigation from "../_component/navigation/page";
 import { useRouter } from "next/navigation";
-import Icon_quick from "../../../public/icons/Icon_quick.svg";
 import FilterQuick from "../_component/filter/FilterQuick";
+import QuickMatchBtn from "./_component/QuickMatchBtn";
 import Image from "next/image";
 import Card from "../_component/main_home/Card";
 import arrowIcon from "../../../public/icons/Arrow_down.svg";
@@ -82,7 +82,15 @@ const filter = [
 export default function StudyList () {
     const router = useRouter();
     const [ activeTab, setActiveTab ] = useState("전체");
-    const [ isQuickMatch, setIsQuickMatch ] = useState(false);
+    const [ quickMatch, setQuickMatch ] = useState(false);
+
+    const handleQuickMatch = () => {
+        if (quickMatch) {
+            setQuickMatch(false);
+        } else {
+            setQuickMatch(true);
+        }
+    };
 
     return (
         <div className={styles.container}>
@@ -90,43 +98,35 @@ export default function StudyList () {
                 <p className={styles.title}>신규 쇼터디</p>
             </Navigation>
             <div className={styles.categoryTabBox}>
-                <div className={styles.swiperBox}>
-                    <Swiper 
-                        className={styles.swiper}
-                        modules={[FreeMode]}
-                        slidesPerView={5.5}
-                        spaceBetween={9}
-                        >
-                        {categories.map((category, index) => (
-                            <SwiperSlide 
-                                className={activeTab === category.name ? styles.categoryActive : styles.category} 
-                                key={index} 
-                                onClick={()=>{
-                                    setActiveTab(category.name)
-                                }}>
-                                    {category.name}
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </div>
+                <Swiper 
+                    modules={[FreeMode]}
+                    slidesPerView={5.5}
+                    spaceBetween={9}
+                    >
+                    {categories.map((category, index) => (
+                        <SwiperSlide 
+                            className={activeTab === category.name ? styles.categoryActive : styles.category} 
+                            key={index} 
+                            onClick={()=>{
+                                setActiveTab(category.name)
+                            }}>
+                                {category.name}
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
             </div>
             <div className={styles.devider}></div>
             <div className={styles.filterBox}>
                 <Swiper 
-                    slidesPerView={4}
+                    slidesPerView={2}
                     modules={[FreeMode]}
-                    spaceBetween={15}
+                    spaceBetween={30}
                     >
-                    <SwiperSlide>
-                        <div className={styles.quickMatchBtn}>
-                            <Image className={styles.quickIcon} src={Icon_quick} width={25} height={25} alt="quick"/>
-                            <FilterQuick onClick={()=>{return}}>
-                                빠른매칭
-                            </FilterQuick>
-                        </div>
+                    <SwiperSlide className={styles.slideBox}>
+                        <QuickMatchBtn />
                     </SwiperSlide>
                         {filter.map((item)=>(
-                            <SwiperSlide>
+                            <SwiperSlide className={styles.slideBox}>
                                 <FilterQuick onClick={()=>{return}} arrow={true}>
                                     {item.filter}
                                 </FilterQuick>
