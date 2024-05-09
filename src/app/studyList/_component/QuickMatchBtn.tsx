@@ -4,23 +4,12 @@ import Icon_quick from "../../../../public/icons/studyList/Icon_quick.svg";
 import Icon_quickActive from "../../../../public/icons/studyList/Icon_quickActive.svg";
 import resetIcon from "../../../../public/icons/studyList/Icon_reset.svg";
 import Image from "next/image";
-import ModalContainer from "@/app/_component/ModalContainer";
-import ModalPortal from "@/app/_component/ModalPortal";
-import QuickModal from "./QuickModal";
-import { useModal } from "@/hooks/useModal";
 
 export default function QuickMatchBtn() {
     const [quickMatch, setQuickMatch] = useState<boolean>(false);
-    const { openModal, handleOpenModal, handleCloseModal } = useModal();
-
-    const toggleModal = () => {
-        handleCloseModal();
-        setQuickMatch(false);
-    };
 
     const handleQuickMatch = () => {
-        setQuickMatch(true);
-        handleOpenModal();
+        setQuickMatch(!quickMatch);
     };
 
     return (
@@ -44,13 +33,6 @@ export default function QuickMatchBtn() {
             />
             빠른매칭
         </button>
-        {openModal && (
-            <ModalPortal>
-            <ModalContainer handleCloseModal={toggleModal}>
-                <QuickModal handleCloseModal={handleCloseModal} setQuickMatch={setQuickMatch} />
-            </ModalContainer>
-            </ModalPortal>
-        )}
         </div>
     );
 }
