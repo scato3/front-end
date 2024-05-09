@@ -46,7 +46,7 @@ export default function QuickMatchBtn() {
         </button>
         {openModal && (
             <ModalPortal>
-            <ModalContainer bgDark={true} handleCloseModal={toggleModal}>
+            <ModalContainer handleCloseModal={toggleModal}>
                 <QuickModal handleCloseModal={handleCloseModal} setQuickMatch={setQuickMatch} />
             </ModalContainer>
             </ModalPortal>
