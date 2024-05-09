@@ -11,7 +11,7 @@ interface IQuickModal {
     const tabs: string[] = ["카테고리", "인원수", "타입"];
 
 export default function QuickModal({ handleCloseModal, setQuickMatch }: IQuickModal) {
-    const [tabSelected, setTabSelected] = useState("카테고리");
+    const [ tabSelected, setTabSelected ] = useState<string>("카테고리");
 
     return (
         <div className={styles.container}>
