@@ -9,7 +9,11 @@ import Image from "next/image";
 import Card from "../_component/main_home/Card";
 import arrowIcon from "../../../public/icons/Arrow_down.svg";
 import { useState } from "react";
-
+import { useModal } from "@/hooks/useModal";
+import ModalContainer from "@/app/_component/ModalContainer";
+import ModalPortal from "@/app/_component/ModalPortal";
+import SortModal from "./_component/SortModal";
+import NoStudy from "./_component/NoStudy";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from "swiper/modules";
@@ -83,6 +87,13 @@ const filter = [
 export default function StudyList () {
     const router = useRouter();
     const [ activeTab, setActiveTab ] = useState<string>("전체");
+    const { openModal, handleOpenModal, handleCloseModal } = useModal();
+    const [ sort, setSort ] = useState<boolean>(false);
+
+    const toggleSortModal = () => {
+        handleCloseModal();
+        setSort(false);
+    };
 
     return (
         <div className={styles.container}>
@@ -128,16 +139,21 @@ export default function StudyList () {
             </div>
             <div className={styles.infoBox}>
                 <p>총 개의 쇼터디가 있어요</p>
-                <button className={styles.sortButton}>
+                <button className={styles.sortButton} onClick={()=>setSort(true)}>
                     최근 등록순
                     <Image src={arrowIcon} width={20} height={20} alt="arrowBtn"/>
                 </button>
             </div>
             <div className={styles.cardBox}>
-                    <Card />
-                    <Card />
-                    <Card />
+                    <NoStudy />
             </div>
+            {sort && (
+                <ModalPortal>
+                    <ModalContainer bgDark={false} handleCloseModal={toggleSortModal}>
+                        <SortModal handleCloseModal={toggleSortModal}/>
+                    </ModalContainer>
+                </ModalPortal>
+            )}
         </div>
     );
 }
