@@ -11,14 +11,16 @@ import QuickModal from "./QuickModal";
 export default function QuickMatchBtn() {
     const [ quickMatch, setQuickMatch ] = useState<boolean>(false);
     const [ isModalOpen, setIsModalOpen ] = useState(false);
+    const [ isFiltered, setIsFiltered ] = useState();
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
+        setQuickMatch(false);
     }
 
     const handleQuickMatch = () => {
-        setQuickMatch(!quickMatch);
-        toggleModal();
+        setQuickMatch(true);
+        setIsModalOpen(true);
     };
 
     return (
@@ -41,7 +43,7 @@ export default function QuickMatchBtn() {
             {isModalOpen&& (
                 <ModalPortal>
                     <ModalContainer handleCloseModal={toggleModal}>
-                        <QuickModal />
+                        <QuickModal setIsModalOpen={setIsModalOpen} setQuickMatch={setQuickMatch} />
                     </ModalContainer>
                 </ModalPortal>
             )}
