@@ -13,7 +13,7 @@ import { useModal } from "@/hooks/useModal";
 import ModalContainer from "@/app/_component/ModalContainer";
 import ModalPortal from "@/app/_component/ModalPortal";
 import SortModal from "./_component/SortModal";
-import NoStudy from "./_component/noStudy";
+import NoStudy from "./_component/NoStudy";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from "swiper/modules";
