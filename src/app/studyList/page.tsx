@@ -10,6 +10,7 @@ import Card from "../_component/main_home/Card";
 import arrowIcon from "../../../public/icons/Arrow_down.svg";
 import { useState } from "react";
 
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from "swiper/modules";
 import "swiper/css";
@@ -81,16 +82,7 @@ const filter = [
 
 export default function StudyList () {
     const router = useRouter();
-    const [ activeTab, setActiveTab ] = useState("전체");
-    const [ quickMatch, setQuickMatch ] = useState(false);
-
-    const handleQuickMatch = () => {
-        if (quickMatch) {
-            setQuickMatch(false);
-        } else {
-            setQuickMatch(true);
-        }
-    };
+    const [ activeTab, setActiveTab ] = useState<string>("전체");
 
     return (
         <div className={styles.container}>
@@ -146,7 +138,6 @@ export default function StudyList () {
                     <Card />
                     <Card />
             </div>
-
         </div>
     );
 }
