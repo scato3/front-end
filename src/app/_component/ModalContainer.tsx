@@ -1,5 +1,4 @@
 import React from "react";
-
 import styles from "./ModalContainer.module.css";
 
 interface Props {
@@ -8,11 +7,9 @@ interface Props {
 }
 
 export default function ModalContainer({ children, handleCloseModal }: Props) {
-  const closeModalHandler = handleCloseModal || (() => {});
-
   return (
-    <div onClick={closeModalHandler} className={styles.container}>
-      {children}
+    <div className={styles.container} onClick={handleCloseModal}>
+      <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </div>
   );
 }
