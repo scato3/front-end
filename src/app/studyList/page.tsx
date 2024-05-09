@@ -86,7 +86,7 @@ export default function StudyList () {
 
     return (
         <div className={styles.container}>
-            <Navigation onClick={()=>router.push("./home")} dark={false}>
+            <Navigation isBack={true} onClick={()=>router.push("./home")} dark={false}>
                 <p className={styles.title}>신규 쇼터디</p>
             </Navigation>
             <div className={styles.categoryTabBox}>
