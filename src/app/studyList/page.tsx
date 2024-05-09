@@ -145,7 +145,7 @@ export default function StudyList () {
                 </button>
             </div>
             <div className={styles.cardBox}>
-                    <NoStudy />
+                    <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
             </div>
             {sort && (
                 <ModalPortal>
