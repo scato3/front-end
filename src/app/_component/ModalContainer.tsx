@@ -4,11 +4,13 @@ import styles from "./ModalContainer.module.css";
 interface Props {
   children: React.ReactNode;
   handleCloseModal?: () => void;
+  bgDark: boolean;
 }
 
-export default function ModalContainer({ children, handleCloseModal }: Props) {
+export default function ModalContainer({ children, handleCloseModal, bgDark }: Props) {
   return (
-    <div className={styles.container} onClick={handleCloseModal}>
+    <div  className={bgDark ? `${styles.container} ${styles.dark}` : styles.container} 
+          onClick={handleCloseModal}>
       <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </div>
   );
