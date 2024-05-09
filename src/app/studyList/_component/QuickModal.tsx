@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./QuickModal.module.css";
+import styles from "./quickModal.module.css";
 import Button from "@/app/_component/button/Button";
 import { useState } from "react";
 
