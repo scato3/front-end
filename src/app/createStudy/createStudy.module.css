@@ -133,13 +133,23 @@
 }
 
 .recruitContainer {
+  position: relative;
   display: flex;
   align-items: center;
   margin-top: 20px;
+  margin-left: 40px;
 }
 
 .recruitImg {
+  left: -40px;
+  position: absolute;
   cursor: pointer;
+}
+
+.recruitPlusImg {
+  position: absolute;
+  cursor: pointer;
+  left: 120px;
 }
 
 .recruit {

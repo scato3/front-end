@@ -111,7 +111,7 @@ export default function CreateSecond({ onNext }: { onNext: () => void }) {
             width={36}
             height={36}
             alt="플러스 이미지"
-            className={styles.recruitImg}
+            className={styles.recruitPlusImg}
             onClick={increaseRecruit}
           />
         </div>
