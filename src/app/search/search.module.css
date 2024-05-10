@@ -1,0 +1,79 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--gray-50);
+}
+
+.iconBell {
+    margin-left: 400px;
+}
+
+.searchInputBox {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--gray-800);
+}
+
+.recentSearchBox {
+    color: var(--gray-800);
+    margin: 30px;
+}
+
+.recentBoxTop {
+    display: flex;
+    justify-content: space-between;
+}
+
+.subtitle {
+}
+
+.edit {
+    color: var(--gray-600);
+}
+
+.recentKeywordBox {
+    margin-top: 30px;
+    height: 300px;
+
+}
+
+.hrLine {
+    width: 100%;
+    height: 10px;
+    background-color: var(--gray-100);
+}
+
+.popularBox {
+    margin: 30px;
+
+}
+
+.popularKeywordBox {
+    margin-top: 30px;
+}
+
+.shortCutBox {
+    margin: 30px;
+    
+}
+
+.iconBox {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.footerBox {
+    position: sticky;
+    width: 100%;
+    bottom: 0;
+}

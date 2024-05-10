@@ -66,3 +66,9 @@
 .card {
   margin-bottom: 20px;
 }
+
+.footerBox {
+  position: sticky;
+  width: 100%;
+  bottom: 0;
+}
