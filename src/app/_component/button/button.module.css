@@ -6,7 +6,7 @@
 }
 
 .medium {
-  width: calc((100% - 52px) / 2);
+  width: 222px;
   height: 60px;
   border: none;
   font-size: 24px;
@@ -20,7 +20,7 @@
 }
 
 .large_main {
-  width: calc(100% - 48px);
+  width: 452px;
   height: 60px;
   border: none;
   font-size: 20px;
@@ -48,4 +48,14 @@
 
 .pointer {
   cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .large_main {
+    width: calc(100% - 48px);
+  }
+
+  .medium {
+    width: calc((100% - 56px) / 2);
+  }
 }

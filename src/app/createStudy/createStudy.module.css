@@ -19,8 +19,12 @@
   transition: width 0.5s ease;
 }
 
+.contentContainer {
+  margin-left: 36px;
+}
+
 .Header {
-  margin: 20px 0 0 32px;
+  margin-top: 20px;
   font-weight: 500;
   font-size: 18px;
   line-height: 30px;
@@ -60,13 +64,90 @@
   color: var(--main-200);
 }
 
-.BtnContainer {
-  width: 100%;
-  position: absolute;
-  bottom: 60px;
+.studyTime {
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 33.8px;
+  color: var(--gray-900);
+}
+
+.studyTime {
+  margin-top: 20px;
+}
+
+.dateContainer {
   display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.dateBox {
+  padding-top: 8px;
+  margin-top: 16px;
+  display: flex;
+  width: 262px;
+  height: 58px;
+  background-color: var(--gray-100);
   justify-content: center;
   align-items: center;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--gray-400);
+  cursor: pointer;
+}
+
+.selectedDateBox {
+  color: var(--main-200);
+  background-color: var(--main-100);
+}
+
+.dateTxt {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-400);
+}
+
+.ButtonContainer {
+  position: absolute;
+  width: 100%;
+  bottom: 36px;
+  left: 24px;
+  display: flex;
+}
+
+.recruited {
+  margin-top: 20px;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 33.8px;
+  color: var(--gray-900);
+}
+
+.recrutiedInfo {
+  margin-top: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-400);
+}
+
+.recruitContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.recruitImg {
+  cursor: pointer;
+}
+
+.recruit {
+  padding: 0 50px;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 35.2px;
+  color: var(--gray-800);
 }
 
 /* 반응형 */
@@ -75,5 +156,16 @@
   .ImageContainer {
     width: 80px;
     height: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dateBox {
+    padding: 8px;
+  }
+
+  .ButtonContainer {
+    width: 380px;
+    left: 55px;
   }
 }
