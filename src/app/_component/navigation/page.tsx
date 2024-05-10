@@ -5,7 +5,7 @@ import Search from "../../../../public/icons/Icon_search.svg";
 import Image from "next/image";
 
 interface INavigationProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick: () => void;
   isSearch?: boolean;
   dark: boolean;
