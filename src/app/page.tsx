@@ -7,10 +7,13 @@ import Navigation from "./_component/navigation/page";
 import Guide from "./_component/main_home/Guide";
 import Card from "./_component/main_home/Card";
 import ButtonBox from "./_component/main_home/ButtonBox";
+import Search_Input from "./_component/input/Search_Input";
 
 export default function Home() {
   return (
     <div>
+      <Search_Input dark={false}/>
+      <br />
       <Input_Chat />
       <br />
       <Footer />

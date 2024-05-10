@@ -1,0 +1,25 @@
+.container {
+    width: 438px;
+    height: 58px;
+    display: flex;
+    border-bottom: 2px solid var(--gray-600);
+    background-color: transparent;
+    margin-left: 30px;
+}
+.icon {
+    margin: 7px 30px 0 20px;
+    cursor: pointer;
+}
+
+.input {
+    font-size: 22px;
+    border: none;
+    background-color: transparent;
+    color: var(--gray-400);
+
+}
+
+.input::placeholder {
+    color: var(--gray-400);
+
+}

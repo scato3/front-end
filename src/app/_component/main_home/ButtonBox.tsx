@@ -42,7 +42,8 @@ export default function ButtonBox() {
     <div className={styles.container}>
       {icons.map((icon, index) => (
         <div key={index} className={styles.imageContainer}>
-          <Link href={"./"}>
+          <Link 
+              href={`./study/all/filter?category=${icon.alt}`}>
             <Image src={icon.icon} alt={icon.alt} width={48} height={48} />
           </Link>
           <p className={styles.category}>{icon.alt}</p>
