@@ -24,7 +24,9 @@ export default function CreateFirst({ onNext }: { onNext: () => void }) {
       <div className={styles.seperator}>
         <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
       </div>
-      <p className={styles.Header}>함께 공부하고 싶은 분야를 선택해 주세요.</p>
+      <div className={styles.contentContainer}>
+        <p className={styles.Header}>함께 공부하고 싶은 분야를 선택해 주세요</p>
+      </div>
       <CheckField onNext={onNext} />
     </div>
   );

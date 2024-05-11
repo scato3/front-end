@@ -2,6 +2,7 @@ import Button from "@/app/_component/button/Button";
 import styles from "../createStudy.module.css";
 import Image from "next/image";
 import { useState } from "react";
+import CreateStore from "../store/CreateStore";
 
 const icons = [
   {
@@ -58,12 +59,15 @@ const icons = [
 
 export default function CheckField({ onNext }: { onNext: () => void }) {
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
+  const { setSelectedField } = CreateStore();
 
-  const handleIconClick = (icon: string) => {
+  const handleIconClick = (icon: string, alt: string) => {
     if (selectedIcon === icon) {
       setSelectedIcon(null);
+      setSelectedField(alt);
     } else {
       setSelectedIcon(icon);
+      setSelectedField(alt);
     }
   };
 
@@ -74,7 +78,7 @@ export default function CheckField({ onNext }: { onNext: () => void }) {
           <div
             key={index}
             className={`${styles.ImageContainer} ${selectedIcon === icon.active ? styles.Selected : ""}`}
-            onClick={() => handleIconClick(icon.active)}
+            onClick={() => handleIconClick(icon.active, icon.alt)}
           >
             <Image src={selectedIcon === icon.active ? icon.active : icon.icon} alt={icon.alt} width={50} height={50} />
             <p className={`${styles.Category} ${selectedIcon === icon.active ? styles.SelectedCategory : ""}`}>
@@ -83,7 +87,7 @@ export default function CheckField({ onNext }: { onNext: () => void }) {
           </div>
         ))}
       </div>
-      <div className={styles.BtnContainer}>
+      <div className={styles.ButtonContainer}>
         <Button size="large_main" property={selectedIcon !== null ? "confirm" : "disabled"} onClick={onNext}>
           Step 1 완료
         </Button>
