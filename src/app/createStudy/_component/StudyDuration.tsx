@@ -27,7 +27,26 @@ export default function StudyDuration({ handleCloseModal }: IStudyDurationProps)
   };
 
   const handleClickBtn = () => {
-    setSelectedDuration(selectedItem);
+    let durationCode = "";
+    switch (selectedItem) {
+      case "일주일":
+        durationCode = "1w";
+        break;
+      case "한달":
+        durationCode = "1m";
+        break;
+      case "3개월":
+        durationCode = "3m";
+        break;
+      case "6개월":
+        durationCode = "6m";
+        break;
+      case "미정":
+        durationCode = "";
+        break;
+    }
+
+    setSelectedDuration(durationCode);
     handleCloseModal();
   };
 

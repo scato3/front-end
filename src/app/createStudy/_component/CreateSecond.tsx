@@ -20,12 +20,28 @@ export default function CreateSecond({ onNext }: { onNext: () => void }) {
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const { selectedDate, selectedDuration, recruit, setRecruit } = CreateStore();
   const formattedDate = selectedDate ? moment(selectedDate).format("YY.MM.DD") : "시작날짜 선택하기";
-  const formattedDuration = selectedDuration ? selectedDuration : "학습 기간 선택하기";
+
+  const getFormattedDuration = (duration: string) => {
+    switch (duration) {
+      case "1w":
+        return "일주일";
+      case "1m":
+        return "한달";
+      case "3m":
+        return "3개월";
+      case "6m":
+        return "6개월";
+      default:
+        return "미정";
+    }
+  };
+
+  const formattedDuration = selectedDuration ? getFormattedDuration(selectedDuration) : "학습 기간 선택하기";
 
   const [selectedModal, setSelectedModal] = useState<string | null>(null);
   const [recruitNum, setRecruitNum] = useState<number>(2);
 
-  const [progress, setProgress] = useState(25);
+  const [progress, setProgress] = useState<number>(25);
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
 
   const increaseRecruit = () => {

@@ -6,7 +6,7 @@ import Navigation from "@/app/_component/navigation/page";
 import CheckField from "./CheckField";
 
 export default function CreateFirst({ onNext }: { onNext: () => void }) {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {

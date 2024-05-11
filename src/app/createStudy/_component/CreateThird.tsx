@@ -9,7 +9,7 @@ import Image from "next/image";
 import useCreateStore from "../store/CreateStore";
 
 export default function CreateThird({ onNext }: { onNext: () => void }) {
-  const [progress, setProgress] = useState(50);
+  const [progress, setProgress] = useState<number>(50);
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
   const [selectedPurpose, setSelectedPurpose] = useState<string | null>(null);
   const [selectedApplyContainer, setSelectedApplyContainer] = useState<string | null>("");
@@ -29,7 +29,7 @@ export default function CreateThird({ onNext }: { onNext: () => void }) {
     } else {
       setButtonProperty("disabled");
     }
-  }, [selectedApplyContainer, selectedApplyContainer]);
+  }, [selectedApplyContainer, selectedPurpose]);
 
   const handlePurposeSelect = (purpose: string) => {
     setSelectedPurpose(purpose);

@@ -23,13 +23,13 @@ export default function Navigation({ children, onClick, isSearch, dark, isBack }
     >
       {isBack && (
         <div className={styles.BackButton}>
-          <Image src={dark ? Arrow : ArrowDark} alt="뒤로가기 버튼" width={48} height={48} onClick={onClick} />
+          <Image src={dark ? Arrow : ArrowDark} alt="뒤로가기 버튼" width={36} height={36} onClick={onClick} />
         </div>
       )}
       {children}
       {isSearch && (
         <div className={styles.SearchButton}>
-          <Image src={Search} alt="검색 버튼" width={48} height={48} onClick={onClick} />
+          <Image src={Search} alt="검색 버튼" width={36} height={36} onClick={onClick} />
         </div>
       )}
     </div>
