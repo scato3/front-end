@@ -24,7 +24,7 @@
 }
 
 .Header {
-  margin-top: 20px;
+  margin-top: 14px;
   font-weight: 500;
   font-size: 18px;
   line-height: 30px;
@@ -160,16 +160,72 @@
   color: var(--gray-800);
 }
 
+.purpose {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 28px);
+  height: 40px;
+  background-color: var(--gray-200);
+  color: var(--gray-400);
+  margin-top: 10px;
+  padding-top: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.purpose.selected {
+  background-color: var(--main-200);
+  color: var(--main-50);
+}
+
+.applyContainer {
+  position: relative;
+  width: calc(100% - 40px);
+  height: 56px;
+  background-color: var(--gray-100);
+  color: var(--gray-400);
+  font-size: 12px;
+  padding-left: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.applyContainer.selected {
+  background-color: var(--main-50);
+  color: var(--main-200);
+}
+
+.applyContainer.selected p {
+  background-color: var(--main-50);
+  color: var(--main-200);
+}
+
+.applyHeader {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 35px;
+  color: var(--gray-400);
+}
+
+.applyIcon {
+  position: absolute;
+  top: 6px;
+  right: 5px;
+}
+
 /* 반응형 */
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
   .ImageContainer {
     width: 80px;
     height: 80px;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
   .dateBox {
     padding: 8px;
   }
