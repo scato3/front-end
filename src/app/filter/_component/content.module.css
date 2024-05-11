@@ -1,0 +1,129 @@
+.Container {
+  width: 100%;
+}
+
+.HeaderContainer {
+  margin-top: 50px;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.Header {
+  margin-top: 24px;
+  font-size: 22px;
+}
+
+.HeaderSub {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-400);
+}
+
+.ItemContainer {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.Item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 102px;
+  height: 32px;
+  background-color: var(--gray-100);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.Item.selected {
+  background-color: var(--main-100);
+  color: var(--main-200);
+}
+
+.dateContainer {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.dateBox {
+  padding-top: 8px;
+  margin-top: 16px;
+  display: flex;
+  width: 262px;
+  height: 58px;
+  background-color: var(--gray-100);
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--gray-400);
+  cursor: pointer;
+}
+
+.selectedDateBox {
+  color: var(--main-200);
+  background-color: var(--main-100);
+}
+
+.inputContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.CountInput {
+  margin-top: 18px;
+  text-align: center;
+  width: 212px;
+  height: 58px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 27px;
+  outline: none;
+  border: none;
+  background-color: var(--gray-100);
+}
+
+.countInputFilled {
+  background-color: var(--main-100);
+  color: var(--main-200);
+}
+
+.invalidInput {
+  background-color: var(--gray-600);
+  color: var(--gray-200);
+}
+
+.ImageContainer {
+  margin-top: 18px;
+}
+
+.TendencyContainer {
+  margin-top: 19px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.Tendency {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 258px;
+  height: 36px;
+  background-color: var(--gray-100);
+  font-size: 14px;
+  color: var(--gray-600);
+  cursor: pointer;
+}
+
+.Tendency.Selected {
+  color: var(--main-200);
+  background-color: var(--main-100);
+}

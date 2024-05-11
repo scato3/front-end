@@ -46,6 +46,11 @@
   background-color: var(--gray-100);
 }
 
+.cancel {
+  color: var(--gray-700);
+  background-color: var(--gray-100);
+}
+
 .pointer {
   cursor: pointer;
 }
