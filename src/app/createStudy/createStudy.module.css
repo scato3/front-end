@@ -111,7 +111,7 @@
 .ButtonContainer {
   position: absolute;
   width: 100%;
-  bottom: 36px;
+  bottom: 24px;
   left: 24px;
   display: flex;
 }
@@ -214,6 +214,96 @@
   position: absolute;
   top: 6px;
   right: 5px;
+}
+
+.LastContainer {
+  margin-top: 20px;
+}
+
+.LastHeader {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--gray-800);
+}
+
+.title {
+  margin-top: 10px;
+  width: calc(100% - 60px);
+  background-color: var(--gray-100);
+  color: var(--gray-600);
+  height: 38px;
+  font-size: 14px;
+  padding-left: 24px;
+  border: none;
+  outline: none;
+  align-items: center;
+}
+
+.title::placeholder {
+  color: var(--gray-400);
+}
+
+.titleInfo {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--gray-400);
+}
+
+.description {
+  margin-top: 10px;
+  width: calc(100% - 84px);
+  background-color: var(--gray-100);
+  color: var(--gray-600);
+  height: 80px;
+  font-size: 14px;
+  padding: 10px 24px 0 24px;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+.description::placeholder {
+  color: var(--gray-400);
+}
+
+.tagContainer {
+  display: flex;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.tagInfo {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--gray-400);
+}
+
+.tag {
+  position: relative;
+  height: 20px;
+  background-color: var(--main-50);
+  color: var(--main-200);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  padding: 2px 25px 0 8px;
+}
+
+.xIcon {
+  position: absolute;
+  cursor: pointer;
+  top: 5px;
+  right: 6px;
+}
+
+.tagCaution {
+  margin-top: 8px;
 }
 
 /* 반응형 */
