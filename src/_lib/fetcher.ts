@@ -59,9 +59,14 @@ const _post = async ({ endpoint, body, authorization }: IPostOptions) => {
   return _fetch({ method: "POST", endpoint, body, authorization });
 };
 
+const _patch = async ({ endpoint, body, authorization }: IPostOptions) => {
+  return _fetch({ method: "PATCH", endpoint, body, authorization });
+};
+
 const api = {
   get: _get,
   post: _post,
+  patch: _patch,
 };
 
 export default api;
