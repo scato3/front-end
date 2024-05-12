@@ -46,7 +46,7 @@ export default function Search() {
             </div>
             <div className={styles.recentSearchBox}>
                 <div className={styles.recentBoxTop}>
-                    <p className={styles.subTitle}>최근 검색어</p>
+                    <p>최근 검색어</p>
                     <p className={styles.edit}>edit</p>
                 </div>
                 <div >
@@ -65,7 +65,7 @@ export default function Search() {
             </div>
             <div className={styles.hrLine}></div>
             <div className={styles.popularBox}>
-                <p className={styles.subTitle}>인기 검색어</p>
+                <p>인기 검색어</p>
                 <Swiper className={styles.popularSwiper}
                         pagination={true}
                         modules={[Pagination]}
@@ -83,7 +83,7 @@ export default function Search() {
             </div>
             <div className={styles.hrLine}></div>
             <div className={styles.shortCutBox}>
-                <p className={styles.subTitle}>바로가기</p>
+                <p>바로가기</p>
                 <div className={styles.iconBox}>
                     {shortCutIcons.map((icon, index) => (
                         <Image className={styles.icon} key={index} src={icon.path} width={96} height={96} alt={icon.alt} />

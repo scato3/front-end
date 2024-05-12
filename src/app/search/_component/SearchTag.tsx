@@ -4,7 +4,6 @@ import Image from "next/image";
 
 export default function SearchTag({children}:{children:React.ReactNode}) {
     const handeldelete = () => {
-
     }
 
     return(
