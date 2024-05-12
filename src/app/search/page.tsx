@@ -76,9 +76,6 @@ export default function Search() {
                     <SwiperSlide>
                         <PopularKeyword slideNum={2}/>
                     </SwiperSlide>
-                    <SwiperSlide>
-                        <PopularKeyword slideNum={3}/>
-                    </SwiperSlide>
                 </Swiper>
             </div>
             <div className={styles.hrLine}></div>
