@@ -12,7 +12,7 @@ import Search_Input from "./_component/input/Search_Input";
 export default function Home() {
   return (
     <div>
-      <Search_Input dark={false}/>
+      <Search_Input/>
       <br />
       <Input_Chat />
       <br />

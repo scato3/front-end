@@ -6,8 +6,8 @@
     background-color: var(--gray-800);
     border-radius: 15px;
     position: relative;
-    top: 30px;
-    left: 30px;
+    top: -30px;
+    left: 20px;
 }
 
 .title {
