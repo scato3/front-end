@@ -2,7 +2,7 @@ import styles from "./button.module.css";
 
 interface ButtonProps {
   size?: "small" | "medium" | "large" | "large_main";
-  property?: "default" | "confirm" | "pressed" | "disabled";
+  property?: "default" | "confirm" | "pressed" | "disabled" | "cancel";
   onClick: () => void;
   children?: React.ReactNode;
 }
