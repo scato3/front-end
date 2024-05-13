@@ -9,6 +9,7 @@ interface IFetchOptions {
 
 interface IGetOptions {
   endpoint: string;
+  authorization?: string;
 }
 
 interface IPostOptions {
@@ -51,8 +52,8 @@ const _fetch = async ({ method, endpoint, body, authorization }: IFetchOptions) 
   }
 };
 
-const _get = async ({ endpoint }: IGetOptions) => {
-  return _fetch({ method: "GET", endpoint });
+const _get = async ({ endpoint, authorization }: IGetOptions) => {
+  return _fetch({ method: "GET", endpoint, authorization });
 };
 
 const _post = async ({ endpoint, body, authorization }: IPostOptions) => {
