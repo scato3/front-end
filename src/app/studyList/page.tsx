@@ -8,7 +8,7 @@ import QuickMatchBtn from "./_component/QuickMatchBtn";
 import Image from "next/image";
 import Card from "../_component/main_home/Card";
 import arrowIcon from "../../../public/icons/Arrow_down.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import ModalContainer from "@/app/_component/ModalContainer";
 import ModalPortal from "@/app/_component/ModalPortal";
@@ -82,6 +82,9 @@ const filter = [
     {
         filter: "타입",
     },
+    {
+        filter: "타입",
+    },
 ]
 
 export default function StudyList () {
@@ -104,7 +107,14 @@ export default function StudyList () {
                 <Swiper 
                     modules={[FreeMode]}
                     slidesPerView={5.5}
-                    spaceBetween={9}
+                    breakpoints={{
+                        300: {
+                            spaceBetween: -7
+                        },
+                        500: {
+                            spaceBetween: 9
+                        }
+                    }}
                     >
                     {categories.map((category, index) => (
                         <SwiperSlide 
@@ -113,7 +123,7 @@ export default function StudyList () {
                             onClick={()=>{
                                 setActiveTab(category.name)
                             }}>
-                                {category.name}
+                            {category.name}
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -121,9 +131,17 @@ export default function StudyList () {
             <div className={styles.devider}></div>
             <div className={styles.filterBox}>
                 <Swiper 
-                    slidesPerView={2}
                     modules={[FreeMode]}
-                    spaceBetween={30}
+                    breakpoints={{
+                        300: {
+                            slidesPerView: 5,
+                            spaceBetween: 8,
+                        },
+                        500: {
+                            slidesPerView: 3,
+                            spaceBetween: 30
+                        }
+                    }}
                     >
                     <SwiperSlide className={styles.slideBox}>
                         <QuickMatchBtn />
