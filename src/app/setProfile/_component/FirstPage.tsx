@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import availableNickname from "../../../../public/Profile_available_nickname_speech_bubble.svg";
-import emptyNickname from "../../../../public/Profile_empty_nickname_speech_bubble.svg";
 import usedNickname from "../../../../public/Profile_used_nickname_speech_bubble.svg";
 import validationNickname from "../../../../public/Profile_validation_nickname_speech_bubble.svg";
 import Button from "../../_component/button/Button";
@@ -29,7 +28,7 @@ export default function SetProfile({ onRegister }: { onRegister: () => void }) {
     nickname: null as string | null,
     profileImage: null as string | ArrayBuffer | null,
   });
-  const [validation, setValidation] = useState<string>(emptyNickname);
+  const [validation, setValidation] = useState<string>(validationNickname);
 
   const handleSetProfile = async () => {
     if (profileData.nickname && validation === availableNickname) {
@@ -61,11 +60,8 @@ export default function SetProfile({ onRegister }: { onRegister: () => void }) {
   useEffect(() => {
     const validateNickname = async () => {
       const regex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]+$/;
-      if (!profileData.nickname) {
-        setValidation(emptyNickname);
-        return;
-      }
-      if (profileData.nickname.length >= 2 && regex.test(profileData.nickname)) {
+
+      if (profileData?.nickname && profileData?.nickname?.length >= 2 && regex.test(profileData.nickname)) {
         try {
           if (await checkDupNickname(profileData.nickname)) {
             setValidation(usedNickname);
@@ -90,7 +86,9 @@ export default function SetProfile({ onRegister }: { onRegister: () => void }) {
 
   return (
     <div className={styles.container}>
-      <Navigation dark={true} onClick={() => router.push("./")}>프로필 등록</Navigation>
+      <Navigation dark={true} onClick={() => router.push("./")}>
+        프로필 등록
+      </Navigation>
       <UploadProfileImage />
 
       <Image className={styles.caution} width={344} height={49} src={validation} alt="validationNickname" />
