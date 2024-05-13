@@ -17,7 +17,7 @@ import ModalPortal from "@/app/_component/ModalPortal";
 import SortModal from "./_component/SortModal";
 import NoStudy from "./_component/NoStudy";
 import useFilterStore from "../_component/modalFilter/store/useFilterStore";
-import useSortStore from "./store/useSortModal";
+import useSortStore from "./store/useSortStore";
 import ModalFilter from "../_component/modalFilter/page";
 import DisplayDuration from "./_component/utils/displayDuration";
 import getFilter from "../api/getFilter";
@@ -89,7 +89,7 @@ export default function StudyList() {
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const [sort, setSort] = useState<boolean>(false);
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency } = useFilterStore();
-  const { sortSelected } = useSortStore();
+  const { quickMatch, sortSelected } = useSortStore();
 
   const {
     data: modalData,
@@ -105,7 +105,8 @@ export default function StudyList() {
       minCount,
       maxCount,
       selectedTendency,
-    ],
+      quickMatch,
+    ].filter(Boolean),
     queryFn: async () =>
       getFilter("recent", sortSelected, {
         category: selectedArea,
@@ -114,6 +115,7 @@ export default function StudyList() {
         minParticipants: parseInt(minCount),
         maxParticipants: parseInt(maxCount),
         tendency: selectedTendency.map((obj) => obj.value).join(","),
+        quickMatch: quickMatch ? "quick" : "",
       }),
   });
 

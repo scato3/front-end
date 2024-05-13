@@ -11,7 +11,7 @@ import HeadCount from "./_component/HeadCount";
 import Button from "../button/Button";
 import { useState, useEffect, useRef } from "react";
 import useFilterStore from "./store/useFilterStore";
-import useSortStore from "@/app/studyList/store/useSortModal";
+import useSortStore from "@/app/studyList/store/useSortStore";
 
 interface IModelFilterProps {
   handleCloseModal: () => void;

@@ -4,7 +4,7 @@ export default async function getFilter(
   type: string,
   orderType: string,
   options?: {
-    quickMatch?: boolean;
+    quickMatch?: string;
     category?: string | null;
     startDate?: string | null;
     duration?: string | null;
@@ -18,8 +18,8 @@ export default async function getFilter(
   if (options) {
     const queryParams = new URLSearchParams();
 
-    if (options.quickMatch !== undefined) {
-      queryParams.append("quickMatch", options.quickMatch ? "true" : "false");
+    if (options.quickMatch !== undefined && options.quickMatch !== "") {
+      queryParams.append("quickMatch", options.quickMatch);
     }
 
     if (options.category) {

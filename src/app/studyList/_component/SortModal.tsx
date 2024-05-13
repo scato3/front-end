@@ -1,6 +1,6 @@
 import styles from "./sortModal.module.css";
 import { useState } from "react";
-import useSortStore from "../store/useSortModal";
+import useSortStore from "../store/useSortStore";
 import { sortTypes } from "@/utils/sortTypes";
 
 export default function SortModal({ handleCloseModal }: { handleCloseModal: () => void }) {

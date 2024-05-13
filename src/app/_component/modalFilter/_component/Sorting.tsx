@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./content.module.css";
-import useSortStore from "@/app/studyList/store/useSortModal";
+import useSortStore from "@/app/studyList/store/useSortStore";
 import { sortTypes } from "@/utils/sortTypes";
 
 interface sortingProps {
