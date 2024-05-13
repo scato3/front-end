@@ -20,8 +20,8 @@ export default function Tendency({ TendencyRef }: TendencyProps) {
   const { selectedTendency, setSelectedTendency } = useFilterStore();
 
   const handleTendencyClick = (tendency: Tendency) => {
-    if (selectedTendency.some((item) => item.name === tendency.name)) {
-      setSelectedTendency(selectedTendency.filter((item) => item.name !== tendency.name));
+    if (selectedTendency.some((item: Tendency) => item.value === tendency.value)) {
+      setSelectedTendency(selectedTendency.filter((item: Tendency) => item.value !== tendency.value));
     } else {
       setSelectedTendency([...selectedTendency, tendency]);
     }
@@ -38,7 +38,7 @@ export default function Tendency({ TendencyRef }: TendencyProps) {
           <div
             key={index}
             className={`${styles.Tendency} ${
-              selectedTendency.some((item) => item.name === tendency.name) ? styles.Selected : ""
+              selectedTendency.some((item: Tendency) => item.value === tendency.value) ? styles.Selected : ""
             }`}
             onClick={() => handleTendencyClick(tendency)}
           >

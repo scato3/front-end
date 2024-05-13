@@ -18,6 +18,7 @@ interface FilterStore {
 }
 
 interface Tendency {
+  value: string;
   name: string;
 }
 

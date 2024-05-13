@@ -82,24 +82,23 @@ export default function ModalFilter({ handleCloseModal }: IModelFilterProps) {
 
   useEffect(() => {
     if (
-      selectedItem !== null &&
-      selectedArea !== null &&
-      selectedDate !== null &&
-      selectedDuration !== null &&
-      selectedTendency.length > 0 &&
-      minCount !== "" &&
-      maxCount !== "" &&
-      parseInt(minCount) < parseInt(maxCount) &&
-      parseInt(minCount) >= 2 &&
-      parseInt(minCount) <= 20 &&
-      parseInt(maxCount) >= 2 &&
-      parseInt(maxCount) <= 20
+      selectedItem !== null ||
+      selectedArea !== null ||
+      (selectedDate !== null && selectedDuration !== null) ||
+      selectedTendency.length > 0 ||
+      (minCount !== "" &&
+        maxCount !== "" &&
+        parseInt(minCount) < parseInt(maxCount) &&
+        parseInt(minCount) >= 2 &&
+        parseInt(minCount) <= 20 &&
+        parseInt(maxCount) >= 2 &&
+        parseInt(maxCount) <= 20)
     ) {
       setButtonProperty("confirm");
     } else {
       setButtonProperty("disabled");
     }
-  }, [selectedItem, selectedArea, selectedDate, selectedDuration, selectedTendency, minCount, maxCount]);
+  }, [selectedItem, selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency]);
 
   return (
     <div className={styles.FilterContainer}>
