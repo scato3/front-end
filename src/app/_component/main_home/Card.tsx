@@ -19,6 +19,7 @@ export default function Card() {
           <p className={styles.detail}>3/15</p>
           <Image src={calendarIcon} width={24} height={24} alt="달력아이콘" />
           <p className={styles.detail}>23.01 ~ 23.05</p>
+
         </div>
       </div>
     </div>

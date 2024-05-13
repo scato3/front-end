@@ -53,8 +53,7 @@ export default function Main_home() {
       </div>
       <div className={styles.cardBox}>
         <div className={styles.card}>
-          <Card />
-          <Card />
+
         </div>
       </div>
       <div className={styles.footerBox}>
