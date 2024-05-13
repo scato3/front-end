@@ -1,8 +1,6 @@
 import { create } from "zustand";
 
 interface FilterStore {
-  selectedItem: string | null;
-  setSelectedItem: (item: string | null) => void;
   selectedArea: string | null;
   setSelectedArea: (area: string | null) => void;
   selectedDate: string | null;
@@ -23,8 +21,6 @@ interface Tendency {
 }
 
 const useFilterStore = create<FilterStore>((set) => ({
-  selectedItem: null,
-  setSelectedItem: (item: string | null) => set({ selectedItem: item }),
   selectedArea: null,
   setSelectedArea: (area: string | null) => set({ selectedArea: area }),
   selectedDate: null,

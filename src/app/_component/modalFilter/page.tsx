@@ -11,10 +11,7 @@ import HeadCount from "./_component/HeadCount";
 import Button from "../button/Button";
 import { useState, useEffect, useRef } from "react";
 import useFilterStore from "./store/useFilterStore";
-
-import { useQuery } from "@tanstack/react-query";
 import useSortStore from "@/app/studyList/store/useSortModal";
-import getFilter from "@/app/api/getFilter";
 
 interface IModelFilterProps {
   handleCloseModal: () => void;
@@ -22,7 +19,8 @@ interface IModelFilterProps {
 
 export default function ModalFilter({ handleCloseModal }: IModelFilterProps) {
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
-  const { sortSelected } = useSortStore();
+  const { sortSelected, setSortSelected } = useSortStore();
+
   const areaRef = useRef(null);
   const durationRef = useRef(null);
   const headCountRef = useRef(null);
@@ -30,8 +28,6 @@ export default function ModalFilter({ handleCloseModal }: IModelFilterProps) {
   const sortingRef = useRef(null);
 
   const {
-    selectedItem,
-    setSelectedItem,
     selectedArea,
     setSelectedArea,
     selectedDate,
@@ -46,31 +42,12 @@ export default function ModalFilter({ handleCloseModal }: IModelFilterProps) {
     setSelectedTendency,
   } = useFilterStore();
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["NEW_STUDY", "MODAL_FILTER"],
-    queryFn: async () =>
-      getFilter("recent", sortSelected, {
-        category: selectedArea,
-        startDate: selectedDate,
-        duration: selectedDuration,
-        minParticipants: parseInt(minCount),
-        maxParticipants: parseInt(maxCount),
-        tendency: selectedTendency.map((obj) => obj.value).join(","),
-      }),
-  });
-
-  useEffect(() => {
-    if (!isLoading && !error) {
-      console.log(data);
-    }
-  }, [isLoading, error]);
-
   const handleCloseButton = () => {
     handleCloseModal();
   };
 
   const Reset = () => {
-    setSelectedItem(null);
+    setSortSelected("recent");
     setSelectedArea(null);
     setSelectedDate(null);
     setSelectedDuration(null);
@@ -82,23 +59,22 @@ export default function ModalFilter({ handleCloseModal }: IModelFilterProps) {
 
   useEffect(() => {
     if (
-      selectedItem !== null ||
-      selectedArea !== null ||
-      (selectedDate !== null && selectedDuration !== null) ||
-      selectedTendency.length > 0 ||
-      (minCount !== "" &&
+      (sortSelected !== null ||
+        selectedArea !== null ||
+        (selectedDate !== null && selectedDuration !== null) ||
+        selectedTendency.length > 0) &&
+      ((minCount !== "" &&
         maxCount !== "" &&
-        parseInt(minCount) < parseInt(maxCount) &&
         parseInt(minCount) >= 2 &&
-        parseInt(minCount) <= 20 &&
-        parseInt(maxCount) >= 2 &&
-        parseInt(maxCount) <= 20)
+        parseInt(maxCount) <= 20 &&
+        parseInt(minCount) <= parseInt(maxCount)) ||
+        (minCount === "" && maxCount === ""))
     ) {
       setButtonProperty("confirm");
     } else {
       setButtonProperty("disabled");
     }
-  }, [selectedItem, selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency]);
+  }, [selectedArea, selectedDate, selectedDuration, selectedTendency, minCount, maxCount]);
 
   return (
     <div className={styles.FilterContainer}>

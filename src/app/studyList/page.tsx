@@ -91,30 +91,47 @@ export default function StudyList() {
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency } = useFilterStore();
   const { sortSelected } = useSortStore();
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["NEW_STUDY", category, sortSelected],
+  const {
+    data: modalData,
+    isLoading: modalIsLoading,
+    error: modalError,
+  } = useQuery({
+    queryKey: [
+      "NEW_STUDY",
+      sortSelected,
+      selectedArea,
+      selectedDate,
+      selectedDuration,
+      minCount,
+      maxCount,
+      selectedTendency,
+    ],
     queryFn: async () =>
       getFilter("recent", sortSelected, {
-        category,
-
-        // duration: selectedDuration,
-        // minParticipants: parseInt(minCount),
-        // maxParticipants: parseInt(maxCount),
-        // tendency: selectedTendency.map((obj) => obj.name).join(","),
+        category: selectedArea,
+        startDate: selectedDate,
+        duration: selectedDuration,
+        minParticipants: parseInt(minCount),
+        maxParticipants: parseInt(maxCount),
+        tendency: selectedTendency.map((obj) => obj.value).join(","),
       }),
   });
 
   useEffect(() => {
-    if (!isLoading && !error) {
-      console.log(data);
-      console.log(sortSelected);
+    if (modalData) console.log(modalData);
+    if (!modalData && !modalIsLoading) {
+      console.log(modalError);
     }
-  }, [data, isLoading, error, sortSelected]);
-
-  // const { data } = useQuery({
-  //   queryKey: ["NEW_STUDY", 1],
-  //   queryFn: async () => getFilter("recent", sortSelected, { category }),
-  // });
+  }, [
+    modalData,
+    modalIsLoading,
+    modalError,
+    sortSelected,
+    selectedArea,
+    selectedDate,
+    selectedDuration,
+    selectedTendency,
+  ]);
 
   // SortModalController
   const toggleSortModal = () => {
@@ -265,9 +282,13 @@ export default function StudyList() {
           <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
         </button>
       </div>
-      <div className={styles.cardBox}>
-        <Card />
-      </div>
+      {modalData && (
+        <div className={styles.cardBox}>
+          {modalData.data.map((study) => (
+            <div key={study.id}>{study.id}</div>
+          ))}
+        </div>
+      )}
       {sort && (
         <ModalPortal>
           <ModalContainer bgDark={false} handleCloseModal={toggleSortModal}>
@@ -277,7 +298,7 @@ export default function StudyList() {
       )}
       {openModal && (
         <ModalPortal>
-          <ModalContainer handleCloseModal={handleCloseModal}>
+          <ModalContainer>
             <ModalFilter handleCloseModal={handleCloseModal} />
           </ModalContainer>
         </ModalPortal>
