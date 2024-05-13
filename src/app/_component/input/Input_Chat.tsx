@@ -1,6 +1,6 @@
 import styles from './input_chat.module.css'
 import Image from 'next/image';
-import plus_icon from '../../../../public/icons/Plus_icon.svg';
+import plus_icon from "../../../../public/icons/Plus_icon.svg";
 
 export default function Input_Chat () {
     return(
