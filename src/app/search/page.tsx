@@ -6,6 +6,13 @@ import Navigation from "../_component/navigation/page";
 import Footer from "../_component/footer/footer";
 import IconBell from "../../../public/icons/_main01/Icon_alert.svg";
 import Image from "next/image";
+import SearchTag from "./_component/SearchTag";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
+import PopularKeyword from "./_component/PopularKeyword";
 
 const shortCutIcons = [
     {
@@ -26,6 +33,8 @@ const shortCutIcons = [
     },
 ]
 
+const tags = ["카공", "취준", "영어공부", "영어", "루틴", "습관", "공부"]
+
 export default function Search() {
     return(
         <div className={styles.container}>
@@ -33,27 +42,45 @@ export default function Search() {
                 <Image className={styles.iconBell} src={IconBell} width={58} height={58} alt="bell" />
             </Navigation>
             <div className={styles.searchInputBox}>
-                <Search_Input dark={false}/>
+                <Search_Input />
             </div>
             <div className={styles.recentSearchBox}>
                 <div className={styles.recentBoxTop}>
-                    <p className={styles.subTitle}>최근 검색어</p>
+                    <p>최근 검색어</p>
                     <p className={styles.edit}>edit</p>
                 </div>
-                <div className={styles.recentKeywordBox}>
-                    키워드
+                <div >
+                    <Swiper className={styles.recentKeywordBox}
+                            modules={[FreeMode]}
+                            slidesPerView={4}
+                            spaceBetween={10}
+                            >
+                            {tags.map((keyword, index) => (
+                            <SwiperSlide className={styles.recentKeyword} key={index}>
+                                <SearchTag key={index}>{keyword}</SearchTag>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
             </div>
             <div className={styles.hrLine}></div>
             <div className={styles.popularBox}>
-                <p className={styles.subTitle}>인기 검색어</p>
-                <div className={styles.popularKeywordBox}>
-                    키워드
-                </div>
+                <p>인기 검색어</p>
+                <Swiper className={styles.popularSwiper}
+                        pagination={true}
+                        modules={[Pagination]}
+                        >
+                    <SwiperSlide>
+                        <PopularKeyword slideNum={1}/>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <PopularKeyword slideNum={2}/>
+                    </SwiperSlide>
+                </Swiper>
             </div>
             <div className={styles.hrLine}></div>
             <div className={styles.shortCutBox}>
-                <p className={styles.subTitle}>바로가기</p>
+                <p>바로가기</p>
                 <div className={styles.iconBox}>
                     {shortCutIcons.map((icon, index) => (
                         <Image className={styles.icon} key={index} src={icon.path} width={96} height={96} alt={icon.alt} />

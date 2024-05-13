@@ -7,7 +7,7 @@
 
 .navBox {
   position: sticky;
-  height: 100px;
+  height: 70px;
   background-color: var(--gray-800);
   top: 0;
   display: flex;

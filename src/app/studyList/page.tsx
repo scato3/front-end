@@ -8,7 +8,7 @@ import QuickMatchBtn from "./_component/QuickMatchBtn";
 import Image from "next/image";
 import Card from "../_component/main_home/Card";
 import arrowIcon from "../../../public/icons/Arrow_down.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import ModalContainer from "@/app/_component/ModalContainer";
 import ModalPortal from "@/app/_component/ModalPortal";
@@ -73,16 +73,20 @@ const categories = [
 ];
 
 const filter = [
-  {
-    filter: "기간",
-  },
-  {
-    filter: "인원수",
-  },
-  {
-    filter: "타입",
-  },
-];
+
+    {
+        filter: "기간",
+    },
+    {
+        filter: "인원수",
+    },
+    {
+        filter: "타입",
+    },
+    {
+        filter: "타입",
+    },
+]
 
 export default function StudyList() {
   const router = useRouter();
