@@ -8,12 +8,21 @@ import Duration from "./_component/Duration";
 import Tendency from "./_component/Tendency";
 import styles from "./filter.module.css";
 import HeadCount from "./_component/HeadCount";
-import Button from "../_component/button/Button";
+import Button from "../button/Button";
 import { useState, useEffect, useRef } from "react";
 import useFilterStore from "./store/useFilterStore";
 
-export default function Filter() {
+import { useQuery } from "@tanstack/react-query";
+import useSortStore from "@/app/studyList/store/useSortModal";
+import getFilter from "@/app/api/filter";
+
+interface IModelFilterProps {
+  handleCloseModal: () => void;
+}
+
+export default function ModalFilter({ handleCloseModal }: IModelFilterProps) {
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
+  const { sortSelected } = useSortStore();
   const areaRef = useRef(null);
   const durationRef = useRef(null);
   const headCountRef = useRef(null);
@@ -36,6 +45,29 @@ export default function Filter() {
     selectedTendency,
     setSelectedTendency,
   } = useFilterStore();
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["NEW_STUDY", "MODAL_FILTER"],
+    queryFn: async () =>
+      getFilter("recent", sortSelected, {
+        category: selectedArea,
+        startDate: selectedDate,
+        duration: selectedDuration,
+        minParticipants: parseInt(minCount),
+        maxParticipants: parseInt(maxCount),
+        tendency: selectedTendency.map((obj) => obj.value).join(","),
+      }),
+  });
+
+  useEffect(() => {
+    if (!isLoading && !error) {
+      console.log(data);
+    }
+  }, [isLoading, error]);
+
+  const handleCloseButton = () => {
+    handleCloseModal();
+  };
 
   const Reset = () => {
     setSelectedItem(null);
@@ -71,7 +103,7 @@ export default function Filter() {
 
   return (
     <div className={styles.FilterContainer}>
-      <FilterNav />
+      <FilterNav handleCloseModal={handleCloseModal} />
       <SettingNav
         sortingRef={sortingRef}
         areaRef={areaRef}
@@ -89,7 +121,13 @@ export default function Filter() {
           <Button size="medium" onClick={Reset} property="cancel">
             초기화
           </Button>
-          <Button size="medium" onClick={() => {}} property={buttonProperty}>
+          <Button
+            size="medium"
+            onClick={() => {
+              handleCloseButton();
+            }}
+            property={buttonProperty}
+          >
             적용하기
           </Button>
         </div>

@@ -1,8 +1,9 @@
 .Container {
-  width: 100%;
+  max-width: 500px;
 }
 
 .FilterContainer {
+  max-width: 500px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,8 +38,9 @@
 }
 
 .Seperator {
+  position: relative;
   margin-top: 24px;
-  width: 100%;
+  max-width: 500px;
   height: 2px;
   background-color: var(--gray-100);
 }

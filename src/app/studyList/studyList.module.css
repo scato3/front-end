@@ -24,6 +24,7 @@
   text-align: center;
   color: var(--gray-400);
   cursor: pointer;
+  text-decoration-line: none;
 }
 
 .categoryActive {
@@ -36,6 +37,11 @@
   text-align: center;
   color: var(--main-200);
   cursor: pointer;
+  text-decoration-line: none;
+}
+
+.test {
+  text-decoration-line: none;
 }
 
 .devider {
@@ -47,12 +53,17 @@
 .filterBox {
   display: flex;
   gap: 16px;
-  width: calc(100% - 60px);
   margin: 15px 30px 0 30px;
 }
 
 .slideBox {
-  width: fit-content;
+  display: flex;
+  width: fit-content !important;
+}
+
+.active {
+  background-color: var(--main-100);
+  color: var(--main-200);
 }
 
 .infoBox {
@@ -73,7 +84,6 @@
   color: var(--gray-600);
   gap: 8px;
   cursor: pointer;
-  align-items: center;
 }
 
 .cardBox {
