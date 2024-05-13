@@ -44,7 +44,9 @@
   justify-content: space-evenly;
 }
 .ProfileMenu {
+  color: black;
   text-align: center;
+  text-decoration: none;
 }
 .ContentContainer {
   padding-left: 32px;

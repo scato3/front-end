@@ -44,7 +44,7 @@
 }
 
 .ActiveSeperator {
-  width: 20%;
+  width: 33.33%;
   height: 2px;
   background-color: var(--main-200);
   position: absolute;

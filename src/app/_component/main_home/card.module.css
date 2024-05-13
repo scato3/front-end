@@ -43,6 +43,10 @@
   margin: 0 20px 0 20px;
 }
 
+.tagTitle {
+  margin: 3px;
+}
+
 .detailBox {
   margin: 70px 20px 0 20px;
   display: flex;
@@ -51,7 +55,7 @@
 }
 
 .detail {
-  font-size: 16px;
+  font-size: 14px;
   color: var(--gray-700);
   margin-left: 15px;
   margin-right: 50px;

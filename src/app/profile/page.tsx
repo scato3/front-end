@@ -3,6 +3,7 @@
 import styles from "@/app/profile/profile.module.css";
 import useAuth from "@/hooks/useAuth";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import ProgressBar from "../_component/progress_bar/progressBar";
 import myProfile from "../api/myProfile";
@@ -18,12 +19,6 @@ export default function Profile() {
     user_id: number;
   }
 
-  interface IProfileStudyMenu {
-    in_favorite: number;
-    in_proposal: number;
-    in_progress: number;
-    in_complete: number;
-  }
   const [myProfileData, setMyProfileData] = useState<IMyProfileData | null>(null);
   const [profileStudyMenu, setProfileStudyMenu] = useState();
 
@@ -34,18 +29,25 @@ export default function Profile() {
     if (myProfileData) return myProfileData;
   };
 
-  const profileMenuLabeling = (studyCount: IProfileStudyMenu) => {
-    const orderedKeys = ["in_favorite", "in_proposal", "in_progress", "in_complete"];
-    const keyLabels = {
-      in_favorite: "찜한 스터디",
-      in_proposal: "참여신청 스터디",
-      in_progress: "참여중 스터디",
-      in_complete: "완료한 스터디",
-    };
-    return orderedKeys.map((key) => ({ [keyLabels[key]]: studyCount[key] }));
+  const keyLabels = {
+    in_favorite: "찜한 스터디",
+    in_proposal: "참여신청 스터디",
+    in_progress: "참여중 스터디",
+    in_complete: "완료한 스터디",
   };
 
-  const clickHandleProfileMenu = async () => {};
+  const profileMenuLabeling = (data: Object[]) => {
+    const orderedKeys = ["in_favorite", "in_proposal", "in_progress", "in_complete"];
+    return orderedKeys.map((key: string) => ({
+      [key === "in_favorite"
+        ? "찜한 스터디"
+        : key === "in_proposal"
+          ? "참여신청 스터디"
+          : key === "in_progress"
+            ? "참여중 스터디"
+            : "완료한 스터디"]: data[key],
+    }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +64,7 @@ export default function Profile() {
 
   return (
     <div className={styles.ProfileContainer}>
-      <ProfileNav />
+      <ProfileNav title="마이페이지" />
       <div className={styles.ProfileTop}>
         <div className={styles.ProfileBox}>
           <Image
@@ -104,12 +106,20 @@ export default function Profile() {
         </div>
         <div className={styles.ProfileMenuBox}>
           {profileStudyMenu &&
-            profileStudyMenu.map((menu, idx: number) => {
+            profileStudyMenu?.map((menu, idx: number) => {
+              const key = Object.keys(menu)[0]; // 요소의 키 추출
+              const value = menu[key]; // 요소의 값 추출
               return (
-                <div key={idx} className={styles.ProfileMenu}>
-                  <div>{Object.keys(menu)} </div>
-                  <div>{Object.values(menu)} </div>
-                </div>
+                <Link
+                  href={{
+                    pathname: `profile/${Object.keys(keyLabels)[idx]}`,
+                  }}
+                  key={idx}
+                  className={styles.ProfileMenu}
+                >
+                  <div>{key} </div>
+                  <div>{value} </div>
+                </Link>
               );
             })}
         </div>
