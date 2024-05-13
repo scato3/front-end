@@ -14,7 +14,7 @@ import useFilterStore from "./store/useFilterStore";
 
 import { useQuery } from "@tanstack/react-query";
 import useSortStore from "@/app/studyList/store/useSortModal";
-import getFilter from "@/app/api/filter";
+import getFilter from "@/app/api/getFilter";
 
 interface IModelFilterProps {
   handleCloseModal: () => void;

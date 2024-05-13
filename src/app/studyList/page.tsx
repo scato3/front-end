@@ -20,8 +20,7 @@ import useFilterStore from "../_component/modalFilter/store/useFilterStore";
 import useSortStore from "./store/useSortModal";
 import ModalFilter from "../_component/modalFilter/page";
 import DisplayDuration from "./_component/utils/displayDuration";
-import getFilter from "../api/filter";
-
+import getFilter from "../api/getFilter";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 
