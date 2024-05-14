@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import useFilterStore from "../store/useFilterStore";
 import styles from "./content.module.css";
 import Image from "next/image";
-import Icon_mincaution from "../../../../public/icons/Icon_filtercaution_1.svg";
-import Icon_rangecaution from "../../../../public/icons/Icon_filtercaution_2.svg";
+import Icon_mincaution from "../../../../../public/icons/Icon_filtercaution_1.svg";
+import Icon_rangecaution from "../../../../../public/icons/Icon_filtercaution_2.svg";
 
 interface CountProps {
   CountRef: React.RefObject<HTMLDivElement>;
@@ -16,6 +16,13 @@ export default function HeadCount({ CountRef }: CountProps) {
 
   const [minFulfilled, setMinFulfilled] = useState<boolean>(false);
   const [maxFulfilled, setMaxFulfilled] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (minCount !== "" && maxCount !== "") {
+      setMinFulfilled(true);
+      setMaxFulfilled(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (minCount === "" && maxCount === "") {
@@ -67,7 +74,7 @@ export default function HeadCount({ CountRef }: CountProps) {
   };
 
   const isMaxLessThanMin = () => {
-    return minFulfilled && maxFulfilled && minCount && maxCount && parseInt(maxCount) <= parseInt(minCount);
+    return minFulfilled && maxFulfilled && minCount && maxCount && parseInt(maxCount) < parseInt(minCount);
   };
 
   const isMinRange = () => {
@@ -103,7 +110,7 @@ export default function HeadCount({ CountRef }: CountProps) {
         <input
           placeholder="최대 인원수"
           className={`${styles.CountInput} ${maxFulfilled ? styles.countInputFilled : ""} ${isMaxLessThanMin() ? styles.invalidInput : ""} ${isMaxRange() ? styles.invalidInput : ""}`}
-          value={getMaxInputValue() || maxCount}
+          value={getMaxInputValue()}
           onChange={handleMaxCountChange}
           onBlur={handleMaxCountBlur}
           onFocus={handleMaxCountFocus}

@@ -3,8 +3,8 @@ import moment from "moment";
 import "moment/locale/ko";
 import styles from "./calendar.module.css";
 import Image from "next/image";
-import Btn_arrow_left from "../../../../public/icons/Btn_arrow_left.svg";
-import Btn_arrow_right from "../../../../public/icons/Btn_arrow_right.svg";
+import Btn_arrow_left from "../../../../../public/icons/Btn_arrow_left.svg";
+import Btn_arrow_right from "../../../../../public/icons/Btn_arrow_right.svg";
 import Button from "@/app/_component/button/Button";
 import useFilterStore from "../store/useFilterStore";
 

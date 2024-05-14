@@ -8,12 +8,19 @@ import Duration from "./_component/Duration";
 import Tendency from "./_component/Tendency";
 import styles from "./filter.module.css";
 import HeadCount from "./_component/HeadCount";
-import Button from "../_component/button/Button";
+import Button from "../button/Button";
 import { useState, useEffect, useRef } from "react";
 import useFilterStore from "./store/useFilterStore";
+import useSortStore from "@/app/studyList/store/useSortStore";
 
-export default function Filter() {
+interface IModelFilterProps {
+  handleCloseModal: () => void;
+}
+
+export default function ModalFilter({ handleCloseModal }: IModelFilterProps) {
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
+  const { sortSelected, setSortSelected } = useSortStore();
+
   const areaRef = useRef(null);
   const durationRef = useRef(null);
   const headCountRef = useRef(null);
@@ -21,8 +28,6 @@ export default function Filter() {
   const sortingRef = useRef(null);
 
   const {
-    selectedItem,
-    setSelectedItem,
     selectedArea,
     setSelectedArea,
     selectedDate,
@@ -37,8 +42,12 @@ export default function Filter() {
     setSelectedTendency,
   } = useFilterStore();
 
+  const handleCloseButton = () => {
+    handleCloseModal();
+  };
+
   const Reset = () => {
-    setSelectedItem(null);
+    setSortSelected("recent");
     setSelectedArea(null);
     setSelectedDate(null);
     setSelectedDuration(null);
@@ -50,28 +59,26 @@ export default function Filter() {
 
   useEffect(() => {
     if (
-      selectedItem !== null &&
-      selectedArea !== null &&
-      selectedDate !== null &&
-      selectedDuration !== null &&
-      selectedTendency.length > 0 &&
-      minCount !== "" &&
-      maxCount !== "" &&
-      parseInt(minCount) < parseInt(maxCount) &&
-      parseInt(minCount) >= 2 &&
-      parseInt(minCount) <= 20 &&
-      parseInt(maxCount) >= 2 &&
-      parseInt(maxCount) <= 20
+      (sortSelected !== null ||
+        selectedArea !== null ||
+        (selectedDate !== null && selectedDuration !== null) ||
+        selectedTendency.length > 0) &&
+      ((minCount !== "" &&
+        maxCount !== "" &&
+        parseInt(minCount) >= 2 &&
+        parseInt(maxCount) <= 20 &&
+        parseInt(minCount) <= parseInt(maxCount)) ||
+        (minCount === "" && maxCount === ""))
     ) {
       setButtonProperty("confirm");
     } else {
       setButtonProperty("disabled");
     }
-  }, [selectedItem, selectedArea, selectedDate, selectedDuration, selectedTendency, minCount, maxCount]);
+  }, [selectedArea, selectedDate, selectedDuration, selectedTendency, minCount, maxCount]);
 
   return (
     <div className={styles.FilterContainer}>
-      <FilterNav />
+      <FilterNav handleCloseModal={handleCloseModal} />
       <SettingNav
         sortingRef={sortingRef}
         areaRef={areaRef}
@@ -89,7 +96,13 @@ export default function Filter() {
           <Button size="medium" onClick={Reset} property="cancel">
             초기화
           </Button>
-          <Button size="medium" onClick={() => {}} property={buttonProperty}>
+          <Button
+            size="medium"
+            onClick={() => {
+              handleCloseButton();
+            }}
+            property={buttonProperty}
+          >
             적용하기
           </Button>
         </div>

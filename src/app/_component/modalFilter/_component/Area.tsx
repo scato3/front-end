@@ -3,16 +3,16 @@ import styles from "./content.module.css";
 import useFilterStore from "../store/useFilterStore";
 
 type AreaType =
+  | "수능"
   | "어학"
-  | "자격증"
   | "취업"
-  | "코딩"
   | "공무원"
   | "임용"
   | "전문직"
-  | "수능"
-  | "모각공"
   | "대학생"
+  | "자격증"
+  | "코딩"
+  | "모각공"
   | "기타";
 
 interface AreaProps {
@@ -21,16 +21,16 @@ interface AreaProps {
 
 export default function Area({ AreaRef }: AreaProps) {
   const Area: AreaType[] = [
+    "수능",
     "어학",
-    "자격증",
     "취업",
-    "코딩",
     "공무원",
     "임용",
     "전문직",
-    "수능",
-    "모각공",
     "대학생",
+    "자격증",
+    "코딩",
+    "모각공",
     "기타",
   ];
   const { selectedArea, setSelectedArea } = useFilterStore();

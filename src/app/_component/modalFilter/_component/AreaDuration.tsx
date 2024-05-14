@@ -42,7 +42,7 @@ export default function AreaDuration({ handleCloseModal }: IStudyDurationProps) 
         durationCode = "6m";
         break;
       case "미정":
-        durationCode = "";
+        durationCode = "미정";
         break;
     }
 
