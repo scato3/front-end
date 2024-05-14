@@ -85,7 +85,6 @@ const categories = [
 const filter = ["기간", "인원수", "타입", "타입1", "타입2"];
 
 export default function SearchResult() {
-  const [inputValue, setInputValue] = useState<string>("");
   const { accessToken, isLogin } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -96,7 +95,7 @@ export default function SearchResult() {
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea} =
     useFilterStore();
   const { quickMatch, sortSelected } = useSearchResultStore();
-  const { queryString, setQueryString, recentKeywords} = useSearchStore();
+  const { queryString, setQueryString, recentKeywords, inputValue, setInputValue} = useSearchStore();
   const addRecentKeyword = useSearchStore(state => state.addRecentKeyword);
 
   useEffect(() => {
@@ -198,13 +197,18 @@ export default function SearchResult() {
       const newValue = (e.target as HTMLInputElement).value;
         setQueryString(newValue);
         addRecentKeyword({ keyword: newValue, id:recentKeywords.length });
-        setInputValue("");
+        setInputValue(newValue);
     }
   };
 
+  const handleGoBefore = () => {
+    setInputValue("");
+    router.push("./search")
+  }
+
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={() => router.push("./search")} dark={false}>
+      <Navigation isBack={true} onClick={handleGoBefore} dark={false}>
         <p className={styles.title}>전체 쇼터디</p>
       </Navigation>
       <div className={styles.input}>

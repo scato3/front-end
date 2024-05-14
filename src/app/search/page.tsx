@@ -53,10 +53,10 @@ export default function Search() {
   }
   const [inputValue, setInputValue] = useState<string>("");
   const [popularKeywords, setPopularKeyword] = useState<string[] | null>(null);
-  const { queryString, setQueryString, recentKeywords, setRecentKeywords, addRecentKeyword, setType } =
+  const { queryString, setQueryString, recentKeywords, setRecentKeywords, addRecentKeyword, type, setType } =
     useSearchStore();
   const { accessToken, isLogin } = useAuth();
-  const { setQuickMatch } = useSortStore();
+  const { setQuickMatch } = useShortcutStore();
   const router = useRouter();
 
   useEffect(() => {
