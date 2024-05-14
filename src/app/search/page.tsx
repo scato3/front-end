@@ -51,9 +51,9 @@ export default function Search() {
         keyword: string;
         totalCount: number;
     }
-    const [inputValue, setInputValue] = useState<string>("");
     const [ popularKeywords, setPopularKeyword ] = useState<string[] | null>(null);
-    const {queryString, setQueryString, recentKeywords, setRecentKeywords, addRecentKeyword, type, setType} = useSearchStore();
+    const {queryString, setQueryString, recentKeywords, setRecentKeywords, addRecentKeyword, type, setType, inputValue, setInputValue} 
+    = useSearchStore();
     const { accessToken, isLogin } = useAuth();
     const { setQuickMatch } = useShortcutStore();
     const router = useRouter();
@@ -138,8 +138,9 @@ export default function Search() {
     };
 
     const handleGoKeyword = (keyword:string) => {
-        setQueryString(keyword)
-        router.push(`./search_result?queryString=${queryString}`)
+        setQueryString(keyword);
+        setInputValue(keyword);
+        router.push(`./search_result?queryString=${queryString}`);
     };
 
     const handleShortcut = (ref:string, alt:string) => {
