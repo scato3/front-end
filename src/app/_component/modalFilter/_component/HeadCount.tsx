@@ -74,7 +74,7 @@ export default function HeadCount({ CountRef }: CountProps) {
   };
 
   const isMaxLessThanMin = () => {
-    return minFulfilled && maxFulfilled && minCount && maxCount && parseInt(maxCount) <= parseInt(minCount);
+    return minFulfilled && maxFulfilled && minCount && maxCount && parseInt(maxCount) < parseInt(minCount);
   };
 
   const isMinRange = () => {
