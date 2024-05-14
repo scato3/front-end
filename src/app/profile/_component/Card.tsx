@@ -51,8 +51,12 @@ export default function Card({ data, cardStyles, cardType }: { data: any; cardSt
                 <p className={styles.title}>{data.title}</p>
               </div>
               <div className={styles.tagBox}>
-                {data.additionalInfos?.map((tag: string) => {
-                  return <span className={styles.tagTitle}>#{tag}</span>;
+                {data.additionalInfos?.map((tag: string, idx) => {
+                  return (
+                    <span className={styles.tagTitle} key={idx}>
+                      #{tag}
+                    </span>
+                  );
                 })}
               </div>
             </div>

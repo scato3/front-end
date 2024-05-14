@@ -37,6 +37,13 @@ export default function Menu({ params }: { params: { menu: string } }) {
         return await favoriteStudy(accessToken);
     }
   };
+
+  const handleClickCard = (id: string) => {
+    if (params?.menu == "in_proposal") {
+    } else {
+      return router.push(`/chat?studyId=${id}`);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,7 +64,7 @@ export default function Menu({ params }: { params: { menu: string } }) {
     return router.push(`/profile/in_${param}`);
   };
   return (
-    <div style={{ height: "100%" }}>
+    <div style={{ height: "100vh" }}>
       <ProfileNav title={params?.menu == "in_favorite" ? "찜한 스터디" : "나의 스터디"} />
       {params?.menu == "in_favorite" ? (
         <div></div>
@@ -87,15 +94,17 @@ export default function Menu({ params }: { params: { menu: string } }) {
           </div>
         ) : (
           <div className={styles.existStudyBox}>
-            {myStudyData?.data?.map((study) => {
+            {myStudyData?.data?.map((study, idx) => {
               return (
-                <Card
-                  data={study}
-                  cardStyles={{
-                    width: "100%",
-                  }}
-                  cardType={studyType}
-                ></Card>
+                <div onClick={() => handleClickCard(study.id)} key={idx}>
+                  <Card
+                    data={study}
+                    cardStyles={{
+                      width: "100%",
+                    }}
+                    cardType={studyType}
+                  ></Card>
+                </div>
               );
             })}
           </div>

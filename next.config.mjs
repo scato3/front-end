@@ -15,6 +15,10 @@ const nextConfig = {
         source: "/api/:path*",
         destination: "https://api.cloudinary.com/v1_1/dsfyp40dr/:path*",
       },
+      {
+        source: "/socket.io/:path*",
+        destination: "http://localhost:4000/socket.io/:path*", // 실제 백엔드 주소로 변경
+      },
     ];
   },
 };
