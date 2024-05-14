@@ -3,10 +3,10 @@ import calendarIcon from "../../../../public/icons/_main01/Icon_calendar.svg";
 import peopleIcon from "../../../../public/icons/_main01/Icon_people.svg";
 import styles from "./card.module.css";
 
-export default function Card({ data, cardStyles }: { data: any; cardStyles: any }) {
+export default function Card({ data }: { data: any }) {
   return (
     <div className={styles.container}>
-      <div className={styles.cardBox} style={{ width: cardStyles?.width }}>
+      <div className={styles.cardBox}>
         <div className={styles.titleBox}>
           <p className={styles.flag}>{data.category}</p>
           <p className={styles.title}>{data.title}</p>

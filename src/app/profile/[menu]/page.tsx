@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/app/_component/button/Button";
-import Card from "@/app/_component/main_home/Card";
+import favoriteStudy from "@/app/api/favoriteStudy";
 import proposerStudy from "@/app/api/proposerStudy";
 import registeredStudy from "@/app/api/registeredStudy";
 import useAuth from "@/hooks/useAuth";
@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import emptyIcon from "../../../../public/icons/profile/Icon_empty_exclamation_mark.svg";
+import Card from "../_component/Card";
 import MyStudyNav from "../_component/MyStudyNav";
 import ProfileNav from "../_component/ProfileNav";
 import styles from "./menu.module.css";
@@ -29,9 +30,11 @@ export default function Menu({ params }: { params: { menu: string } }) {
       case "complete":
         setEmptyTitle("참여 완료인");
         return await registeredStudy(accessToken, "done");
-      default:
+      case "proposal":
         setEmptyTitle("참여 신청인");
         return await proposerStudy(accessToken);
+      default:
+        return await favoriteStudy(accessToken);
     }
   };
   useEffect(() => {
@@ -54,10 +57,10 @@ export default function Menu({ params }: { params: { menu: string } }) {
     return router.push(`/profile/in_${param}`);
   };
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <ProfileNav title={params?.menu == "in_favorite" ? "찜한 스터디" : "나의 스터디"} />
       {params?.menu == "in_favorite" ? (
-        <div> 리스트 </div>
+        <div></div>
       ) : (
         <MyStudyNav
           studyType={studyType}
@@ -73,7 +76,9 @@ export default function Menu({ params }: { params: { menu: string } }) {
           <div className={styles.emptyStudyBox}>
             <Image src={emptyIcon} alt="경고 느낌표"></Image>
             <div className={styles.emptyTitleBox}>
-              <h1 className={styles.emptyTitle}>{emptyTitle} 스터디가 없어요</h1>
+              <h1 className={styles.emptyTitle}>
+                {params?.menu == "in_favorite" ? "찜한 " : emptyTitle} 스터디가 없어요
+              </h1>
               <p className={styles.emptySubTitle}>직접 스터디를 등록해 보세요!</p>
             </div>
             <Button size="medium" onClick={() => {}}>
@@ -89,6 +94,7 @@ export default function Menu({ params }: { params: { menu: string } }) {
                   cardStyles={{
                     width: "100%",
                   }}
+                  cardType={studyType}
                 ></Card>
               );
             })}
