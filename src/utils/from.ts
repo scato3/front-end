@@ -10,7 +10,7 @@ const useFromStore = create<IFromProps>(
   persist(
     (set) => ({
       from: "home",
-      setFrom: (From: string) => set({ From: From }),
+      setFrom: (From: string) => set({ from: From }),
     }),
     {
       name: "from-storage",
