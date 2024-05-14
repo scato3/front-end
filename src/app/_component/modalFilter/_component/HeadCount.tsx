@@ -18,6 +18,13 @@ export default function HeadCount({ CountRef }: CountProps) {
   const [maxFulfilled, setMaxFulfilled] = useState<boolean>(false);
 
   useEffect(() => {
+    if (minCount !== "" && maxCount !== "") {
+      setMinFulfilled(true);
+      setMaxFulfilled(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (minCount === "" && maxCount === "") {
       setMinFulfilled(false);
       setMaxFulfilled(false);
