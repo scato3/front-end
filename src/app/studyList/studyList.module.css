@@ -42,13 +42,13 @@
 .customSwiper {
   position: relative;
   top: 30px;
-  margin-top: -50px;
+  margin-top: -40px;
 }
 
 .devider {
   height: 2px;
   background-color: var(--gray-100);
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .filterBox {
@@ -76,6 +76,11 @@
   justify-content: space-between;
   font-size: 18px;
   color: var(--gray-600);
+}
+
+.infoContainer {
+  height: calc(100vh - 170px);
+  overflow-y: scroll;
 }
 
 .sortButton {
