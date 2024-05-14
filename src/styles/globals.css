@@ -6,6 +6,7 @@
   height: 100vh;
   margin: 0 auto;
   position: relative;
+  box-sizing: border-box;
 }
 
 @font-face {
@@ -28,3 +29,4 @@ textarea,
 input {
   font-family: "GmarketSans";
 }
+

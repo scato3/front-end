@@ -1,0 +1,43 @@
+.container {
+    width: calc(100% + 135px);
+    height: 374px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--gray-800);
+    border-radius: 15px;
+    position: relative;
+    top: -30px;
+    left: 20px;
+}
+
+.title {
+    color: var(--gray-50);
+    font-size: 18px;
+    margin: 40px 30px 0 30px;
+}
+
+.sortTypeBox {
+    margin: 40px 30px 0 30px;
+}
+
+.sortType {
+    font-size: 16px;
+    color: var(--gray-600);
+    border-bottom: 1px solid var(--gray-700);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    cursor: pointer;
+}
+
+.sortSelected {
+    color: var(--main-200);
+}
+
+.cancelBtn {
+    cursor: pointer;
+    color: var(--gray-50);
+    font-size: 16px;
+    align-self: self-end;
+    margin-right: 30px;
+    margin-top: 5px;
+}

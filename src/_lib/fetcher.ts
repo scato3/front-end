@@ -9,6 +9,7 @@ interface IFetchOptions {
 
 interface IGetOptions {
   endpoint: string;
+  authorization?: string;
 }
 
 interface IPostOptions {
@@ -51,17 +52,22 @@ const _fetch = async ({ method, endpoint, body, authorization }: IFetchOptions) 
   }
 };
 
-const _get = async ({ endpoint }: IGetOptions) => {
-  return _fetch({ method: "GET", endpoint });
+const _get = async ({ endpoint, authorization }: IGetOptions) => {
+  return _fetch({ method: "GET", endpoint, authorization });
 };
 
 const _post = async ({ endpoint, body, authorization }: IPostOptions) => {
   return _fetch({ method: "POST", endpoint, body, authorization });
 };
 
+const _patch = async ({ endpoint, body, authorization }: IPostOptions) => {
+  return _fetch({ method: "PATCH", endpoint, body, authorization });
+};
+
 const api = {
   get: _get,
   post: _post,
+  patch: _patch,
 };
 
 export default api;

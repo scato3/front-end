@@ -5,12 +5,12 @@ import Footer from "./_component/footer/footer";
 import Toggle from "./_component/toggle/toggle";
 import Navigation from "./_component/navigation/page";
 import Guide from "./_component/main_home/Guide";
-import Card from "./_component/main_home/Card";
 import ButtonBox from "./_component/main_home/ButtonBox";
 
 export default function Home() {
   return (
     <div>
+      <br />
       <Input_Chat />
       <br />
       <Footer />
@@ -20,7 +20,7 @@ export default function Home() {
       <br />
       <Toggle />
       <br />
-      <Navigation onClick={() => {}} isSearch={true}>
+      <Navigation dark={true} onClick={() => {}} isSearch={true}>
         프로필 등록
       </Navigation>
       <hr />
@@ -30,7 +30,6 @@ export default function Home() {
             <p>나에게 딱맞는 스터디 찾아요</p>
       </Guide>
       <hr />
-      <Card />
       <br />
       <ButtonBox />
       <hr />

@@ -9,8 +9,11 @@ import Button from "../_component/button/Button";
 import ButtonBox from "../_component/main_home/ButtonBox";
 import Card from "../_component/main_home/Card";
 import Btn_arrow from "../../../public/icons/Btn_arrow_sm.svg";
+import { useRouter } from "next/navigation";
 
 export default function Main_home() {
+  const router = useRouter();
+
   return (
     <div className={styles.container}>
       <div className={styles.navBox}>
@@ -43,17 +46,19 @@ export default function Main_home() {
       <div className={styles.line}></div>
       <div className={styles.titleBox}>
         <p>신규 쇼터디</p>
-        <button className={styles.btnMore}>
+        <button className={styles.btnMore} onClick={()=>router.push("./studyList")}>
           더보기
           <Image src={Btn_arrow} width={24} height={24} alt="더보기"></Image>
         </button>
       </div>
       <div className={styles.cardBox}>
         <div className={styles.card}>
-          <Card />
+
         </div>
       </div>
-      <Footer />
+      <div className={styles.footerBox}>
+        <Footer />
+      </div>
     </div>
   );
 }

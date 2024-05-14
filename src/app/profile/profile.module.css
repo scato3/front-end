@@ -1,0 +1,62 @@
+.ProfileContainer {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--gray-50);
+}
+
+.ProfileTop {
+  padding: 50px 20px 20px 20px;
+}
+
+.ProfileBox {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.ProfileEditBox {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.ProfileRatingBox {
+  border: 1px solid gray;
+  padding: 10px 15px;
+  margin-bottom: 30px;
+}
+
+.ProfileProgressBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ProfileRating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ProfileMenuBox {
+  display: flex;
+  justify-content: space-evenly;
+}
+.ProfileMenu {
+  color: black;
+  text-align: center;
+  text-decoration: none;
+}
+.ContentContainer {
+  padding-left: 32px;
+  max-height: calc(100% - 150px);
+  overflow-y: scroll;
+  background-color: var(--gray-50);
+}
+
+.ButtonContainer {
+  margin-top: 50px;
+  display: flex;
+  gap: 8px;
+}

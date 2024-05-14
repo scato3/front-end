@@ -1,0 +1,327 @@
+.Container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--gray-50);
+}
+
+.seperator {
+  width: 100%;
+  height: 5px;
+  background-color: var(--main-100);
+}
+
+.progressBar {
+  width: 0;
+  height: 5px;
+  background-color: var(--main-200);
+  transition: width 0.5s ease;
+}
+
+.contentContainer {
+  margin-left: 36px;
+}
+
+.Header {
+  margin-top: 14px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 30px;
+  color: var(--gray-800);
+}
+
+.CheckContainer {
+  margin: 60px 32px 0 32px;
+  display: flex;
+  gap: 17px;
+  flex-wrap: wrap;
+}
+
+.ImageContainer {
+  background-color: var(--gray-100);
+  width: 96px;
+  height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ImageContainer.Selected {
+  background-color: var(--main-50);
+}
+
+.Category {
+  color: var(--gray-700);
+  font-size: 17px;
+  text-decoration: none;
+}
+
+.Category.SelectedCategory {
+  color: var(--main-200);
+}
+
+.studyTime {
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 33.8px;
+  color: var(--gray-900);
+}
+
+.studyTime {
+  margin-top: 20px;
+}
+
+.dateContainer {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.dateBox {
+  padding-top: 8px;
+  margin-top: 16px;
+  display: flex;
+  width: 262px;
+  height: 58px;
+  background-color: var(--gray-100);
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--gray-400);
+  cursor: pointer;
+}
+
+.selectedDateBox {
+  color: var(--main-200);
+  background-color: var(--main-100);
+}
+
+.dateTxt {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-400);
+}
+
+.ButtonContainer {
+  position: absolute;
+  width: 100%;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+}
+
+.recruited {
+  margin-top: 20px;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 33.8px;
+  color: var(--gray-900);
+}
+
+.recrutiedInfo {
+  margin-top: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-400);
+}
+
+.recruitContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-left: 40px;
+}
+
+.recruitImg {
+  left: -40px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.recruitPlusImg {
+  position: absolute;
+  cursor: pointer;
+  left: 120px;
+}
+
+.recruit {
+  padding: 0 50px;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 35.2px;
+  color: var(--gray-800);
+}
+
+.purpose {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 28px);
+  height: 40px;
+  background-color: var(--gray-200);
+  color: var(--gray-400);
+  margin-top: 10px;
+  padding-top: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.purpose.selected {
+  background-color: var(--main-200);
+  color: var(--main-50);
+}
+
+.applyContainer {
+  position: relative;
+  width: calc(100% - 40px);
+  height: 56px;
+  background-color: var(--gray-100);
+  color: var(--gray-400);
+  font-size: 12px;
+  padding-left: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.applyContainer.selected {
+  background-color: var(--main-50);
+  color: var(--main-200);
+}
+
+.applyContainer.selected p {
+  background-color: var(--main-50);
+  color: var(--main-200);
+}
+
+.applyHeader {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 35px;
+  color: var(--gray-400);
+}
+
+.applyIcon {
+  position: absolute;
+  top: 6px;
+  right: 5px;
+}
+
+.LastContainer {
+  margin-top: 20px;
+}
+
+.LastHeader {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--gray-800);
+}
+
+.title {
+  margin-top: 10px;
+  width: calc(100% - 60px);
+  background-color: var(--gray-100);
+  color: var(--gray-600);
+  height: 38px;
+  font-size: 14px;
+  padding-left: 24px;
+  border: none;
+  outline: none;
+  align-items: center;
+}
+
+.title::placeholder {
+  color: var(--gray-400);
+}
+
+.titleInfo {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--gray-400);
+}
+
+.description {
+  margin-top: 10px;
+  width: calc(100% - 84px);
+  background-color: var(--gray-100);
+  color: var(--gray-600);
+  height: 80px;
+  font-size: 14px;
+  padding: 10px 24px 0 24px;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+.description::placeholder {
+  color: var(--gray-400);
+}
+
+.tagContainer {
+  display: flex;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.tagInfo {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--gray-400);
+}
+
+.tag {
+  position: relative;
+  height: 20px;
+  background-color: var(--main-50);
+  color: var(--main-200);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  padding: 2px 25px 0 8px;
+}
+
+.xIcon {
+  position: absolute;
+  cursor: pointer;
+  top: 5px;
+  right: 6px;
+}
+
+.tagCaution {
+  margin-top: 8px;
+}
+
+/* 반응형 */
+
+@media (max-width: 500px) {
+  .ImageContainer {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 500px) {
+  .dateBox {
+    padding: 8px;
+  }
+
+  .ButtonContainer {
+    width: 380px;
+    left: 55px;
+  }
+}

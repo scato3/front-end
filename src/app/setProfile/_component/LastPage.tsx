@@ -19,7 +19,7 @@ export default function LastPage() {
         <Image alt="프로필 등록 타이틀" src={SubTitle} className={styles.sub} />
       </div>
       <div className={styles.buttonBox}>
-        <Button size="large" property={"confirm"} onClick={handleButton}>
+        <Button size="large" property={"default"} onClick={handleButton}>
           쇼터디 입장
         </Button>
       </div>

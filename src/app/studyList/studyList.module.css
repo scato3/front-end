@@ -1,0 +1,84 @@
+.container {
+  width: 100%;
+  height: fit-content;
+  background-color: var(--gray-50);
+  display: flex;
+  flex-direction: column;
+}
+
+.categoryTabBox {
+  width: calc((100% - 60px));
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin: 0 30px;
+}
+
+.category {
+  width: fit-content !important;
+  padding: 0 13px 0 13px;
+  height: 40px;
+  font-size: 20px;
+  line-height: 43px;
+  font-weight: 500;
+  text-align: center;
+  color: var(--gray-400);
+  cursor: pointer;
+}
+
+.categoryActive {
+  width: fit-content !important;
+  padding: 0 13px 0 13px;
+  height: 40px;
+  font-size: 20px;
+  line-height: 43px;
+  font-weight: 500;
+  text-align: center;
+  color: var(--main-200);
+  cursor: pointer;
+}
+
+.devider {
+  height: 2px;
+  background-color: var(--gray-100);
+  margin-top: 10px;
+}
+
+.filterBox {
+  display: flex;
+  gap: 16px;
+  width: calc(100% - 60px);
+  margin: 15px 30px 0 30px;
+}
+
+.slideBox {
+  width: fit-content;
+}
+
+.infoBox {
+  display: flex;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 18px;
+  color: var(--gray-600);
+}
+
+.sortButton {
+  display: flex;
+  border: none;
+  font-size: 18px;
+  color: var(--gray-600);
+  gap: 8px;
+  cursor: pointer;
+  align-items: center;
+}
+
+.cardBox {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  gap: 15px;
+}

@@ -34,9 +34,9 @@ export default function UploadProfileImage() {
 
     const file = files[0];
 
-    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.svg)$/i;
     if (!allowedExtensions.test(file.name)) {
-      alert("jpg, jpeg, png, gif, svg 형식의 이미지 파일만 선택할 수 있습니다.");
+      alert("jpg, jpeg, png, svg 형식의 이미지 파일만 선택할 수 있습니다.");
       return;
     }
 
@@ -61,7 +61,7 @@ export default function UploadProfileImage() {
           type="file"
           id="fileInput"
           ref={fileInputRef}
-          accept=".jpg, .jpeg, .png, .gif, .svg"
+          accept=".jpg, .jpeg, .png, .svg"
           className={styles.uploadInput}
           onChange={handleFileUpload}
         />
