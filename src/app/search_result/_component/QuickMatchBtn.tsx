@@ -1,5 +1,4 @@
 import styles from "./quickBtn.module.css";
-import { useState } from "react";
 import Icon_quick from "../../../../public/icons/studyList/Icon_quick.svg";
 import Icon_quickActive from "../../../../public/icons/studyList/Icon_quickActive.svg";
 import resetIcon from "../../../../public/icons/studyList/Icon_reset.svg";

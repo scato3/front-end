@@ -8,7 +8,7 @@ import IconBell from "../../../public/icons/_main01/Icon_alert.svg";
 import Image from "next/image";
 import SearchTag from "./_component/SearchTag";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Pagination } from "swiper/modules";
+import { FreeMode } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
@@ -17,12 +17,10 @@ import DeleteRecentSearch from "../api/deleteRecent";
 import DeleteRecentSearchAll from "../api/deleteRecentAll";
 import { useEffect, useState } from "react";
 import useAuth from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import getFilter from "../api/getFilter";
 import useSearchStore from "./store/useSearchStore";
-import useSortStore from "../studyShortcut/store/useSortStore";
 import GetPopularSearch from "../api/popularSearch";
+import useShortcutStore from "../studyShortcut/store/useShortcutStore";
 
 const shortCutIcons = [
     {
@@ -57,11 +55,12 @@ export default function Search() {
     const [ popularKeywords, setPopularKeyword ] = useState<string[] | null>(null);
     const {queryString, setQueryString, recentKeywords, setRecentKeywords, addRecentKeyword, type, setType} = useSearchStore();
     const { accessToken, isLogin } = useAuth();
-    const { setQuickMatch } = useSortStore();
+    const { setQuickMatch } = useShortcutStore();
     const router = useRouter();
 
     useEffect(() => {
         if (isLogin) {
+            console.log(recentKeywords);
             getRecent();
         }else {
             const recentNoLogin = sessionStorage.getItem('recentKeywords');
@@ -132,6 +131,9 @@ export default function Search() {
             }catch(error){
                 console.log(error);
             }
+        }else {
+            sessionStorage.removeItem("recentKeywords");
+            setRecentKeywords([]);
         }
     };
 
@@ -144,13 +146,12 @@ export default function Search() {
         if(ref === "quick") {
             setType("all");
             setQuickMatch(true);
-            router.push(`/shortcut/all/filter?quickMatch=${ref}`)
+            router.push(`./studyShortcut/filter?quickMatch=${ref}`)
         } else {
             setType(ref);
             router.push(`./studyShortcut`);
         }
     };
-
 
     return(
         <div className={styles.container}>

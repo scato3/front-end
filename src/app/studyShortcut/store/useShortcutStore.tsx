@@ -1,17 +1,17 @@
 import { create } from "zustand";
 
-interface SortStore {
+interface IShortcutStore {
   sortSelected: string;
   setSortSelected: (selected: string) => void;
   quickMatch: boolean;
   setQuickMatch: (value: boolean) => void;
 }
 
-const useSortStore = create<SortStore>((set) => ({
+const useShortcutStore = create<IShortcutStore>((set) => ({
   sortSelected: "recent",
   setSortSelected: (selected: string) => set({ sortSelected: selected }),
   quickMatch: false,
   setQuickMatch: (value: boolean) => set({ quickMatch: value }),
 }));
 
-export default useSortStore;
+export default useShortcutStore;

@@ -292,14 +292,15 @@ export default function StudyList() {
             <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
           </button>
         </div>
-        {modalData && (
+        {modalData && modalData.totalCount !== 0 ? (
           <div className={styles.cardBox}>
             {modalData.data.map((data: IfilterType, index: number) => (
               <Card key={index} data={data} />
             ))}
           </div>
+        ) : (
+          <NoStudy />
         )}
-        {modalData?.totalCount === 0 && <NoStudy />}
       </div>
 
       {sort && (
