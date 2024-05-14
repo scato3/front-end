@@ -51,12 +51,19 @@ export default function Search() {
     keyword: string;
     totalCount: number;
   }
-  const [inputValue, setInputValue] = useState<string>("");
   const [popularKeywords, setPopularKeyword] = useState<string[] | null>(null);
-  const { queryString, setQueryString, recentKeywords, setRecentKeywords, addRecentKeyword, type, setType } =
-    useSearchStore();
+  const {
+    queryString,
+    setQueryString,
+    recentKeywords,
+    setRecentKeywords,
+    addRecentKeyword,
+    setType,
+    inputValue,
+    setInputValue,
+  } = useSearchStore();
   const { accessToken, isLogin } = useAuth();
-  const { setQuickMatch } = useShortcutStore();
+  const { setQuickMatch } = useSortStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -82,7 +89,10 @@ export default function Search() {
   const getRecent = async () => {
     try {
       const res = await GetRecentSearch(accessToken);
-      setRecentKeywords(res.data.map((item: { keyword: string }) => item.keyword));
+      setRecentKeywords(
+        res.data.map((item: { keyword: string; id: number }) => ({ keyword: item.keyword, id: item.id })),
+      );
+      console.log(recentKeywords);
     } catch (error) {
       console.log(error);
     }
@@ -117,11 +127,12 @@ export default function Search() {
     if (isLogin) {
       try {
         await DeleteRecentSearch(accessToken, id);
+        setRecentKeywords(recentKeywords.filter((keyword) => keyword.id !== id));
       } catch (error) {
         console.log(error);
       }
     } else {
-      setRecentKeywords(recentKeywords.filter((keyword) => keyword.id != id));
+      setRecentKeywords(recentKeywords.filter((keyword) => keyword.id !== id));
     }
   };
 
@@ -141,6 +152,7 @@ export default function Search() {
 
   const handleGoKeyword = (keyword: string) => {
     setQueryString(keyword);
+    setInputValue(keyword);
     router.push(`./search_result?queryString=${queryString}`);
   };
 
@@ -155,14 +167,14 @@ export default function Search() {
     }
   };
 
+  const handleGoBefore = () => {
+    setInputValue("");
+    router.push("./search");
+  };
+
   return (
     <div className={styles.container}>
-      <Navigation
-        dark={true}
-        onClick={() => {
-          return;
-        }}
-      >
+      <Navigation dark={true} onClick={handleGoBefore}>
         <Image className={styles.iconBell} src={IconBell} width={58} height={58} alt="bell" />
       </Navigation>
       <div className={styles.searchInputBox}>
