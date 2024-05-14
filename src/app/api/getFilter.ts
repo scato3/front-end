@@ -11,6 +11,7 @@ export default async function getFilter(
     minParticipants?: number;
     maxParticipants?: number;
     tendency?: string;
+    queryString?: string | null;
   },
 ) {
   let endpoint = `study/${type}/filter?orderType=${orderType}`;
@@ -44,6 +45,10 @@ export default async function getFilter(
 
     if (options.tendency && !isNaN(Number(options.tendency))) {
       queryParams.append("tendency", options.tendency);
+    }
+
+    if (options.queryString !== undefined && options.queryString !== null && options.queryString !== "") {
+      queryParams.append("queryString", options.queryString);
     }
 
     if (queryParams.toString()) {
