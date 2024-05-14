@@ -1,0 +1,47 @@
+.chatWrapper {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--gray-50);
+}
+
+.navBox {
+  position: sticky;
+  height: 70px;
+  background-color: var(--gray-50);
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.studyName {
+  width: 70%;
+  text-align: center;
+}
+
+.searchIcon {
+  cursor: pointer;
+}
+
+.alertIcon {
+  cursor: pointer;
+}
+
+.topNotification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--gray-100);
+  padding: 20px 40px;
+}
+
+.topNotificationLeft {
+  display: flex;
+  align-items: center;
+}
+
+.notiIcon {
+  cursor: pointer;
+  margin-right: 20px;
+}
