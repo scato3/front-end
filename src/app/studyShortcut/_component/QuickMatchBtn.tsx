@@ -4,7 +4,7 @@ import Icon_quick from "../../../../public/icons/studyList/Icon_quick.svg";
 import Icon_quickActive from "../../../../public/icons/studyList/Icon_quickActive.svg";
 import resetIcon from "../../../../public/icons/studyList/Icon_reset.svg";
 import Image from "next/image";
-import useSortStore from "../store/useSortStore";
+import useSortStore from "../store/useShortcutStore";
 
 export default function QuickMatchBtn() {
   const { quickMatch, setQuickMatch } = useSortStore();

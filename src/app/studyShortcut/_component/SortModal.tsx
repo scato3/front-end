@@ -1,10 +1,10 @@
 import styles from "./sortModal.module.css";
 import { useState } from "react";
-import useSortStore from "../store/useSortStore";
+import useShortcutStore from "../store/useShortcutStore";
 import { sortTypes } from "@/utils/sortTypes";
 
 export default function SortModal({ handleCloseModal }: { handleCloseModal: () => void }) {
-  const { setSortSelected } = useSortStore();
+  const { setSortSelected } = useShortcutStore();
 
   const handleSortType = (sortValue: string) => {
     handleCloseModal();

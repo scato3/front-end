@@ -1,5 +1,4 @@
 import styles from "./sortModal.module.css";
-import { useState } from "react";
 import useSearchResultStore from "../store/useSearchResultStore";
 import { sortTypes } from "@/utils/sortTypes";
 

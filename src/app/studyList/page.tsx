@@ -116,7 +116,7 @@ export default function StudyList() {
       quickMatch,
     ].filter(Boolean),
     queryFn: async () =>
-      getFilter("recent", sortSelected, {
+      getFilter("recent", sortSelected, "", {
         category: selectedArea,
         startDate: selectedDate,
         duration: selectedDuration,
@@ -293,13 +293,13 @@ export default function StudyList() {
             <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
           </button>
         </div>
-        {modalData && (
+        {modalData && (modalData.totalCount !== 0) ? (
           <div className={styles.cardBox}>
             {modalData.data.map((data: IfilterType, index: number) => (
               <Card key={index} data={data} />
             ))}
           </div>
-        )}
+        ): <NoStudy />}
       </div>
 
       {sort && (

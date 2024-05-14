@@ -17,7 +17,7 @@ import ModalPortal from "@/app/_component/ModalPortal";
 import SortModal from "./_component/SortModal";
 import NoStudy from "./_component/NoStudy";
 import useFilterStore from "../_component/modalFilter/store/useFilterStore";
-import useSortStore from "./store/useSortStore";
+import useSortStore from "./store/useShortcutStore";
 import ModalFilter from "../_component/modalFilter/page";
 import DisplayDuration from "./_component/utils/displayDuration";
 import getFilter from "../api/getFilter";
@@ -296,13 +296,13 @@ export default function StudyShortcut() {
             <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
           </button>
         </div>
-        {modalData && (
+        {modalData && (modalData.totalCount !== 0) ?  (
           <div className={styles.cardBox}>
             {modalData.data.map((data: IfilterType, index: number) => (
               <Card key={index} data={data} />
             ))}
           </div>
-        )}
+        ): <NoStudy />}
       </div>
 
       {sort && (
