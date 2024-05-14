@@ -5,15 +5,26 @@ import styles from "./login.module.css";
 
 import Logo from "../../../public/Brand_logo.svg";
 import kakaoLogin from "../../../public/kakao_login_large_wide.svg";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Login() {
   const REST_API_KEY = process.env.NEXT_PUBLIC_API_KEY;
   const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const { accessToken } = useAuth();
+  const router = useRouter();
 
   const loginHandler = () => {
     window.location.href = link;
   };
+
+  useEffect(() => {
+    if (accessToken) {
+      router.push("./home");
+    }
+  }, [accessToken]);
 
   return (
     <div className={styles.loginContainer}>

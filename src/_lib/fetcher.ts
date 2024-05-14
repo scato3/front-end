@@ -5,6 +5,7 @@ interface IFetchOptions {
   body?: any;
   method?: string;
   authorization?: string;
+  id?: string;
 }
 
 interface IGetOptions {
@@ -15,6 +16,11 @@ interface IGetOptions {
 interface IPostOptions {
   endpoint: string;
   body?: any;
+  authorization: string;
+}
+
+interface IDeleteOptions {
+  endpoint: string;
   authorization: string;
 }
 
@@ -64,10 +70,15 @@ const _patch = async ({ endpoint, body, authorization }: IPostOptions) => {
   return _fetch({ method: "PATCH", endpoint, body, authorization });
 };
 
+const _delete = async ({ endpoint, authorization }: IDeleteOptions) => {
+  return _fetch({ method: "DELETE", authorization, endpoint });
+};
+
 const api = {
   get: _get,
   post: _post,
   patch: _patch,
+  delete: _delete,
 };
 
 export default api;

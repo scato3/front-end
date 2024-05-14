@@ -28,7 +28,6 @@ import { IfilterType } from "../type/filterType";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import { access } from "fs/promises";
 
 const categories = [
   {
@@ -293,13 +292,15 @@ export default function StudyList() {
             <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
           </button>
         </div>
-        {modalData && (modalData.totalCount !== 0) ? (
+        {modalData && modalData.totalCount !== 0 ? (
           <div className={styles.cardBox}>
             {modalData.data.map((data: IfilterType, index: number) => (
               <Card key={index} data={data} />
             ))}
           </div>
-        ): <NoStudy />}
+        ) : (
+          <NoStudy />
+        )}
       </div>
 
       {sort && (
