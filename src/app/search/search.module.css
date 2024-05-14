@@ -27,7 +27,7 @@
     justify-content: space-between;
 }
 
-.edit {
+.delete {
     color: var(--gray-600);
     cursor: pointer;
 }
