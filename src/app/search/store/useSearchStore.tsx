@@ -13,6 +13,8 @@ interface IsearchStore {
   addRecentKeyword: (keyword: recent) => void;
   type: string;
   setType: (t: string) => void;
+  inputValue: string;
+  setInputValue: (input: string) => void;
 }
 
 const useSearchStore = create<IsearchStore>((set) => ({
@@ -25,7 +27,9 @@ const useSearchStore = create<IsearchStore>((set) => ({
       recentKeywords: [...state.recentKeywords, keyword],
     })),
   type: "recent",
-  setType: (t: string) => set({type: t})
+  setType: (t: string) => set({type: t}),
+  inputValue: "",
+  setInputValue: (input: string) => set({inputValue: input})
 }));
 
 export default useSearchStore;
