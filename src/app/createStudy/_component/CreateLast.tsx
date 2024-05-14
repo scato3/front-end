@@ -92,17 +92,22 @@ export default function CreateLast() {
   }, []);
 
   const handleNext = async () => {
-    const postData = {
+    const postData: any = {
       category: selectedField,
       title,
       description,
       tags,
       start_date: selectedDate,
-      duration: selectedDuration,
       max_participants_num: recruit,
       matching_type: matchingType,
       tendency: tendency,
     };
+
+    if (selectedDuration !== "미정") {
+      postData.duration = selectedDuration;
+    } else {
+      postData.duration = "";
+    }
 
     try {
       const result = await setStudy(postData, accessToken);
