@@ -1,7 +1,7 @@
 "use client"
 
 import styles from "./search.module.css"
-import Search_Input from "../_component/input/Search_Input"
+import Search_Input from "../_component/input/Search_Input";
 import Navigation from "../_component/navigation/page";
 import Footer from "../_component/footer/footer";
 import IconBell from "../../../public/icons/_main01/Icon_alert.svg";
@@ -12,35 +12,53 @@ import { FreeMode, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import PopularKeyword from "./_component/PopularKeyword";
 import GetRecentSearch from "../api/recentSearch";
 import DeleteRecentSearch from "../api/deleteRecent";
+import DeleteRecentSearchAll from "../api/deleteRecentAll";
 import { useEffect, useState } from "react";
 import useAuth from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import getFilter from "../api/getFilter";
+import useSearchStore from "./store/useSearchStore";
+import useSortStore from "../studyShortcut/store/useSortStore";
+import GetPopularSearch from "../api/popularSearch";
 
 const shortCutIcons = [
     {
         path: "/icons/search/Btn_전체.svg",
         alt: "전체",
+        ref: "all"
     },
     {
         path: "/icons/search/Btn_마감임박.svg",
         alt: "마감임박",
+        ref: "deadline"
     },
     {
         path: "/icons/search/Btn_신규.svg",
         alt: "신규",
+        ref: "recent"
     },
     {
         path: "/icons/search/Btn_승인없는.svg",
         alt: "승인없는",
+        ref: "quick"
     },
 ]
 
 export default function Search() {
-    interface recent { keyword: string; };
-    const [recentKeywords, setRecentKeywords ] = useState<recent[]>([]);
+    interface SearchResult {
+        searchId: number;
+        keyword: string;
+        totalCount: number;
+    }
+    const [inputValue, setInputValue] = useState<string>("");
+    const [ popularKeywords, setPopularKeyword ] = useState<string[] | null>(null);
+    const {queryString, setQueryString, recentKeywords, setRecentKeywords, addRecentKeyword, type, setType} = useSearchStore();
     const { accessToken, isLogin } = useAuth();
+    const { setQuickMatch } = useSortStore();
+    const router = useRouter();
 
     useEffect(() => {
         if (isLogin) {
@@ -52,6 +70,7 @@ export default function Search() {
                 setRecentKeywords(parsedRecent);
             }
         }
+        getPopular();
     }, []);
 
     useEffect(() => {
@@ -68,21 +87,70 @@ export default function Search() {
             console.log(error);
         }
     };
+
+    const getPopular = async () => {
+        try {
+            const res = await GetPopularSearch();
+            const data: SearchResult[] = await res.data;
+            setPopularKeyword(data.map(item => item.keyword));
+            } catch (error) {
+            console.error(error);
+            }
+    };
     
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    };
+
     const handleEnter = (e:React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && !e.nativeEvent.isComposing){
             const newValue = (e.target as HTMLInputElement).value;
-            setRecentKeywords([{ keyword: newValue }, ...recentKeywords]);
+            setQueryString(newValue);
+            addRecentKeyword({ keyword: newValue, id:recentKeywords.length });
+            console.log(recentKeywords);
+
+            router.push(`./search_result?queryString=${queryString}`)
         }
     };
 
-    const handleDelete= async() => {
-        try {
-            const res = await DeleteRecentSearch(accessToken);
-        } catch(error){
-            console.log(error);
+    const handleDelete = async(id:number) => {
+        if(isLogin){
+            try {
+                await DeleteRecentSearch(accessToken, id);
+            } catch(error){
+                console.log(error);
+            }
+        } else {
+            setRecentKeywords(recentKeywords.filter((keyword) => keyword.id != id))
         }
     };
+
+    const handleDeleteAll = async() => {
+        if(isLogin) {
+            try{
+                await DeleteRecentSearchAll(accessToken);
+            }catch(error){
+                console.log(error);
+            }
+        }
+    };
+
+    const handleGoKeyword = (keyword:string) => {
+        setQueryString(keyword)
+        router.push(`./search_result?queryString=${queryString}`)
+    };
+
+    const handleShortcut = (ref:string, alt:string) => {
+        if(ref === "quick") {
+            setType("all");
+            setQuickMatch(true);
+            router.push(`/shortcut/all/filter?quickMatch=${ref}`)
+        } else {
+            setType(ref);
+            router.push(`./studyShortcut`);
+        }
+    };
+
 
     return(
         <div className={styles.container}>
@@ -90,12 +158,13 @@ export default function Search() {
                 <Image className={styles.iconBell} src={IconBell} width={58} height={58} alt="bell" />
             </Navigation>
             <div className={styles.searchInputBox}>
-                <Search_Input handleEnter={handleEnter}/>
+                <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter}/>
             </div>
             <div className={styles.recentSearchBox}>
                 <div className={styles.recentBoxTop}>
                     <p>최근 검색어</p>
-                    <p className={styles.edit}>edit</p>
+                    <p className={styles.delete}
+                        onClick={handleDeleteAll}>지우기</p>
                 </div>
                 <div >
                     <Swiper className={styles.recentKeywordBox}
@@ -103,9 +172,14 @@ export default function Search() {
                             slidesPerView={4}
                             spaceBetween={10}
                             >
-                            {recentKeywords.map((item, index) => (
-                            <SwiperSlide className={styles.recentKeyword} key={index}>
-                                <SearchTag isLogin={isLogin} handleDelete={handleDelete} key={index}>{item.keyword}</SearchTag>
+                            {recentKeywords.map((item, idx) => (
+                            <SwiperSlide className={styles.recentKeyword} key={idx}>
+                                <SearchTag 
+                                    goKeyword={() => handleGoKeyword(item.keyword)}
+                                    handleDelete={() => handleDelete(item.id)} 
+                                >
+                                    {item.keyword}
+                                </SearchTag>
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -114,21 +188,19 @@ export default function Search() {
             <div className={styles.hrLine}></div>
             <div className={styles.popularBox}>
                 <p>인기 검색어</p>
-                <Swiper className={styles.popularSwiper}
-                        pagination={true}
-                        modules={[Pagination]}
-                        >
-                    <SwiperSlide>
-                        <PopularKeyword slideNum={1}/>
-                    </SwiperSlide>
-                </Swiper>
+                <div className={styles.popularKeywordBox}>
+                {popularKeywords && 
+                popularKeywords.map((keyword, index) => (
+                    <p onClick={() => handleGoKeyword(keyword)} key={index} className={styles.popularKeyword}>{`${index+1}. ${keyword}`}</p> 
+                ))}
+                </div>
             </div>
             <div className={styles.hrLine}></div>
             <div className={styles.shortCutBox}>
                 <p>바로가기</p>
                 <div className={styles.iconBox}>
                     {shortCutIcons.map((icon, index) => (
-                        <Image className={styles.icon} key={index} src={icon.path} width={96} height={96} alt={icon.alt} />
+                        <Image onClick={() => handleShortcut(icon.ref, icon.alt)} className={styles.icon} key={index} src={icon.path} width={96} height={96} alt={icon.alt} />
                     ))}
                 </div>
             </div>
