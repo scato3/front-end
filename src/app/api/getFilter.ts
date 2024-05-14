@@ -56,7 +56,7 @@ export default async function getFilter(
       endpoint += `&${queryParams.toString()}`;
     }
   }
-  
-  const data = await api.get({ endpoint, authorization:token });
+
+  const data = await api.get({ endpoint, authorization: token });
   return data;
 }

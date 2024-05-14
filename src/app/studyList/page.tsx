@@ -28,7 +28,6 @@ import { IfilterType } from "../type/filterType";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import { access } from "fs/promises";
 
 const categories = [
   {
@@ -116,7 +115,7 @@ export default function StudyList() {
       quickMatch,
     ].filter(Boolean),
     queryFn: async () =>
-      getFilter("recent", sortSelected, {
+      getFilter("recent", sortSelected, "", {
         category: selectedArea,
         startDate: selectedDate,
         duration: selectedDuration,
@@ -300,6 +299,7 @@ export default function StudyList() {
             ))}
           </div>
         )}
+        {modalData?.totalCount === 0 && <NoStudy />}
       </div>
 
       {sort && (
