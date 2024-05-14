@@ -2,8 +2,13 @@ import Image from "next/image";
 import calendarIcon from "../../../../public/icons/_main01/Icon_calendar.svg";
 import peopleIcon from "../../../../public/icons/_main01/Icon_people.svg";
 import styles from "./card.module.css";
+import { IfilterType } from "@/app/type/filterType";
+import moment from "moment";
 
-export default function Card({ data }: { data: any }) {
+export default function Card({ data }: { data: IfilterType }) {
+  const startDate = moment(data.start_date).format("MM-DD");
+  const endDate = data.end_date ? moment(data.end_date).format("MM-DD") : "미정";
+
   return (
     <div className={styles.container}>
       <div className={styles.cardBox}>
@@ -23,7 +28,7 @@ export default function Card({ data }: { data: any }) {
           </p>
           <Image src={calendarIcon} width={24} height={24} alt="달력아이콘" />
           <p className={styles.detail}>
-            {data.start_date.substring(2)} ~ {data.end_date.substring(2)}
+            {startDate} - {endDate}
           </p>
         </div>
       </div>
