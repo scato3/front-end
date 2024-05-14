@@ -10,6 +10,10 @@ import useCreateStore from "../store/CreateStore";
 import useAuth from "@/hooks/useAuth";
 import setStudy from "@/app/api/createStudy";
 import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/useModal";
+import ModalContainer from "@/app/_component/ModalContainer";
+import ModalPortal from "@/app/_component/ModalPortal";
+import CreateModal from "./CreateModal";
 
 export default function CreateLast() {
   const router = useRouter();
@@ -19,6 +23,7 @@ export default function CreateLast() {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
+  const { openModal, handleOpenModal, handleCloseModal } = useModal();
 
   const { selectedDate, selectedField, selectedDuration, recruit, tendency, matchingType } = useCreateStore();
   const { accessToken } = useAuth();
@@ -101,7 +106,7 @@ export default function CreateLast() {
 
     try {
       const result = await setStudy(postData, accessToken);
-      router.push("./");
+      handleOpenModal();
     } catch (error) {
       console.error(error);
     }
@@ -173,6 +178,13 @@ export default function CreateLast() {
           쇼터디 시작하기
         </Button>
       </div>
+      {openModal && (
+        <ModalPortal>
+          <ModalContainer>
+            <CreateModal handleCloseModal={handleCloseModal} />
+          </ModalContainer>
+        </ModalPortal>
+      )}
     </div>
   );
 }
