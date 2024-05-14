@@ -91,7 +91,7 @@ export default function StudyList() {
   const [sort, setSort] = useState<boolean>(false);
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
-  const { quickMatch, sortSelected } = useSortStore();
+  const { quickMatch, sortSelected, setSortSelected } = useSortStore();
 
   useEffect(() => {
     setSelectedArea(category === "전체" ? "" : category);
@@ -104,7 +104,7 @@ export default function StudyList() {
     error: modalError,
   } = useQuery({
     queryKey: [
-      "NEW_STUDY",
+      "STUDY_LIST",
       sortSelected,
       selectedArea,
       selectedDate,
@@ -115,7 +115,7 @@ export default function StudyList() {
       quickMatch,
     ].filter(Boolean),
     queryFn: async () =>
-      getFilter("recent", sortSelected, "", {
+      getFilter("deadline", sortSelected, "", {
         category: selectedArea,
         startDate: selectedDate,
         duration: selectedDuration,
@@ -166,6 +166,11 @@ export default function StudyList() {
     }
   }, [selectedArea]);
 
+  const handleGoBack = () => {
+    setSortSelected("recent");
+    router.back();
+  };
+
   const getSortSelectedName = (sortSelected: string) => {
     switch (sortSelected) {
       case "popular":
@@ -183,8 +188,8 @@ export default function StudyList() {
 
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
-        <p className={styles.title}>신규 쇼터디</p>
+      <Navigation isBack={true} onClick={handleGoBack} dark={false}>
+        <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
       </Navigation>
       <div className={styles.categoryTabBox}>
         <Swiper

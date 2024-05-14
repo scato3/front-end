@@ -17,7 +17,6 @@ import ModalPortal from "@/app/_component/ModalPortal";
 import SortModal from "./_component/SortModal";
 import NoStudy from "./_component/NoStudy";
 import useFilterStore from "../_component/modalFilter/store/useFilterStore";
-import useSearchResultStore from "./store/useSearchResultStore";
 import ModalFilter from "../_component/modalFilter/page";
 import DisplayDuration from "./_component/utils/displayDuration";
 import getFilter from "../api/getFilter";
@@ -25,6 +24,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { IfilterType } from "../type/filterType";
 import useSearchStore from "../search/store/useSearchStore";
+import useSortStore from "../studyList/store/useSortStore";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
@@ -92,11 +92,11 @@ export default function SearchResult() {
   const [activeTab, setActiveTab] = useState<string | null>("전체");
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const [sort, setSort] = useState<boolean>(false);
-  const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea} =
+  const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
-  const { quickMatch, sortSelected } = useSearchResultStore();
-  const { queryString, setQueryString, recentKeywords, inputValue, setInputValue} = useSearchStore();
-  const addRecentKeyword = useSearchStore(state => state.addRecentKeyword);
+  const { quickMatch, sortSelected } = useSortStore();
+  const { queryString, setQueryString, recentKeywords, inputValue, setInputValue } = useSearchStore();
+  const addRecentKeyword = useSearchStore((state) => state.addRecentKeyword);
 
   useEffect(() => {
     setSelectedArea(category === "전체" ? "" : category);
@@ -109,7 +109,7 @@ export default function SearchResult() {
     error: modalError,
   } = useQuery({
     queryKey: [
-      "NEW_STUDY",
+      "SEARCH_RESULT",
       sortSelected,
       selectedArea,
       selectedDate,
@@ -121,7 +121,7 @@ export default function SearchResult() {
       queryString,
     ].filter(Boolean),
     queryFn: async () =>
-      getFilter("recent", sortSelected, accessToken,{
+      getFilter("recent", sortSelected, accessToken, {
         category: selectedArea,
         startDate: selectedDate,
         duration: selectedDuration,
@@ -192,30 +192,27 @@ export default function SearchResult() {
     setInputValue(e.target.value);
   };
 
-  const handleEnter = (e:React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !e.nativeEvent.isComposing){
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       const newValue = (e.target as HTMLInputElement).value;
-        setQueryString(newValue);
-        addRecentKeyword({ keyword: newValue, id:recentKeywords.length });
-        setInputValue(newValue);
+      setQueryString(newValue);
+      addRecentKeyword({ keyword: newValue, id: recentKeywords.length });
+      setInputValue(newValue);
     }
   };
 
   const handleGoBefore = () => {
     setInputValue("");
-    router.push("./search")
-  }
+    router.push("./search");
+  };
 
   return (
     <div className={styles.container}>
       <Navigation isBack={true} onClick={handleGoBefore} dark={false}>
-        <p className={styles.title}>전체 쇼터디</p>
+        <p className={styles.title}>전체</p>
       </Navigation>
       <div className={styles.input}>
-        <Search_Input 
-          onChange={handleChange}
-          handleEnter={handleEnter}
-          value={inputValue}/>
+        <Search_Input onChange={handleChange} handleEnter={handleEnter} value={inputValue} />
       </div>
       <div className={styles.categoryTabBox}>
         <Swiper
@@ -323,13 +320,15 @@ export default function SearchResult() {
             <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
           </button>
         </div>
-        {modalData && (modalData.totalCount !== 0) ?  (
+        {modalData && modalData.totalCount !== 0 ? (
           <div className={styles.cardBox}>
             {modalData.data.map((data: IfilterType, index: number) => (
               <Card key={index} data={data} />
             ))}
           </div>
-        ) : <NoStudy />}
+        ) : (
+          <NoStudy />
+        )}
       </div>
 
       {sort && (

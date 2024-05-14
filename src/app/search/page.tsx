@@ -58,12 +58,12 @@ export default function Search() {
     recentKeywords,
     setRecentKeywords,
     addRecentKeyword,
-    setType,
     inputValue,
     setInputValue,
   } = useSearchStore();
   const { accessToken, isLogin } = useAuth();
-  const { setQuickMatch } = useSortStore();
+  const { setQuickMatch, setSortSelected } = useSortStore();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -156,14 +156,21 @@ export default function Search() {
     router.push(`./search_result?queryString=${queryString}`);
   };
 
-  const handleShortcut = (ref: string, alt: string) => {
+  const handleShortcut = (ref: string) => {
     if (ref === "quick") {
-      setType("all");
       setQuickMatch(true);
-      router.push(`./studyShortcut/filter?quickMatch=${ref}`);
+      setSortSelected("recent");
+      router.push("./studyList");
+    } else if (ref === "recent") {
+      setQuickMatch(false);
+      setSortSelected("recent");
+      router.push(`./studyList`);
+    } else if (ref === "deadline") {
+      setSortSelected("deadline");
+      router.push("./studyList");
     } else {
-      setType(ref);
-      router.push(`./studyShortcut`);
+      setSortSelected("recent");
+      router.push("./studyList");
     }
   };
 
@@ -219,7 +226,7 @@ export default function Search() {
         <div className={styles.iconBox}>
           {shortCutIcons.map((icon, index) => (
             <Image
-              onClick={() => handleShortcut(icon.ref, icon.alt)}
+              onClick={() => handleShortcut(icon.ref)}
               className={styles.icon}
               key={index}
               src={icon.path}
