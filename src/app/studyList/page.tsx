@@ -24,6 +24,7 @@ import getFilter from "../api/getFilter";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { IfilterType } from "../type/filterType";
+import useFromStore from "@/utils/from";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -92,6 +93,7 @@ export default function StudyList() {
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
   const { quickMatch, sortSelected, setSortSelected } = useSortStore();
+  const { from } = useFromStore();
 
   useEffect(() => {
     setSelectedArea(category === "전체" ? "" : category);
@@ -168,7 +170,8 @@ export default function StudyList() {
 
   const handleGoBack = () => {
     setSortSelected("recent");
-    router.back();
+    if (from === "home") router.push("./home");
+    else if (from === "search") router.push("./search");
   };
 
   const getSortSelectedName = (sortSelected: string) => {

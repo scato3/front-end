@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import useSearchStore from "./store/useSearchStore";
 import GetPopularSearch from "../api/popularSearch";
 import useSortStore from "../studyList/store/useSortStore";
+import useFromStore from "@/utils/from";
 
 const shortCutIcons = [
   {
@@ -63,8 +64,14 @@ export default function Search() {
   } = useSearchStore();
   const { accessToken, isLogin } = useAuth();
   const { setQuickMatch, setSortSelected } = useSortStore();
+  const { setFrom } = useFromStore();
 
   const router = useRouter();
+
+  // 어디 페이지에서 옮기는지 체크
+  useEffect(() => {
+    setFrom("search");
+  }, []);
 
   useEffect(() => {
     if (isLogin) {

@@ -10,9 +10,16 @@ import ButtonBox from "../_component/main_home/ButtonBox";
 import Card from "../_component/main_home/Card";
 import Btn_arrow from "../../../public/icons/Btn_arrow_sm.svg";
 import { useRouter } from "next/navigation";
+import useFromStore from "@/utils/from";
+import { useEffect } from "react";
 
 export default function Main_home() {
+  const { setFrom } = useFromStore();
   const router = useRouter();
+
+  useEffect(() => {
+    setFrom("home");
+  }, []);
 
   return (
     <div className={styles.container}>
