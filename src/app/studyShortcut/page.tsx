@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./studyList.module.css";
+import styles from "./studyShortcut.module.css";
 import Navigation from "../_component/navigation/page";
 import { useRouter, useSearchParams } from "next/navigation";
 import FilterQuick from "../_component/filter/FilterQuick";
@@ -24,6 +24,7 @@ import getFilter from "../api/getFilter";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { IfilterType } from "../type/filterType";
+import useSearchStore from "../search/store/useSearchStore";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -83,7 +84,7 @@ const categories = [
 
 const filter = ["기간", "인원수", "타입", "타입1", "타입2"];
 
-export default function StudyList() {
+export default function StudyShortcut() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("tab");
@@ -93,6 +94,7 @@ export default function StudyList() {
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
   const { quickMatch, sortSelected } = useSortStore();
+  const { type } = useSearchStore();
 
   useEffect(() => {
     setSelectedArea(category === "전체" ? "" : category);
@@ -106,6 +108,7 @@ export default function StudyList() {
   } = useQuery({
     queryKey: [
       "NEW_STUDY",
+      type,
       sortSelected,
       selectedArea,
       selectedDate,
@@ -116,7 +119,7 @@ export default function StudyList() {
       quickMatch,
     ].filter(Boolean),
     queryFn: async () =>
-      getFilter("recent", sortSelected, {
+      getFilter(type, sortSelected, "",{
         category: selectedArea,
         startDate: selectedDate,
         duration: selectedDuration,
@@ -151,19 +154,19 @@ export default function StudyList() {
 
   // 새로 고침시 초기화
   useEffect(() => {
-    router.push("./studyList");
+    router.push(`./studyShortcut/${type}`);
   }, []);
 
   // tab
   useEffect(() => {
     if (selectedArea) {
       setActiveTab(selectedArea);
-      router.push(`./studyList?tab=${selectedArea}`);
+      router.push(`./studyShortcut/${type}/filter?tab=${selectedArea}`);
 
       // 초기화
     } else if (selectedArea === null) {
       setActiveTab("전체");
-      router.push(`./studyList`);
+      router.push(`./studyShortcut`);
     }
   }, [selectedArea]);
 
@@ -184,8 +187,8 @@ export default function StudyList() {
 
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
-        <p className={styles.title}>신규 쇼터디</p>
+      <Navigation isBack={true} onClick={() => router.push("./search")} dark={false}>
+        <p className={styles.title}>{type}</p>
       </Navigation>
       <div className={styles.categoryTabBox}>
         <Swiper
@@ -203,7 +206,7 @@ export default function StudyList() {
               }}
             >
               <Link
-                href={{ pathname: "/studyList", query: { tab: category.name } }}
+                href={{ pathname: `/studyShortcut`, query: { tab: category.name } }}
                 key={index}
                 className={activeTab === category.name ? styles.categoryActive : styles.category}
               >

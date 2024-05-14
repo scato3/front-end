@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./studyList.module.css";
+import styles from "./searchResult.module.css";
 import Navigation from "../_component/navigation/page";
 import { useRouter, useSearchParams } from "next/navigation";
 import FilterQuick from "../_component/filter/FilterQuick";
@@ -17,18 +17,19 @@ import ModalPortal from "@/app/_component/ModalPortal";
 import SortModal from "./_component/SortModal";
 import NoStudy from "./_component/NoStudy";
 import useFilterStore from "../_component/modalFilter/store/useFilterStore";
-import useSortStore from "./store/useSortStore";
+import useSearchResultStore from "./store/useSearchResultStore";
 import ModalFilter from "../_component/modalFilter/page";
 import DisplayDuration from "./_component/utils/displayDuration";
 import getFilter from "../api/getFilter";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { IfilterType } from "../type/filterType";
-
+import useSearchStore from "../search/store/useSearchStore";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import { access } from "fs/promises";
+import Search_Input from "../_component/input/Search_Input";
+import useAuth from "@/hooks/useAuth";
 
 const categories = [
   {
@@ -83,16 +84,20 @@ const categories = [
 
 const filter = ["기간", "인원수", "타입", "타입1", "타입2"];
 
-export default function StudyList() {
+export default function SearchResult() {
+  const [inputValue, setInputValue] = useState<string>("");
+  const { accessToken, isLogin } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState<string | null>("전체");
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const [sort, setSort] = useState<boolean>(false);
-  const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
+  const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea} =
     useFilterStore();
-  const { quickMatch, sortSelected } = useSortStore();
+  const { quickMatch, sortSelected } = useSearchResultStore();
+  const { queryString, setQueryString, recentKeywords} = useSearchStore();
+  const addRecentKeyword = useSearchStore(state => state.addRecentKeyword);
 
   useEffect(() => {
     setSelectedArea(category === "전체" ? "" : category);
@@ -114,9 +119,10 @@ export default function StudyList() {
       maxCount,
       selectedTendency,
       quickMatch,
+      queryString,
     ].filter(Boolean),
     queryFn: async () =>
-      getFilter("recent", sortSelected, {
+      getFilter("recent", sortSelected, accessToken,{
         category: selectedArea,
         startDate: selectedDate,
         duration: selectedDuration,
@@ -124,6 +130,7 @@ export default function StudyList() {
         maxParticipants: parseInt(maxCount),
         tendency: selectedTendency.map((obj) => obj.value).join(","),
         quickMatch: quickMatch ? "quick" : "",
+        queryString: queryString,
       }),
   });
 
@@ -151,19 +158,19 @@ export default function StudyList() {
 
   // 새로 고침시 초기화
   useEffect(() => {
-    router.push("./studyList");
+    router.push("./search_result");
   }, []);
 
   // tab
   useEffect(() => {
     if (selectedArea) {
       setActiveTab(selectedArea);
-      router.push(`./studyList?tab=${selectedArea}`);
+      router.push(`./search_result?tab=${selectedArea}`);
 
       // 초기화
     } else if (selectedArea === null) {
       setActiveTab("전체");
-      router.push(`./studyList`);
+      router.push(`./search_result`);
     }
   }, [selectedArea]);
 
@@ -182,11 +189,30 @@ export default function StudyList() {
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleEnter = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.nativeEvent.isComposing){
+      const newValue = (e.target as HTMLInputElement).value;
+        setQueryString(newValue);
+        addRecentKeyword({ keyword: newValue, id:recentKeywords.length });
+        setInputValue("");
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
-        <p className={styles.title}>신규 쇼터디</p>
+      <Navigation isBack={true} onClick={() => router.push("./search")} dark={false}>
+        <p className={styles.title}>전체 쇼터디</p>
       </Navigation>
+      <div className={styles.input}>
+        <Search_Input 
+          onChange={handleChange}
+          handleEnter={handleEnter}
+          value={inputValue}/>
+      </div>
       <div className={styles.categoryTabBox}>
         <Swiper
           modules={[FreeMode]}
@@ -203,7 +229,7 @@ export default function StudyList() {
               }}
             >
               <Link
-                href={{ pathname: "/studyList", query: { tab: category.name } }}
+                href={{ pathname: "/search_result", query: { tab: category.name } }}
                 key={index}
                 className={activeTab === category.name ? styles.categoryActive : styles.category}
               >
