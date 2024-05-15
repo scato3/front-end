@@ -1,0 +1,27 @@
+.container{
+    width: 100px;
+    height: 100px;
+    margin: 5px 10px 50px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.badge {
+    position: relative;
+    top: -90px;
+    left: 30px;
+}
+
+.profileImage {
+    cursor: pointer;
+}
+
+.nickname {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 23.52px;
+    text-align: center;
+    position: relative;
+    top: -20px;
+}

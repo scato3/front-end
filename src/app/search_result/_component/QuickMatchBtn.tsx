@@ -4,8 +4,9 @@ import Icon_quickActive from "../../../../public/icons/studyList/Icon_quickActiv
 import resetIcon from "../../../../public/icons/studyList/Icon_reset.svg";
 import Image from "next/image";
 import useSearchResultStore from "../store/useSearchResultStore";
+import { useEffect } from "react";
 
-export default function QuickMatchBtn() {
+export default function QuickMatchBtn({isQuick}:{isQuick?:boolean}) {
   const { quickMatch, setQuickMatch } = useSearchResultStore();
 
   const handleQuickMatch = () => {
@@ -20,12 +21,12 @@ export default function QuickMatchBtn() {
         </button>
       )}
       <button
-        className={quickMatch ? `${styles.quickMatchBtn} ${styles.quickMatchBtnActive}` : styles.quickMatchBtn}
+        className={quickMatch || isQuick ? `${styles.quickMatchBtn} ${styles.quickMatchBtnActive}` : styles.quickMatchBtn}
         onClick={handleQuickMatch}
       >
         <Image
           className={styles.quickIcon}
-          src={quickMatch ? Icon_quickActive : Icon_quick}
+          src={quickMatch || isQuick ? Icon_quickActive : Icon_quick}
           width={20}
           height={20}
           alt="quick"

@@ -98,7 +98,7 @@ export default function CreateThird({ onNext }: { onNext: () => void }) {
           onClick={() => handleApplyContainerSelect("빠른 매칭")}
         >
           <p className={styles.applyHeader}>빠른 매칭</p>
-          <p>직접 회원을 수락 또는 거절할 수 있어요</p>
+          <p>모든 회원의 신청을 자동으로 수락해요</p>
           <Image
             src={selectedApplyContainer === "빠른 매칭" ? Icon_avaliable_active : Icon_avaliable}
             width={48}
@@ -112,7 +112,7 @@ export default function CreateThird({ onNext }: { onNext: () => void }) {
           onClick={() => handleApplyContainerSelect("승인")}
         >
           <p className={styles.applyHeader}>승인</p>
-          <p>모든 회원의 신청을 자동으로 수락해요</p>
+          <p>직접 회원을 수락 또는 거절할 수 있어요</p>
           <Image
             src={selectedApplyContainer === "승인" ? Icon_avaliable_active : Icon_avaliable}
             width={48}
