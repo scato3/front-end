@@ -1,11 +1,17 @@
-.ProfileContainer {
+.container {
   width: 100%;
   height: 100vh;
   background-color: var(--gray-50);
 }
 
+.nav{
+  height: 70px;
+  background-color: var(--gray-800);
+  width: 100%;
+}
+
 .ProfileTop {
-  padding: 50px 20px 20px 20px;
+  padding: 20px 30px 20px 30px;
 }
 
 .ProfileBox {
@@ -22,10 +28,35 @@
   gap: 5px;
 }
 
+.nickname {
+  font-size: 16px;
+  line-height: 26.88px;
+  color: var(--gray-800);
+}
+
+.editProfile {
+  font-size: 16px;
+  color: var(--gray-400);
+  line-height: 26.88px;
+}
+
 .ProfileRatingBox {
-  border: 1px solid gray;
   padding: 10px 15px;
   margin-bottom: 30px;
+  height: 80px;
+  background-color: var(--gray-800);
+}
+
+.ratingBoxTop {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.ratingTitle {
+  font-size: 20px;
+  line-height: 32px;
+  color: var(--gray-50);
 }
 
 .ProfileProgressBox {
@@ -39,6 +70,12 @@
   align-items: center;
   gap: 10px;
 }
+
+.score {
+  font-size: 20px;
+  color: var(--gray-50);
+}
+
 .ProfileMenuBox {
   display: flex;
   justify-content: space-evenly;
@@ -60,3 +97,31 @@
   display: flex;
   gap: 8px;
 }
+
+.hr {
+  background-color: var(--gray-100);
+  height: 7px;
+  width: 100%;
+}
+
+.serviceInfoBox {
+  padding: 20px 30px 20px 30px;
+}
+
+.serviceInfo {
+  font-size: 16px;
+  color: var(--gray-800);
+  margin-bottom: 20px;
+}
+
+.service {
+  cursor: pointer;
+  color: var(--gray-400);
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.footer {
+  position: sticky;
+  width: 100%;
+  bottom: 0;}

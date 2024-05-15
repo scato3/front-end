@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import ProgressBar from "../_component/progress_bar/progressBar";
 import myProfile from "../api/myProfile";
 import ProfileNav from "./_component/ProfileNav";
+import Footer from "../_component/footer/footer";
 
 export default function Profile() {
   interface IMyStudyCount {}
@@ -63,24 +64,37 @@ export default function Profile() {
   }, [accessToken]);
 
   return (
-    <div className={styles.ProfileContainer}>
-      <ProfileNav title="마이페이지" />
+    <div className={styles.container}>
+      <div className={styles.nav}></div>
       <div className={styles.ProfileTop}>
         <div className={styles.ProfileBox}>
           <Image
             src={myProfileData?.profile_img ?? (process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL as string)}
             alt={"프로필 이미지"}
-            width={62}
-            height={62}
+            width={68}
+            height={68}
             style={{ borderRadius: "100px" }}
           />
           <div className={styles.ProfileEditBox}>
-            <p>{myProfileData?.nickname}</p>
-            <button>프로필 수정</button>
+            <p className={styles.nickname}>{myProfileData?.nickname}</p>
+            <p className={styles.editProfile}>프로필 편집</p>
           </div>
         </div>
         <div className={styles.ProfileRatingBox}>
-          <p>나의 스터디 성적표</p>
+          <div className={styles.ratingBoxTop}>
+            <p className={styles.ratingTitle}>쇼터디 성적표</p>
+            <div className={styles.ProfileRating}>
+              {/* 점수별 Svg이미지 추가 */}
+              <Image
+                alt={"점수 이미지"}
+                src={process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL}
+                width={30}
+                height={30}
+                style={{ borderRadius: "100px" }}
+              />
+              <p className={styles.score}>{myProfileData?.rating ?? 0}점</p>
+            </div>
+          </div>
           <div className={styles.ProfileProgressBox}>
             <ProgressBar
               progress={myProfileData?.rating ?? 0}
@@ -91,19 +105,9 @@ export default function Profile() {
                 barHeight: 10,
               }}
             />
-            <div className={styles.ProfileRating}>
-              {/* 점수별 Svg이미지 추가 */}
-              <Image
-                alt={"점수 이미지"}
-                src={process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL}
-                width={30}
-                height={30}
-                style={{ borderRadius: "100px" }}
-              />
-              <h3>{myProfileData?.rating ?? 0}점</h3>
-            </div>
           </div>
         </div>
+        
         <div className={styles.ProfileMenuBox}>
           {profileStudyMenu &&
             profileStudyMenu?.map((menu, idx: number) => {
@@ -124,9 +128,16 @@ export default function Profile() {
             })}
         </div>
       </div>
-      <hr />
-      <div>서비스 안내</div>
-      <button>로그아웃</button>
+      <div className={styles.hr}></div>
+        <div className={styles.serviceInfoBox}>
+          <p className={styles.serviceInfo}>서비스 안내</p>
+          <p className={styles.service}>이용약관</p>
+          <p className={styles.service}>개인정보 처리방침</p>
+          <p className={styles.service}>로그아웃</p>
+        </div> 
+      <div className={styles.footer}>
+          <Footer selectedIndex={3}/>
+        </div>
     </div>
   );
 }
