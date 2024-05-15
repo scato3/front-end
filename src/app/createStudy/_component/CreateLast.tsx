@@ -28,20 +28,6 @@ export default function CreateLast() {
   const { selectedDate, selectedField, selectedDuration, recruit, tendency, matchingType } = useCreateStore();
   const { accessToken } = useAuth();
 
-  useEffect(() => {
-    console.log(
-      selectedDate,
-      selectedField,
-      selectedDuration,
-      recruit,
-      tendency,
-      matchingType,
-      tags,
-      description,
-      title,
-    );
-  }, [tags]);
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
