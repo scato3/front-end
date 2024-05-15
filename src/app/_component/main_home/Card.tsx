@@ -4,13 +4,15 @@ import peopleIcon from "../../../../public/icons/_main01/Icon_people.svg";
 import styles from "./card.module.css";
 import { IfilterType } from "@/app/type/filterType";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 
 export default function Card({ data }: { data: IfilterType }) {
   const startDate = moment(data.start_date).format("MM-DD");
   const endDate = data.end_date ? moment(data.end_date).format("MM-DD") : "미정";
+  const router = useRouter();
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={()=> {router.push(`/studyInfo?studyId=${data.id}`)}}>
       <div className={styles.cardBox}>
         <div className={styles.titleBox}>
           <p className={styles.flag}>{data.category}</p>
