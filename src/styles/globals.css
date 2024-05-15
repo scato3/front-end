@@ -7,6 +7,9 @@
   margin: 0 auto;
   position: relative;
   box-sizing: border-box;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 }
 
 @font-face {
@@ -29,4 +32,3 @@ textarea,
 input {
   font-family: "GmarketSans";
 }
-

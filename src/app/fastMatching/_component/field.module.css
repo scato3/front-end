@@ -1,0 +1,44 @@
+.FieldContainer {
+  width: 500px;
+  height: 500px;
+  padding-top: 53px;
+  padding-left: 32px;
+  background-color: white;
+  position: relative;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-sizing: border-box;
+}
+
+.ContentContainer {
+  display: grid;
+  color: var(--gray-400);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.ContentContainer > * {
+  margin-bottom: 23px;
+}
+
+.Content {
+  border-bottom: 1px solid var(--gray-100);
+  padding-bottom: 10px;
+  width: 190px;
+  cursor: pointer;
+}
+
+.Content.Selected {
+  color: var(--main-200);
+}
+
+.ButtonContainer {
+  position: absolute;
+  width: 100%;
+  bottom: 36px;
+  left: 24px;
+  display: flex;
+}
