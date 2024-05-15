@@ -5,20 +5,23 @@ interface IFetchOptions {
   body?: any;
   method?: string;
   authorization?: string;
+  apiType?: boolean; // 0이면 http 1이면 소켓
 }
 
 interface IGetOptions {
   endpoint: string;
   authorization?: string;
+  apiType?: boolean;
 }
 
 interface IPostOptions {
   endpoint: string;
   body?: any;
   authorization: string;
+  apiType?: boolean;
 }
 
-const _fetch = async ({ method, endpoint, body, authorization }: IFetchOptions) => {
+const _fetch = async ({ method, endpoint, body, authorization, apiType }: IFetchOptions) => {
   const headers: HeadersInit = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -39,7 +42,7 @@ const _fetch = async ({ method, endpoint, body, authorization }: IFetchOptions) 
   }
 
   try {
-    const res = await fetch(constant.apiUrl + endpoint, requestOptions);
+    const res = await fetch(!apiType ? constant.apiUrl + endpoint : constant.chatUrl + endpoint, requestOptions);
 
     if (!res.ok) {
       const errorData = await res.json();
@@ -52,12 +55,12 @@ const _fetch = async ({ method, endpoint, body, authorization }: IFetchOptions) 
   }
 };
 
-const _get = async ({ endpoint, authorization }: IGetOptions) => {
-  return _fetch({ method: "GET", endpoint, authorization });
+const _get = async ({ endpoint, authorization, apiType }: IGetOptions) => {
+  return _fetch({ method: "GET", endpoint, authorization, apiType });
 };
 
-const _post = async ({ endpoint, body, authorization }: IPostOptions) => {
-  return _fetch({ method: "POST", endpoint, body, authorization });
+const _post = async ({ endpoint, body, authorization, apiType }: IPostOptions) => {
+  return _fetch({ method: "POST", endpoint, body, authorization, apiType });
 };
 
 const _patch = async ({ endpoint, body, authorization }: IPostOptions) => {

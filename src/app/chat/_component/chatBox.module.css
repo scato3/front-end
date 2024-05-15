@@ -1,0 +1,28 @@
+.chatBox {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--gray-50);
+  margin-bottom: 10px;
+}
+
+.chatDateBox {
+  width: 436px;
+  height: 40px;
+  background-color: var(--gray-700);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0 15px 0;
+}
+
+.chatDate {
+  color: var(--gray-50);
+}
+
+.sendDate {
+  margin-right: 5px;
+  font-size: 10px;
+  color: var(--gray-400);
+}
