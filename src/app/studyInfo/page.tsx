@@ -12,6 +12,12 @@ import StudySettingCard from "./_component/studySettingCard";
 import ButtonFooter from "../_component/footer/ButtonFooter";
 import { useSearchParams } from "next/navigation";
 import MemberCard from "./_component/MemberCard";
+import Category from "./_component/category";
+import { useModal } from "@/hooks/useModal";
+import ModalContainer from "../_component/ModalContainer";
+import ModalPortal from "../_component/ModalPortal";
+import MemberModal from "./_component/memberModal";
+import GetUserProfile from "../api/getUserProfile";
 
 interface Imember {
     nickname: string;
@@ -20,12 +26,14 @@ interface Imember {
 };
 
 export default function StudyInfo() {
+    const { openModal, handleOpenModal, handleCloseModal } = useModal();
     const params = useSearchParams();
     const studyIdString = params.get("studyId");
     const studyId : number = studyIdString ? parseInt(studyIdString) : -1;
     const [ tendency, setTendency ] = useState<string>("");
     const [ duration, setDuration ] = useState<string>("");
-
+    const [ isQuick, setIsQuick ] = useState<boolean>(false);
+    const [ watchMember, setWatchMember ] = useState<string>("");
     
     const {
         data,
@@ -38,7 +46,6 @@ export default function StudyInfo() {
             ],
             queryFn: async () =>
                 GetStudyInfo(studyId),
-        
         });
 
     useEffect(() => {
@@ -46,10 +53,30 @@ export default function StudyInfo() {
             console.log(studyId, data);
             setTendency(data.tendency);
             setDuration(data.duration);
-            console.log(formattedTendency);
+            if(data.matching_type === "Quick"){
+                setIsQuick(true);
+            }
         }
         if(error) console.log(error);
+
         }, [])
+
+    useEffect(() => {
+        console.log(watchMember);
+        if(watchMember !== "") {
+            getUserProfile();
+            handleOpenModal();
+        }
+    }, [watchMember]);
+
+    const getUserProfile = async () => {
+        try{
+            const res = await GetUserProfile(watchMember);
+            console.log(res.data);
+        }catch(error){
+            console.log(error);
+        }
+    };
 
     const formatTendency = (tendency: string) => {
         switch (tendency) {
@@ -63,7 +90,6 @@ export default function StudyInfo() {
                 return "";
         }
     };
-    const formattedTendency :string = tendency && formatTendency(tendency);
 
     const formatDuration = (duration: string) => {
         switch (duration) {
@@ -79,11 +105,10 @@ export default function StudyInfo() {
                 return "미정";
         }
     };
-        const formattedDuration = duration ? formatDuration(duration) : "학습 기간 선택하기";
 
     return(
         <div className={styles.container}>
-            {isLoading ? <p>Loading...</p>:
+            {isLoading ? <p>Loading...</p> :
                 <>
                 <Navigation isBack={true} dark={false} onClick={()=>{return;}}>
                     <p className={styles.mainTitle}>{data.title}</p>
@@ -91,7 +116,8 @@ export default function StudyInfo() {
                 </Navigation>
                 <div className={styles.hrOrange}></div>
                 <div className={styles.filterBox}>
-                    <QuickMatchBtn/>
+                    {isQuick && <QuickMatchBtn isQuick={true}/>}
+                    <Category>{data.category}</Category>
                 </div>
                 <div className={styles.studyDetail}>
                     <p className={styles.studyTitle}>{data.title}</p>
@@ -106,9 +132,9 @@ export default function StudyInfo() {
                 <div className={styles.studySetting}>
                     <p className={styles.subTitle}>학습 설정</p>
                     <div className={styles.cardBox}>
-                    <StudySettingCard type="기간" descript={formattedDuration}></StudySettingCard>
+                    <StudySettingCard type="기간" descript={formatDuration(data.duration)}></StudySettingCard>
                     <StudySettingCard type="인원" descript={`${data.membersList.length}명`}></StudySettingCard>
-                    <StudySettingCard type="분위기" descript={formattedTendency}></StudySettingCard>
+                    <StudySettingCard type="분위기" descript={formatTendency(data.tendency)}></StudySettingCard>
                     </div>
                 </div>
                 <div className={styles.hrLine}></div>
@@ -120,13 +146,21 @@ export default function StudyInfo() {
                                     key={index}
                                     nickname={member.nickname} 
                                     profile={member.profileImage} 
-                                    owner={member._owner}/>
+                                    owner={member._owner}
+                                    onClick={() => setWatchMember(member.nickname)} />
                             )) }
                         </div>
                     </div>
                 <div className={styles.footer}>
-                    <ButtonFooter onClick={() => {return}} />
+                    <ButtonFooter study_id={studyId}/>
                 </div>
+                {openModal &&
+                    <ModalPortal>
+                        <ModalContainer>
+                            <MemberModal handleCloseModal={handleCloseModal} nickname={watchMember} />
+                        </ModalContainer>
+                    </ModalPortal>
+                }
                 </>
             }
         </div>

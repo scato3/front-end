@@ -3,7 +3,7 @@ import styles from "./filter.module.css";
 interface FilterProps {
   size?: "small" | "medium" | "large";
   property?: "deep" | "light" | "disabled";
-  onClick: () => void;
+  onClick?: () => void;
   children?: React.ReactNode;
 }
 

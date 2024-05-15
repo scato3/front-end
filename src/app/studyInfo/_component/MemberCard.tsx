@@ -7,13 +7,14 @@ interface IMemberCard {
     nickname: string;
     profile: string;
     owner?: boolean;
+    onClick: (nickname: string) => void;
 }
 
-export default function MemberCard({nickname, profile=Icon, owner=false}: IMemberCard){
+export default function MemberCard({nickname, profile=Icon, owner=false, onClick}: IMemberCard){
     return(
-        <div className={styles.container}>
-            <Image className={styles.profileImage} src={"icons/studyInfo/Ellipse 230.svg"} width={88} height={88} alt="image" />
-            <Image className={styles.badge} src={Badge_owner} width={32} height={32} alt="owner" />
+        <div className={styles.container} onClick={() => onClick(nickname)}>
+            <Image className={styles.profileImage} src={profile} width={88} height={88} alt="image" />
+            {owner && <Image className={styles.badge} src={Badge_owner} width={32} height={32} alt="owner" />}
             <p className={styles.nickname}>{nickname}</p>
         </div>
     )
