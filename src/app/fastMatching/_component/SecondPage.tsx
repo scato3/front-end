@@ -3,12 +3,10 @@ import styles from "../fastmatching.module.css";
 import Navigation from "@/app/_component/navigation/page";
 import { useRouter } from "next/navigation";
 import Check_Box from "../../../../public/icons/Icon_checkbox.svg";
+import Checked_Box from "../../../../public/icons/Icon_checkbox_active.svg";
 import Image from "next/image";
 import Button from "@/app/_component/button/Button";
 import useFastStore from "../store/FastStore";
-import useAuth from "@/hooks/useAuth";
-import FastSearch from "@/app/api/fastSearch";
-import { useQuery, useMutation } from "@tanstack/react-query";
 
 interface Tendency {
   name: string;
@@ -32,11 +30,15 @@ export default function SecondPage() {
   const [progress, setProgress] = useState<number>(50);
   const [selectedCondition, setSelectedCondition] = useState<string[]>([]);
   const [selectedRecruits, setSelectedRecruits] = useState<string[]>([]);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
-  const { fastData, tendency, recruitArr, selectedDate, selectedDuration, selectedField } = useFastStore();
-  const { setTendency, setRecruitArr, setFastData } = useFastStore();
-  const { accessToken } = useAuth();
+  const { save, tendency, recruitArr, selectedDate, selectedDuration, selectedField } = useFastStore();
+  const { setSave, setTendency, setRecruitArr } = useFastStore();
   const router = useRouter();
+
+  useEffect(() => {
+    setIsChecked(save);
+  }, []);
 
   // 뒤로가기 했을 때 selectedRecruit에도 값이 남아있도록 하기
   useEffect(() => {
@@ -118,34 +120,38 @@ export default function SecondPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  const mutation = useMutation({
-    mutationFn: () => {
-      let duration = selectedDuration !== "미정" ? selectedDuration : "";
+  // const mutation = useMutation({
+  //   mutationFn: () => {
+  //     let duration = selectedDuration !== "미정" ? selectedDuration : "";
 
-      const res = FastSearch(
-        {
-          save: false,
-          category: selectedField,
-          startDate: selectedDate,
-          duration,
-          mem_scope: recruitArr,
-          tendency,
-        },
-        accessToken,
-      );
-      return res;
-    },
-    onSuccess: (data) => {
-      setFastData(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+  //     const res = FastSearch(
+  //       {
+  //         save,
+  //         category: selectedField,
+  //         startDate: selectedDate,
+  //         duration,
+  //         mem_scope: recruitArr,
+  //         tendency,
+  //       },
+  //       accessToken,
+  //     );
+  //     return res;
+  //   },
+  //   onSuccess: (data) => {
+  //     setFastData(data);
+  //   },
+  //   onError: (error) => {
+  //     console.error(error);
+  //   },
+  // });
+
+  const toggleChecked = () => {
+    setIsChecked((prev) => !prev);
+    setSave(!save);
+  };
 
   const handleNext = () => {
-    mutation.mutate();
-    console.log(fastData);
+    router.push("./fastMatching?step=3");
   };
 
   return (
@@ -190,7 +196,14 @@ export default function SecondPage() {
         </div>
         <div className={styles.RememberContainer}>
           <p>다음에도 이 조건을 기억할게요</p>
-          <Image src={Check_Box} width={24} height={24} alt="체크 박스" className={styles.CheckImg} />
+          <Image
+            src={isChecked ? Checked_Box : Check_Box}
+            width={24}
+            height={24}
+            alt="체크 박스"
+            className={styles.CheckImg}
+            onClick={toggleChecked}
+          />
         </div>
         <div className={styles.ButtonContainer}>
           <Button size="large_main" onClick={handleNext} property={buttonProperty}>

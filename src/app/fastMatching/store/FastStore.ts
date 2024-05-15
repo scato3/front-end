@@ -15,8 +15,8 @@ interface useFastStore {
   setTendency: (arrUpdater: (prev: string[]) => string[]) => void;
   matchingType: string | null;
   setMatchingType: (matchingType: string | null) => void;
-  fastData: any[] | null;
-  setFastData: (data: any[] | null) => void;
+  save: boolean;
+  setSave: (value: boolean) => void;
 }
 
 const useFastStore = create<useFastStore>((set) => ({
@@ -42,8 +42,8 @@ const useFastStore = create<useFastStore>((set) => ({
   },
   matchingType: null,
   setMatchingType: (matchingType: string | null) => set({ matchingType: matchingType }),
-  fastData: null,
-  setFastData: (fastData: any[] | null) => set({ fastData: fastData }),
+  save: false,
+  setSave: (save: boolean) => set({ save: save }),
 }));
 
 export default useFastStore;

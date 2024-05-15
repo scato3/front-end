@@ -8,6 +8,7 @@ import FastCalendar from "./_component/FastCalendar";
 import FastDuration from "./_component/FastDuration";
 import FastField from "./_component/FastField";
 import SecondPage from "./_component/SecondPage";
+import LastFast from "./_component/LastFast";
 import { useModal } from "@/hooks/useModal";
 import ModalPortal from "../_component/ModalPortal";
 import CreateModalContainer from "../_component/createModalContainer";
@@ -142,6 +143,7 @@ export default function FastMatching() {
         </>
       )}
       {step === 2 && <SecondPage />}
+      {step === 3 && <LastFast />}
     </div>
   );
 }
