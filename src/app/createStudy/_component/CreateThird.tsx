@@ -7,8 +7,10 @@ import Icon_avaliable from "../../../../public/icons/Icon_available.svg";
 import Icon_avaliable_active from "../../../../public/icons/Icon_avaliable_active.svg";
 import Image from "next/image";
 import useCreateStore from "../store/CreateStore";
+import { useRouter } from "next/navigation";
 
 export default function CreateThird({ onNext }: { onNext: () => void }) {
+  const router = useRouter();
   const [progress, setProgress] = useState<number>(50);
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
   const [selectedPurpose, setSelectedPurpose] = useState<string | null>(null);
@@ -65,15 +67,21 @@ export default function CreateThird({ onNext }: { onNext: () => void }) {
 
   return (
     <div className={styles.Container}>
-      <Navigation dark={false} isBack={true} onClick={() => {}}>
+      <Navigation
+        dark={false}
+        isBack={true}
+        onClick={() => {
+          router.push("./home");
+        }}
+      >
         쇼터디 생성
       </Navigation>
       <div className={styles.seperator}>
         <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
       </div>
       <div className={styles.contentContainer}>
-        <p className={styles.Header}>스터디 목적과 신청 방식을 선택해 주세요</p>
-        <p className={styles.Header}>목적</p>
+        <p className={styles.ThirdHeader}>스터디 목적과 신청 방식을 선택해 주세요</p>
+        <p className={styles.Tendency}>성향</p>
         <div
           className={`${styles.purpose} ${selectedPurpose === "활발한 대화와 동기부여 원해요" ? styles.selected : ""}`}
           onClick={() => handlePurposeSelect("활발한 대화와 동기부여 원해요")}

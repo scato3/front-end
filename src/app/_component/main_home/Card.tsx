@@ -12,7 +12,12 @@ export default function Card({ data }: { data: IfilterType }) {
   const router = useRouter();
 
   return (
-    <div className={styles.container} onClick={()=> {router.push(`/studyInfo?studyId=${data.id}`)}}>
+    <div
+      className={styles.container}
+      onClick={() => {
+        router.push(`/studyInfo?studyId=${data.id}`);
+      }}
+    >
       <div className={styles.cardBox}>
         <div className={styles.titleBox}>
           <p className={styles.flag}>{data.category}</p>
