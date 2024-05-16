@@ -12,9 +12,6 @@
     display: flex;
 }
 
-.icon {
-}
-
 .name {
     color: var(--gray-700);
     font-size: 16px;
