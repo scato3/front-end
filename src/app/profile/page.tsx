@@ -90,13 +90,15 @@ export default function Profile() {
             <p className={styles.ratingTitle}>쇼터디 성적표</p>
             <div className={styles.ProfileRating}>
               {/* 점수별 Svg이미지 추가 */}
-              <Image
-                alt={"점수 이미지"}
-                src={process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL}
-                width={30}
-                height={30}
-                style={{ borderRadius: "100px" }}
-              />
+              {process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL && (
+                <Image
+                  alt={"점수 이미지"}
+                  src={process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL}
+                  width={30}
+                  height={30}
+                  style={{ borderRadius: "100px" }}
+                />
+              )}
               <p className={styles.score}>{myProfileData?.rating ?? 0}점</p>
             </div>
           </div>
