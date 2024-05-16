@@ -8,7 +8,13 @@ import { useState } from "react";
 import useAuth from "@/hooks/useAuth";
 import DeleteFavoriteStudy from "@/app/api/deleteFavStudy";
 
-export default function ButtonFooter({study_id}:{study_id: number}) {
+interface IButtonFooter {
+    study_id : number;
+    onClick: () => void;
+    children: React.ReactNode;
+}
+
+export default function ButtonFooter({study_id, onClick, children }:IButtonFooter) {
     const { accessToken } = useAuth();
     const [ isFav, setIsFav ] = useState(false);
 
@@ -43,7 +49,7 @@ export default function ButtonFooter({study_id}:{study_id: number}) {
     return(
         <div className={styles.container}>
             <Image src={isFav? Icon_heart_active : Icon_heart} className={styles.icon} width={60} height={60} alt="찜" onClick={toggleFavStudy} />
-            <Button property="default" size="large" onClick={()=>{}}>가입하기</Button>
+            <Button property="default" size="large" onClick={onClick}>{children}</Button>
         </div>
     );
 }

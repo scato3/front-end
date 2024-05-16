@@ -3,7 +3,7 @@
 import styles from "./studyInfo.module.css";
 import GetStudyInfo from "../api/getStudyInfo";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navigation from "../_component/navigation/page";
 import Icon_setting from "../../../public/icons/Icon_setting.svg";
 import Image from "next/image";
@@ -19,6 +19,8 @@ import ModalPortal from "../_component/ModalPortal";
 import MemberModal from "./_component/memberModal";
 import GetUserProfile from "../api/getUserProfile";
 import useAuth from "@/hooks/useAuth";
+import JoinStudy from "../api/joinStudy";
+import AlertModal from "../_component/modal/alertModal";
 
 interface Imember {
   nickname: string;
@@ -33,9 +35,12 @@ export default function StudyInfo() {
   const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
   const [tendency, setTendency] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
-  const [isQuick, setIsQuick] = useState<boolean>(false);
   const [watchMember, setWatchMember] = useState<string>("");
-  const { accessToken } = useAuth();
+  const { accessToken, user } = useAuth();
+  const [ modalMsg, setModalMsg ] = useState<string>("");
+  const [ join, setJoin ] = useState<boolean>(false);
+  const [ isQuick, setIsQuick ] = useState<boolean>(false);
+  const [ isJoined, setIsJoined ] = useState<boolean>(false);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -47,9 +52,16 @@ export default function StudyInfo() {
       console.log(studyId, data);
       setTendency(data.tendency);
       setDuration(data.duration);
-      if (data.matching_type === "Quick") {
+
+      if(data.matching_type === "Quick"){
         setIsQuick(true);
+        console.log("Quick")
       }
+
+      data.membersList.map((member: Imember) => {
+        if(member.nickname === user?.nickname) return setIsJoined(true);
+        console.log(member.nickname, user?.nickname);
+        });
     }
     if (error) console.log(error);
   }, []);
@@ -69,6 +81,23 @@ export default function StudyInfo() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const joinStudy = async (token: string) => {
+    const join = await JoinStudy(studyId, token);
+    if (join) {
+      console.log('joined');
+    };
+  };
+
+  const handleJoinStudy = () => {
+    if(isQuick) {
+      setModalMsg("쇼터디에 가입했어요.");
+    } else {
+      setModalMsg("가입 신청을 요청했어요.");
+    }
+    accessToken && joinStudy(accessToken);
+    setJoin(true);
   };
 
   const formatTendency = (tendency: string) => {
@@ -98,6 +127,11 @@ export default function StudyInfo() {
         return "미정";
     }
   };
+
+  const handleCloseAlert = () => {
+    handleCloseModal();
+    setJoin(false);
+  }
 
   return (
     <div className={styles.container}>
@@ -165,12 +199,22 @@ export default function StudyInfo() {
             </div>
           </div>
           <div className={styles.footer}>
-            <ButtonFooter study_id={studyId} />
+            {isJoined ?
+              <ButtonFooter study_id={studyId} onClick={()=>{return;}}>입장하기</ButtonFooter>
+              :<ButtonFooter study_id={studyId} onClick={handleJoinStudy}>가입하기</ButtonFooter>
+            }
           </div>
           {openModal && (
             <ModalPortal>
-              <ModalContainer>
+              <ModalContainer handleCloseModal={handleCloseModal} >
                 <MemberModal handleCloseModal={handleCloseModal} nickname={watchMember} />
+              </ModalContainer>
+            </ModalPortal>
+          )}
+          {join && (
+            <ModalPortal>
+              <ModalContainer handleCloseModal={handleCloseAlert} >
+                <AlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</AlertModal>
               </ModalContainer>
             </ModalPortal>
           )}
