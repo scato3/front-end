@@ -33,7 +33,7 @@ export default function ChatPage() {
   const [newMessage, setNewMessage] = useState<string>("");
 
   const searchParams = useSearchParams();
-  const studyId = searchParams.get("studyId");
+  const studyId = searchParams.get("studyId") as string;
 
   useEffect(() => {
     if (socket) {
@@ -46,7 +46,7 @@ export default function ChatPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [chatData] = await Promise.all([chat(Number(studyId), accessToken)]);
+        const [chatData] = await Promise.all([chat(studyId, accessToken)]);
         if (chatData) {
           setChatData(chatData);
         }
