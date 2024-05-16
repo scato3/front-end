@@ -22,6 +22,7 @@ export default function Menu({ params }: { params: { menu: string } }) {
   const { accessToken } = useAuth();
   const [myStudyData, setMyStudyData] = useState();
   const [emptyTitle, setEmptyTitle] = useState("");
+  
   const fetchMenuData = async (studyType: string) => {
     switch (studyType) {
       case "progress":
