@@ -59,10 +59,13 @@ export default function StudyInfo() {
         console.log("Quick")
       }
 
-      data.membersList.map((member: Imember) => {
-        if(member.nickname === user?.nickname) setIsJoined(true);
-        if(member._owner === true) setIsOwner(true);
-        });
+      const isMember = data.membersList.some((member: Imember) => member.nickname === user?.nickname);
+      if (isMember) {
+        setIsJoined(true);
+        const isOwner = data.membersList.some((member: Imember) => member._owner === true);
+        setIsOwner(isOwner);
+      }
+      
     }
     if (error) console.log(error);
   }, []);
@@ -147,7 +150,7 @@ export default function StudyInfo() {
               return;
             }}
           >
-            <p className={styles.mainTitle}>{data.title}</p>
+            <p>{data.title}</p>
             {isOwner ?
             <Image
             className={styles.settingIcon}
@@ -158,7 +161,7 @@ export default function StudyInfo() {
               return;
             }}
             alt="settingIcon"
-          />: <></>}
+          />: null}
           </Navigation>
           <div className={styles.hrOrange}></div>
           <div className={styles.filterBox}>

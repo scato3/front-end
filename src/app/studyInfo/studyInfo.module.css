@@ -6,13 +6,9 @@
     align-items: center;
 }
 
-.mainTitle {
-    margin-left: 48px;
-}
-
 .settingIcon {
-    position: relative;
-    left: 130px;
+    position: absolute;
+    left: 430px;
     cursor: pointer;
 }
 
