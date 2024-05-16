@@ -1,5 +1,4 @@
 "use client";
-
 import { createContext, useContext, useEffect, useState } from "react";
 import { Socket } from "socket.io";
 import { io } from "socket.io-client";
@@ -9,6 +8,9 @@ type SocketContextType = {
   isConnected: boolean;
   typing: boolean;
   isTyping: boolean;
+  setIsConnected: Function;
+  setTyping: Function;
+  setIsTyping: Function;
 };
 
 const SocketContext = createContext<SocketContextType>({
@@ -16,6 +18,9 @@ const SocketContext = createContext<SocketContextType>({
   isConnected: false,
   typing: false,
   isTyping: false,
+  setIsConnected: (flag: boolean) => {},
+  setTyping: (flag: boolean) => {},
+  setIsTyping: (flag: boolean) => {},
 });
 
 export const useSocket = () => {
@@ -29,7 +34,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
   useEffect(() => {
-    const endPoint = process.env.NEXT_PUBLIC_SOCKET_DEV_API as string;
+    const endPoint = process.env.NEXT_PUBLIC_SOCKET_PROD_API as string;
     const newSocket = io(endPoint);
     newSocket?.emit("setup", "test");
 
@@ -46,5 +51,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  return <SocketContext.Provider value={{ socket, isConnected, typing, isTyping }}>{children}</SocketContext.Provider>;
+  return (
+    <SocketContext.Provider value={{ socket, isConnected, typing, isTyping, setIsConnected, setIsTyping, setTyping }}>
+      {children}
+    </SocketContext.Provider>
+  );
 };
