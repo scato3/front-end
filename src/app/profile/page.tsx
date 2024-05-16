@@ -23,7 +23,7 @@ export default function Profile() {
   }
 
   const [myProfileData, setMyProfileData] = useState<IMyProfileData | null>(null);
-  const [profileStudyMenu, setProfileStudyMenu] = useState();
+  const [profileStudyMenu, setProfileStudyMenu] = useState<{ [key: string]: number }[] | null>(null);
 
   const { accessToken } = useAuth();
 
@@ -42,7 +42,7 @@ export default function Profile() {
     in_complete: "완료한 스터디",
   };
 
-  const profileMenuLabeling = (data: Object[]) => {
+  const profileMenuLabeling = (data: {[key:string] :number}) => {
     const orderedKeys = ["in_favorite", "in_proposal", "in_progress", "in_complete"];
     return orderedKeys.map((key: string) => ({
       [key === "in_favorite"
