@@ -81,11 +81,12 @@
 .DurationContainer {
   position: relative;
   padding: 40px 32px 0 32px;
-  width: 436px;
+  width: 500px;
   height: 550px;
   background-color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  box-sizing: border-box;
 }
 
 .DurationItem {

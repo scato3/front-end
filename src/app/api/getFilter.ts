@@ -3,6 +3,7 @@ import api from "@/_lib/fetcher";
 export default async function getFilter(
   type: string,
   orderType: string,
+  token?: string,
   options?: {
     quickMatch?: string;
     category?: string | null;
@@ -56,6 +57,6 @@ export default async function getFilter(
     }
   }
 
-  const data = await api.get({ endpoint });
+  const data = await api.get({ endpoint, authorization: token });
   return data;
 }

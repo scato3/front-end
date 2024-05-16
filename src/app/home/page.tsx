@@ -10,9 +10,16 @@ import ButtonBox from "../_component/main_home/ButtonBox";
 import Card from "../_component/main_home/Card";
 import Btn_arrow from "../../../public/icons/Btn_arrow_sm.svg";
 import { useRouter } from "next/navigation";
+import useFromStore from "@/utils/from";
+import { useEffect } from "react";
 
 export default function Main_home() {
+  const { setFrom } = useFromStore();
   const router = useRouter();
+
+  useEffect(() => {
+    setFrom("home");
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -46,15 +53,13 @@ export default function Main_home() {
       <div className={styles.line}></div>
       <div className={styles.titleBox}>
         <p>신규 쇼터디</p>
-        <button className={styles.btnMore} onClick={()=>router.push("./studyList")}>
+        <button className={styles.btnMore} onClick={() => router.push("./studyList")}>
           더보기
           <Image src={Btn_arrow} width={24} height={24} alt="더보기"></Image>
         </button>
       </div>
       <div className={styles.cardBox}>
-        <div className={styles.card}>
-
-        </div>
+        <div className={styles.card}></div>
       </div>
       <div className={styles.footerBox}>
         <Footer />

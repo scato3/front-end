@@ -13,11 +13,11 @@ import { useState, useEffect, useRef } from "react";
 import useFilterStore from "./store/useFilterStore";
 import useSortStore from "@/app/studyList/store/useSortStore";
 
-interface IModelFilterProps {
+interface IModalFilterProps {
   handleCloseModal: () => void;
 }
 
-export default function ModalFilter({ handleCloseModal }: IModelFilterProps) {
+export default function ModalFilter({ handleCloseModal }: IModalFilterProps) {
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
   const { sortSelected, setSortSelected } = useSortStore();
 

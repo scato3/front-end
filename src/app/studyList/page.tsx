@@ -23,6 +23,8 @@ import DisplayDuration from "./_component/utils/displayDuration";
 import getFilter from "../api/getFilter";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
+import { IfilterType } from "../type/filterType";
+import useFromStore from "@/utils/from";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -88,8 +90,15 @@ export default function StudyList() {
   const [activeTab, setActiveTab] = useState<string | null>("전체");
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const [sort, setSort] = useState<boolean>(false);
-  const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency } = useFilterStore();
-  const { quickMatch, sortSelected } = useSortStore();
+  const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
+    useFilterStore();
+  const { quickMatch, sortSelected, setSortSelected } = useSortStore();
+  const { from } = useFromStore();
+
+  useEffect(() => {
+    setSelectedArea(category === "전체" ? "" : category);
+    console.log(quickMatch);
+  }, [category]);
 
   const {
     data: modalData,
@@ -97,7 +106,7 @@ export default function StudyList() {
     error: modalError,
   } = useQuery({
     queryKey: [
-      "NEW_STUDY",
+      "STUDY_LIST",
       sortSelected,
       selectedArea,
       selectedDate,
@@ -108,7 +117,7 @@ export default function StudyList() {
       quickMatch,
     ].filter(Boolean),
     queryFn: async () =>
-      getFilter("recent", sortSelected, {
+      getFilter("deadline", sortSelected, "", {
         category: selectedArea,
         startDate: selectedDate,
         duration: selectedDuration,
@@ -159,6 +168,12 @@ export default function StudyList() {
     }
   }, [selectedArea]);
 
+  const handleGoBack = () => {
+    setSortSelected("recent");
+    if (from === "home") router.push("./home");
+    else if (from === "search") router.push("./search");
+  };
+
   const getSortSelectedName = (sortSelected: string) => {
     switch (sortSelected) {
       case "popular":
@@ -176,8 +191,8 @@ export default function StudyList() {
 
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
-        <p className={styles.title}>신규 쇼터디</p>
+      <Navigation isBack={true} onClick={handleGoBack} dark={false}>
+        <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
       </Navigation>
       <div className={styles.categoryTabBox}>
         <Swiper
@@ -277,20 +292,25 @@ export default function StudyList() {
           ))}
         </Swiper>
       </div>
-      <div className={styles.infoBox}>
-        <p>총 개의 쇼터디가 있어요</p>
-        <button className={styles.sortButton} onClick={() => setSort(true)}>
-          {getSortSelectedName(sortSelected)}
-          <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
-        </button>
-      </div>
-      {modalData && (
-        <div className={styles.cardBox}>
-          {modalData.data.map((study) => (
-            <div key={study.id}>{study.id}</div>
-          ))}
+      <div className={styles.infoContainer}>
+        <div className={styles.infoBox}>
+          {modalData && <p>{`총 ${modalData.totalCount}개의 쇼터디가 있어요`}</p>}
+          <button className={styles.sortButton} onClick={() => setSort(true)}>
+            {getSortSelectedName(sortSelected)}
+            <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
+          </button>
         </div>
-      )}
+        {modalData && modalData.totalCount !== 0 ? (
+          <div className={styles.cardBox}>
+            {modalData.data.map((data: IfilterType, index: number) => (
+              <Card key={index} data={data} />
+            ))}
+          </div>
+        ) : (
+          <NoStudy />
+        )}
+      </div>
+
       {sort && (
         <ModalPortal>
           <ModalContainer bgDark={false} handleCloseModal={toggleSortModal}>

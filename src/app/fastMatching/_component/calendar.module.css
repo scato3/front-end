@@ -1,0 +1,125 @@
+.calendarContainer {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  padding-top: 30px;
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 36px;
+  padding: 0 14px;
+}
+
+.monthYear {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--gray-400);
+  line-height: 32px;
+}
+
+.navigationButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.daysOfWeek {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 32px;
+  color: var(--gray-400);
+  padding: 0 8px;
+}
+
+.day {
+  width: calc(100% / 7);
+  text-align: center;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
+  padding: 0 8px;
+}
+
+.dayCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+  color: var(--gray-400);
+  cursor: pointer;
+  width: 100%;
+}
+
+.selectedDate {
+  color: var(--main-200);
+}
+
+.ButtonContainer {
+  position: absolute;
+  width: 100%;
+  bottom: 36px;
+  left: 24px;
+  display: flex;
+}
+
+/* StudyDuration */
+
+.DurationContainer {
+  position: relative;
+  padding: 40px 32px 0 32px;
+  width: 436px;
+  height: 550px;
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.DurationItem {
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 38px;
+  color: var(--gray-400);
+  border-bottom: 2px solid var(--gray-100);
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.LastItem {
+  border-bottom: none;
+}
+
+.DurationItem.Selected {
+  color: var(--main-200);
+}
+
+@media (max-width: 500px) {
+  .calendarContainer {
+    width: 500px;
+  }
+  .DurationContainer {
+    width: 382px;
+  }
+}
+
+@media (max-width: 500px) {
+  .ButtonContainer {
+    width: calc(100% - 24px);
+  }
+}

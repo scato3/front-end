@@ -6,6 +6,7 @@ interface IFetchOptions {
   method?: string;
   authorization?: string;
   apiType?: boolean; // 0이면 http 1이면 소켓
+  id?: string;
 }
 
 interface IGetOptions {
@@ -19,6 +20,11 @@ interface IPostOptions {
   body?: any;
   authorization: string;
   apiType?: boolean;
+}
+
+interface IDeleteOptions {
+  endpoint: string;
+  authorization: string;
 }
 
 const _fetch = async ({ method, endpoint, body, authorization, apiType }: IFetchOptions) => {
@@ -67,10 +73,15 @@ const _patch = async ({ endpoint, body, authorization }: IPostOptions) => {
   return _fetch({ method: "PATCH", endpoint, body, authorization });
 };
 
+const _delete = async ({ endpoint, authorization }: IDeleteOptions) => {
+  return _fetch({ method: "DELETE", authorization, endpoint });
+};
+
 const api = {
   get: _get,
   post: _post,
   patch: _patch,
+  delete: _delete,
 };
 
 export default api;
