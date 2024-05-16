@@ -117,7 +117,7 @@ export default function StudyList() {
       quickMatch,
     ].filter(Boolean),
     queryFn: async () =>
-      getFilter("deadline", sortSelected, "", {
+      getFilter("all", sortSelected, "", {
         category: selectedArea,
         startDate: selectedDate,
         duration: selectedDuration,

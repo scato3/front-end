@@ -11,7 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
-import "swiper/css/pagination";
+
 import GetRecentSearch from "../api/recentSearch";
 import DeleteRecentSearch from "../api/deleteRecent";
 import DeleteRecentSearchAll from "../api/deleteRecentAll";

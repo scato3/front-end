@@ -120,31 +120,6 @@ export default function SecondPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // const mutation = useMutation({
-  //   mutationFn: () => {
-  //     let duration = selectedDuration !== "미정" ? selectedDuration : "";
-
-  //     const res = FastSearch(
-  //       {
-  //         save,
-  //         category: selectedField,
-  //         startDate: selectedDate,
-  //         duration,
-  //         mem_scope: recruitArr,
-  //         tendency,
-  //       },
-  //       accessToken,
-  //     );
-  //     return res;
-  //   },
-  //   onSuccess: (data) => {
-  //     setFastData(data);
-  //   },
-  //   onError: (error) => {
-  //     console.error(error);
-  //   },
-  // });
-
   const toggleChecked = () => {
     setIsChecked((prev) => !prev);
     setSave(!save);

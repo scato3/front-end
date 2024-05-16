@@ -38,7 +38,7 @@ export default function Footer({ selectedIndex = 0 }: IFooterProps) {
       {icons.map((icon, index) => (
         <Link key={index} href={`./${icon.value}`}>
           <div className={styles.ImageContainer}>
-            <Image src={index === selectedIndex ? icon.checked : icon.default} alt={icon.alt} width={62} height={62} />
+            <Image src={index === selectedIndex ? icon.checked : icon.default} alt={icon.alt} width={54} height={54} />
           </div>
         </Link>
       ))}
