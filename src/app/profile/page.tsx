@@ -11,7 +11,9 @@ import ProfileNav from "./_component/ProfileNav";
 import Footer from "../_component/footer/footer";
 
 export default function Profile() {
-  interface IMyStudyCount {}
+  interface IMyStudyCount {
+
+  }
   interface IMyProfileData {
     email: string;
     nickname: string;
@@ -27,7 +29,10 @@ export default function Profile() {
 
   const fetchProfileData = async (token: string) => {
     const myProfileData = await myProfile(token);
-    if (myProfileData) return myProfileData;
+    if (myProfileData) {
+      console.log(myProfileData)
+      return myProfileData;
+    }
   };
 
   const keyLabels = {
