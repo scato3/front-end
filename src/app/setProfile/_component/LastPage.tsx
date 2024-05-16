@@ -1,7 +1,7 @@
 import Button from "@/app/_component/button/Button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Icon from "../../../../public/icons/Icon_profile_check.svg";
+import Icon from "../../../../public/Profile_register_complete_check.svg";
 import SubTitle from "../../../../public/titles/Profile_register_complete_subtitle.svg";
 import Title from "../../../../public/titles/Profile_register_complete_title.svg";
 import styles from "./lastPage.module.css";
