@@ -112,15 +112,13 @@ export default function LastFast() {
     return mutateData.mutate(study_id);
   };
 
+  useEffect(() => {
+    if (displayedIndex === 6) setButtonProperty("disabled");
+    if (displayedIndex + 3 >= totalCount) setButtonProperty("disabled");
+  }, [displayedIndex]);
+
   const handleNextClick = () => {
     setDisplayedIndex((prev) => prev + 3);
-    if (displayedIndex === 0 && totalCount >= 4 && totalCount < 6) {
-      setButtonProperty("disabled");
-    } else if (displayedIndex === 3 && totalCount >= 6 && totalCount < 9) {
-      setButtonProperty("disabled");
-    } else if (displayedIndex === 6) {
-      setButtonProperty("disabled");
-    }
   };
 
   return (
