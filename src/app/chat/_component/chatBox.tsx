@@ -35,7 +35,7 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
     <div className={styles.chatBox}>
       {chatGroupByDate &&
         chatGroupByDate.map((group) => (
-          <div key={group.date}>
+          <div key={group.date} className={styles.chatContainer}>
             <div className={styles.chatDateBox}>
               <h2 className={styles.chatDate}>{moment(group.date).format("YYYY년 MM월 DD일 dddd")}</h2>
             </div>
@@ -77,7 +77,8 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
                           style={{
                             backgroundColor: `#d9d9d8`,
                             padding: "5px 15px",
-                            maxWidth: "75%",
+                            maxWidth: "350px",
+                            wordWrap: "break-word",
                           }}
                         >
                           {message.content}
@@ -100,6 +101,7 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
                           backgroundColor: `${message.sender._id === userId ? "#ffd4bd" : "#d9d9d8"}`,
                           padding: "5px 15px",
                           maxWidth: "350px",
+                          wordWrap: "break-word",
                         }}
                       >
                         {message.content}

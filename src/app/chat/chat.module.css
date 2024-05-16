@@ -1,8 +1,11 @@
 .chatWrapper {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   background-color: var(--gray-50);
   overflow: hidden;
+  overflow-y: "hidden";
 }
 
 .navBox {
@@ -48,9 +51,6 @@
 }
 
 .inputBox {
-  position: absolute;
-  position: sticky;
-  bottom: 0;
   height: 76px;
   width: 98.5%;
 }
@@ -61,8 +61,6 @@
 }
 
 .messageBox {
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  scrollbar-width: none;
+  overflow: scroll;
+  height: 100%;
 }

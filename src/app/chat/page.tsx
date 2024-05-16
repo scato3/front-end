@@ -6,7 +6,6 @@ import { Box, Button, FormControl, Input, InputGroup, InputRightElement, Spinner
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import ScrollableFeed from "react-scrollable-feed";
 import Back from "../../../public/icons/Btn_arrow_left.svg";
 import Plus from "../../../public/icons/Icon_chat_plus.svg";
 import Arrow from "../../../public/icons/Icon_down_arrow.svg";
@@ -21,14 +20,6 @@ import ChatBox from "./_component/chatBox";
 import styles from "./chat.module.css";
 
 export default function ChatPage() {
-  const chatContainerRef = useRef(null);
-
-  // 맨 아래로 스크롤 이동하는 함수
-  const scrollToBottom = () => {
-    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    console.log(chatContainerRef.current.scrollTop);
-  };
-
   interface IChatData extends IChat {
     chatName: string;
   }
@@ -44,13 +35,6 @@ export default function ChatPage() {
   const searchParams = useSearchParams();
   const studyId = searchParams.get("studyId");
 
-  useEffect(() => {
-    // 컴포넌트가 렌더링될 때 맨 아래로 스크롤 이동
-    scrollToBottom();
-  }, []);
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]); // messages 배열이 업데이트될 때마다 호출
   useEffect(() => {
     if (socket) {
       socket?.emit("setup", "setuptest");
@@ -150,9 +134,17 @@ export default function ChatPage() {
   useEffect(() => {
     if (chatData) fetchMessages();
   }, [chatData]);
-
+  const messageBoxRef = useRef<HTMLUListElement>();
+  const scrollToBottom = () => {
+    if (messageBoxRef.current) {
+      messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+    }
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
   return (
-    <div className={styles.chatWrapper} style={{ position: "relative" }} ref={chatContainerRef}>
+    <div className={styles.chatWrapper}>
       <div className={styles.navBox}>
         <Image className={styles.searchIcon} src={Back} alt="검색 버튼" width={36} height={36} />
         <div className={styles.studyName}>{chatData?.chatName}</div>
@@ -168,17 +160,15 @@ export default function ChatPage() {
         </div>
         <Image className={styles.alertIcon} src={Arrow} alt="공지 버튼" width={16} height={16} />
       </div>
-      <ScrollableFeed>
-        {loading ? (
-          <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center" }}>
-            <Spinner size="xl" w={100} h={100} alignSelf="center" margin="auto" />
-          </div>
-        ) : (
-          <div className={styles.messageBox} ref={chatContainerRef} style={{ height: "100%" }}>
-            {<ChatBox messages={messages} userId={user?.userObjectId} />}
-          </div>
-        )}
-      </ScrollableFeed>
+      {loading ? (
+        <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center" }}>
+          <Spinner size="xl" w={100} h={100} alignSelf="center" margin="auto" />
+        </div>
+      ) : (
+        <div className={styles.messageBox} ref={messageBoxRef}>
+          {<ChatBox messages={messages} userId={user?.userObjectId as string} />}
+        </div>
+      )}
 
       <div className={styles.inputBox}>
         <Box
