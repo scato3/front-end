@@ -41,6 +41,7 @@ export default function StudyInfo() {
   const [ join, setJoin ] = useState<boolean>(false);
   const [ isQuick, setIsQuick ] = useState<boolean>(false);
   const [ isJoined, setIsJoined ] = useState<boolean>(false);
+  const [ isOwner, setIsOwner ] = useState<boolean>(false);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -59,8 +60,8 @@ export default function StudyInfo() {
       }
 
       data.membersList.map((member: Imember) => {
-        if(member.nickname === user?.nickname) return setIsJoined(true);
-        console.log(member.nickname, user?.nickname);
+        if(member.nickname === user?.nickname) setIsJoined(true);
+        if(member._owner === true) setIsOwner(true);
         });
     }
     if (error) console.log(error);
@@ -147,16 +148,17 @@ export default function StudyInfo() {
             }}
           >
             <p className={styles.mainTitle}>{data.title}</p>
+            {isOwner ?
             <Image
-              className={styles.settingIcon}
-              src={Icon_setting}
-              width={48}
-              height={48}
-              onClick={() => {
-                return;
-              }}
-              alt="settingIcon"
-            />
+            className={styles.settingIcon}
+            src={Icon_setting}
+            width={48}
+            height={48}
+            onClick={() => {
+              return;
+            }}
+            alt="settingIcon"
+          />: <></>}
           </Navigation>
           <div className={styles.hrOrange}></div>
           <div className={styles.filterBox}>
