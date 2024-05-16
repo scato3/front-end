@@ -8,4 +8,14 @@ export interface IFastType {
   study_id: number;
   tendency: string;
   title: string;
+  description: string;
+  additional_infos: string[];
+}
+
+export interface fetchType {
+  category: string;
+  duration: string;
+  mem_scope: number[];
+  start_date: string;
+  tendency: string[];
 }

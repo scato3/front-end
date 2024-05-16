@@ -16,7 +16,7 @@
   width: 138px;
   height: 50px;
   border: none;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .large_main {
@@ -24,6 +24,13 @@
   height: 60px;
   border: none;
   font-size: 20px;
+}
+
+.very_small {
+  width: 96px;
+  height: 32px;
+  border: none;
+  font-size: 16px;
 }
 
 .default {
@@ -49,6 +56,11 @@
 .cancel {
   color: var(--gray-700);
   background-color: var(--gray-100);
+}
+
+.black {
+  color: black;
+  background-color: var(--main-200);
 }
 
 .pointer {

@@ -327,7 +327,7 @@ export default function SearchResult() {
             ))}
           </div>
         ) : (
-          <NoStudy />
+          <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
         )}
       </div>
 

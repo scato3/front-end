@@ -7,7 +7,7 @@ interface IUserState {
   joinDate: string;
   nickname: string;
   userId: number;
-  userObjectId: string
+  userObjectId: string;
 }
 interface GlobalState {
   isLogin: boolean;
