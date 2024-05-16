@@ -46,12 +46,12 @@ export default function Profile() {
     const orderedKeys = ["in_favorite", "in_proposal", "in_progress", "in_complete"];
     return orderedKeys.map((key: string) => ({
       [key === "in_favorite"
-        ? "찜한 스터디"
+        ? "찜"
         : key === "in_proposal"
-          ? "참여신청 스터디"
+          ? "승인대기"
           : key === "in_progress"
-            ? "참여중 스터디"
-            : "완료한 스터디"]: data[key],
+            ? "진행중"
+            : "완료"]: data[key],
     }));
   };
 
@@ -128,8 +128,8 @@ export default function Profile() {
                   key={idx}
                   className={styles.ProfileMenu}
                 >
-                  <div>{key} </div>
-                  <div>{value} </div>
+                  <p className={styles.studyMenuKey}>{key} </p>
+                  <p className={styles.studyMenuValue}>{value} </p>
                 </Link>
               );
             })}

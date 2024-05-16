@@ -16,7 +16,7 @@
 
 .ProfileBox {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .ProfileEditBox {
@@ -80,11 +80,25 @@
   display: flex;
   justify-content: space-evenly;
 }
+
 .ProfileMenu {
-  color: black;
   text-align: center;
   text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
+
+.studyMenuKey {
+  font-size: 16px;
+  color: var(--gray-800);
+}
+
+.studyMenuValue {
+  font-size: 20px;
+  color: var(--gray-600);
+}
+
 .ContentContainer {
   padding-left: 32px;
   max-height: calc(100% - 150px);
@@ -105,20 +119,20 @@
 }
 
 .serviceInfoBox {
-  padding: 20px 30px 20px 30px;
+  padding: 20px 30px 10px 30px;
 }
 
 .serviceInfo {
   font-size: 16px;
   color: var(--gray-800);
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .service {
   cursor: pointer;
   color: var(--gray-400);
   font-size: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .footer {
