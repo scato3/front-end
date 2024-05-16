@@ -38,6 +38,7 @@
   font-size: 16px;
   color: var(--gray-400);
   line-height: 26.88px;
+  cursor: pointer;
 }
 
 .ProfileRatingBox {
@@ -119,20 +120,20 @@
 }
 
 .serviceInfoBox {
-  padding: 20px 30px 10px 30px;
+  padding: 25px 30px 10px 30px;
 }
 
 .serviceInfo {
   font-size: 16px;
   color: var(--gray-800);
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .service {
   cursor: pointer;
   color: var(--gray-400);
   font-size: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 17px;
 }
 
 .footer {
