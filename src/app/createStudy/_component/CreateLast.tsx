@@ -40,9 +40,9 @@ export default function CreateLast() {
     setTagInput(e.target.value);
   };
 
-  const handleTagInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if ((e.key === "Enter" || e.key === " ") && tagInput.trim() !== "") {
-      e.preventDefault();
+  const handleTagFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (tagInput.trim() !== "") {
       const trimmedTag = tagInput.trim().toLowerCase();
       if (tags.length < 4) {
         if (!tags.includes(trimmedTag)) {
@@ -134,14 +134,15 @@ export default function CreateLast() {
           onChange={handleDescriptionChange}
         />
         <p className={styles.Header}>태그</p>
-        <input
-          placeholder="태그 작성으로, 스터디를 더 쉽게 알릴 수 있어요!"
-          className={styles.title}
-          value={tagInput}
-          onChange={handleTagInputChange}
-          onKeyDown={handleTagInputKeyPress}
-          maxLength={6}
-        />
+        <form onSubmit={handleTagFormSubmit}>
+          <input
+            placeholder="태그 작성으로, 스터디를 더 쉽게 알릴 수 있어요!"
+            className={styles.title}
+            value={tagInput}
+            onChange={handleTagInputChange}
+            maxLength={6}
+          />
+        </form>
         <div className={styles.tagContainer}>
           {tags.map((tag, index) => (
             <div key={index} className={styles.tag}>
