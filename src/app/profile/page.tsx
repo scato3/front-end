@@ -9,6 +9,7 @@ import ProgressBar from "../_component/progress_bar/progressBar";
 import myProfile from "../api/myProfile";
 import ProfileNav from "./_component/ProfileNav";
 import Footer from "../_component/footer/footer";
+import RatingBox from "../_component/ratingBox/RatingBox";
 
 export default function Profile() {
   interface IMyStudyCount {
@@ -87,32 +88,10 @@ export default function Profile() {
         </div>
         <div className={styles.ProfileRatingBox}>
           <div className={styles.ratingBoxTop}>
-            <p className={styles.ratingTitle}>쇼터디 성적표</p>
-            <div className={styles.ProfileRating}>
-              {/* 점수별 Svg이미지 추가 */}
-              {process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL && (
-                <Image
-                  alt={"점수 이미지"}
-                  src={process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL}
-                  width={30}
-                  height={30}
-                  style={{ borderRadius: "100px" }}
-                />
-              )}
-              <p className={styles.score}>{myProfileData?.rating ?? 0}점</p>
-            </div>
-          </div>
-          <div className={styles.ProfileProgressBox}>
-            <ProgressBar
-              progress={myProfileData?.rating ?? 0}
-              progressStyles={{
-                barBackgroundColor: "#E6E6E6",
-                barGaugeBackgroundColor: "#666666",
-                barWith: 70,
-                barHeight: 10,
-              }}
-            />
-          </div>
+              {myProfileData && 
+                <RatingBox user={myProfileData} type="myPage"/>
+              }
+              </div>
         </div>
         
         <div className={styles.ProfileMenuBox}>
