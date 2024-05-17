@@ -188,6 +188,8 @@ export default function Search() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.contentsBox}>
+
       <Navigation dark={true} onClick={handleGoBefore}>
         <Image className={styles.iconBell} src={IconBell} width={58} height={58} alt="bell" />
       </Navigation>
@@ -243,6 +245,7 @@ export default function Search() {
             />
           ))}
         </div>
+      </div>
       </div>
       <div className={styles.footerBox}>
         <Footer selectedIndex={1} />

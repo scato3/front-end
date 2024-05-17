@@ -71,57 +71,59 @@ export default function Profile() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.nav}></div>
-      <div className={styles.ProfileTop}>
-        <div className={styles.ProfileBox}>
-          <Image
-            src={myProfileData?.profile_img ?? (process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL as string)}
-            alt={"프로필 이미지"}
-            width={68}
-            height={68}
-            style={{ borderRadius: "100px" }}
-          />
-          <div className={styles.ProfileEditBox}>
-            <p className={styles.nickname}>{myProfileData?.nickname}</p>
-            <p className={styles.editProfile}>프로필 편집</p>
+      <div className={styles.contentsBox}>
+        <div className={styles.nav}></div>
+        <div className={styles.ProfileTop}>
+          <div className={styles.ProfileBox}>
+            <Image
+              src={myProfileData?.profile_img ?? (process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL as string)}
+              alt={"프로필 이미지"}
+              width={68}
+              height={68}
+              style={{ borderRadius: "100px" }}
+            />
+            <div className={styles.ProfileEditBox}>
+              <p className={styles.nickname}>{myProfileData?.nickname}</p>
+              <p className={styles.editProfile}>프로필 편집</p>
+            </div>
+          </div>
+          <div className={styles.ProfileRatingBox}>
+            <div className={styles.ratingBoxTop}>
+                {myProfileData && 
+                  <RatingBox user={myProfileData} type="myPage"/>
+                }
+                </div>
+          </div>
+          
+          <div className={styles.ProfileMenuBox}>
+            {profileStudyMenu &&
+              profileStudyMenu?.map((menu, idx: number) => {
+                const key = Object.keys(menu)[0]; // 요소의 키 추출
+                const value = menu[key]; // 요소의 값 추출
+                return (
+                  <Link
+                    href={{
+                      pathname: `profile/${Object.keys(keyLabels)[idx]}`,
+                    }}
+                    key={idx}
+                    className={styles.ProfileMenu}
+                  >
+                    <p className={styles.studyMenuKey}>{key} </p>
+                    <p className={styles.studyMenuValue}>{value} </p>
+                  </Link>
+                );
+              })}
           </div>
         </div>
-        <div className={styles.ProfileRatingBox}>
-          <div className={styles.ratingBoxTop}>
-              {myProfileData && 
-                <RatingBox user={myProfileData} type="myPage"/>
-              }
-              </div>
+        <div className={styles.hr}></div>
+          <div className={styles.serviceInfoBox}>
+            <p className={styles.serviceInfo}>서비스 안내</p>
+            <p className={styles.service}>이용약관</p>
+            <p className={styles.service}>개인정보 처리방침</p>
+            <p className={styles.service}>로그아웃</p>
+          </div> 
         </div>
-        
-        <div className={styles.ProfileMenuBox}>
-          {profileStudyMenu &&
-            profileStudyMenu?.map((menu, idx: number) => {
-              const key = Object.keys(menu)[0]; // 요소의 키 추출
-              const value = menu[key]; // 요소의 값 추출
-              return (
-                <Link
-                  href={{
-                    pathname: `profile/${Object.keys(keyLabels)[idx]}`,
-                  }}
-                  key={idx}
-                  className={styles.ProfileMenu}
-                >
-                  <p className={styles.studyMenuKey}>{key} </p>
-                  <p className={styles.studyMenuValue}>{value} </p>
-                </Link>
-              );
-            })}
-        </div>
-      </div>
-      <div className={styles.hr}></div>
-        <div className={styles.serviceInfoBox}>
-          <p className={styles.serviceInfo}>서비스 안내</p>
-          <p className={styles.service}>이용약관</p>
-          <p className={styles.service}>개인정보 처리방침</p>
-          <p className={styles.service}>로그아웃</p>
-        </div> 
-      <div className={styles.footer}>
+        <div className={styles.footer}>
           <Footer selectedIndex={3}/>
         </div>
     </div>
