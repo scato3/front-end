@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 interface IFromProps {
   from: string;
@@ -14,7 +14,7 @@ const useFromStore = create<IFromProps>(
     }),
     {
       name: "from-storage",
-      getStorage: () => localStorage,
+      storage: createJSONStorage(() => localStorage),
     },
   ) as any,
 );
