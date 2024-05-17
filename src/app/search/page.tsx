@@ -189,20 +189,13 @@ export default function Search() {
   return (
     <div className={styles.container}>
       <div className={styles.contentsBox}>
-
       <Navigation dark={true} onClick={handleGoBefore}>
         <Image className={styles.iconBell} src={IconBell} width={58} height={58} alt="bell" />
       </Navigation>
       <div className={styles.searchInputBox}>
         <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter} />
       </div>
-      <div className={styles.recentSearchBox}>
-        <div className={styles.recentBoxTop}>
-          <p>최근 검색어</p>
-          <p className={styles.delete} onClick={handleDeleteAll}>
-            지우기
-          </p>
-        </div>
+   
         <div className={styles.recentSearchBox}>
           <div className={styles.recentBoxTop}>
             <p className={styles.recent}>최근 검색어</p>
@@ -253,11 +246,11 @@ export default function Search() {
             ))}
           </div>
         </div>
-      </div>
-      </div>
+        </div>
       <div className={styles.footerBox}>
         <Footer selectedIndex={1} />
       </div>
-    </>
+      
+    </div>
   );
 }
