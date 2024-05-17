@@ -246,11 +246,10 @@ export default function Search() {
             ))}
           </div>
         </div>
-        </div>
+      </div>
       <div className={styles.footerBox}>
         <Footer selectedIndex={1} />
       </div>
-      
-    </div>
+    </>
   );
 }
