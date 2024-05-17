@@ -1,6 +1,6 @@
 import styles from "./buttonBox.module.css";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const icons = [
   {
@@ -38,14 +38,20 @@ const icons = [
 ];
 
 export default function ButtonBox() {
+  const router = useRouter();
+
   return (
     <div className={styles.container}>
       {icons.map((icon, index) => (
-        <div key={index} className={styles.imageContainer}>
-          <Link 
-              href={`./study/all/filter?category=${icon.alt}`}>
-            <Image src={icon.icon} alt={icon.alt} width={48} height={48} />
-          </Link>
+        <div
+          key={index}
+          className={styles.imageContainer}
+          onClick={() => {
+            router.push(`./studyList?tab=${icon.alt}`);
+          }}
+        >
+          <Image src={icon.icon} alt={icon.alt} width={48} height={48} />
+
           <p className={styles.category}>{icon.alt}</p>
         </div>
       ))}

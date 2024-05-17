@@ -1,6 +1,5 @@
 export interface IfilterType {
   additionalInfos: string[];
-  created_time: string;
   cur_participants_num: number;
   end_date: string;
   id: number;

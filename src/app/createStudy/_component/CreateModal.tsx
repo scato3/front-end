@@ -9,7 +9,7 @@ interface ICreateModal {
 export default function CreateModal({ handleCloseModal }: ICreateModal) {
   const router = useRouter();
   const handleCreate = () => {
-    router.push("./");
+    router.push("./home");
     handleCloseModal();
   };
 
