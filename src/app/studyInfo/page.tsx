@@ -42,6 +42,8 @@ export default function StudyInfo() {
   const [ isQuick, setIsQuick ] = useState<boolean>(false);
   const [ isJoined, setIsJoined ] = useState<boolean>(false);
   const [ isOwner, setIsOwner ] = useState<boolean>(false);
+  const [ userProfile, setUserProfile] = useState<IUserProfileType>({ email: "", nickname: "", profile_img: "", rating: null, user_id: 0 });
+  const [ userStudy, setUserStudy ] = useState<IUserStudyType>({in_complete: 0, in_progress: 0 });
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -71,9 +73,9 @@ export default function StudyInfo() {
   }, []);
 
   useEffect(() => {
-    console.log(watchMember);
     if (watchMember !== "") {
       getUserProfile();
+      console.log(watchMember, userProfile);
       handleOpenModal();
     }
   }, [watchMember]);
@@ -81,7 +83,9 @@ export default function StudyInfo() {
   const getUserProfile = async () => {
     try {
       const res = await GetUserProfile(watchMember, accessToken);
-      console.log(res.profile);
+      console.log("res", res);
+      setUserProfile(res.profile);
+      setUserStudy(res.study_count);
     } catch (error) {
       console.log(error);
     }
@@ -97,6 +101,7 @@ export default function StudyInfo() {
   const handleJoinStudy = () => {
     if(isQuick) {
       setModalMsg("쇼터디에 가입했어요.");
+      setIsJoined(true);
     } else {
       setModalMsg("가입 신청을 요청했어요.");
     }
@@ -212,7 +217,7 @@ export default function StudyInfo() {
           {openModal && (
             <ModalPortal>
               <ModalContainer handleCloseModal={handleCloseModal} >
-                <MemberModal handleCloseModal={handleCloseModal} nickname={watchMember} />
+                <MemberModal handleCloseModal={handleCloseModal} user={userProfile} study={userStudy}/>
               </ModalContainer>
             </ModalPortal>
           )}

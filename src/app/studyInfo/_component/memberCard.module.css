@@ -30,11 +30,3 @@
     line-height: 23.52px;
     text-align: center;
 }
-
-.nicknameMem {
-    font-size: 14px;
-    color: var(--gray-600);
-    line-height: 23.52px;
-    text-align: center;
-    position: relative;
-}
