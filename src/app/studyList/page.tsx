@@ -93,7 +93,11 @@ export default function StudyList() {
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
   const { quickMatch, sortSelected, setSortSelected } = useSortStore();
-  const { from } = useFromStore();
+  const { setFrom } = useFromStore();
+
+  useEffect(() => {
+    setFrom("studyList");
+  }, []);
 
   useEffect(() => {
     setSelectedArea(category === "전체" ? "" : category);
