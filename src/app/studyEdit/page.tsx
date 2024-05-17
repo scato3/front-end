@@ -137,7 +137,7 @@ export default function StudyEdit() {
 
 return (
     <div className={styles.Container}>
-    <Navigation dark={false} isBack={true} onClick={() => router.push(`studySetting?studyId=${studyId}`)}>
+    <Navigation dark={false} isBack={true} onClick={() => router.back()}>
         쇼터디 수정
     </Navigation>
     <div className={styles.seperator}></div>

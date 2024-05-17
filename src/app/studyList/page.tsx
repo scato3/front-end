@@ -93,7 +93,7 @@ export default function StudyList() {
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
   const { quickMatch, sortSelected, setSortSelected } = useSortStore();
-  const { setFrom } = useFromStore();
+  const { from, setFrom } = useFromStore();
 
   useEffect(() => {
     setFrom("studyList");
@@ -172,12 +172,6 @@ export default function StudyList() {
     }
   }, [selectedArea]);
 
-  const handleGoBack = () => {
-    setSortSelected("recent");
-    if (from === "home") router.push("./home");
-    else if (from === "search") router.push("./search");
-  };
-
   const getSortSelectedName = (sortSelected: string) => {
     switch (sortSelected) {
       case "popular":
@@ -195,7 +189,7 @@ export default function StudyList() {
 
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={handleGoBack} dark={false}>
+      <Navigation isBack={true} onClick={() => router.back()} dark={false}>
         <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
       </Navigation>
       <div className={styles.categoryTabBox}>
