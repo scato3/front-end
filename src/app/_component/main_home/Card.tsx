@@ -24,8 +24,12 @@ export default function Card({ data }: { data: IfilterType }) {
           <p className={styles.title}>{data.title}</p>
         </div>
         <div className={styles.tagBox}>
-          {data.additionalInfos?.map((tag: string) => {
-            return <span className={styles.tagTitle}>#{tag}</span>;
+          {data.additionalInfos?.map((tag: string, index: number) => {
+            return (
+              <span key={index} className={styles.tagTitle}>
+                #{tag}
+              </span>
+            ); // key 추가
           })}
         </div>
         <div className={styles.detailBox}>

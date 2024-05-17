@@ -12,15 +12,13 @@ import Btn_arrow from "../../../public/icons/Btn_arrow_sm.svg";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import { useEffect, useState } from "react";
-import allStudySearch from "../api/allStudySearch";
 import { IfilterType } from "@/app/type/filterType";
 import NoStudy from "../search_result/_component/NoStudy";
-import useAuth from "@/hooks/useAuth";
+import getFilter from "../api/getFilter";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [postData, setPostData] = useState<IfilterType[]>([]);
-  const { accessToken } = useAuth();
   const { setFrom } = useFromStore();
   const router = useRouter();
 
@@ -31,8 +29,8 @@ export default function Main_home() {
   useEffect(() => {
     const getPopular = async () => {
       try {
-        const res = await allStudySearch();
-        setPostData(res);
+        const res = await getFilter("all", "recent");
+        setPostData(res.data);
       } catch (e) {
         console.error("error");
       } finally {
@@ -99,7 +97,9 @@ export default function Main_home() {
               {postData.length > 0 ? (
                 postData.slice(0, 3).map((data, index) => <Card key={index} data={data} />)
               ) : (
-                <NoStudy />
+                <div className={styles.NoStudy}>
+                  <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
+                </div>
               )}
             </div>
           </div>
