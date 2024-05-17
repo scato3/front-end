@@ -22,6 +22,7 @@ import useAuth from "@/hooks/useAuth";
 import JoinStudy from "../api/joinStudy";
 import AlertModal from "../_component/modal/alertModal";
 import { useRouter } from "next/navigation";
+import useFromStore from "@/utils/from";
 
 interface Imember {
   nickname: string;
@@ -46,7 +47,11 @@ export default function StudyInfo() {
   const [ isOwner, setIsOwner ] = useState<boolean>(false);
   const [ userProfile, setUserProfile] = useState<IUserProfileType>({ email: "", nickname: "", profile_img: "", rating: null, user_id: 0 });
   const [ userStudy, setUserStudy ] = useState<IUserStudyType>({in_complete: 0, in_progress: 0 });
+  const { setFrom } = useFromStore();
 
+  useEffect(() => {
+    setFrom(`studyInfo?studyId${studyId}`);
+  }, []);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -61,19 +66,17 @@ export default function StudyInfo() {
 
       if(data.matching_type === "Quick"){
         setIsQuick(true);
-        console.log("Quick")
       }
 
-      const isMember = data.membersList.some((member: Imember) => member.nickname === user?.nickname);
+      const isMember = data.membersList.filter((member: Imember) => member.nickname === user?.nickname);
       if (isMember) {
+        console.log(isMember);
         setIsJoined(true);
-        const isOwner = data.membersList.some((member: Imember) => member._owner === true);
-        setIsOwner(isOwner);
-      }
-
+        isMember[0]?._owner === true ? setIsOwner(true) : setIsOwner(false);
+        }
     }
     if (error) console.log(error);
-  });
+  },[data, error]);
 
   useEffect(() => {
     if (watchMember !== "") {
@@ -82,7 +85,6 @@ export default function StudyInfo() {
       handleOpenModal();
     }
   }, [watchMember]);
-
 
   const getUserProfile = async () => {
     try {
@@ -156,7 +158,7 @@ export default function StudyInfo() {
             isBack={true}
             dark={false}
             onClick={() => {
-              return;
+              router.back()
             }}
           >
             <p>{data.title}</p>
