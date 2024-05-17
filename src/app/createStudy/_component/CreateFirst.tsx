@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import styles from "../createStudy.module.css";
 import Navigation from "@/app/_component/navigation/page";
 import CheckField from "./CheckField";
+import { useRouter } from "next/navigation";
 
 export default function CreateFirst({ onNext }: { onNext: () => void }) {
+  const router = useRouter();
   const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
@@ -18,7 +20,13 @@ export default function CreateFirst({ onNext }: { onNext: () => void }) {
 
   return (
     <div className={styles.Container}>
-      <Navigation dark={false} isBack={true} onClick={() => {}}>
+      <Navigation
+        dark={false}
+        isBack={true}
+        onClick={() => {
+          router.push("./home");
+        }}
+      >
         쇼터디 생성
       </Navigation>
       <div className={styles.seperator}>

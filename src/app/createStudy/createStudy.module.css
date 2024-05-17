@@ -20,19 +20,34 @@
 }
 
 .contentContainer {
-  margin-left: 36px;
+  margin-left: 32px;
+}
+
+.ThirdHeader {
+  margin-top: 30px;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-800);
+}
+
+.Tendency {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  color: var(--gray-800);
 }
 
 .Header {
-  margin-top: 14px;
+  margin-top: 23px;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 30px;
   color: var(--gray-800);
 }
 
 .CheckContainer {
-  margin: 60px 32px 0 32px;
+  margin: 32px 32px 0 32px;
   display: flex;
   gap: 17px;
   flex-wrap: wrap;
@@ -66,8 +81,8 @@
 
 .studyTime {
   font-weight: 500;
-  font-size: 26px;
-  line-height: 33.8px;
+  font-size: 20px;
+  line-height: 26px;
   color: var(--gray-900);
 }
 
@@ -91,9 +106,10 @@
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--gray-400);
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .selectedDateBox {
@@ -103,7 +119,7 @@
 
 .dateTxt {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 27px;
   color: var(--gray-400);
 }
@@ -111,24 +127,36 @@
 .ButtonContainer {
   position: absolute;
   width: 100%;
-  bottom: 24px;
+  bottom: 32px;
   left: 24px;
   display: flex;
 }
 
+.recruitedContainer {
+  margin-top: 56px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .recruited {
-  margin-top: 20px;
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 500;
-  line-height: 33.8px;
+  line-height: 26px;
   color: var(--gray-900);
 }
 
+.included {
+  font-size: 14px;
+  line-height: 23.5px;
+  color: var(--gray-400);
+}
+
 .recrutiedInfo {
-  margin-top: 6px;
+  margin-top: 8px;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 27px;
+  font-size: 14px;
+  line-height: 23px;
   color: var(--gray-400);
 }
 
@@ -307,21 +335,3 @@
 }
 
 /* 반응형 */
-
-@media (max-width: 500px) {
-  .ImageContainer {
-    width: 80px;
-    height: 80px;
-  }
-}
-
-@media (max-width: 500px) {
-  .dateBox {
-    padding: 8px;
-  }
-
-  .ButtonContainer {
-    width: 380px;
-    left: 55px;
-  }
-}

@@ -11,14 +11,16 @@ import ModalPortal from "@/app/_component/ModalPortal";
 import CreateStore from "../store/CreateStore";
 import moment from "moment";
 import StudyDuration from "./StudyDuration";
+import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 import Icon_minus from "../../../../public/icons/Icon_minus.svg";
 import Icon_Plus from "../../../../public/icons/Icon_plus.svg";
 
 export default function CreateSecond({ onNext }: { onNext: () => void }) {
+  const router = useRouter();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
-  const { selectedDate, selectedDuration, recruit, setRecruit } = CreateStore();
+  const { selectedDate, selectedDuration, recruit, setRecruit, setSelectedDate, setSelectedDuration } = CreateStore();
   const formattedDate = selectedDate ? moment(selectedDate).format("YY.MM.DD") : "시작날짜 선택하기";
 
   const getFormattedDuration = (duration: string) => {
@@ -84,9 +86,15 @@ export default function CreateSecond({ onNext }: { onNext: () => void }) {
     handleOpenModal();
   };
 
+  const goBack = () => {
+    setSelectedDate(null);
+    setSelectedDuration(null);
+    router.push("./home");
+  };
+
   return (
     <div className={styles.Container}>
-      <Navigation dark={false} isBack={true} onClick={() => {}}>
+      <Navigation dark={false} isBack={true} onClick={goBack}>
         쇼터디 생성
       </Navigation>
       <div className={styles.seperator}>
@@ -110,7 +118,11 @@ export default function CreateSecond({ onNext }: { onNext: () => void }) {
           </div>
           <p className={styles.dateTxt}>까지 공부할래요</p>
         </div>
-        <p className={styles.recruited}>모집인원</p>
+        <div className={styles.recruitedContainer}>
+          <p className={styles.recruited}>모집인원</p>
+          <p className={styles.included}>*본인포함</p>
+        </div>
+
         <p className={styles.recrutiedInfo}>나를 포함해 최대 20명까지 함께할 수 있어요</p>
         <div className={styles.recruitContainer}>
           <Image
