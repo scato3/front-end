@@ -167,7 +167,7 @@ export default function StudyInfo() {
             width={48}
             height={48}
             onClick={() => {
-              router.push("./studySetting");
+              router.push(`./studySetting?studyId=${studyId}`);
             }}
             alt="settingIcon"
           />: null}

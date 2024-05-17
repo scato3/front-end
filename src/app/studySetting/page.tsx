@@ -12,15 +12,30 @@ import { useModal } from "@/hooks/useModal";
 import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
 
 export default function StudySetting() {
-    const [ onDelete, setOnDelete ] = useState<boolean>(false);
     const [ isDeleted, setIsDeleted ] = useState<boolean>(false);
     const { openModal, handleOpenModal, handleCloseModal } = useModal();
+    const router = useRouter();
 
+    const searchParams = useSearchParams();
+    const studyIdString = searchParams.get("studyId");
+    const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
+    const { accessToken } = useAuth();
 
-    const handleDeleteStudy = () => {
-        setOnDelete(true);
+    const handleDeleteStudy = async () => {
+        try{
+            const res = await DeleteStudy(studyId, accessToken);
+            console.log(res);
+        }catch(err) {
+            console.log(err);
+        }
+        console.log(`id=${studyId} study Deleted`);
+        handleCloseModal();
+        router.push("/studyList");
     }
 
     return(
@@ -36,16 +51,16 @@ export default function StudySetting() {
                     <p className={styles.menu}>멤버관리
                     <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow"/>
                     </p>
-                    <p className={styles.menu} onClick={handleDeleteStudy}>쇼터디 삭제
+                    <p className={styles.menu} onClick={handleOpenModal}>쇼터디 삭제
                     <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow"/>
                     </p>
                 </div>
             </div>
 
-            {onDelete && 
+            {openModal && 
             <ModalPortal>
                 <ModalContainer>
-                    <DeleteModal handleCloseModal={handleCloseModal}>쇼터디를 삭제하시겠어요?</DeleteModal>
+                    <DeleteModal handleCloseModal={handleCloseModal} handleDelete={handleDeleteStudy}>쇼터디를 삭제하시겠어요?</DeleteModal>
                 </ModalContainer>
             </ModalPortal>
             }
