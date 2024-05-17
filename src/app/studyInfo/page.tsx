@@ -21,6 +21,7 @@ import GetUserProfile from "../api/getUserProfile";
 import useAuth from "@/hooks/useAuth";
 import JoinStudy from "../api/joinStudy";
 import AlertModal from "../_component/modal/alertModal";
+import { useRouter } from "next/navigation";
 
 interface Imember {
   nickname: string;
@@ -29,6 +30,7 @@ interface Imember {
 }
 
 export default function StudyInfo() {
+  const router = useRouter();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const params = useSearchParams();
   const studyIdString = params.get("studyId");
@@ -44,6 +46,7 @@ export default function StudyInfo() {
   const [ isOwner, setIsOwner ] = useState<boolean>(false);
   const [ userProfile, setUserProfile] = useState<IUserProfileType>({ email: "", nickname: "", profile_img: "", rating: null, user_id: 0 });
   const [ userStudy, setUserStudy ] = useState<IUserStudyType>({in_complete: 0, in_progress: 0 });
+
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -67,10 +70,10 @@ export default function StudyInfo() {
         const isOwner = data.membersList.some((member: Imember) => member._owner === true);
         setIsOwner(isOwner);
       }
-      
+
     }
     if (error) console.log(error);
-  }, []);
+  });
 
   useEffect(() => {
     if (watchMember !== "") {
@@ -79,6 +82,10 @@ export default function StudyInfo() {
       handleOpenModal();
     }
   }, [watchMember]);
+
+  useEffect(() => {
+
+  }, [isQuick, isJoined, isOwner]);
 
   const getUserProfile = async () => {
     try {
