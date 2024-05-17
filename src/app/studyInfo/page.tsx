@@ -75,14 +75,14 @@ export default function StudyInfo() {
       }
 
       const isMember = data.membersList.filter((member: Imember) => member.nickname === user?.nickname);
-      if (isMember) {
+      if (isMember.length > 0) {
         console.log(isMember);
         setIsJoined(true);
         isMember[0]?._owner === true ? setIsOwner(true) : setIsOwner(false);
       }
     }
     if (error) console.log(error);
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (watchMember !== "") {
