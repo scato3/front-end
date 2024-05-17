@@ -190,7 +190,7 @@ export default function Search() {
     <>
       <div className={styles.container}>
         <Navigation dark={true} onClick={handleGoBefore}>
-          <Image className={styles.iconBell} src={IconBell} width={58} height={58} alt="bell" />
+          <Image className={styles.iconBell} src={IconBell} width={48} height={48} alt="bell" />
         </Navigation>
         <div className={styles.searchInputBox}>
           <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter} />

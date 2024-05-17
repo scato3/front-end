@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { IfilterType } from "@/app/type/filterType";
 import NoStudy from "../search_result/_component/NoStudy";
 import getFilter from "../api/getFilter";
+import Navigation from "../_component/navigation/page";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -44,21 +45,19 @@ export default function Main_home() {
     <>
       {!isLoading && (
         <div className={styles.container}>
-          <div className={styles.navBox}>
-            <div className={styles.navImageContainer}>
-              <Image
-                className={styles.searchIcon}
-                src={Search}
-                alt="검색 버튼"
-                width={48}
-                height={48}
-                onClick={() => {
-                  router.push("./search");
-                }}
-              />
-              <Image className={styles.alertIcon} src={Alert} alt="검색 버튼" width={48} height={48} />
-            </div>
-          </div>
+          <Navigation dark={true} onClick={() => {}}>
+            <Image className={styles.iconBell} src={Alert} width={48} height={48} alt="bell" />
+            <Image
+              className={styles.iconSearch}
+              src={Search}
+              width={48}
+              height={48}
+              alt="search"
+              onClick={() => {
+                router.push("./search");
+              }}
+            />
+          </Navigation>
           <div className={styles.buttonBox}>
             <Button
               size="medium"

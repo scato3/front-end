@@ -1,0 +1,132 @@
+.Container {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 78px);
+  background-color: var(--gray-50);
+}
+
+.iconBell {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+}
+
+.FooterContainer {
+  position: sticky;
+  bottom: 0;
+}
+
+.Header {
+  margin-left: 38px;
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 27px;
+  color: var(--gray-600);
+}
+
+.CardContainer {
+  position: relative;
+  margin-left: 32px;
+  margin-top: 8px;
+  width: calc(100% - 64px);
+  height: 260px;
+  background-color: var(--gray-100);
+  border-radius: 1px;
+  border: 1px solid var(--gray-100);
+}
+
+.CardHeader {
+  margin-top: 22px;
+  font-size: 22px;
+  line-height: 35px;
+  color: var(--gray-800);
+}
+
+.ContentContainer {
+  margin-left: 16px;
+}
+
+.SubObject {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 32px;
+  font-size: 16px;
+  color: var(--gray-400);
+}
+
+.Category {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 52px;
+  height: 24px;
+  background-color: var(--gray-200);
+}
+
+.TargetContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-600);
+  gap: 18px;
+}
+
+.Percent {
+  position: absolute;
+  right: 24px;
+}
+
+.TargetNumber {
+  margin-left: -16px;
+  color: var(--main-200);
+}
+
+.ProgressBar {
+  margin-top: 8px;
+  width: calc(100% - 16px);
+  height: 8px;
+  border-radius: 2px;
+  background-color: var(--gray-400);
+}
+
+.SuccessProgress {
+  background-color: var(--main-200);
+  height: 100%;
+  border-radius: 2px;
+}
+
+.ButtonContainer {
+  display: flex;
+}
+
+.InfoButton,
+.JoinButton {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.InfoButton {
+  right: 144px;
+  bottom: 16px;
+  background-color: var(--gray-100);
+  color: var(--main-200);
+  border: 2px solid var(--main-200);
+}
+
+.JoinButton {
+  right: 16px;
+  bottom: 16px;
+  background-color: var(--main-200);
+  color: var(--main-50);
+  border: 2px solid var(--main-200);
+}

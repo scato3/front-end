@@ -1,34 +1,24 @@
 .container {
   position: relative;
   width: 100%;
-  height: calc(100% - 78px);
   background-color: var(--gray-50);
   display: flex;
   flex-direction: column;
 }
 
-.navBox {
-  position: sticky;
-  height: 68px;
-  background-color: var(--gray-800);
-  gap: 16px;
-  top: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.navImageContainer {
-  margin-right: 16px;
-}
-
-.searchIcon {
+.iconSearch,
+.iconBell {
+  position: absolute;
+  top: 16px;
   cursor: pointer;
 }
 
-.alertIcon {
-  cursor: pointer;
+.iconSearch {
+  right: 76px;
+}
+
+.iconBell {
+  right: 24px;
 }
 
 .buttonBox {
@@ -44,7 +34,6 @@
 }
 
 .ContentContainer {
-  height: 100%;
   overflow-y: scroll;
 }
 

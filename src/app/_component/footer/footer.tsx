@@ -23,6 +23,7 @@ const icons = [
     default: "/icons/footer/Icon_studyRoom.svg",
     checked: "/icons/footer/Icon_studyRoom_check.svg",
     alt: "studyRooms",
+    value: "myStudy",
   },
   {
     default: "/icons/footer/Icon_profile.svg",
