@@ -139,3 +139,22 @@
   color: var(--main-50);
   border: 2px solid var(--main-200);
 }
+
+.NoContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.NoStudyBtn {
+  margin-top: 32px;
+  width: 188px;
+  height: 50px;
+  background-color: var(--main-200);
+  font-size: 16px;
+  line-height: 27px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
