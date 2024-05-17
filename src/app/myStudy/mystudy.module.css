@@ -25,6 +25,11 @@
   color: var(--gray-600);
 }
 
+.CardBox {
+  height: calc(100% - 78px);
+  overflow-y: scroll;
+}
+
 .CardContainer {
   position: relative;
   margin-left: 32px;
@@ -34,6 +39,10 @@
   background-color: var(--gray-100);
   border-radius: 1px;
   border: 1px solid var(--gray-100);
+}
+
+.LastCard {
+  margin-bottom: 20px;
 }
 
 .CardHeader {

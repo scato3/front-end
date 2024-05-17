@@ -10,6 +10,7 @@ import myProfile from "../api/myProfile";
 import ProfileNav from "./_component/ProfileNav";
 import Footer from "../_component/footer/footer";
 import RatingBox from "../_component/ratingBox/RatingBox";
+import useFromStore from "@/utils/from";
 
 export default function Profile() {
   interface IMyStudyCount {}
@@ -23,8 +24,13 @@ export default function Profile() {
 
   const [myProfileData, setMyProfileData] = useState<IMyProfileData | null>(null);
   const [profileStudyMenu, setProfileStudyMenu] = useState<{ [key: string]: number }[] | null>(null);
+  const { setFrom } = useFromStore();
 
   const { accessToken } = useAuth();
+
+  useEffect(() => {
+    setFrom("profile");
+  }, []);
 
   const fetchProfileData = async (token: string) => {
     const myProfileData = await myProfile(token);

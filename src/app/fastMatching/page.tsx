@@ -19,6 +19,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import moment from "moment";
 import GetQuickFiler from "../api/quickFilter";
 import { fetchType } from "./type/fastType";
+import useFromStore from "@/utils/from";
 
 export default function FastMatching() {
   const router = useRouter();
@@ -35,6 +36,7 @@ export default function FastMatching() {
   const { setSelectedDate, setSelectedDuration, setSelectedField, setRecruitArr, setTendency, setSave } =
     useFastStore();
   const { accessToken } = useAuth();
+  const { from } = useFromStore();
 
   const formattedDate = selectedDate ? moment(selectedDate).format("YY.MM.DD") : "시작 날짜 선택하기";
   const formattedDuration = selectedDuration ? getFormattedDuration(selectedDuration) : "학습 기간 선택하기";
@@ -130,7 +132,7 @@ export default function FastMatching() {
                 dark={false}
                 isBack={true}
                 onClick={() => {
-                  router.push("./");
+                  router.push(`./${from}`);
                 }}
               >
                 빠른 매칭

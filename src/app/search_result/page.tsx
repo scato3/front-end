@@ -25,6 +25,7 @@ import { FreeMode } from "swiper/modules";
 import { IfilterType } from "../type/filterType";
 import useSearchStore from "../search/store/useSearchStore";
 import useSortStore from "../studyList/store/useSortStore";
+import useFromStore from "@/utils/from";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
@@ -96,6 +97,7 @@ export default function SearchResult() {
     useFilterStore();
   const { quickMatch, sortSelected } = useSortStore();
   const { queryString, setQueryString, recentKeywords, inputValue, setInputValue } = useSearchStore();
+  const { setFrom } = useFromStore();
   const addRecentKeyword = useSearchStore((state) => state.addRecentKeyword);
 
   useEffect(() => {
@@ -204,6 +206,10 @@ export default function SearchResult() {
   const handleGoBefore = () => {
     setInputValue("");
     router.push("./search");
+  };
+
+  const handleFrom = () => {
+    setFrom("search_result");
   };
 
   return (
@@ -321,7 +327,12 @@ export default function SearchResult() {
           </button>
         </div>
         {modalData && modalData.totalCount !== 0 ? (
-          <div className={styles.cardBox}>
+          <div
+            className={styles.cardBox}
+            onClick={() => {
+              handleFrom;
+            }}
+          >
             {modalData.data.map((data: IfilterType, index: number) => (
               <Card key={index} data={data} />
             ))}

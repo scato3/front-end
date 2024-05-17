@@ -20,7 +20,7 @@ import MemberModal from "./_component/memberModal";
 import GetUserProfile from "../api/getUserProfile";
 import useAuth from "@/hooks/useAuth";
 import JoinStudy from "../api/joinStudy";
-import AlertModal from "../_component/modal/alertModal";
+import InfoAlertModal from "../_component/modal/infoAlertModal";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 
@@ -53,11 +53,7 @@ export default function StudyInfo() {
     user_id: 0,
   });
   const [userStudy, setUserStudy] = useState<IUserStudyType>({ in_complete: 0, in_progress: 0 });
-  const { setFrom } = useFromStore();
-
-  useEffect(() => {
-    setFrom(`studyInfo?studyId${studyId}`);
-  }, []);
+  const { from } = useFromStore();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -164,7 +160,7 @@ export default function StudyInfo() {
             isBack={true}
             dark={false}
             onClick={() => {
-              router.back();
+              router.push(`./${from}`);
             }}
           >
             <p>{data.title}</p>
@@ -247,7 +243,7 @@ export default function StudyInfo() {
           {join && (
             <ModalPortal>
               <ModalContainer handleCloseModal={handleCloseAlert}>
-                <AlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</AlertModal>
+                <InfoAlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</InfoAlertModal>
               </ModalContainer>
             </ModalPortal>
           )}

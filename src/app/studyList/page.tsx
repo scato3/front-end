@@ -92,7 +92,7 @@ export default function StudyList() {
   const [sort, setSort] = useState<boolean>(false);
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
-  const { quickMatch, sortSelected, setSortSelected } = useSortStore();
+  const { quickMatch, sortSelected } = useSortStore();
   const { from, setFrom } = useFromStore();
 
   useEffect(() => {
@@ -187,9 +187,13 @@ export default function StudyList() {
     }
   };
 
+  const handleFrom = () => {
+    setFrom("studyList");
+  };
+
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={() => router.back()} dark={false}>
+      <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
         <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
       </Navigation>
       <div className={styles.categoryTabBox}>
@@ -299,7 +303,12 @@ export default function StudyList() {
           </button>
         </div>
         {modalData && modalData.totalCount !== 0 ? (
-          <div className={styles.cardBox}>
+          <div
+            className={styles.cardBox}
+            onClick={() => {
+              handleFrom();
+            }}
+          >
             {modalData.data.map((data: IfilterType, index: number) => (
               <Card key={index} data={data} />
             ))}
