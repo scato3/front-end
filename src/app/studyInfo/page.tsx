@@ -21,6 +21,7 @@ import GetUserProfile from "../api/getUserProfile";
 import useAuth from "@/hooks/useAuth";
 import JoinStudy from "../api/joinStudy";
 import AlertModal from "../_component/modal/alertModal";
+import { useRouter } from "next/navigation";
 
 interface Imember {
   nickname: string;
@@ -29,6 +30,7 @@ interface Imember {
 }
 
 export default function StudyInfo() {
+  const router = useRouter();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const params = useSearchParams();
   const studyIdString = params.get("studyId");
@@ -42,6 +44,9 @@ export default function StudyInfo() {
   const [ isQuick, setIsQuick ] = useState<boolean>(false);
   const [ isJoined, setIsJoined ] = useState<boolean>(false);
   const [ isOwner, setIsOwner ] = useState<boolean>(false);
+  const [ userProfile, setUserProfile] = useState<IUserProfileType>({ email: "", nickname: "", profile_img: "", rating: null, user_id: 0 });
+  const [ userStudy, setUserStudy ] = useState<IUserStudyType>({in_complete: 0, in_progress: 0 });
+
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -59,26 +64,32 @@ export default function StudyInfo() {
         console.log("Quick")
       }
 
-      data.membersList.map((member: Imember) => {
-        if(member.nickname === user?.nickname) setIsJoined(true);
-        if(member._owner === true) setIsOwner(true);
-        });
+      const isMember = data.membersList.some((member: Imember) => member.nickname === user?.nickname);
+      if (isMember) {
+        setIsJoined(true);
+        const isOwner = data.membersList.some((member: Imember) => member._owner === true);
+        setIsOwner(isOwner);
+      }
+
     }
     if (error) console.log(error);
-  }, []);
+  });
 
   useEffect(() => {
-    console.log(watchMember);
     if (watchMember !== "") {
       getUserProfile();
+      console.log(watchMember, userProfile);
       handleOpenModal();
     }
   }, [watchMember]);
 
+
   const getUserProfile = async () => {
     try {
       const res = await GetUserProfile(watchMember, accessToken);
-      console.log(res.profile);
+      console.log("res", res);
+      setUserProfile(res.profile);
+      setUserStudy(res.study_count);
     } catch (error) {
       console.log(error);
     }
@@ -94,6 +105,7 @@ export default function StudyInfo() {
   const handleJoinStudy = () => {
     if(isQuick) {
       setModalMsg("쇼터디에 가입했어요.");
+      setIsJoined(true);
     } else {
       setModalMsg("가입 신청을 요청했어요.");
     }
@@ -147,7 +159,7 @@ export default function StudyInfo() {
               return;
             }}
           >
-            <p className={styles.mainTitle}>{data.title}</p>
+            <p>{data.title}</p>
             {isOwner ?
             <Image
             className={styles.settingIcon}
@@ -158,7 +170,7 @@ export default function StudyInfo() {
               return;
             }}
             alt="settingIcon"
-          />: <></>}
+          />: null}
           </Navigation>
           <div className={styles.hrOrange}></div>
           <div className={styles.filterBox}>
@@ -209,7 +221,7 @@ export default function StudyInfo() {
           {openModal && (
             <ModalPortal>
               <ModalContainer handleCloseModal={handleCloseModal} >
-                <MemberModal handleCloseModal={handleCloseModal} nickname={watchMember} />
+                <MemberModal handleCloseModal={handleCloseModal} user={userProfile} study={userStudy}/>
               </ModalContainer>
             </ModalPortal>
           )}

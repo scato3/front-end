@@ -8,12 +8,19 @@
 }
 
 .badge {
-    position: relative;
-    top: -90px;
-    left: 30px;
+    position: absolute;
+    left: 90px;
+}
+
+.imageBox {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 10px;
+    border-radius: 50%;
 }
 
 .profileImage {
+    border-radius: 50%;
     cursor: pointer;
 }
 
@@ -22,15 +29,4 @@
     color: var(--gray-600);
     line-height: 23.52px;
     text-align: center;
-    position: relative;
-    top: -20px;
-}
-
-.nicknameMem {
-    font-size: 14px;
-    color: var(--gray-600);
-    line-height: 23.52px;
-    text-align: center;
-    position: relative;
-    top: 10px;
 }
