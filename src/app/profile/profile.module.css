@@ -4,6 +4,10 @@
   background-color: var(--gray-50);
 }
 
+.contentsBox {
+  height: 100vh;
+}
+
 .nav{
   height: 70px;
   background-color: var(--gray-800);

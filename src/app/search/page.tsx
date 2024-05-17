@@ -195,6 +195,7 @@ export default function Search() {
         <div className={styles.searchInputBox}>
           <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter} />
         </div>
+
         <div className={styles.recentSearchBox}>
           <div className={styles.recentBoxTop}>
             <p className={styles.recent}>최근 검색어</p>
@@ -245,10 +246,11 @@ export default function Search() {
             ))}
           </div>
         </div>
-      </div>
+        </div>
       <div className={styles.footerBox}>
         <Footer selectedIndex={1} />
       </div>
-    </>
+      
+    </div>
   );
 }
