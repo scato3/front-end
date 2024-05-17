@@ -47,7 +47,6 @@ export default function StudyInfo() {
   const [ userProfile, setUserProfile] = useState<IUserProfileType>({ email: "", nickname: "", profile_img: "", rating: null, user_id: 0 });
   const [ userStudy, setUserStudy ] = useState<IUserStudyType>({in_complete: 0, in_progress: 0 });
 
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
     queryFn: async () => GetStudyInfo(studyId),
@@ -61,19 +60,17 @@ export default function StudyInfo() {
 
       if(data.matching_type === "Quick"){
         setIsQuick(true);
-        console.log("Quick")
       }
 
-      const isMember = data.membersList.some((member: Imember) => member.nickname === user?.nickname);
+      const isMember = data.membersList.filter((member: Imember) => member.nickname === user?.nickname);
       if (isMember) {
+        console.log(isMember);
         setIsJoined(true);
-        const isOwner = data.membersList.some((member: Imember) => member._owner === true);
-        setIsOwner(isOwner);
-      }
-
+        isMember[0]?._owner === true ? setIsOwner(true) : setIsOwner(false);
+        }
     }
     if (error) console.log(error);
-  });
+  },[data, error]);
 
   useEffect(() => {
     if (watchMember !== "") {
@@ -82,7 +79,6 @@ export default function StudyInfo() {
       handleOpenModal();
     }
   }, [watchMember]);
-
 
   const getUserProfile = async () => {
     try {
