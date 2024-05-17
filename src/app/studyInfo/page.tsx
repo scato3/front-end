@@ -83,9 +83,6 @@ export default function StudyInfo() {
     }
   }, [watchMember]);
 
-  useEffect(() => {
-
-  }, [isQuick, isJoined, isOwner]);
 
   const getUserProfile = async () => {
     try {
