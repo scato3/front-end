@@ -1,0 +1,44 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--gray-50);
+}
+
+.hr {
+    width: 100%;
+    height: 7px;
+    background-color: var(--main-200);
+}
+
+.contentsBox {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px 30px 40px;
+}
+
+.h1 {
+    font-size: 20px;
+    margin-bottom: 40px;
+    margin-left: 10px;
+}
+
+.menuBox {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.menu {
+    color: var(--gray-600);
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gray-200);
+    cursor: pointer;
+}
+
+.icon {
+    margin-right: 10px;
+}
