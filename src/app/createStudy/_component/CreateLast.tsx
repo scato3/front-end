@@ -107,8 +107,13 @@ export default function CreateLast() {
 
   return (
     <div className={styles.Container}>
-      <Navigation dark={false} isBack={true} onClick={() => {}}>
-        쇼터디 생성
+      <Navigation
+          dark={false}
+          isBack={true}
+          onClick={() => {
+            router.push("./home");
+          }}
+      >        쇼터디 생성
       </Navigation>
       <div className={styles.seperator}>
         <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>

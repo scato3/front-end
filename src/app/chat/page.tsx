@@ -161,7 +161,7 @@ export default function ChatPage() {
   useEffect(() => {
     if (chatData) fetchMessages();
   }, [chatData]);
-  const messageBoxRef = useRef<HTMLUListElement>();
+  const messageBoxRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     if (messageBoxRef.current) {
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;

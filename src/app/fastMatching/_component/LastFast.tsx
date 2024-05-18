@@ -20,6 +20,10 @@ import "moment/locale/ko";
 import Button from "@/app/_component/button/Button";
 import JoinStudy from "@/app/api/joinStudy";
 import { useMutation } from "@tanstack/react-query";
+import { useModal } from "@/hooks/useModal";
+import ModalContainer from "@/app/_component/ModalContainer";
+import ModalPortal from "@/app/_component/ModalPortal";
+import AlredyJoinModal from "@/app/_component/modal/alredayJoinModal";
 
 export default function LastFast() {
   const router = useRouter();
@@ -30,6 +34,8 @@ export default function LastFast() {
   const [displayedIndex, setDisplayedIndex] = useState<number>(0);
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
   const [totalCount, setTotalCount] = useState<number>(0);
+  const { openModal, handleCloseModal, handleOpenModal } = useModal();
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,8 +107,13 @@ export default function LastFast() {
 
   const mutateData = useMutation({
     mutationFn: (id: number) => JoinStudy(id, accessToken),
-    onSuccess: () => {
-      console.log(mutateData);
+     onSuccess: (data) => {
+      if (data.message) {
+        handleOpenModal();
+        setErrorMsg(data.message);
+      } else {
+        router.push("./myStudy");
+      }
     },
     onError: () => {
       console.error("error");
@@ -185,8 +196,12 @@ export default function LastFast() {
                         </div>
                         <p className={styles.Description}>{item.description}</p>
                         <div className={styles.SmallBtnContainer}>
-                          <Button size="very_small" property="black" onClick={() => handleReg(item.study_id)}>
-                            가입하기
+                        <Button
+                            size="very_small"
+                            property="black"
+                            onClick={() => (item.is_member ? {} : handleReg(item.study_id))}
+                          >
+                            {item.is_member ? "입장하기" : "가입하기"}
                           </Button>
                         </div>
                       </div>
@@ -230,6 +245,13 @@ export default function LastFast() {
             </div>
           </div>
         </div>
+      )}
+            {openModal && (
+        <ModalPortal>
+          <ModalContainer>
+            <AlredyJoinModal handleCloseModal={handleCloseModal}>{errorMsg}</AlredyJoinModal>
+          </ModalContainer>
+        </ModalPortal>
       )}
     </div>
   );

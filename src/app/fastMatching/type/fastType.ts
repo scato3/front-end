@@ -10,6 +10,7 @@ export interface IFastType {
   title: string;
   description: string;
   additional_infos: string[];
+  is_member: boolean;
 }
 
 export interface fetchType {
