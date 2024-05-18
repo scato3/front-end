@@ -85,7 +85,8 @@ export default function MyStudy() {
                       <div className={styles.SubObject}>
                         <div className={styles.Category}>{data.category}</div>
                         <div>
-                          {moment(data.start_date).format("MM.DD")} - {moment(data.end_date).format("MM.DD")}
+                          {moment(data.start_date).format("MM.DD")} -{" "}
+                          {data.end_date ? moment(data.end_date).format("MM.DD") : "미정"}
                         </div>
                         <div>{data.cur_participants_num}명 참여</div>
                       </div>
