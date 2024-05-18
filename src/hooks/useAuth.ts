@@ -15,7 +15,8 @@ interface GlobalState {
   accessToken: string;
   setAccessToken: (accessToken: string) => void;
   user: null | IUserState;
-  setUser: (user: IUserState) => void;
+  setUser: (user: IUserState | null) => void;
+  logout: () => void;
 }
 
 const initialState: GlobalState = {
@@ -25,6 +26,7 @@ const initialState: GlobalState = {
   setAccessToken: () => {},
   user: null,
   setUser: () => {},
+  logout: () => {},
 };
 
 const useAuth = create<GlobalState>(
@@ -34,6 +36,14 @@ const useAuth = create<GlobalState>(
       setUser: (user: IUserState) => set({ user }),
       setIsLogin: (isLogin: boolean) => set({ isLogin }),
       setAccessToken: (accessToken: string) => set({ accessToken }),
+      logout: () => {
+        set({
+          isLogin: false,
+          accessToken: "",
+          user: null,
+        });
+        localStorage.removeItem("userToken");
+      },
     }),
     {
       name: "userToken",
