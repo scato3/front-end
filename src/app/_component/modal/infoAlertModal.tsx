@@ -1,19 +1,20 @@
 import styles from "./alertModal.module.css";
 import Button from "@/app/_component/button/Button";
 import { useRouter } from "next/navigation";
+import useFromStore from "@/utils/from";
 
 interface IAlertModal {
   handleCloseModal: () => void;
   children: React.ReactNode;
-  studyIdString?: string | null;
 }
 
-export default function AlertModal({ handleCloseModal, children, studyIdString }: IAlertModal) {
+export default function InfoAlertModal({ handleCloseModal, children }: IAlertModal) {
   const router = useRouter();
+  const { from } = useFromStore();
 
   const handleClose = () => {
     handleCloseModal();
-    router.push(`./studyInfo?studyId=${studyIdString}`);
+    router.push(`./${from}`);
   };
 
   return (

@@ -1,22 +1,22 @@
 .container {
   width: 100%;
-  height: 100vh;
+  height: calc(100% - 78px);
   background-color: var(--gray-50);
 }
 
-.nav{
+.nav {
   height: 70px;
   background-color: var(--gray-800);
   width: 100%;
 }
 
 .ProfileTop {
-  padding: 20px 30px 20px 30px;
+  padding: 30px 30px 20px 30px;
 }
 
 .ProfileBox {
   display: flex;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .ProfileEditBox {
@@ -44,37 +44,6 @@
 .ProfileRatingBox {
   padding: 10px 15px;
   margin-bottom: 30px;
-  height: 80px;
-  background-color: var(--gray-800);
-}
-
-.ratingBoxTop {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-}
-
-.ratingTitle {
-  font-size: 20px;
-  line-height: 32px;
-  color: var(--gray-50);
-}
-
-.ProfileProgressBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.ProfileRating {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.score {
-  font-size: 20px;
-  color: var(--gray-50);
 }
 
 .ProfileMenuBox {
@@ -139,4 +108,5 @@
 .footer {
   position: sticky;
   width: 100%;
-  bottom: 0;}
+  bottom: 0;
+}

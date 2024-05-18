@@ -1,0 +1,47 @@
+.container {
+    width: 436px;
+    height: 106px;
+    background-color: var(--gray-100);
+    border-radius: 5px;
+    color: var(--gray-700);
+}
+
+.containerMy {
+    width: 436px;
+    height: 106px;
+    background-color: var(--gray-800);
+    color: var(--gray-50);
+}
+
+.ratingBox {
+    padding: 10px 30px 10px 30px;
+}
+
+.containerTop {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.title {
+    font-size: 20px;
+}
+
+.scoreBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.scoreIcon {
+        
+}
+
+.score {
+    font-size: 20px;
+}
+
+.progressBarBox {
+    margin-top: 15px;
+}

@@ -14,7 +14,7 @@ const icons = [
     value: "home",
   },
   {
-    default: "/icons/footer/Icon_search.svg",
+    default: "/icons/Icon_search.svg",
     checked: "/icons/footer/Icon_search_check.svg",
     alt: "검색 페이지 이미지",
     value: "search",
@@ -23,6 +23,7 @@ const icons = [
     default: "/icons/footer/Icon_studyRoom.svg",
     checked: "/icons/footer/Icon_studyRoom_check.svg",
     alt: "studyRooms",
+    value: "myStudy",
   },
   {
     default: "/icons/footer/Icon_profile.svg",

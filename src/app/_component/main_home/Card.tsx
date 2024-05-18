@@ -12,15 +12,24 @@ export default function Card({ data }: { data: IfilterType }) {
   const router = useRouter();
 
   return (
-    <div className={styles.container} onClick={()=> {router.push(`/studyInfo?studyId=${data.id}`)}}>
+    <div
+      className={styles.container}
+      onClick={() => {
+        router.push(`/studyInfo?studyId=${data.id}`);
+      }}
+    >
       <div className={styles.cardBox}>
         <div className={styles.titleBox}>
           <p className={styles.flag}>{data.category}</p>
           <p className={styles.title}>{data.title}</p>
         </div>
         <div className={styles.tagBox}>
-          {data.additionalInfos?.map((tag: string) => {
-            return <span className={styles.tagTitle}>#{tag}</span>;
+          {data.additionalInfos?.map((tag: string, index: number) => {
+            return (
+              <span key={index} className={styles.tagTitle}>
+                #{tag}
+              </span>
+            ); // key 추가
           })}
         </div>
         <div className={styles.detailBox}>
