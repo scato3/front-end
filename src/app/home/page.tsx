@@ -32,6 +32,7 @@ export default function Main_home() {
       try {
         const res = await getFilter("all", "recent");
         setPostData(res.data);
+        console.log(res.data);
       } catch (e) {
         console.error("error");
       } finally {
