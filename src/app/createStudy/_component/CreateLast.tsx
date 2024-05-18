@@ -25,7 +25,16 @@ export default function CreateLast() {
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
 
-  const { selectedDate, selectedField, selectedDuration, recruit, tendency, matchingType } = useCreateStore();
+  const {
+    selectedDate,
+    selectedField,
+    selectedDuration,
+    recruit,
+    tendency,
+    matchingType,
+    setSelectedDate,
+    setSelectedDuration,
+  } = useCreateStore();
   const { accessToken } = useAuth();
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +113,12 @@ export default function CreateLast() {
     }
   };
 
+  const goBack = () => {
+    setSelectedDate(null);
+    setSelectedDuration(null);
+    router.push("./home");
+  };
+
   const placeholderText = "쇼터디에 대한 설명을 작성해주세요.\n(예시_매주 3회이상 필수참여하실 수 있는 분들 함께해요!)";
 
   return (
@@ -112,7 +127,7 @@ export default function CreateLast() {
         dark={false}
         isBack={true}
         onClick={() => {
-          router.push("./home");
+          goBack();
         }}
       >
         쇼터디 생성
