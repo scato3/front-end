@@ -1,6 +1,6 @@
 "use client";
 import { IMessage } from "@/interfaces/chat/IMessage";
-import { isLastMessage, isSameSender } from "@/utils/chatLogics";
+import { isSameSender } from "@/utils/chatLogics";
 import { Avatar } from "@chakra-ui/react";
 import moment from "moment-timezone";
 import { useEffect, useState } from "react";
@@ -44,12 +44,12 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
                 <div
                   style={{
                     display: "flex",
-                    justifyContent: !isSameSender(messages, message, idx, userId) ? "end" : "start",
+                    justifyContent: isSameSender(messages, message, idx, userId) ? "start" : "end",
                     alignItems: "center",
                   }}
                   key={message._id}
                 >
-                  {(isSameSender(messages, message, idx, userId) || isLastMessage(messages, idx, userId)) && (
+                  {isSameSender(messages, message, idx, userId) && (
                     <Avatar
                       width={54}
                       height={54}
@@ -62,7 +62,7 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
                       src={message.sender.pic}
                     />
                   )}
-                  {isSameSender(messages, message, idx, userId) || isLastMessage(messages, idx, userId) ? (
+                  {isSameSender(messages, message, idx, userId) ? (
                     <div
                       style={{
                         marginTop: 3,

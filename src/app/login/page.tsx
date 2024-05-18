@@ -3,11 +3,11 @@
 import Image from "next/image";
 import styles from "./login.module.css";
 
-import Logo from "../../../public/Brand_logo.svg";
-import kakaoLogin from "../../../public/kakao_login_large_wide.svg";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Logo from "../../../public/Brand_logo.svg";
+import kakaoLogin from "../../../public/kakao_login_large_wide.svg";
 
 export default function Login() {
   const REST_API_KEY = process.env.NEXT_PUBLIC_API_KEY;
