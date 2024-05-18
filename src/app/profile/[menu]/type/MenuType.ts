@@ -15,3 +15,4 @@ export interface IMenuDataProps {
   data: MenuData[];
   totalCount: number;
 }
+
