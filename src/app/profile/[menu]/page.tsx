@@ -92,7 +92,14 @@ export default function Menu({ params }: { params: { menu: string } }) {
               <p className={styles.emptySubTitle}>직접 스터디를 등록해 보세요!</p>
             </div>
             <Button size="medium" onClick={() => {}}>
-              <h5 className={styles.buttonTitle}>쇼터디 둘러보기</h5>
+              <h5
+                className={styles.buttonTitle}
+                onClick={() => {
+                  router.push("../studyList");
+                }}
+              >
+                쇼터디 둘러보기
+              </h5>
             </Button>
           </div>
         ) : (

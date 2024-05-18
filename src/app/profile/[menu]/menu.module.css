@@ -1,7 +1,8 @@
 .menuContainer {
   padding: 30px 20px;
-  min-height: auto;
+  height: calc(100% - 120px);
   background-color: var(--gray-50);
+  overflow-y: scroll;
 }
 
 .studyCount {

@@ -3,6 +3,7 @@ import Image from "next/image";
 import calendarIcon from "../../../../public/icons/_main01/Icon_calendar.svg";
 import peopleIcon from "../../../../public/icons/_main01/Icon_people.svg";
 import styles from "./card.module.css";
+import moment from "moment";
 
 export default function Card({ data, cardStyles, cardType }: { data: any; cardStyles?: any; cardType?: string }) {
   return (
@@ -16,7 +17,7 @@ export default function Card({ data, cardStyles, cardType }: { data: any; cardSt
             <p className={styles.favoriteDetail}>
               <p className={styles.favoriteFlag}>{data.category}</p>
               <p>
-                {data.start_date.substring(5)} ~ {data.end_date.substring(5)}
+                {moment(data.start_date).format("MM.DD")} ~ {moment(data.end_date).format("MM.DD")}
               </p>
               <p>{data.cur_participants_num}명 참여</p>
             </p>
@@ -70,7 +71,7 @@ export default function Card({ data, cardStyles, cardType }: { data: any; cardSt
               <div className={styles.detailDate}>
                 <Image src={calendarIcon} width={24} height={24} alt="달력아이콘" />
                 <p className={styles.detail}>
-                  {data.start_date.substring(5)} ~ {data.end_date.substring(5)}
+                  {moment(data.start_date).format("MM.DD")} ~ {moment(data.end_date).format("MM.DD")}
                 </p>
               </div>
               <div>{cardType == "proposal" && <button className={styles.buttonCancel}>신청 취소</button>}</div>
