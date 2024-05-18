@@ -5,19 +5,22 @@
   display: flex;
   flex-direction: column;
   background-color: var(--gray-50);
+  position: relative;
 }
 
 .iconBell {
   position: absolute;
-  top: 16px;
-  right: 24px;
+  top: -5px;
+  right: 20px;
   cursor: pointer;
 }
 
 .searchInputBox {
   display: flex;
   justify-content: center;
+  align-items: end;
   width: 100%;
+  height: 250px;
   background-color: var(--gray-800);
 }
 

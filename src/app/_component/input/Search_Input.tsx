@@ -10,6 +10,7 @@ const Search_Input: React.FC<ISearchInput> = ({ handleEnter, onChange, value }) 
     return(
         <div className={styles.container}>
             <input 
+                maxLength={20}
                 className={styles.input} 
                 type="text" 
                 name="최근검색어"
