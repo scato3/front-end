@@ -189,7 +189,7 @@ export default function StudyList() {
 
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={() => router.push(`./${from}`)} dark={false}>
+      <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
         <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
       </Navigation>
       <div className={styles.categoryTabBox}>

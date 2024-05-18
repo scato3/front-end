@@ -46,6 +46,7 @@
 }
 
 .hrLine {
+  margin-top: 16px;
   width: 100%;
   height: 7px;
   background-color: var(--gray-100);
@@ -56,22 +57,46 @@
 }
 
 .popularKeywordBox {
-  display: flex;
-  flex-direction: column;
-  height: 100px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, auto);
+  gap: 10px;
+}
+
+.keyword1 {
+  grid-area: 1 / 1;
+}
+.keyword2 {
+  grid-area: 2 / 1;
+}
+.keyword3 {
+  grid-area: 3 / 1;
+}
+.keyword4 {
+  grid-area: 1 / 2;
+}
+.keyword5 {
+  grid-area: 2 / 2;
+}
+.keyword6 {
+  grid-area: 3 / 2;
+}
+
+.popularKeywordBox p:nth-child(3),
+.popularKeywordBox p:nth-child(6) {
+  border-bottom: none;
 }
 
 .popularKeyword {
+  margin-top: 8px;
+  padding-bottom: 8px;
   font-size: 14px;
+  line-height: 23.52px;
   color: var(--gray-600);
   border-bottom: 2px solid var(--gray-100);
   width: 190px;
   height: fit-content;
-  padding: 0 0 8px 10px;
   cursor: pointer;
 }
 
