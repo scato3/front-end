@@ -96,10 +96,6 @@ export default function StudyList() {
   const { from, setFrom } = useFromStore();
 
   useEffect(() => {
-    setFrom("studyList");
-  }, []);
-
-  useEffect(() => {
     setSelectedArea(category === "전체" ? "" : category);
     console.log(quickMatch);
   }, [category]);
@@ -193,7 +189,7 @@ export default function StudyList() {
 
   return (
     <div className={styles.container}>
-      <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
+      <Navigation isBack={true} onClick={() => router.push(`./${from}`)} dark={false}>
         <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
       </Navigation>
       <div className={styles.categoryTabBox}>
