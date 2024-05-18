@@ -49,8 +49,13 @@
 }
 
 .disabled {
-  color: var(--gray-700);
-  background-color: var(--gray-100);
+  color: var(--gray-600);
+  background-color: var(--gray-200);
+}
+
+.disabledColor {
+  color: var(--gray-600);
+  background-color: var(--gray-200);
 }
 
 .cancel {
