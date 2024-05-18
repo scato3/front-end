@@ -2,17 +2,19 @@
 import useAuth from "@/hooks/useAuth";
 import { IChat } from "@/interfaces/chat/IChat";
 import { IMessage } from "@/interfaces/chat/IMessage";
+import animationData from "@/utils/typing.json";
 import { Box, Button, FormControl, Input, InputGroup, InputRightElement, Spinner, useToast } from "@chakra-ui/react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import Lottie from "react-lottie";
+import io, { Socket } from "socket.io-client";
 import Back from "../../../public/icons/Btn_arrow_left.svg";
 import Plus from "../../../public/icons/Icon_chat_plus.svg";
 import Arrow from "../../../public/icons/Icon_down_arrow.svg";
 import More from "../../../public/icons/Icon_more.svg";
 import Noti from "../../../public/icons/Icon_noti.svg";
 import Search from "../../../public/icons/Icon_search.svg";
-import { useSocket } from "../_component/SocketProvider";
 import chat from "../api/chat/chat";
 import getMessage from "../api/chat/getMessage";
 import postMessage from "../api/chat/postMessage";
@@ -23,8 +25,14 @@ export default function ChatPage() {
   interface IChatData extends IChat {
     chatName: string;
   }
-
-  const { socket, isConnected, typing, isTyping, setIsConnected, setIsTyping, setTyping } = useSocket();
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const toast = useToast();
   const [chatData, setChatData] = useState<IChatData | null>(null);
@@ -34,13 +42,27 @@ export default function ChatPage() {
 
   const searchParams = useSearchParams();
   const studyId = searchParams.get("studyId") as string;
+  const [socketConnected, setSocketConnected] = useState<boolean>(false);
+  const [typing, setTyping] = useState<boolean>(false);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [socket, setSocket] = useState<null | Socket>(null);
 
   useEffect(() => {
-    if (socket) {
-      socket?.emit("setup", "setuptest");
-      socket?.emit("test", "data");
-    }
-  }, [socket]);
+    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_PROD_API as string);
+    newSocket.emit("setup", user);
+    newSocket.on("connected", () => setSocketConnected(true));
+    newSocket.on("typing", () => setIsTyping(true));
+    newSocket.on("stop typing", () => setIsTyping(false));
+    newSocket.on("error", (error: unknown) => {
+      console.log("Socket connection error:", error);
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
   const { accessToken, user } = useAuth();
 
   useEffect(() => {
@@ -57,6 +79,11 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (socket) {
+      console.log(socket);
+      socket.on("message received", (newMessageReceived: IMessage) => {
+        console.log(newMessageReceived);
+      });
+
       socket.on("message received", (newMessageReceived: IMessage) => {
         setMessages([...messages, newMessageReceived]);
       });
@@ -113,7 +140,7 @@ export default function ChatPage() {
 
   const typingHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewMessage(e.target.value);
-    if (!isConnected) return;
+    if (!socketConnected) return;
 
     if (!typing) {
       setTyping(true);
@@ -167,6 +194,13 @@ export default function ChatPage() {
       ) : (
         <div className={styles.messageBox} ref={messageBoxRef}>
           {<ChatBox messages={messages} userId={user?.userObjectId as string} />}
+          {isTyping ? (
+            <div>
+              <Lottie options={defaultOptions} height={50} width={70} style={{ marginBottom: 15, marginLeft: 0 }} />
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       )}
 
