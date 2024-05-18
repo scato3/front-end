@@ -131,6 +131,7 @@ export default function StudyEdit() {
   };
 
   const handleEditStudy = () => {
+    SetIsEdited((prev) => !prev);
     handleOpenModal();
   };
 
