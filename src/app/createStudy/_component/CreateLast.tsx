@@ -97,6 +97,7 @@ export default function CreateLast() {
 
     try {
       const result = await setStudy(postData, accessToken);
+      console.log(postData);
       handleOpenModal();
     } catch (error) {
       console.error(error);
@@ -107,7 +108,13 @@ export default function CreateLast() {
 
   return (
     <div className={styles.Container}>
-      <Navigation dark={false} isBack={true} onClick={() => {}}>
+      <Navigation
+        dark={false}
+        isBack={true}
+        onClick={() => {
+          router.push("./home");
+        }}
+      >
         쇼터디 생성
       </Navigation>
       <div className={styles.seperator}>

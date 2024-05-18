@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./nav.module.css";
-const keyLabels = {
+const keyLabels: { [key: string]: string } = {
   proposal: "참여신청",
   progress: "진행중",
   complete: "참여완료",

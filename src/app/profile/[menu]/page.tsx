@@ -12,6 +12,7 @@ import Card from "../_component/Card";
 import MyStudyNav from "../_component/MyStudyNav";
 import ProfileNav from "../_component/ProfileNav";
 import styles from "./menu.module.css";
+import { IMenuDataProps } from "./type/MenuType";
 
 export default function Menu({ params }: { params: { menu: string } }) {
   const proposalRef = useRef(null);
@@ -20,9 +21,9 @@ export default function Menu({ params }: { params: { menu: string } }) {
   const router = useRouter();
   const studyType = params?.menu?.split("_")?.[1];
   const { accessToken } = useAuth();
-  const [myStudyData, setMyStudyData] = useState();
+  const [myStudyData, setMyStudyData] = useState<IMenuDataProps>();
   const [emptyTitle, setEmptyTitle] = useState("");
-  
+
   const fetchMenuData = async (studyType: string) => {
     switch (studyType) {
       case "progress":
@@ -39,7 +40,7 @@ export default function Menu({ params }: { params: { menu: string } }) {
     }
   };
 
-  const handleClickCard = (id: string) => {
+  const handleClickCard = (id: number) => {
     if (params?.menu == "in_proposal") {
     } else {
       return router.push(`/chat?studyId=${id}`);
@@ -52,6 +53,7 @@ export default function Menu({ params }: { params: { menu: string } }) {
           const data = await fetchMenuData(studyType);
           console.log(data);
           setMyStudyData(data);
+          console.log(myStudyData);
         }
       } catch (error) {
         console.error("Error fetching menu data:", error);
