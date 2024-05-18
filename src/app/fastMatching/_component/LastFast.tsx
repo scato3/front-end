@@ -132,6 +132,10 @@ export default function LastFast() {
     setDisplayedIndex((prev) => prev + 3);
   };
 
+  const handleGoInfo = (study_id: number) => {
+    router.push(`./studyInfo?studyId=${study_id}`);
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -198,7 +202,7 @@ export default function LastFast() {
                           <Button
                             size="very_small"
                             property="black"
-                            onClick={() => (item.is_member ? {} : handleReg(item.study_id))}
+                            onClick={() => (item.is_member ? handleGoInfo(item.study_id) : handleReg(item.study_id))}
                           >
                             {item.is_member ? "입장하기" : "가입하기"}
                           </Button>
