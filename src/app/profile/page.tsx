@@ -11,6 +11,10 @@ import ProfileNav from "./_component/ProfileNav";
 import Footer from "../_component/footer/footer";
 import RatingBox from "../_component/ratingBox/RatingBox";
 import useFromStore from "@/utils/from";
+import { useModal } from "@/hooks/useModal";
+import ModalContainer from "../_component/ModalContainer";
+import ModalPortal from "../_component/ModalPortal";
+import Logout from "../_component/logout/logout";
 
 export default function Profile() {
   interface IMyStudyCount {}
@@ -25,6 +29,7 @@ export default function Profile() {
   const [myProfileData, setMyProfileData] = useState<IMyProfileData | null>(null);
   const [profileStudyMenu, setProfileStudyMenu] = useState<{ [key: string]: number }[] | null>(null);
   const { setFrom } = useFromStore();
+  const { openModal, handleCloseModal, handleOpenModal } = useModal();
 
   const { accessToken } = useAuth();
 
@@ -118,13 +123,22 @@ export default function Profile() {
             <p className={styles.serviceInfo}>서비스 안내</p>
             <p className={styles.service}>이용약관</p>
             <p className={styles.service}>개인정보 처리방침</p>
-            <p className={styles.service}>로그아웃</p>
+            <p className={styles.service} onClick={handleOpenModal}>
+              로그아웃
+            </p>
           </div>
         </div>
       </div>
       <div className={styles.footer}>
         <Footer selectedIndex={3} />
       </div>
+      {openModal && (
+        <ModalPortal>
+          <ModalContainer>
+            <Logout handleCloseModal={handleCloseModal} />
+          </ModalContainer>
+        </ModalPortal>
+      )}
     </>
   );
 }

@@ -42,13 +42,12 @@
 }
 
 .ProfileRatingBox {
-  padding: 10px 15px;
   margin-bottom: 30px;
 }
 
 .ProfileMenuBox {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .ProfileMenu {
