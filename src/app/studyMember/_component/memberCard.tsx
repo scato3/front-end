@@ -10,11 +10,11 @@ interface IMemberCard {
     isRequest?: boolean;
     isMember?: boolean;
     memberData: IJoinedMember;
-    handleOutMember: () => void;
-    handleOpenOutModal: () => void;
+    handleOutMember?: () => void;
+    
 }
 
-export default function MemberCard({isRequesting=false, isRequest=false, isMember=false, memberData, handleOutMember, handleOpenOutModal}: IMemberCard) {
+export default function MemberCard({isRequesting=false, isRequest=false, isMember=false, memberData, handleOutMember}: IMemberCard) {
     const formattedDate =  moment(memberData.join_date).format("MM-DD HH:MM");
 
 
