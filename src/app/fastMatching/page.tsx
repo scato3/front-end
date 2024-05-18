@@ -59,7 +59,6 @@ export default function FastMatching() {
       try {
         const postData = await GetQuickFiler(accessToken);
         setData(postData);
-        console.log(postData);
       } catch (error) {
         console.error(error);
       } finally {

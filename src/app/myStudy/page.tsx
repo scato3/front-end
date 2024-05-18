@@ -92,12 +92,15 @@ export default function MyStudy() {
                       </div>
                       <div className={styles.TargetContainer}>
                         <p>오늘완료</p>
-                        <p>03/</p>
-                        <p className={styles.TargetNumber}>02</p>
-                        <p className={styles.Percent}>33%</p>
+                        <p>{data.progress_todo.total_num}/</p>
+                        <p className={styles.TargetNumber}>{data.progress_todo.complete_num}</p>
+                        <p className={styles.Percent}>{data.progress_todo.percent}%</p>
                       </div>
                       <div className={styles.ProgressBar}>
-                        <div className={styles.SuccessProgress} style={{ width: "33%" }}></div>
+                        <div
+                          className={styles.SuccessProgress}
+                          style={{ width: `${data.progress_todo.percent}%` }}
+                        ></div>
                       </div>
                     </div>
                     <div className={styles.ButtonContainer}>
