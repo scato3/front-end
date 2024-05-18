@@ -14,7 +14,7 @@ export default function ProfileNav({ title }: { title: string }) {
         height={30}
         alt="종료 버튼"
         onClick={() => {
-          router.push("./profile");
+          router.push("../profile");
         }}
         className={styles.navImg}
       ></Image>
