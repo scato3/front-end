@@ -85,18 +85,22 @@ export default function MyStudy() {
                       <div className={styles.SubObject}>
                         <div className={styles.Category}>{data.category}</div>
                         <div>
-                          {moment(data.start_date).format("MM.DD")} - {moment(data.end_date).format("MM.DD")}
+                          {moment(data.start_date).format("MM.DD")} -{" "}
+                          {data.end_date ? moment(data.end_date).format("MM.DD") : "미정"}
                         </div>
                         <div>{data.cur_participants_num}명 참여</div>
                       </div>
                       <div className={styles.TargetContainer}>
                         <p>오늘완료</p>
-                        <p>03/</p>
-                        <p className={styles.TargetNumber}>02</p>
-                        <p className={styles.Percent}>33%</p>
+                        <p>{data.progress_todo.total_num}/</p>
+                        <p className={styles.TargetNumber}>{data.progress_todo.complete_num}</p>
+                        <p className={styles.Percent}>{data.progress_todo.percent}%</p>
                       </div>
                       <div className={styles.ProgressBar}>
-                        <div className={styles.SuccessProgress} style={{ width: "33%" }}></div>
+                        <div
+                          className={styles.SuccessProgress}
+                          style={{ width: `${data.progress_todo.percent}%` }}
+                        ></div>
                       </div>
                     </div>
                     <div className={styles.ButtonContainer}>

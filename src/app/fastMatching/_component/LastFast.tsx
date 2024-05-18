@@ -56,7 +56,6 @@ export default function LastFast() {
         setIsLoading(false);
         setDisplayedIndex(0);
         setTotalCount(data.totalCount);
-        console.log(data);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
@@ -107,7 +106,7 @@ export default function LastFast() {
 
   const mutateData = useMutation({
     mutationFn: (id: number) => JoinStudy(id, accessToken),
-     onSuccess: (data) => {
+    onSuccess: (data) => {
       if (data.message) {
         handleOpenModal();
         setErrorMsg(data.message);
@@ -131,6 +130,10 @@ export default function LastFast() {
 
   const handleNextClick = () => {
     setDisplayedIndex((prev) => prev + 3);
+  };
+
+  const handleGoInfo = (study_id: number) => {
+    router.push(`./studyInfo?studyId=${study_id}`);
   };
 
   return (
@@ -196,10 +199,10 @@ export default function LastFast() {
                         </div>
                         <p className={styles.Description}>{item.description}</p>
                         <div className={styles.SmallBtnContainer}>
-                        <Button
+                          <Button
                             size="very_small"
                             property="black"
-                            onClick={() => (item.is_member ? {} : handleReg(item.study_id))}
+                            onClick={() => (item.is_member ? handleGoInfo(item.study_id) : handleReg(item.study_id))}
                           >
                             {item.is_member ? "입장하기" : "가입하기"}
                           </Button>
@@ -246,7 +249,7 @@ export default function LastFast() {
           </div>
         </div>
       )}
-            {openModal && (
+      {openModal && (
         <ModalPortal>
           <ModalContainer>
             <AlredyJoinModal handleCloseModal={handleCloseModal}>{errorMsg}</AlredyJoinModal>
