@@ -15,7 +15,7 @@ export default function CreateThird({ onNext }: { onNext: () => void }) {
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
   const [selectedPurpose, setSelectedPurpose] = useState<string | null>(null);
   const [selectedApplyContainer, setSelectedApplyContainer] = useState<string | null>("");
-  const { setTendency, setMatchingType } = useCreateStore();
+  const { setTendency, setMatchingType, setSelectedDate, setSelectedDuration } = useCreateStore();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,6 +24,12 @@ export default function CreateThird({ onNext }: { onNext: () => void }) {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const goBack = () => {
+    setSelectedDate(null);
+    setSelectedDuration(null);
+    router.push("./home");
+  };
 
   useEffect(() => {
     if (selectedApplyContainer && selectedPurpose) {
@@ -71,7 +77,7 @@ export default function CreateThird({ onNext }: { onNext: () => void }) {
         dark={false}
         isBack={true}
         onClick={() => {
-          router.push("./home");
+          goBack();
         }}
       >
         쇼터디 생성

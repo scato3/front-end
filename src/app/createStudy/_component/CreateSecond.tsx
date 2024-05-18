@@ -49,14 +49,16 @@ export default function CreateSecond({ onNext }: { onNext: () => void }) {
   const increaseRecruit = () => {
     if (recruitNum < 20) {
       setRecruitNum((prevRecruit) => Math.min(prevRecruit + 1, 20));
-      setRecruit(recruitNum);
     }
   };
+
+  useEffect(() => {
+    setRecruit(recruitNum);
+  }, [recruitNum]);
 
   const decreaseRecruit = () => {
     if (recruitNum > 2) {
       setRecruitNum((prevRecruit) => Math.max(prevRecruit - 1, 2));
-      setRecruit(recruitNum);
     }
   };
 
