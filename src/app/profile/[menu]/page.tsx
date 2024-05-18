@@ -23,7 +23,7 @@ export default function Menu({ params }: { params: { menu: string } }) {
   const { accessToken } = useAuth();
   const [myStudyData, setMyStudyData] = useState<IMenuDataProps>();
   const [emptyTitle, setEmptyTitle] = useState("");
-  
+
   const fetchMenuData = async (studyType: string) => {
     switch (studyType) {
       case "progress":
@@ -53,6 +53,7 @@ export default function Menu({ params }: { params: { menu: string } }) {
           const data = await fetchMenuData(studyType);
           console.log(data);
           setMyStudyData(data);
+          console.log(myStudyData);
         }
       } catch (error) {
         console.error("Error fetching menu data:", error);
@@ -91,7 +92,14 @@ export default function Menu({ params }: { params: { menu: string } }) {
               <p className={styles.emptySubTitle}>직접 스터디를 등록해 보세요!</p>
             </div>
             <Button size="medium" onClick={() => {}}>
-              <h5 className={styles.buttonTitle}>쇼터디 둘러보기</h5>
+              <h5
+                className={styles.buttonTitle}
+                onClick={() => {
+                  router.push("../studyList");
+                }}
+              >
+                쇼터디 둘러보기
+              </h5>
             </Button>
           </div>
         ) : (

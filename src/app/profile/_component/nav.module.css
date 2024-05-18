@@ -50,3 +50,7 @@
   position: absolute;
   transition: left 0.3s ease;
 }
+
+.navImg {
+  cursor: pointer;
+}

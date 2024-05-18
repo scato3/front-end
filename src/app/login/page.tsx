@@ -43,7 +43,14 @@ export default function Login() {
             className={styles.kakaoBtn}
             onClick={loginHandler}
           />
-          <p className={styles.preview}>둘러보기</p>
+          <p
+            className={styles.preview}
+            onClick={() => {
+              router.push("./home");
+            }}
+          >
+            둘러보기
+          </p>
         </div>
       </div>
     </div>

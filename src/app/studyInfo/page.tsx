@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Navigation from "../_component/navigation/page";
 import Icon_setting from "../../../public/icons/Icon_setting.svg";
 import Image from "next/image";
-import QuickMatchBtn from "../search_result/_component/QuickMatchBtn";
+import StudyQuickBtn from "./_component/studyQuickBtn";
 import StudySettingCard from "./_component/studySettingCard";
 import ButtonFooter from "../_component/footer/ButtonFooter";
 import { useSearchParams } from "next/navigation";
@@ -179,7 +179,7 @@ export default function StudyInfo() {
           </Navigation>
           <div className={styles.hrOrange}></div>
           <div className={styles.filterBox}>
-            {isQuick && <QuickMatchBtn isQuick={true} />}
+            {isQuick && <StudyQuickBtn />}
             <Category>{data.category}</Category>
           </div>
           <div className={styles.studyDetail}>

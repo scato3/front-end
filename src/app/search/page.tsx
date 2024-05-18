@@ -224,7 +224,7 @@ export default function Search() {
                 <p
                   onClick={() => handleGoKeyword(keyword)}
                   key={index}
-                  className={styles.popularKeyword}
+                  className={`${styles.popularKeyword} ${styles[`keyword${index + 1}`]}`}
                 >{`${index + 1}. ${keyword}`}</p>
               ))}
           </div>
