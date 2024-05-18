@@ -95,11 +95,11 @@ export default function Calendar({ handleCloseModal }: ICalendarProps) {
     <div className={styles.calendarContainer}>
       <div className={styles.header}>
         <button className={styles.navigationButton} onClick={goToPreviousMonth}>
-          <Image src={Btn_arrow_left} width={36} height={36} alt="왼쪽 버튼" />
+          <Image src={Btn_arrow_left} width={24} height={24} alt="왼쪽 버튼" />
         </button>
         <div className={styles.monthYear}>{currentDate.format("YYYY년 MM월")}</div>
         <button className={styles.navigationButton} onClick={goToNextMonth}>
-          <Image src={Btn_arrow_right} width={36} height={36} alt="오른쪽 버튼" />
+          <Image src={Btn_arrow_right} width={24} height={24} alt="오른쪽 버튼" />
         </button>
       </div>
       <div className={styles.daysOfWeek}>{renderDaysOfWeek()}</div>

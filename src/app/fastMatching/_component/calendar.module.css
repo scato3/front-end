@@ -1,12 +1,11 @@
 .calendarContainer {
   position: relative;
   width: 500px;
-  height: 500px;
-  padding-top: 30px;
+  height: 550px;
+  padding-top: 20px;
   background-color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  box-sizing: border-box;
 }
 
 .header {

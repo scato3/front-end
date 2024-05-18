@@ -50,6 +50,7 @@ export default function LastFast() {
         setIsLoading(false);
         setDisplayedIndex(0);
         setTotalCount(data.totalCount);
+        console.log(data);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
