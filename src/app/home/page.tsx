@@ -12,15 +12,14 @@ import Btn_arrow from "../../../public/icons/Btn_arrow_sm.svg";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import { useEffect, useState } from "react";
-import allStudySearch from "../api/allStudySearch";
 import { IfilterType } from "@/app/type/filterType";
 import NoStudy from "../search_result/_component/NoStudy";
-import useAuth from "@/hooks/useAuth";
+import getFilter from "../api/getFilter";
+import Navigation from "../_component/navigation/page";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [postData, setPostData] = useState<IfilterType[]>([]);
-  const { accessToken } = useAuth();
   const { setFrom } = useFromStore();
   const router = useRouter();
 
@@ -31,8 +30,8 @@ export default function Main_home() {
   useEffect(() => {
     const getPopular = async () => {
       try {
-        const res = await allStudySearch();
-        setPostData(res);
+        const res = await getFilter("all", "recent");
+        setPostData(res.data);
       } catch (e) {
         console.error("error");
       } finally {
@@ -46,21 +45,19 @@ export default function Main_home() {
     <>
       {!isLoading && (
         <div className={styles.container}>
-          <div className={styles.navBox}>
-            <div className={styles.navImageContainer}>
-              <Image
-                className={styles.searchIcon}
-                src={Search}
-                alt="검색 버튼"
-                width={48}
-                height={48}
-                onClick={() => {
-                  router.push("./search");
-                }}
-              />
-              <Image className={styles.alertIcon} src={Alert} alt="검색 버튼" width={48} height={48} />
-            </div>
-          </div>
+          <Navigation dark={true} onClick={() => {}}>
+            <Image className={styles.iconBell} src={Alert} width={48} height={48} alt="bell" />
+            <Image
+              className={styles.iconSearch}
+              src={Search}
+              width={48}
+              height={48}
+              alt="search"
+              onClick={() => {
+                router.push("./search");
+              }}
+            />
+          </Navigation>
           <div className={styles.buttonBox}>
             <Button
               size="medium"
@@ -99,7 +96,9 @@ export default function Main_home() {
               {postData.length > 0 ? (
                 postData.slice(0, 3).map((data, index) => <Card key={index} data={data} />)
               ) : (
-                <NoStudy />
+                <div className={styles.NoStudy}>
+                  <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
+                </div>
               )}
             </div>
           </div>

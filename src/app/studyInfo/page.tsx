@@ -20,7 +20,7 @@ import MemberModal from "./_component/memberModal";
 import GetUserProfile from "../api/getUserProfile";
 import useAuth from "@/hooks/useAuth";
 import JoinStudy from "../api/joinStudy";
-import AlertModal from "../_component/modal/alertModal";
+import InfoAlertModal from "../_component/modal/infoAlertModal";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 
@@ -40,18 +40,20 @@ export default function StudyInfo() {
   const [duration, setDuration] = useState<string>("");
   const [watchMember, setWatchMember] = useState<string>("");
   const { accessToken, user } = useAuth();
-  const [ modalMsg, setModalMsg ] = useState<string>("");
-  const [ join, setJoin ] = useState<boolean>(false);
-  const [ isQuick, setIsQuick ] = useState<boolean>(false);
-  const [ isJoined, setIsJoined ] = useState<boolean>(false);
-  const [ isOwner, setIsOwner ] = useState<boolean>(false);
-  const [ userProfile, setUserProfile] = useState<IUserProfileType>({ email: "", nickname: "", profile_img: "", rating: null, user_id: 0 });
-  const [ userStudy, setUserStudy ] = useState<IUserStudyType>({in_complete: 0, in_progress: 0 });
-  const { setFrom } = useFromStore();
-
-  useEffect(() => {
-    setFrom(`studyInfo?studyId${studyId}`);
-  }, []);
+  const [modalMsg, setModalMsg] = useState<string>("");
+  const [join, setJoin] = useState<boolean>(false);
+  const [isQuick, setIsQuick] = useState<boolean>(false);
+  const [isJoined, setIsJoined] = useState<boolean>(false);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [userProfile, setUserProfile] = useState<IUserProfileType>({
+    email: "",
+    nickname: "",
+    profile_img: "",
+    rating: null,
+    user_id: 0,
+  });
+  const [userStudy, setUserStudy] = useState<IUserStudyType>({ in_complete: 0, in_progress: 0 });
+  const { from } = useFromStore();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -64,19 +66,19 @@ export default function StudyInfo() {
       setTendency(data.tendency);
       setDuration(data.duration);
 
-      if(data.matching_type === "Quick"){
+      if (data.matching_type === "Quick") {
         setIsQuick(true);
       }
 
       const isMember = data.membersList.filter((member: Imember) => member.nickname === user?.nickname);
-      if (isMember) {
+      if (isMember.length > 0) {
         console.log(isMember);
         setIsJoined(true);
         isMember[0]?._owner === true ? setIsOwner(true) : setIsOwner(false);
-        }
+      }
     }
     if (error) console.log(error);
-  },[data, error]);
+  }, [data]);
 
   useEffect(() => {
     if (watchMember !== "") {
@@ -100,12 +102,12 @@ export default function StudyInfo() {
   const joinStudy = async (token: string) => {
     const join = await JoinStudy(studyId, token);
     if (join) {
-      console.log('joined');
-    };
+      console.log("joined");
+    }
   };
 
   const handleJoinStudy = () => {
-    if(isQuick) {
+    if (isQuick) {
       setModalMsg("쇼터디에 가입했어요.");
       setIsJoined(true);
     } else {
@@ -146,7 +148,7 @@ export default function StudyInfo() {
   const handleCloseAlert = () => {
     handleCloseModal();
     setJoin(false);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -158,21 +160,22 @@ export default function StudyInfo() {
             isBack={true}
             dark={false}
             onClick={() => {
-              router.back()
+              router.push(`./${from}`);
             }}
           >
             <p>{data.title}</p>
-            {isOwner ?
-            <Image
-            className={styles.settingIcon}
-            src={Icon_setting}
-            width={48}
-            height={48}
-            onClick={() => {
-              router.push(`./studySetting?studyId=${studyId}`);
-            }}
-            alt="settingIcon"
-          />: null}
+            {isOwner ? (
+              <Image
+                className={styles.settingIcon}
+                src={Icon_setting}
+                width={48}
+                height={48}
+                onClick={() => {
+                  router.push(`./studySetting?studyId=${studyId}`);
+                }}
+                alt="settingIcon"
+              />
+            ) : null}
           </Navigation>
           <div className={styles.hrOrange}></div>
           <div className={styles.filterBox}>
@@ -215,22 +218,32 @@ export default function StudyInfo() {
             </div>
           </div>
           <div className={styles.footer}>
-            {isJoined ?
-              <ButtonFooter study_id={studyId} onClick={()=>{return;}}>입장하기</ButtonFooter>
-              :<ButtonFooter study_id={studyId} onClick={handleJoinStudy}>가입하기</ButtonFooter>
-            }
+            {isJoined ? (
+              <ButtonFooter
+                study_id={studyId}
+                onClick={() => {
+                  return;
+                }}
+              >
+                입장하기
+              </ButtonFooter>
+            ) : (
+              <ButtonFooter study_id={studyId} onClick={handleJoinStudy}>
+                가입하기
+              </ButtonFooter>
+            )}
           </div>
           {openModal && (
             <ModalPortal>
-              <ModalContainer handleCloseModal={handleCloseModal} >
-                <MemberModal handleCloseModal={handleCloseModal} user={userProfile} study={userStudy}/>
+              <ModalContainer handleCloseModal={handleCloseModal}>
+                <MemberModal handleCloseModal={handleCloseModal} user={userProfile} study={userStudy} />
               </ModalContainer>
             </ModalPortal>
           )}
           {join && (
             <ModalPortal>
-              <ModalContainer handleCloseModal={handleCloseAlert} >
-                <AlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</AlertModal>
+              <ModalContainer handleCloseModal={handleCloseAlert}>
+                <InfoAlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</InfoAlertModal>
               </ModalContainer>
             </ModalPortal>
           )}
