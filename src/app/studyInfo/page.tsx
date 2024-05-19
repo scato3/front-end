@@ -24,6 +24,7 @@ import InfoAlertModal from "../_component/modal/infoAlertModal";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import favoriteStudy from "../api/favoriteStudy";
+import useMemberStore from "../studyMember/store/useMemberStore";
 
 interface IFavStudy {
   id: number;
@@ -55,11 +56,11 @@ export default function StudyInfo() {
   const { accessToken, user } = useAuth();
   const [modalMsg, setModalMsg] = useState<string>("");
   const [join, setJoin] = useState<boolean>(false);
-  const [isQuick, setIsQuick] = useState<boolean>(false);
   const [isJoined, setIsJoined] = useState<boolean>(false);
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [isFav, setIsFav] = useState<boolean>(false);
   const [isRequestJoin, setIsRequestJoin] = useState<boolean>(false);
+  const { setStartDate, isQuick, setIsQuick } = useMemberStore();
   const [userProfile, setUserProfile] = useState<IUserProfileType>({
     email: "",
     nickname: "",
@@ -85,6 +86,7 @@ export default function StudyInfo() {
       console.log(studyId, data);
       setTendency(data.tendency);
       setDuration(data.duration);
+      setStartDate(data.start_date);
 
       if (data.matching_type === "Quick") {
         setIsQuick(true);
