@@ -37,11 +37,15 @@
   font-size: 20px;
   line-height: 32px;
   margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 62px);
 }
 
 .tagBox {
   color: var(--gray-400);
-  font-size: 16px;
+  font-size: 14px;
   margin: 0 20px 0 20px;
 }
 
