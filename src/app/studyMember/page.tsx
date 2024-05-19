@@ -19,6 +19,7 @@ import AlertModal from "../_component/modal/alertModal";
 import { useRouter } from "next/navigation";
 import AcceptJoinStudy from "../api/acceptJoinRequest";
 import DeclineJoinStudy from "../api/declineJoinRequest";
+import moment from "moment";
 
 export default function studyMember() {
     const {accessToken} = useAuth();
@@ -32,7 +33,18 @@ export default function studyMember() {
     const [ JoinRequests, setJoinRequests ] = useState<IRequestMember[]>([]);
     const { openModal:openOutModal, handleOpenModal:handleOpenOutModal, handleCloseModal:handleCloseOutModal } =  useModal();
     const { openModal:openAlertModal, handleOpenModal:handleOpenAlertModal, handleCloseModal:handleCloseAlertModal } =  useModal();
-    const { outMemberName, setOutMemberName, outUserId, setOutUserId, exitReasons, reqUserId, setReqUserId } = useMemberStore();
+    const { outMemberName, setOutMemberName, outUserId, setOutUserId, exitReasons, reqUserId, setReqUserId, startDate, isQuick } = useMemberStore();
+    const [ selectedTab, setSelectedTab ] = useState<string>("");
+
+    useEffect(() => {
+    if (startDate && !isQuick && moment(startDate).isSameOrAfter(moment(), "day")) {
+        setIsJoinRequest(true);
+        getRequestMembers();
+    } else {
+        setIsJoinMember(true);
+        getStudyMembers();
+    }
+    },[]);
 
     const getRequestMembers = async() => {
         try{
@@ -104,6 +116,7 @@ export default function studyMember() {
         console.log("out");
         outStudyMember();
         handleOpenAlertModal();
+        router.push(`/studyInfo?studyId=${studyId}`);
     };
 
     const handleOk = () => {
@@ -124,7 +137,7 @@ export default function studyMember() {
 
     return(
         <div className={styles.container}>
-            <Navigation isBack={true} dark={false} onClick={()=>{return}}>쇼터디 멤버 관리</Navigation>
+            <Navigation isBack={true} dark={false} onClick={() => router.back()}>쇼터디 멤버 관리</Navigation>
             <div className={styles.hr}></div>
             <div className={styles.contentContainer}>
                 <div className={styles.btnBox}>

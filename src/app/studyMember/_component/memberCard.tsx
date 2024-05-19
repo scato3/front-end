@@ -22,8 +22,10 @@ export default function MemberCard({isDeclined, isAccepted,isRequesting, isReque
     memberData, requestData, handleOutMember, handleAcceptRequest, handleDeclineRequest}: IMemberCard) {
     const formattedDate =  moment(memberData?.join_date).format("MM-DD HH:MM");
     const formattedReqDate = moment(requestData?.request_date).format("MM-DD HH:MM");
-    const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
     const [hoursRemaining, setHoursRemaining] = useState<number | null>(null);
+    const requestTime = moment(requestData?.request_date);
+    const nowTime = moment();
+    const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
     const [ src, setSrc ] = useState<string>(Icon);
 
     useEffect(() => {
@@ -35,19 +37,26 @@ export default function MemberCard({isDeclined, isAccepted,isRequesting, isReque
     });
 
     useEffect(() => {
-        if (isRequest) {
-            setSrc(requestData?.profile_image ?? Icon);
-        } else {
-            setSrc(memberData?.profile_image ?? Icon);
-        }
-
-        if (requestData?.request_date) {
-            const requestTime = moment(requestData.request_date);
-            const nowTime = moment();
+        if (isRequest && requestData?.request_date) {
             const duration = moment.duration(requestTime.add(72, 'hours').diff(nowTime));
             const hours = duration.asHours();
             setHoursRemaining(hours > 0 ? Math.ceil(hours) : 0);
         }
+    });
+
+    useEffect(() =>{
+        const interval = setInterval(() => {
+            if (isRequest && requestData?.request_date) {
+                const duration = moment.duration(requestTime.add(72, 'hours').diff(nowTime));
+                const seconds = duration.asSeconds();
+                setSecondsRemaining(seconds > 0 ? Math.ceil(seconds) : 0);
+
+                if (seconds <= 0) {
+                    handleDeclineRequest && handleDeclineRequest();
+                }
+            }
+        }, 1000);
+        return () => clearInterval(interval);
     }, [isRequest, requestData, memberData]);
 
     return(
