@@ -5,9 +5,7 @@ import useAuth from "@/hooks/useAuth";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import ProgressBar from "../_component/progress_bar/progressBar";
 import myProfile from "../api/myProfile";
-import ProfileNav from "./_component/ProfileNav";
 import Footer from "../_component/footer/footer";
 import RatingBox from "../_component/ratingBox/RatingBox";
 import useFromStore from "@/utils/from";
@@ -15,6 +13,7 @@ import { useModal } from "@/hooks/useModal";
 import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
 import Logout from "../_component/logout/logout";
+import useDetailActiveStore from "./store/detailActive";
 
 export default function Profile() {
   interface IMyStudyCount {}
@@ -30,7 +29,7 @@ export default function Profile() {
   const [profileStudyMenu, setProfileStudyMenu] = useState<{ [key: string]: number }[] | null>(null);
   const { setFrom } = useFromStore();
   const { openModal, handleCloseModal, handleOpenModal } = useModal();
-
+  const { setSelectedInfo } = useDetailActiveStore();
   const { accessToken } = useAuth();
 
   useEffect(() => {
@@ -101,18 +100,26 @@ export default function Profile() {
             <div className={styles.ProfileMenuBox}>
               {profileStudyMenu &&
                 profileStudyMenu?.map((menu, idx: number) => {
-                  const key = Object.keys(menu)[0]; // 요소의 키 추출
-                  const value = menu[key]; // 요소의 값 추출
+                  const key = Object.keys(menu)[0];
+                  const value = menu[key];
+                  const label =
+                    key === "찜"
+                      ? "favorite"
+                      : key === "승인대기"
+                        ? "proposal"
+                        : key === "진행중"
+                          ? "progress"
+                          : "complete";
+                  const pathname = label === "favorite" ? "profile/favorite" : "profile/profileDetail";
                   return (
                     <Link
-                      href={{
-                        pathname: `profile/${Object.keys(keyLabels)[idx]}`,
-                      }}
+                      href={{ pathname }}
                       key={idx}
                       className={styles.ProfileMenu}
+                      onClick={() => setSelectedInfo(idx)}
                     >
-                      <p className={styles.studyMenuKey}>{key} </p>
-                      <p className={styles.studyMenuValue}>{value} </p>
+                      <p className={styles.studyMenuKey}>{key}</p>
+                      <p className={styles.studyMenuValue}>{value}</p>
                     </Link>
                   );
                 })}
