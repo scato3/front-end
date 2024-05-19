@@ -4,8 +4,15 @@ import "../styles/globals.css";
 import RQProvider from "./_component/RQProvider";
 
 export const metadata: Metadata = {
-  title: "SWYP",
-  description: "SWYP",
+  title: "쇼터디 - 딱 맞는 온라인 스터디메이트 찾기",
+  description: "나와 딱 맞는 온라인 스터디메이트를 만나 매일 할일을 공유하고 함께 목표를 달성하세요",
+  openGraph: {
+    title: "쇼터디 - 딱 맞는 온라인 스터디메이트 찾기",
+    description: "나와 딱 맞는 온라인 스터디메이트를 만나 매일 할일을 공유하고 함께 목표를 달성하세요",
+
+    siteName: "쇼터디 - 딱 맞는 온라인 스터디메이트 찾기",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
