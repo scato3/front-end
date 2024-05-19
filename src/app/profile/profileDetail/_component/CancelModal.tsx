@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./cancelmodal.module.css";
 import { IfilterType } from "@/app/type/filterType";
 import Button from "@/app/_component/button/Button";

@@ -24,7 +24,7 @@ export default function ProfileDetail() {
   const { selectedInfo } = useDetailActiveStore();
 
   useEffect(() => {
-    setActiveFilter(FILTERS[selectedInfo - 1]);
+    setActiveFilter(FILTERS[selectedInfo - 1] || FILTERS[0]);
   }, []);
 
   const {} = useQuery({
