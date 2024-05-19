@@ -24,6 +24,7 @@ export default function MemberCard({isDeclined, isAccepted,isRequesting, isReque
     const formattedReqDate = moment(requestData?.request_date).format("MM-DD HH:MM");
     const [hoursRemaining, setHoursRemaining] = useState<number | null>(null);
     const requestTime = moment(requestData?.request_date);
+    const nowTime = moment();
     const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
     const [ src, setSrc ] = useState<string>(Icon);
 
@@ -37,7 +38,6 @@ export default function MemberCard({isDeclined, isAccepted,isRequesting, isReque
 
     useEffect(() => {
         if (isRequest && requestData?.request_date) {
-            const nowTime = moment();
             const duration = moment.duration(requestTime.add(72, 'hours').diff(nowTime));
             const hours = duration.asHours();
             setHoursRemaining(hours > 0 ? Math.ceil(hours) : 0);
