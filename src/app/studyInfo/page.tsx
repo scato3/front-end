@@ -23,6 +23,19 @@ import JoinStudy from "../api/joinStudy";
 import InfoAlertModal from "../_component/modal/infoAlertModal";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
+import favoriteStudy from "../api/favoriteStudy";
+
+interface IFavStudy {
+  id: number;
+  title: string;
+  start_date: string;
+  end_date: string;
+  max_participants_num: number;
+  cur_participants_num: number;
+  created_time: string;
+  category: string;
+  additionalInfos: string[];
+}
 
 interface Imember {
   nickname: string;
@@ -45,6 +58,8 @@ export default function StudyInfo() {
   const [isQuick, setIsQuick] = useState<boolean>(false);
   const [isJoined, setIsJoined] = useState<boolean>(false);
   const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [isFav, setIsFav] = useState<boolean>(false);
+  const [isRequestJoin, setIsRequestJoin] = useState<boolean>(false);
   const [userProfile, setUserProfile] = useState<IUserProfileType>({
     email: "",
     nickname: "",
@@ -58,6 +73,11 @@ export default function StudyInfo() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
     queryFn: async () => GetStudyInfo(studyId),
+  });
+
+  const { data: favStudyData, error: favStudyError } = useQuery({
+    queryKey: ["FAVORITE_STUDY"],
+    queryFn: async () => favoriteStudy(accessToken),
   });
 
   useEffect(() => {
@@ -78,7 +98,14 @@ export default function StudyInfo() {
       }
     }
     if (error) console.log(error);
-  }, [data]);
+
+    if(favStudyData){
+      const favStudyIdList:number[] = favStudyData.data.map((study: IFavStudy) => study.id);
+      if(favStudyIdList.includes(studyId)) setIsFav(true);
+    }
+    if(favStudyError) console.log(favStudyError);
+
+  }, [data, favStudyData]);
 
   useEffect(() => {
     if (watchMember !== "") {
@@ -91,7 +118,6 @@ export default function StudyInfo() {
   const getUserProfile = async () => {
     try {
       const res = await GetUserProfile(watchMember, accessToken);
-      console.log("res", res);
       setUserProfile(res.profile);
       setUserStudy(res.study_count);
     } catch (error) {
@@ -100,7 +126,17 @@ export default function StudyInfo() {
   };
 
   const joinStudy = async (token: string) => {
-    const join = await JoinStudy(studyId, token);
+    try{
+      const res = await JoinStudy(studyId, token);
+      console.log(res);
+      if(res.message === "이미 가입 신청한 사용자입니다.") {
+        setIsRequestJoin(true);
+        setModalMsg("이미 가입 신청한 쇼터디입니다.")
+      }
+    }catch(error){
+      console.log(error);
+    }
+    
     if (join) {
       console.log("joined");
     }
@@ -149,6 +185,8 @@ export default function StudyInfo() {
     handleCloseModal();
     setJoin(false);
   };
+
+ 
 
   return (
     <div className={styles.container}>
@@ -220,6 +258,8 @@ export default function StudyInfo() {
           <div className={styles.footer}>
             {isJoined ? (
               <ButtonFooter
+                isFav={isFav}
+                setIsFav={setIsFav}
                 study_id={studyId}
                 onClick={() => {
                   return;
@@ -228,7 +268,7 @@ export default function StudyInfo() {
                 입장하기
               </ButtonFooter>
             ) : (
-              <ButtonFooter study_id={studyId} onClick={handleJoinStudy}>
+              <ButtonFooter isFav={isFav} setIsFav={setIsFav} study_id={studyId} onClick={handleJoinStudy}>
                 가입하기
               </ButtonFooter>
             )}
@@ -239,14 +279,21 @@ export default function StudyInfo() {
                 <MemberModal handleCloseModal={handleCloseModal} user={userProfile} study={userStudy} />
               </ModalContainer>
             </ModalPortal>
-          )}
-          {join && (
+          )} 
+          {join && !isRequestJoin &&(
             <ModalPortal>
               <ModalContainer handleCloseModal={handleCloseAlert}>
                 <InfoAlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</InfoAlertModal>
               </ModalContainer>
             </ModalPortal>
           )}
+          {isRequestJoin && 
+            <ModalPortal>
+              <ModalContainer handleCloseModal={handleCloseAlert}>
+                <InfoAlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</InfoAlertModal>
+              </ModalContainer>
+          </ModalPortal>
+          }
         </>
       )}
     </div>

@@ -4,7 +4,7 @@ import Button from "../button/Button";
 import Icon_heart from "../../../../public/icons/studyInfo/Icon_heart.svg";
 import Icon_heart_active from "../../../../public/icons/studyInfo/Icon_heart_active.svg";
 import AddFavoriteStudy from "@/app/api/addFavStudy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "@/hooks/useAuth";
 import DeleteFavoriteStudy from "@/app/api/deleteFavStudy";
 
@@ -12,11 +12,20 @@ interface IButtonFooter {
     study_id : number;
     onClick: () => void;
     children: React.ReactNode;
+    isFav: boolean;
+    setIsFav: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ButtonFooter({study_id, onClick, children }:IButtonFooter) {
+export default function ButtonFooter({study_id, onClick, children, isFav, setIsFav }:IButtonFooter) {
     const { accessToken } = useAuth();
-    const [ isFav, setIsFav ] = useState(false);
+
+    useEffect(() => {
+        if(isFav){
+            setIsFav(true);
+        }else{
+            setIsFav(false);
+        }
+    });
 
     const addFav = async() => {
         try{
@@ -30,6 +39,7 @@ export default function ButtonFooter({study_id, onClick, children }:IButtonFoote
     const DeleteFav = async() => {
         try{
             await DeleteFavoriteStudy(study_id, accessToken);
+            setIsFav(false);
             console.log(`Delete Favorite ${study_id}`);
         }catch(error){
             console.log(error);
