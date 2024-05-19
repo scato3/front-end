@@ -10,8 +10,8 @@
 
 .iconBell {
   position: absolute;
-  top: -5px;
-  right: 20px;
+  top: 16px;
+  right: 24px;
   cursor: pointer;
 }
 
