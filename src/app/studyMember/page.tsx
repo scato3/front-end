@@ -8,7 +8,7 @@ import Button from "../_component/button/Button";
 import MemberCard from "./_component/memberCard";
 import useAuth from "@/hooks/useAuth";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OutStudyMember from "../api/outStudyMember";
 import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
@@ -17,6 +17,8 @@ import OutMemberModal from "./_component/outMemberModal";
 import useMemberStore from "./store/useMemberStore";
 import AlertModal from "../_component/modal/alertModal";
 import { useRouter } from "next/navigation";
+import AcceptJoinStudy from "../api/acceptJoinRequest";
+import DeclineJoinStudy from "../api/declineJoinRequest";
 
 export default function studyMember() {
     const {accessToken} = useAuth();
@@ -27,14 +29,16 @@ export default function studyMember() {
     const [ isJoinRequest, setIsJoinRequest ] = useState<boolean>(false);
     const [ isJoinMember, setIsJoinMember ] = useState<boolean>(false);
     const [ joinedMembers, setJoinedMembers ] = useState<IJoinedMember[]>([]);
+    const [ JoinRequests, setJoinRequests ] = useState<IRequestMember[]>([]);
     const { openModal:openOutModal, handleOpenModal:handleOpenOutModal, handleCloseModal:handleCloseOutModal } =  useModal();
     const { openModal:openAlertModal, handleOpenModal:handleOpenAlertModal, handleCloseModal:handleCloseAlertModal } =  useModal();
-    const { outMemberName, setOutMemberName, outUserId, setOutUserId, exitReasons } = useMemberStore();
-    
+    const { outMemberName, setOutMemberName, outUserId, setOutUserId, exitReasons, reqUserId, setReqUserId } = useMemberStore();
+
     const getRequestMembers = async() => {
         try{
             const res = await GetJoinRequest(studyId, accessToken);
             console.log(res);
+            setJoinRequests(res.data);
         }catch(error){
             console.log(error);
         }
@@ -53,6 +57,24 @@ export default function studyMember() {
     const outStudyMember = async() => {
         try{
             const res = await OutStudyMember(studyId, outUserId, exitReasons, accessToken);
+            console.log(res);
+        }catch(error){
+            console.log(error);
+        }
+    };
+
+    const acceptJoinRequest = async() => {
+        try{
+            const res = await AcceptJoinStudy(studyId, reqUserId, accessToken);
+            console.log(res);
+        }catch(error){
+            console.log(error);
+        }
+    };
+
+    const declineJoinRequest = async() => {
+        try{
+            const res = await DeclineJoinStudy(studyId, reqUserId, accessToken);
             console.log(res);
         }catch(error){
             console.log(error);
@@ -82,12 +104,23 @@ export default function studyMember() {
         console.log("out");
         outStudyMember();
         handleOpenAlertModal();
-    }
+    };
 
     const handleOk = () => {
-        router.push(`/studyMember?studyId=${studyId}`)
-    }
+        router.push(`/studyMember?studyId=${studyId}`);
+    };
 
+    const handleAcceptRequest = (member:IRequestMember) => {
+        setReqUserId(member.user_id);
+        acceptJoinRequest();
+        router.push(`/studyMember?studyId=${studyId}`);
+    };
+
+    const handleDeclineRequest = (member:IRequestMember) => {
+        setReqUserId(member.user_id);
+        declineJoinRequest();
+        router.push(`/studyMember?studyId=${studyId}`);
+    };
 
     return(
         <div className={styles.container}>
@@ -106,7 +139,18 @@ export default function studyMember() {
                                         memberData={member}
                                         handleOutMember={() => handleOutMember(member)} />
                         ))
-                    
+                    }
+                    {isJoinRequest &&
+                        JoinRequests.map((member) => (
+                            <MemberCard isRequest={true} 
+                                        isAccepted={member.join_status === "Approved" ? true : false}
+                                        isRequesting={member.join_status === "Waiting" ? true : false}
+                                        key={member.user_id} 
+                                        requestData={member}
+                                        handleAcceptRequest={() =>  handleAcceptRequest(member)}
+                                        handleDeclineRequest={() => handleDeclineRequest(member)}
+                            />
+                        ))
                     }
                 </div>
             </div>

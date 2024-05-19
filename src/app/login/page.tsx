@@ -32,7 +32,7 @@ export default function Login() {
         <div className={styles.logoBox}>
           <Image src={Logo} alt="로고" width={92} height={92} />
           <p className={styles.loginTitle}>쇼터디</p>
-          <p className={styles.loginSubtitle}>단 하루를 위한 스터디 매칭 서비스</p>
+          <p className={styles.loginSubtitle}>딱 맞는 온라인 스터디메이트 찾기</p>
         </div>
         <div className={styles.joinBox}>
           <Image
