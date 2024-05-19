@@ -97,7 +97,7 @@ export default function ProfileDetail() {
       </div>
       <div className={styles.ContentContainer}>
         <div className={styles.InfoContainer}>
-          <p className={styles.InfoHeader}>총 {postData.length}개의 쇼터디에 신청했어요</p>
+          <p className={styles.InfoHeader}>총 {postData?.length}개의 쇼터디에 신청했어요</p>
         </div>
         {postData && postData.length !== 0 ? (
           <div className={styles.CardBox}>
