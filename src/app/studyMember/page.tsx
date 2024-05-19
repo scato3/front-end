@@ -135,7 +135,7 @@ export default function studyMember() {
 
     return(
         <div className={styles.container}>
-            <Navigation isBack={true} dark={false} onClick={()=>{return}}>쇼터디 멤버 관리</Navigation>
+            <Navigation isBack={true} dark={false} onClick={() => router.back()}>쇼터디 멤버 관리</Navigation>
             <div className={styles.hr}></div>
             <div className={styles.contentContainer}>
                 <div className={styles.btnBox}>
