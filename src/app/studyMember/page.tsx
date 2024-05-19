@@ -39,10 +39,12 @@ export default function studyMember() {
     useEffect(() => {
     if (startDate && !isQuick && moment(startDate).isSameOrAfter(moment(), "day")) {
         setIsJoinRequest(true);
+        getRequestMembers();
     } else {
         setIsJoinMember(true);
+        getStudyMembers();
     }
-    }, [startDate]);
+    },[]);
 
     const getRequestMembers = async() => {
         try{
