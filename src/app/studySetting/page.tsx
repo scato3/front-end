@@ -13,7 +13,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
-import GetStudyMembers from "../api/getStudyMembers";
+import GetJoinRequestCount from "../api/getJoinRequestCount";
+import { useQuery } from "@tanstack/react-query";
 
 export default function StudySetting() {
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
@@ -23,6 +24,17 @@ export default function StudySetting() {
   const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
   const { accessToken } = useAuth();
   const [ membersCount, setMembersCount ] = useState<number>(0);
+
+  const { data } = useQuery({
+    queryKey: ["KAKAO_CODE"],
+    queryFn: async () => GetJoinRequestCount(studyId, accessToken),
+  });
+
+  useEffect(() => {
+    if(data){
+      setMembersCount(data.data);
+    }
+  },[data])
 
   const handleDeleteStudy = async () => {
     try {
@@ -58,6 +70,7 @@ export default function StudySetting() {
           </p>
           <p className={styles.menu} onClick={() => router.push(`/studyMember?studyId=${studyId}`)}>
             멤버관리
+            <div className={styles.count}>{membersCount}+</div>
             <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow" />
           </p>
           <p className={styles.menu} onClick={handleOpenModal}>
