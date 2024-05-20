@@ -38,7 +38,7 @@ export default function DetailCard({
         if (activeFilter === "참여중") {
           router.push(`../chat?studyId=${data.id}`);
         } else {
-          router.push(`./studyInfo?studyId=${data.id}`);
+          router.push(`../studyInfo?studyId=${data.id}`);
         }
       }}
     >
