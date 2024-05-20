@@ -16,43 +16,56 @@ interface IMemberCard {
     handleOutMember?: () => void;
     handleAcceptRequest?: () => void;
     handleDeclineRequest?: () => void;
+    onClick: (nickname:string) => void;
 }
 
 export default function MemberCard({isDeclined, isAccepted,isRequesting, isRequest=false, isMember=false, 
-    memberData, requestData, handleOutMember, handleAcceptRequest, handleDeclineRequest}: IMemberCard) {
+    memberData, requestData, handleOutMember, handleAcceptRequest, handleDeclineRequest, onClick}: IMemberCard) {
     const formattedDate =  moment(memberData?.join_date).format("MM-DD HH:MM");
     const formattedReqDate = moment(requestData?.request_date).format("MM-DD HH:MM");
-    const nowTime = moment().format('YYYY-MM-DD HH:mm:ss');
     const [hoursRemaining, setHoursRemaining] = useState<number | null>(null);
+    const requestTime = moment(requestData?.request_date);
+    const nowTime = moment();
+    const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
     const [ src, setSrc ] = useState<string>(Icon);
+    const [ nickname, setNickname ] = useState<string>("");
 
     useEffect(() => {
         if(isRequest){
             setSrc(requestData?.profile_image ?? Icon);
+            setNickname(requestData?.nickname ?? "");
         } else {
             setSrc(memberData?.profile_image ?? Icon);
+            setNickname(memberData?.nickname ?? "");
         }
     });
 
     useEffect(() => {
-        if (isRequest) {
-            setSrc(requestData?.profile_image ?? Icon);
-        } else {
-            setSrc(memberData?.profile_image ?? Icon);
-        }
-
-        if (requestData?.request_date) {
-            const requestTime = moment(requestData.request_date);
-            const nowTime = moment();
+        if (isRequest && requestData?.request_date) {
             const duration = moment.duration(requestTime.add(72, 'hours').diff(nowTime));
             const hours = duration.asHours();
             setHoursRemaining(hours > 0 ? Math.ceil(hours) : 0);
         }
+    });
+
+    useEffect(() =>{
+        const interval = setInterval(() => {
+            if (isRequest && requestData?.request_date) {
+                const duration = moment.duration(requestTime.add(72, 'hours').diff(nowTime));
+                const seconds = duration.asSeconds();
+                setSecondsRemaining(seconds > 0 ? Math.ceil(seconds) : 0);
+
+                if (seconds <= 0) {
+                    handleDeclineRequest && handleDeclineRequest();
+                }
+            }
+        }, 1000);
+        return () => clearInterval(interval);
     }, [isRequest, requestData, memberData]);
 
     return(
         <div className={isRequesting? styles.container : styles.done}>
-            <div className={styles.imgContainer}>
+            <div className={styles.imgContainer} onClick={() => onClick(nickname)}>
                 <Image src={src} onClick={()=>{}} width={80} height={80} alt="ProfileImage" />
             </div>
             <div className={styles.rightBox}>

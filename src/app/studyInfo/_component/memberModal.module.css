@@ -28,6 +28,7 @@
 .closeIcon {
     position: relative;
     left: 160px;
+    cursor: pointer;
 }
 
 .profileImageBox {
