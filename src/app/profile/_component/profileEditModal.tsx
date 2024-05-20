@@ -27,7 +27,8 @@ interface ImemberModal {
 
 export default function ProfileEditModal({ profileImage, handleCloseModal }: ImemberModal) {
   const { previewImg, postImg, setPreviewImg } = useEditProfileStore();
-  const { accessToken, user } = useAuth();
+  const { accessToken } = useAuth();
+  const currentUser = useAuth((state) => state.user);
   const [profileData, setProfileData] = useState<IProfile>({
     nickname: null,
     profileImage: profileImage,
@@ -50,8 +51,6 @@ export default function ProfileEditModal({ profileImage, handleCloseModal }: Ime
       }
 
       setProfileData({ ...profileData, profileImage: updatedProfileImage });
-      console.log(profileData);
-
       const res = await setProfile({ ...profileData, profileImage: updatedProfileImage }, accessToken);
     }
   };
@@ -91,6 +90,9 @@ export default function ProfileEditModal({ profileImage, handleCloseModal }: Ime
     await handleSetProfile();
     handleCloseModal();
     window.location.reload();
+    if (typeof currentUser?.nickname === "string" && profileData.nickname !== null) {
+      useAuth.getState().setUser({ ...currentUser, nickname: profileData.nickname });
+    }
   };
 
   return (
