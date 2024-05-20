@@ -107,7 +107,14 @@ export default function MyStudy() {
                       <button className={styles.InfoButton} onClick={() => handleGoInfo(data.id)}>
                         스터디 소개
                       </button>
-                      <button className={styles.JoinButton}>채팅방 입장</button>
+                      <button
+                        className={styles.JoinButton}
+                        onClick={() => {
+                          router.push(`../chat?studyId=${data.id}`);
+                        }}
+                      >
+                        채팅방 입장
+                      </button>
                     </div>
                   </div>
                 ))}
