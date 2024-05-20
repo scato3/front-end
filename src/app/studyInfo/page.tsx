@@ -24,6 +24,8 @@ import InfoAlertModal from "../_component/modal/infoAlertModal";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import favoriteStudy from "../api/favoriteStudy";
+import useMemberStore from "../studyMember/store/useMemberStore";
+import setProfile from "../api/setProfile";
 
 interface IFavStudy {
   id: number;
@@ -55,11 +57,11 @@ export default function StudyInfo() {
   const { accessToken, user } = useAuth();
   const [modalMsg, setModalMsg] = useState<string>("");
   const [join, setJoin] = useState<boolean>(false);
-  const [isQuick, setIsQuick] = useState<boolean>(false);
   const [isJoined, setIsJoined] = useState<boolean>(false);
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [isFav, setIsFav] = useState<boolean>(false);
   const [isRequestJoin, setIsRequestJoin] = useState<boolean>(false);
+  const { setStartDate, isQuick, setIsQuick } = useMemberStore();
   const [userProfile, setUserProfile] = useState<IUserProfileType>({
     email: "",
     nickname: "",
@@ -85,6 +87,7 @@ export default function StudyInfo() {
       console.log(studyId, data);
       setTendency(data.tendency);
       setDuration(data.duration);
+      setStartDate(data.start_date);
 
       if (data.matching_type === "Quick") {
         setIsQuick(true);
@@ -185,6 +188,11 @@ export default function StudyInfo() {
     setJoin(false);
   };
 
+  const handleCloseProfileModal = () => {
+    handleCloseModal();
+    setWatchMember("");
+  }
+
   return (
     <div className={styles.container}>
       {isLoading ? (
@@ -272,8 +280,8 @@ export default function StudyInfo() {
           </div>
           {openModal && (
             <ModalPortal>
-              <ModalContainer handleCloseModal={handleCloseModal}>
-                <MemberModal handleCloseModal={handleCloseModal} user={userProfile} study={userStudy} />
+              <ModalContainer handleCloseModal={handleCloseProfileModal}>
+                <MemberModal handleCloseModal={handleCloseProfileModal} user={userProfile} study={userStudy} />
               </ModalContainer>
             </ModalPortal>
           )}

@@ -9,6 +9,10 @@ interface IMemberStore {
     setReqUserId: (id: number) => void;
     exitReasons: string[];
     setExitReasons: (reasons: string[]) => void;
+    startDate: string;
+    setStartDate: (date: string) => void;
+    isQuick: boolean;
+    setIsQuick: (quick: boolean) => void;
 }
 
 const useMemberStore = create<IMemberStore>((set) => ({
@@ -20,6 +24,10 @@ const useMemberStore = create<IMemberStore>((set) => ({
     setReqUserId: (id: number) => set({ reqUserId: id }),
     exitReasons: [],
     setExitReasons: (reasons: string[]) => set({ exitReasons: reasons }),
+    startDate: "",
+    setStartDate: (date:string) => set({ startDate: date}),
+    isQuick: false,
+    setIsQuick: (quick: boolean) => set({ isQuick: quick }),
 }));
 
 export default useMemberStore;
