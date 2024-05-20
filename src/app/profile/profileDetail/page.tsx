@@ -102,7 +102,7 @@ export default function ProfileDetail() {
         {postData && postData.length !== 0 ? (
           <div className={styles.CardBox}>
             {postData.map((data: IfilterType, index: number) => (
-              <DetailCard key={index} data={data} isCancel={isCancel} />
+              <DetailCard key={index} data={data} isCancel={isCancel} activeFilter={activeFilter} />
             ))}
           </div>
         ) : (
