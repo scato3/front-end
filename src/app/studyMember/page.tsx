@@ -20,6 +20,8 @@ import { useRouter } from "next/navigation";
 import AcceptJoinStudy from "../api/acceptJoinRequest";
 import DeclineJoinStudy from "../api/declineJoinRequest";
 import moment from "moment";
+import MemberModal from "../studyInfo/_component/memberModal";
+import GetUserProfile from "../api/getUserProfile";
 
 export default function studyMember() {
     const {accessToken} = useAuth();
@@ -31,10 +33,20 @@ export default function studyMember() {
     const [ isJoinMember, setIsJoinMember ] = useState<boolean>(false);
     const [ joinedMembers, setJoinedMembers ] = useState<IJoinedMember[]>([]);
     const [ JoinRequests, setJoinRequests ] = useState<IRequestMember[]>([]);
+    const { openModal:openProfileModal, handleOpenModal:handleOpenProfileModal, handleCloseModal:closeProfileModal } =  useModal();
     const { openModal:openOutModal, handleOpenModal:handleOpenOutModal, handleCloseModal:handleCloseOutModal } =  useModal();
     const { openModal:openAlertModal, handleOpenModal:handleOpenAlertModal, handleCloseModal:handleCloseAlertModal } =  useModal();
     const { outMemberName, setOutMemberName, outUserId, setOutUserId, exitReasons, reqUserId, setReqUserId, startDate, isQuick } = useMemberStore();
     const [ selectedTab, setSelectedTab ] = useState<string>("");
+    const [ watchMember, setWatchMember ] = useState<string>("");
+    const [userStudy, setUserStudy] = useState<IUserStudyType>({ in_complete: 0, in_progress: 0 });
+    const [ userProfile, setUserProfile ] = useState<IUserProfileType>({
+        email: "",
+        nickname: "",
+        profile_img: "",
+        rating: null,
+        user_id: 0,
+    });
 
     useEffect(() => {
     if (startDate && !isQuick && moment(startDate).isSameOrAfter(moment(), "day")) {
@@ -93,6 +105,23 @@ export default function studyMember() {
         }
     };
 
+    useEffect(() => {
+        if (watchMember !== "") {
+            getUserProfile();
+            handleOpenProfileModal();
+        }
+        }, [watchMember]);
+    
+        const getUserProfile = async () => {
+        try {
+            const res = await GetUserProfile(watchMember, accessToken);
+            setUserProfile(res.profile);
+            setUserStudy(res.study_count);
+        } catch (error) {
+            console.log(error);
+        }
+        };
+
     const handleRequestMember = () => {
         getRequestMembers();
         setIsJoinRequest(true);
@@ -116,24 +145,29 @@ export default function studyMember() {
         console.log("out");
         outStudyMember();
         handleOpenAlertModal();
-        router.push(`/studyInfo?studyId=${studyId}`);
+        window.location.reload();
     };
 
     const handleOk = () => {
-        router.push(`/studyMember?studyId=${studyId}`);
+        window.location.reload();
     };
 
     const handleAcceptRequest = (member:IRequestMember) => {
         setReqUserId(member.user_id);
         acceptJoinRequest();
-        router.push(`/studyMember?studyId=${studyId}`);
+        window.location.reload();
     };
 
     const handleDeclineRequest = (member:IRequestMember) => {
         setReqUserId(member.user_id);
         declineJoinRequest();
-        router.push(`/studyMember?studyId=${studyId}`);
+        window.location.reload();
     };
+
+    const handleCloseProfileModal = () => {
+        closeProfileModal();
+        setWatchMember("");
+    }
 
     return(
         <div className={styles.container}>
@@ -150,7 +184,8 @@ export default function studyMember() {
                             <MemberCard isMember={true} 
                                         key={member.user_id} 
                                         memberData={member}
-                                        handleOutMember={() => handleOutMember(member)} />
+                                        handleOutMember={() => handleOutMember(member)}
+                                        onClick={() => setWatchMember(member.nickname)} />
                         ))
                     }
                     {isJoinRequest &&
@@ -162,6 +197,7 @@ export default function studyMember() {
                                         requestData={member}
                                         handleAcceptRequest={() =>  handleAcceptRequest(member)}
                                         handleDeclineRequest={() => handleDeclineRequest(member)}
+                                        onClick={() => setWatchMember(member.nickname)}
                             />
                         ))
                     }
@@ -183,6 +219,14 @@ export default function studyMember() {
                     </ModalContainer>
                 </ModalPortal>
             }
+
+            {openProfileModal && (
+                        <ModalPortal>
+                            <ModalContainer handleCloseModal={handleCloseProfileModal}>
+                                <MemberModal handleCloseModal={handleCloseProfileModal} user={userProfile} study={userStudy} />
+                            </ModalContainer>
+                        </ModalPortal>
+                    )} 
         </div>
     );
 }

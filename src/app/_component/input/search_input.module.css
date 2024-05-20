@@ -1,8 +1,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 40px;
-
 }
 
 .input {
@@ -20,4 +18,8 @@
 .input::placeholder {
   font-size: 16px;
   color: var(--gray-400);
+}
+
+.input:focus {
+  outline: none;
 }
