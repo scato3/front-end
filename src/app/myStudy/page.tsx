@@ -66,7 +66,7 @@ export default function MyStudy() {
             <p className={styles.Header}>총 {studyData.length}개의 쇼터디에 참여중이에요!</p>
             {studyData.length === 0 ? (
               <>
-                <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
+                <NoStudy>참여중인 쇼터디가 없어요</NoStudy>
                 <div className={styles.NoContainer}>
                   <div className={styles.NoStudyBtn} onClick={handleGoList}>
                     쇼터디 둘러보기
