@@ -27,7 +27,7 @@ export default function DetailCard({ data, isCancel }: { data: IfilterType; isCa
     <div
       className={styles.container}
       onClick={() => {
-        router.push(`./chat?studyId=${data.id}`);
+        router.push(`../chat?studyId=${data.id}`);
       }}
     >
       <div className={styles.cardBox}>
