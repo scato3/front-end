@@ -4,7 +4,7 @@ import Icon from "../../../../public/icons/Icon_set_profile.svg";
 import styles from "./editProfile.module.css";
 import useEditProfileStore from "@/app/profile/store/editProfile";
 
-export default function UploadProfileImage() {
+export default function EditProfileImage() {
   const { previewImg, setPostImg, setPreviewImg } = useEditProfileStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -23,10 +23,9 @@ export default function UploadProfileImage() {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       setPreviewImg(fileReader.result as string);
+      setPostImg(file);
     };
     fileReader.readAsDataURL(file);
-
-    setPostImg(file);
   }
 
   const handleIconClick = () => {

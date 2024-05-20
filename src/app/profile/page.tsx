@@ -29,7 +29,11 @@ export default function Profile() {
   const [profileStudyMenu, setProfileStudyMenu] = useState<{ [key: string]: number }[] | null>(null);
   const { setFrom } = useFromStore();
   const { openModal, handleCloseModal, handleOpenModal } = useModal();
-  const { openModal:openEditModal, handleCloseModal:handleCloseEditModal, handleOpenModal:handleOpenEditModal } = useModal();
+  const {
+    openModal: openEditModal,
+    handleCloseModal: handleCloseEditModal,
+    handleOpenModal: handleOpenEditModal,
+  } = useModal();
   const { setSelectedInfo } = useDetailActiveStore();
   const { accessToken } = useAuth();
 
@@ -89,7 +93,9 @@ export default function Profile() {
               />
               <div className={styles.ProfileEditBox}>
                 <p className={styles.nickname}>{myProfileData?.nickname}</p>
-                <p className={styles.editProfile} onClick={handleOpenEditModal}>프로필 편집</p>
+                <p className={styles.editProfile} onClick={handleOpenEditModal}>
+                  프로필 편집
+                </p>
               </div>
             </div>
             <div className={styles.ProfileRatingBox}>
@@ -149,12 +155,15 @@ export default function Profile() {
       )}
 
       {openEditModal && (
-            <ModalPortal>
-              <ModalContainer handleCloseModal={handleCloseEditModal}>
-                <ProfileEditModal handleCloseModal={handleCloseEditModal} profileImage={myProfileData?.profile_img ?? null} />
-              </ModalContainer>
-            </ModalPortal>
-          )} 
+        <ModalPortal>
+          <ModalContainer>
+            <ProfileEditModal
+              handleCloseModal={handleCloseEditModal}
+              profileImage={myProfileData?.profile_img ?? null}
+            />
+          </ModalContainer>
+        </ModalPortal>
+      )}
     </>
   );
 }
