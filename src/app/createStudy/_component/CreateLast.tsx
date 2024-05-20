@@ -46,7 +46,8 @@ export default function CreateLast() {
   };
 
   const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTagInput(e.target.value);
+    const newValue = e.target.value.replace(/\s/g, "");
+    setTagInput(newValue);
   };
 
   const handleTagFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {

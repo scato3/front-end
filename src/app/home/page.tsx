@@ -40,7 +40,7 @@ export default function Main_home() {
       }
     };
     getPopular();
-  }, []);
+  }, [postData]);
 
   return (
     <>
