@@ -11,7 +11,15 @@ import ModalContainer from "@/app/_component/ModalContainer";
 import ModalPortal from "@/app/_component/ModalPortal";
 import CancelModal from "./CancelModal";
 
-export default function DetailCard({ data, isCancel }: { data: IfilterType; isCancel: boolean }) {
+export default function DetailCard({
+  data,
+  isCancel,
+  activeFilter,
+}: {
+  data: IfilterType;
+  isCancel: boolean;
+  activeFilter: string;
+}) {
   const startDate = moment(data.start_date).format("MM-DD");
   const endDate = data.end_date ? moment(data.end_date).format("MM-DD") : "미정";
   const router = useRouter();
@@ -27,7 +35,11 @@ export default function DetailCard({ data, isCancel }: { data: IfilterType; isCa
     <div
       className={styles.container}
       onClick={() => {
-        router.push(`../chat?studyId=${data.id}`);
+        if (activeFilter === "참여중") {
+          router.push(`../chat?studyId=${data.id}`);
+        } else {
+          router.push(`./studyInfo?studyId=${data.id}`);
+        }
       }}
     >
       <div className={styles.cardBox}>
