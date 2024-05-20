@@ -16,10 +16,11 @@ interface IMemberCard {
     handleOutMember?: () => void;
     handleAcceptRequest?: () => void;
     handleDeclineRequest?: () => void;
+    onClick: (nickname:string) => void;
 }
 
 export default function MemberCard({isDeclined, isAccepted,isRequesting, isRequest=false, isMember=false, 
-    memberData, requestData, handleOutMember, handleAcceptRequest, handleDeclineRequest}: IMemberCard) {
+    memberData, requestData, handleOutMember, handleAcceptRequest, handleDeclineRequest, onClick}: IMemberCard) {
     const formattedDate =  moment(memberData?.join_date).format("MM-DD HH:MM");
     const formattedReqDate = moment(requestData?.request_date).format("MM-DD HH:MM");
     const [hoursRemaining, setHoursRemaining] = useState<number | null>(null);
@@ -27,12 +28,15 @@ export default function MemberCard({isDeclined, isAccepted,isRequesting, isReque
     const nowTime = moment();
     const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
     const [ src, setSrc ] = useState<string>(Icon);
+    const [ nickname, setNickname ] = useState<string>("");
 
     useEffect(() => {
         if(isRequest){
             setSrc(requestData?.profile_image ?? Icon);
+            setNickname(requestData?.nickname ?? "");
         } else {
             setSrc(memberData?.profile_image ?? Icon);
+            setNickname(memberData?.nickname ?? "");
         }
     });
 
@@ -61,7 +65,7 @@ export default function MemberCard({isDeclined, isAccepted,isRequesting, isReque
 
     return(
         <div className={isRequesting? styles.container : styles.done}>
-            <div className={styles.imgContainer}>
+            <div className={styles.imgContainer} onClick={() => onClick(nickname)}>
                 <Image src={src} onClick={()=>{}} width={80} height={80} alt="ProfileImage" />
             </div>
             <div className={styles.rightBox}>

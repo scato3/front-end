@@ -1,0 +1,87 @@
+.container{
+    width: 500px;
+    height: 500px;
+    background-color: var(--gray-50);
+    position: relative;
+    top: 90px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.containerTop {
+    display: flex;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.name{
+    font-size: 22px;
+    color: var(--gray-800);
+    margin-left: 40px;
+}
+
+.closeIcon {
+    position: relative;
+    left: 140px;
+    cursor: pointer;
+}
+
+.profileImageBox {
+    width: 150px;
+    height: 150px;
+    margin-top: 40px;
+    border-radius: 100px;
+}
+
+.profileImage {
+    border-radius: 50%;
+}
+
+.input {
+    width: 100%;
+    border: none;
+    font-size: 14px;
+    line-height: 23.52px;
+    background-color: var(--gray-50);
+    color: var(--main-200);
+}
+
+.input::placeholder {
+    color: var(--main-200);
+    font-size: 14px;
+    line-height: 23.52px;
+}
+
+.input:focus {
+    border: none;
+    outline: none;
+}
+
+.inputBox {
+    width: 436px;
+    border-bottom: 2px solid var(--main-200);
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 3px;
+    margin-top: 40px;
+}
+
+.cautionBox {
+    width: 436px;
+    display: flex;
+    justify-content: end;
+}
+
+.caution {
+    width: fit-content;
+}
+
+
+.buttonBox {
+    margin-top: 60px;
+}

@@ -1,0 +1,23 @@
+.container {
+  background-color: transparent;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 110px;
+  left: 110px;
+  cursor: pointer;
+}
+
+.circularImageContainer {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+}
+
+.uploadInput {
+  display: none;
+}
+

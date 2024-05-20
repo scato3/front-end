@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import favoriteStudy from "../api/favoriteStudy";
 import useMemberStore from "../studyMember/store/useMemberStore";
+import setProfile from "../api/setProfile";
 
 interface IFavStudy {
   id: number;
@@ -188,7 +189,11 @@ export default function StudyInfo() {
     setJoin(false);
   };
 
- 
+  const handleCloseProfileModal = () => {
+    handleCloseModal();
+    setWatchMember("");
+  }
+
 
   return (
     <div className={styles.container}>
@@ -277,8 +282,8 @@ export default function StudyInfo() {
           </div>
           {openModal && (
             <ModalPortal>
-              <ModalContainer handleCloseModal={handleCloseModal}>
-                <MemberModal handleCloseModal={handleCloseModal} user={userProfile} study={userStudy} />
+              <ModalContainer handleCloseModal={handleCloseProfileModal}>
+                <MemberModal handleCloseModal={handleCloseProfileModal} user={userProfile} study={userStudy} />
               </ModalContainer>
             </ModalPortal>
           )} 
