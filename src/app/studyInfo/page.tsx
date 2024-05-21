@@ -39,12 +39,6 @@ interface IFavStudy {
   additionalInfos: string[];
 }
 
-interface Imember {
-  nickname: string;
-  profileImage: string;
-  _owner: boolean;
-}
-
 export default function StudyInfo() {
   const router = useRouter();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
@@ -250,13 +244,12 @@ export default function StudyInfo() {
             <p className={styles.subTitle}>참여 멤버</p>
             <div className={styles.members}>
               {data.membersList.map((member: Imember, index: number) => (
-                <MemberCard
-                  key={index}
-                  nickname={member.nickname}
-                  profile={member.profileImage}
-                  owner={member._owner}
-                  onClick={() => setWatchMember(member.nickname)}
-                />
+                member.exit_status === "None" && (
+                  <MemberCard
+                    key={index}
+                    member= {member}
+                    onClick={() => setWatchMember(member.nickname)}
+                  />)
               ))}
             </div>
           </div>
