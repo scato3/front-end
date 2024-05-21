@@ -102,12 +102,11 @@ export default function StudyInfo() {
     }
     if (error) console.log(error);
 
-    if(favStudyData){
-      const favStudyIdList:number[] = favStudyData.data.map((study: IFavStudy) => study.id);
-      if(favStudyIdList.includes(studyId)) setIsFav(true);
+    if (favStudyData) {
+      const favStudyIdList: number[] = favStudyData.data.map((study: IFavStudy) => study.id);
+      if (favStudyIdList.includes(studyId)) setIsFav(true);
     }
-    if(favStudyError) console.log(favStudyError);
-
+    if (favStudyError) console.log(favStudyError);
   }, [data, favStudyData]);
 
   useEffect(() => {
@@ -129,17 +128,17 @@ export default function StudyInfo() {
   };
 
   const joinStudy = async (token: string) => {
-    try{
+    try {
       const res = await JoinStudy(studyId, token);
       console.log(res);
-      if(res.message === "이미 가입 신청한 사용자입니다.") {
+      if (res.message === "이미 가입 신청한 사용자입니다.") {
         setIsRequestJoin(true);
-        setModalMsg("이미 가입 신청한 쇼터디입니다.")
+        setModalMsg("이미 가입 신청한 쇼터디입니다.");
       }
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-    
+
     if (join) {
       console.log("joined");
     }
@@ -192,8 +191,7 @@ export default function StudyInfo() {
   const handleCloseProfileModal = () => {
     handleCloseModal();
     setWatchMember("");
-  }
-
+  };
 
   return (
     <div className={styles.container}>
@@ -269,7 +267,7 @@ export default function StudyInfo() {
                 setIsFav={setIsFav}
                 study_id={studyId}
                 onClick={() => {
-                  return;
+                  router.push(`../chat?studyId=${studyId}`);
                 }}
               >
                 입장하기
@@ -286,21 +284,21 @@ export default function StudyInfo() {
                 <MemberModal handleCloseModal={handleCloseProfileModal} user={userProfile} study={userStudy} />
               </ModalContainer>
             </ModalPortal>
-          )} 
-          {join && !isRequestJoin &&(
+          )}
+          {join && !isRequestJoin && (
             <ModalPortal>
               <ModalContainer handleCloseModal={handleCloseAlert}>
                 <InfoAlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</InfoAlertModal>
               </ModalContainer>
             </ModalPortal>
           )}
-          {isRequestJoin && 
+          {isRequestJoin && (
             <ModalPortal>
               <ModalContainer handleCloseModal={handleCloseAlert}>
                 <InfoAlertModal handleCloseModal={handleCloseAlert}>{modalMsg}</InfoAlertModal>
               </ModalContainer>
-          </ModalPortal>
-          }
+            </ModalPortal>
+          )}
         </>
       )}
     </div>
