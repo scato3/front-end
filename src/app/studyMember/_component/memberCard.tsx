@@ -66,7 +66,7 @@ export default function MemberCard({isDeclined, isAccepted,isRequesting, isReque
     return(
         <div className={isRequesting? styles.container : styles.done}>
             <div className={styles.imgContainer} onClick={() => onClick(nickname)}>
-                <Image src={src} onClick={()=>{}} width={80} height={80} alt="ProfileImage" />
+                <Image className={styles.img} src={src} onClick={()=>{}} width={80} height={80} alt="ProfileImage" />
             </div>
             <div className={styles.rightBox}>
                 {isRequest ? <p className={styles.nickname}>{requestData?.nickname}님이 함께하길 원하고 있어요</p>

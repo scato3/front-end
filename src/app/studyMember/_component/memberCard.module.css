@@ -28,6 +28,10 @@
     cursor: pointer;
 }
 
+.img {
+    border-radius: 50%;
+}
+
 .rightBox {
     width: 100%;
     display: flex;
