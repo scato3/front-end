@@ -23,7 +23,7 @@ export default function StudySetting() {
   const studyIdString = searchParams.get("studyId");
   const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
   const { accessToken } = useAuth();
-  const [ membersCount, setMembersCount ] = useState<number>(0);
+  const [membersCount, setMembersCount] = useState<number>(0);
 
   const { data } = useQuery({
     queryKey: ["KAKAO_CODE"],
@@ -31,10 +31,10 @@ export default function StudySetting() {
   });
 
   useEffect(() => {
-    if(data){
+    if (data) {
       setMembersCount(data.data);
     }
-  },[data])
+  }, [data]);
 
   const handleDeleteStudy = async () => {
     try {
@@ -47,7 +47,6 @@ export default function StudySetting() {
     handleCloseModal();
     router.push("/studyList");
   };
-
 
   return (
     <div className={styles.container}>
@@ -68,9 +67,14 @@ export default function StudySetting() {
             수정하기
             <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow" />
           </p>
-          <p className={styles.menu} onClick={() => router.push(`/studyMember?studyId=${studyId}&token=${accessToken}`)}>
+          <p className={styles.menu} onClick={() => router.push(`/studyMember?studyId=${studyId}`)}>
             멤버관리
-            {membersCount ? <div className={styles.count}>{membersCount}{membersCount >= 10 ? "+" : null}</div> : null}
+            {membersCount ? (
+              <div className={styles.count}>
+                {membersCount}
+                {membersCount >= 10 ? "+" : null}
+              </div>
+            ) : null}
             <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow" />
           </p>
           <p className={styles.menu} onClick={handleOpenModal}>

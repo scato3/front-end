@@ -49,9 +49,7 @@ export default function Main_home() {
   return (
     <>
       {isLoading ? (
-        <>
-          <Loading />
-        </>
+        <Loading />
       ) : (
         <>
           <div className={styles.container}>
