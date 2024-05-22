@@ -5,8 +5,10 @@ interface IMemberStore {
     setOutMemberName: (name: string) => void;
     outUserId: number;
     setOutUserId: (id: number) => void;
-    reqUserId: number;
-    setReqUserId: (id: number) => void;
+    acceptUserId: number;
+    setAcceptUserId: (id: number) => void;
+    declineUserId: number;
+    setDeclineUserId: (id: number) => void;
     exitReasons: string[];
     setExitReasons: (reasons: string[]) => void;
     startDate: string;
@@ -20,8 +22,10 @@ const useMemberStore = create<IMemberStore>((set) => ({
     setOutMemberName: (name: string) => set({outMemberName: name}),
     outUserId: -1,
     setOutUserId: (id: number) => set({ outUserId: id }),
-    reqUserId: -1,
-    setReqUserId: (id: number) => set({ reqUserId: id }),
+    acceptUserId: -1,
+    setAcceptUserId: (id: number) => set({ acceptUserId: id }),
+    declineUserId: -1,
+    setDeclineUserId: (id: number) => set({ declineUserId: id }),
     exitReasons: [],
     setExitReasons: (reasons: string[]) => set({ exitReasons: reasons }),
     startDate: "",

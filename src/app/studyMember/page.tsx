@@ -25,10 +25,11 @@ import GetUserProfile from "../api/getUserProfile";
 import Loading from "../_component/Loading";
 
 export default function studyMember() {
-    const {accessToken} = useAuth();
+    //const {accessToken} = useAuth();
     const router = useRouter();
     const params = useSearchParams();
     const studyIdString = params.get("studyId");
+    const accessToken: string = params.get("token") ?? "";
     const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
     const [ isJoinRequest, setIsJoinRequest ] = useState<boolean>(false);
     const [ isJoinMember, setIsJoinMember ] = useState<boolean>(false);
@@ -37,8 +38,9 @@ export default function studyMember() {
     const { openModal:openProfileModal, handleOpenModal:handleOpenProfileModal, handleCloseModal:closeProfileModal } =  useModal();
     const { openModal:openOutModal, handleOpenModal:handleOpenOutModal, handleCloseModal:handleCloseOutModal } =  useModal();
     const { openModal:openAlertModal, handleOpenModal:handleOpenAlertModal, handleCloseModal:handleCloseAlertModal } =  useModal();
-    const { outMemberName, setOutMemberName, outUserId, setOutUserId, exitReasons, reqUserId, setReqUserId, startDate, isQuick } = useMemberStore();
-    const [ selectedTab, setSelectedTab ] = useState<string>("");
+    const { outMemberName, setOutMemberName, outUserId, setOutUserId, exitReasons, 
+            setAcceptUserId, setDeclineUserId, acceptUserId, declineUserId, 
+            startDate, isQuick } = useMemberStore();
     const [ watchMember, setWatchMember ] = useState<string>("");
     const [ userStudy, setUserStudy ] = useState<IUserStudyType>({ in_complete: 0, in_progress: 0 });
     const [ userProfile, setUserProfile ] = useState<IUserProfileType>({
@@ -49,16 +51,41 @@ export default function studyMember() {
         user_id: 0,
     });
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const url:string = `/studyMember?studyId=${studyId}&token=${accessToken}`;
+
 
     useEffect(() => {
-    if (!isQuick && moment(startDate).isSameOrAfter(moment(), "day")) {
-        setIsJoinRequest(true);
-        getRequestMembers();
-    } else {
-        setIsJoinMember(true);
-        getStudyMembers();
-    }
+        setIsLoading(true);
+        console.log("rerender", studyId);
+        if (!isQuick && moment(startDate).isSameOrAfter(moment(), "day")) {
+            setIsJoinRequest(true);
+            getRequestMembers();
+        } else {
+            setIsJoinMember(true);
+            getStudyMembers();
+        }
     },[]);
+
+    useEffect(() => {
+        if (watchMember !== "") {
+            getUserProfile();
+            handleOpenProfileModal();
+        }
+        }, [watchMember]);
+
+    useEffect(() => {
+        setIsLoading(true);
+        acceptJoinRequest();
+        router.push(url);
+
+    }, [acceptUserId]);
+
+    useEffect(() => {
+        setIsLoading(true);
+        declineJoinRequest();
+        router.push(url);
+
+    }, [declineUserId]);
 
     const getRequestMembers = async() => {
         try{
@@ -70,59 +97,53 @@ export default function studyMember() {
             console.log(error);
         }
         setIsLoading(false);
-
     };
 
     const getStudyMembers = async() => {
         try{
-            setIsLoading(true);
             const res = await GetStudyMembers(studyId, accessToken);
             setJoinedMembers(res.data);
-            console.log(res.data);
+            console.log(res);
         }catch(error){
             console.log(error);
         }
         setIsLoading(false);
 
-    ;}
+    };
 
     const outStudyMember = async() => {
         try{
-            setIsLoading(true);
             const res = await OutStudyMember(studyId, outUserId, exitReasons, accessToken);
             console.log(res);
-            setIsLoading(false);
         }catch(error){
             console.log(error);
         }
+        getStudyMembers();
     };
 
     const acceptJoinRequest = async() => {
         try{
-            const res = await AcceptJoinStudy(studyId, reqUserId, accessToken);
+            const res = await AcceptJoinStudy(studyId, acceptUserId, accessToken);
             console.log(res);
         }catch(error){
             console.log(error);
         }
+        router.push(url);
+        setIsLoading(false);
     };
 
     const declineJoinRequest = async() => {
         try{
-            const res = await DeclineJoinStudy(studyId, reqUserId, accessToken);
+            const res = await DeclineJoinStudy(studyId, declineUserId, accessToken);
             console.log(res);
         }catch(error){
             console.log(error);
         }
+        router.push(url);
+        setIsLoading(false);
     };
-
-    useEffect(() => {
-        if (watchMember !== "") {
-            getUserProfile();
-            handleOpenProfileModal();
-        }
-        }, [watchMember]);
     
-        const getUserProfile = async () => {
+    const getUserProfile = async () => {
         try {
             const res = await GetUserProfile(watchMember, accessToken);
             setUserProfile(res.profile);
@@ -130,15 +151,17 @@ export default function studyMember() {
         } catch (error) {
             console.log(error);
         }
-        };
+    };
 
     const handleRequestMember = () => {
+        setIsLoading(true);
         getRequestMembers();
         setIsJoinRequest(true);
         setIsJoinMember(false);
     };
 
     const handleStudyMember = () => {
+        setIsLoading(true);
         getStudyMembers();
         setIsJoinMember(true);
         setIsJoinRequest(false);
@@ -155,23 +178,22 @@ export default function studyMember() {
         console.log("out");
         outStudyMember();
         handleOpenAlertModal();
-        window.location.reload();
     };
 
     const handleOk = () => {
-        window.location.reload();
+        setIsLoading(true);
+        handleCloseAlertModal();
+        router.push(url);
     };
 
     const handleAcceptRequest = (member:IRequestMember) => {
-        setReqUserId(member.user_id);
-        acceptJoinRequest();
-        window.location.reload();
+        setIsLoading(true);
+        setAcceptUserId(member.user_id);
     };
 
     const handleDeclineRequest = (member:IRequestMember) => {
-        setReqUserId(member.user_id);
-        declineJoinRequest();
-        window.location.reload();
+        setIsLoading(true);
+        setDeclineUserId(member.user_id);
     };
 
     const handleCloseProfileModal = () => {

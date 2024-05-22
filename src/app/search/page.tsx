@@ -22,6 +22,7 @@ import useSearchStore from "./store/useSearchStore";
 import GetPopularSearch from "../api/popularSearch";
 import useSortStore from "../studyList/store/useSortStore";
 import useFromStore from "@/utils/from";
+import Loading from "../_component/Loading";
 
 const shortCutIcons = [
   {
@@ -65,6 +66,7 @@ export default function Search() {
   const { accessToken, isLogin } = useAuth();
   const { setQuickMatch, setSortSelected } = useSortStore();
   const { setFrom } = useFromStore();
+  const [ isLoading, setIsLoading] = useState<boolean>(true);
 
   const router = useRouter();
 
@@ -85,6 +87,7 @@ export default function Search() {
       }
     }
     getPopular();
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -195,7 +198,6 @@ export default function Search() {
         <div className={styles.searchInputBox}>
           <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter} />
         </div>
-
         <div className={styles.recentSearchBox}>
           <div className={styles.recentBoxTop}>
             <p className={styles.recent}>최근 검색어</p>
