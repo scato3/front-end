@@ -13,11 +13,12 @@ import { IMyStudyType } from "./type/myStudyType";
 import moment from "moment";
 import useFromStore from "@/utils/from";
 import NoStudy from "../search_result/_component/NoStudy";
+import Loading from "../_component/Loading";
 
 export default function MyStudy() {
   const router = useRouter();
   const { accessToken } = useAuth();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [studyData, setStudyData] = useState<IMyStudyType[]>([]);
   const [progress, setProgress] = useState<number>(0);
   const { setFrom } = useFromStore();
@@ -56,7 +57,7 @@ export default function MyStudy() {
   return (
     <>
       {isLoading ? (
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <>
           <div className={styles.Container}>

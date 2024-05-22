@@ -8,7 +8,7 @@ import Alert from "../../../public/icons/_main01/Icon_alert.svg";
 import Button from "../_component/button/Button";
 import ButtonBox from "../_component/main_home/ButtonBox";
 import Card from "../_component/main_home/Card";
-import Btn_arrow from "../../../public/icons/Btn_arrow_sm.svg";
+import Btn_arrow from "../../../public/icons/Btn_arrow_sm_right.svg";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import { useEffect, useState } from "react";
@@ -47,11 +47,11 @@ export default function Main_home() {
   }, []);
 
   return (
-    <>
+      <> 
         {isLoading ? <><Loading /></> : ( <>
           <div className={styles.container}>
           <Navigation dark={true} onClick={() => {}}>
-            <Image className={styles.iconBell} src={Alert} width={48} height={48} alt="bell" />
+            <Image className={styles.iconBell} src={Alert} width={24} height={24} alt="bell" />
             <Image
               className={styles.iconSearch}
               src={Search}
