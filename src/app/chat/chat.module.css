@@ -33,6 +33,7 @@
 }
 
 .topNotification {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -43,6 +44,22 @@
 .topNotificationLeft {
   display: flex;
   align-items: center;
+}
+
+.noticeContent {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top: 72px;
+  left: 0;
+  width: 100%;
+  font-size: 14px;
+  line-height: 23.5px;
+  color: var(--gray-600);
+  background-color: var(--gray-100);
+  padding: 20px 40px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .notiIcon {
@@ -63,4 +80,10 @@
 .messageBox {
   overflow: scroll;
   height: 100%;
+}
+
+.UploadContainer {
+  display: flex;
+  justify-content: center;
+  padding-right: 15px;
 }

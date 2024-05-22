@@ -15,11 +15,18 @@ import Arrow from "../../../public/icons/Icon_down_arrow.svg";
 import More from "../../../public/icons/Icon_more.svg";
 import Noti from "../../../public/icons/Icon_noti.svg";
 import Search from "../../../public/icons/Icon_search.svg";
+import Submenu from "./_component/SubMenu";
 import chat from "../api/chat/chat";
 import getMessage from "../api/chat/getMessage";
 import postMessage from "../api/chat/postMessage";
 import ChatBox from "./_component/chatBox";
 import styles from "./chat.module.css";
+import useFromStore from "@/utils/from";
+import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/useModal";
+import ChatModalContainer from "../_component/ChatModalContainer";
+import ModalContainer from "../_component/ModalContainer";
+import ModalPortal from "../_component/ModalPortal";
 
 export default function ChatPage() {
   interface IChatData extends IChat {
@@ -35,6 +42,7 @@ export default function ChatPage() {
   };
 
   const toast = useToast();
+  const [showNotice, setShowNotice] = useState<boolean>(false);
   const [chatData, setChatData] = useState<IChatData | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -46,6 +54,13 @@ export default function ChatPage() {
   const [typing, setTyping] = useState<boolean>(false);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [socket, setSocket] = useState<null | Socket>(null);
+  const { from } = useFromStore();
+  const router = useRouter();
+  const { openModal, handleOpenModal, handleCloseModal } = useModal();
+
+  const toggleNotice = () => {
+    setShowNotice((prevState) => !prevState);
+  };
 
   useEffect(() => {
     const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_PROD_API as string);
@@ -173,11 +188,29 @@ export default function ChatPage() {
   return (
     <div className={styles.chatWrapper}>
       <div className={styles.navBox}>
-        <Image className={styles.searchIcon} src={Back} alt="검색 버튼" width={36} height={36} />
+        <Image
+          className={styles.searchIcon}
+          src={Back}
+          alt="검색 버튼"
+          width={36}
+          height={36}
+          onClick={() => {
+            router.push(`./${from}`);
+          }}
+        />
         <div className={styles.studyName}>{chatData?.chatName}</div>
         <div>
           <Image className={styles.searchIcon} src={Search} alt="검색 버튼" width={36} height={36} />
-          <Image className={styles.alertIcon} src={More} alt="검색 버튼" width={36} height={36} />
+          <Image
+            className={styles.alertIcon}
+            src={More}
+            alt="검색 버튼"
+            width={36}
+            height={36}
+            onClick={() => {
+              handleOpenModal();
+            }}
+          />
         </div>
       </div>
       <div className={styles.topNotification}>
@@ -185,7 +218,23 @@ export default function ChatPage() {
           <Image className={styles.notiIcon} src={Noti} alt="공지 버튼" width={32} height={32} />
           공지사항_꼭 확인해주세요
         </div>
-        <Image className={styles.alertIcon} src={Arrow} alt="공지 버튼" width={16} height={16} />
+        <Image
+          className={styles.alertIcon}
+          src={Arrow}
+          alt="공지 버튼"
+          width={16}
+          height={16}
+          onClick={() => {
+            toggleNotice();
+          }}
+          style={{ transform: `rotate(${showNotice ? "180deg" : "0deg"})`, transition: "transform 0.3s ease" }}
+        />
+        {showNotice && (
+          <div className={styles.noticeContent}>
+            모두가 의욕을 가지고 쇼터디 참가를 해주신 만큼, 서로에게 미치는 영향이 있습니다. 모두에게 힘이되는 쇼터디를
+            유지하기 위함이니, 일주일에 3회이상 참여 부탁드립니다.
+          </div>
+        )}
       </div>
       {loading ? (
         <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center" }}>
@@ -217,7 +266,9 @@ export default function ChatPage() {
           overflowY="hidden"
           className={styles.inputBox}
         >
-          <Image alt="업로드 이미지" src={Plus}></Image>
+          <div className={styles.UploadContainer}>
+            <Image alt="업로드 이미지" src={Plus} width={24} height={24}></Image>
+          </div>
 
           <FormControl onKeyDown={sendMessage} isRequired mt={3} id="first-name">
             <InputGroup size="small">
@@ -229,6 +280,8 @@ export default function ChatPage() {
                 onChange={typingHandler}
                 className={styles.input}
                 _placeholder={{ color: "#a7a5a4" }}
+                paddingLeft="16px"
+                height="38.5px"
               />
               <InputRightElement width="4rem" height={"44px"}>
                 <Button
@@ -247,6 +300,15 @@ export default function ChatPage() {
           </FormControl>
         </Box>
       </div>
+      {openModal && (
+        <div className={styles.Test}>
+          <ModalPortal>
+            <ModalContainer>
+              <Submenu handleCloseModal={handleCloseModal}></Submenu>
+            </ModalContainer>
+          </ModalPortal>
+        </div>
+      )}
     </div>
   );
 }

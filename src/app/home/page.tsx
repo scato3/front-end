@@ -40,10 +40,9 @@ export default function Main_home() {
       }
     };
 
-    const timer = setTimeout(getPopular, 500);
+    const timer = setTimeout(getPopular, 100);
 
     return () => clearTimeout(timer);
-
   }, []);
 
   return (

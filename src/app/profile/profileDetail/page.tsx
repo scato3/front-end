@@ -1,52 +1,58 @@
 "use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import Button from "@/app/_component/button/Button";
 import proposerStudy from "@/app/api/proposerStudy";
 import registeredStudy from "@/app/api/registeredStudy";
 import useAuth from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
 import DetailCard from "./_component/DetailCard";
 import Navigation from "@/app/_component/navigation/page";
 import styles from "./detail.module.css";
 import NoStudy from "@/app/search_result/_component/NoStudy";
-import { useQuery } from "@tanstack/react-query";
 import { IfilterType } from "@/app/type/filterType";
 import useDetailActiveStore from "../store/detailActive";
+import useFromStore from "@/utils/from";
 
 const FILTERS = ["참여신청", "참여중", "참여완료"];
 
 export default function ProfileDetail() {
   const router = useRouter();
   const { accessToken } = useAuth();
-  const [activeFilter, setActiveFilter] = useState<string>(FILTERS[0]);
-  const [postData, setPostData] = useState<IfilterType[]>([]);
-  const [isCancel, setIsCancel] = useState<boolean>(false);
   const { selectedInfo } = useDetailActiveStore();
+  const [activeFilter, setActiveFilter] = useState<string>(FILTERS[selectedInfo - 1] || FILTERS[0]);
+  const [postData, setPostData] = useState<IfilterType[]>([]);
+  const [isCancel, setIsCancel] = useState<boolean>(activeFilter === "참여신청");
+  const { setFrom } = useFromStore();
 
   useEffect(() => {
     setActiveFilter(FILTERS[selectedInfo - 1] || FILTERS[0]);
+  }, [selectedInfo]);
+
+  useEffect(() => {
+    setIsCancel(activeFilter === "참여신청");
+  }, [activeFilter]);
+
+  useEffect(() => {
+    setFrom("profile/profileDetail");
   }, []);
 
-  const {} = useQuery({
+  useQuery({
     queryKey: ["PROFILE_DETAIL", activeFilter, accessToken],
     queryFn: async () => {
       let fetchData;
       if (activeFilter === "참여신청") {
         fetchData = await proposerStudy(accessToken);
-        setIsCancel(true);
       } else if (activeFilter === "참여중") {
         fetchData = await registeredStudy(accessToken, null);
-        setIsCancel(false);
       } else if (activeFilter === "참여완료") {
         fetchData = await registeredStudy(accessToken, "done");
-        setIsCancel(false);
       } else {
         fetchData = [];
       }
 
-      console.log(fetchData);
       setPostData(fetchData.data);
-      return postData;
+      return fetchData.data;
     },
     enabled: true,
   });

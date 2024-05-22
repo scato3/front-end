@@ -3,8 +3,10 @@ import { IMessage } from "@/interfaces/chat/IMessage";
 import { isSameSender } from "@/utils/chatLogics";
 import { Avatar } from "@chakra-ui/react";
 import moment from "moment-timezone";
+import "moment/locale/ko";
 import { useEffect, useState } from "react";
 import styles from "./chatBox.module.css";
+
 export default function ChatBox({ messages, userId }: { messages: IMessage[]; userId: string }) {
   interface IChatGroupByDate {
     date: string;
@@ -46,6 +48,7 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
                     display: "flex",
                     justifyContent: isSameSender(messages, message, idx, userId) ? "start" : "end",
                     alignItems: "center",
+                    marginTop: "10px",
                   }}
                   key={message._id}
                 >
@@ -69,6 +72,7 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
                         marginBottom: 3,
                         display: "flex",
                         alignItems: "end",
+                        gap: "3px",
                       }}
                     >
                       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -79,6 +83,9 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
                             padding: "5px 15px",
                             maxWidth: "350px",
                             wordWrap: "break-word",
+                            marginTop: "3px",
+                            fontSize: "16px",
+                            lineHeight: "27px",
                           }}
                         >
                           {message.content}
@@ -99,8 +106,9 @@ export default function ChatBox({ messages, userId }: { messages: IMessage[]; us
                       <div
                         style={{
                           backgroundColor: `${message.sender._id === userId ? "#ffd4bd" : "#d9d9d8"}`,
-                          padding: "5px 15px",
+                          padding: "10px 16px",
                           maxWidth: "350px",
+                          height: "auto",
                           wordWrap: "break-word",
                         }}
                       >
