@@ -5,22 +5,16 @@ import { useRouter } from "next/navigation";
 interface IAlertModal {
   handleCloseModal: () => void;
   children: React.ReactNode;
-  studyIdString?: string | null;
 }
 
-export default function AlertModal({ handleCloseModal, children, studyIdString }: IAlertModal) {
+export default function AlertModal({ handleCloseModal, children}: IAlertModal) {
   const router = useRouter();
-
-  const handleClose = () => {
-    handleCloseModal();
-    router.push(`./studyInfo?studyId=${studyIdString}`);
-  };
 
   return (
     <div className={styles.AlertModalContainer}>
       <p className={styles.ModalContent}>{children}</p>
       <div className={styles.BtnContainer}>
-        <Button size="small" property="default" onClick={handleClose}>
+        <Button size="small" property="default" onClick={handleCloseModal}>
           확인
         </Button>
       </div>

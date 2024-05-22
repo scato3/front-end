@@ -68,7 +68,7 @@ export default function StudySetting() {
             수정하기
             <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow" />
           </p>
-          <p className={styles.menu} onClick={() => router.push(`/studyMember?studyId=${studyId}`)}>
+          <p className={styles.menu} onClick={() => router.push(`/studyMember?studyId=${studyId}&token=${accessToken}`)}>
             멤버관리
             {membersCount ? <div className={styles.count}>{membersCount}{membersCount >= 10 ? "+" : null}</div> : null}
             <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow" />

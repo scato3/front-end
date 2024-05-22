@@ -16,6 +16,7 @@ import { IfilterType } from "@/app/type/filterType";
 import NoStudy from "../search_result/_component/NoStudy";
 import getFilter from "../api/getFilter";
 import Navigation from "../_component/navigation/page";
+import Loading from "../_component/Loading";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -47,8 +48,8 @@ export default function Main_home() {
 
   return (
     <>
-      {!isLoading && (
-        <div className={styles.container}>
+        {isLoading ? <><Loading /></> : ( <>
+          <div className={styles.container}>
           <Navigation dark={true} onClick={() => {}}>
             <Image className={styles.iconBell} src={Alert} width={48} height={48} alt="bell" />
             <Image
@@ -107,10 +108,11 @@ export default function Main_home() {
             </div>
           </div>
         </div>
-      )}
-      <div className={styles.footerBox}>
+        <div className={styles.footerBox}>
         <Footer />
-      </div>
+        </div>
+      </>
+      )}
     </>
   );
 }
