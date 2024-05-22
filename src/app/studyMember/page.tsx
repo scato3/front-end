@@ -76,7 +76,6 @@ export default function studyMember() {
     useEffect(() => {
         setIsLoading(true);
         acceptJoinRequest();
-        router.push(url);
 
     }, [acceptUserId]);
 
@@ -128,7 +127,7 @@ export default function studyMember() {
         }catch(error){
             console.log(error);
         }
-        router.push(url);
+        getRequestMembers();
         setIsLoading(false);
     };
 
@@ -139,7 +138,7 @@ export default function studyMember() {
         }catch(error){
             console.log(error);
         }
-        router.push(url);
+        getRequestMembers();
         setIsLoading(false);
     };
     
