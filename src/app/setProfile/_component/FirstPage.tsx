@@ -20,6 +20,8 @@ export default function SetProfile({ onRegister }: { onRegister: () => void }) {
   const router = useRouter();
   const { postImg, previewImg } = useStore();
   const { accessToken } = useAuth();
+  const currentUser = useAuth((state) => state.user);
+
   interface IProfileData {
     nickname: string | null;
     profileImage: string | ArrayBuffer | null;
@@ -42,8 +44,12 @@ export default function SetProfile({ onRegister }: { onRegister: () => void }) {
 
       setProfileData({ ...profileData, profileImage });
       const result = await setProfile(profileData, accessToken);
-      if (result) return onRegister();
-      else alert("가입 중 오류 발생");
+      if (result) {
+        if (typeof currentUser?.nickname === "string" && profileData.nickname !== null) {
+          useAuth.getState().setUser({ ...currentUser, nickname: profileData.nickname });
+        }
+        onRegister();
+      } else alert("가입 중 오류 발생");
     }
   };
 
