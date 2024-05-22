@@ -89,7 +89,6 @@ export default function StudyInfo() {
 
       const isMember = data.membersList.filter((member: Imember) => member.nickname === user?.nickname);
       if (isMember.length > 0) {
-        console.log(isMember);
         setIsJoined(true);
         isMember[0]?._owner === true ? setIsOwner(true) : setIsOwner(false);
       }
@@ -243,14 +242,12 @@ export default function StudyInfo() {
           <div className={styles.membersBox}>
             <p className={styles.subTitle}>참여 멤버</p>
             <div className={styles.members}>
-              {data.membersList.map((member: Imember, index: number) => (
-                member.exit_status === "None" && (
-                  <MemberCard
-                    key={index}
-                    member= {member}
-                    onClick={() => setWatchMember(member.nickname)}
-                  />)
-              ))}
+              {data.membersList.map(
+                (member: Imember, index: number) =>
+                  member.exit_status === "None" && (
+                    <MemberCard key={index} member={member} onClick={() => setWatchMember(member.nickname)} />
+                  ),
+              )}
             </div>
           </div>
           <div className={styles.footer}>

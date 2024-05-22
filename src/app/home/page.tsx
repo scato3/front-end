@@ -18,7 +18,7 @@ import getFilter from "../api/getFilter";
 import Navigation from "../_component/navigation/page";
 
 export default function Main_home() {
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [postData, setPostData] = useState<IfilterType[]>([]);
   const { setFrom } = useFromStore();
   const router = useRouter();
@@ -39,7 +39,10 @@ export default function Main_home() {
         setLoading(false);
       }
     };
-    getPopular();
+
+    const timer = setTimeout(getPopular, 500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
