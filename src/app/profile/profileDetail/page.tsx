@@ -12,6 +12,8 @@ import styles from "./detail.module.css";
 import NoStudy from "@/app/search_result/_component/NoStudy";
 import { IfilterType } from "@/app/type/filterType";
 import useDetailActiveStore from "../store/detailActive";
+import useFromStore from "@/utils/from";
+import Loading from "@/app/_component/Loading";
 
 const FILTERS = ["참여신청", "참여중", "참여완료"];
 
@@ -36,7 +38,7 @@ export default function ProfileDetail() {
     setFrom("profile/profileDetail");
   }, []);
 
-  const {} = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["PROFILE_DETAIL", activeFilter, accessToken],
     queryFn: async () => {
       let fetchData;
