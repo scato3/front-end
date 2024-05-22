@@ -36,14 +36,12 @@ export default function StudyEdit() {
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "default">("default");
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
   const [isEdited, SetIsEdited] = useState<boolean>(false);
-
   const [patchData, setPatchData] = useState<IStudyData>({
     title: "",
     description: "",
     tags: [],
   });
   const { title, description, tags } = patchData;
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["EDIT_STUDY_INFO", studyId],
     queryFn: async () => GetEditStudy(studyId, accessToken),
@@ -135,6 +133,11 @@ export default function StudyEdit() {
     handleOpenModal();
   };
 
+  const handleClose = () => {
+    handleCloseModal();
+    router.push(`/studyInfo?studyId=${data.id}`);
+  };
+
   return (
     <div className={styles.Container}>
       <Navigation dark={false} isBack={true} onClick={() => router.back()}>
@@ -200,7 +203,7 @@ export default function StudyEdit() {
       {openModal && (
         <ModalPortal>
           <ModalContainer>
-            <AlertModal studyIdString={studyIdString} handleCloseModal={handleCloseModal}>
+            <AlertModal handleCloseModal={handleClose}>
               변경 사항이 저장되었어요!
             </AlertModal>
           </ModalContainer>

@@ -5,11 +5,9 @@ import { useRouter } from "next/navigation";
 interface IAlertModal {
   handleCloseModal: () => void;
   children: React.ReactNode;
-  studyId: number;
-  accessToken: string;
 }
 
-export default function AlertModal({ handleCloseModal, children, studyId, accessToken }: IAlertModal) {
+export default function AlertModal({ handleCloseModal, children}: IAlertModal) {
   const router = useRouter();
 
   return (
