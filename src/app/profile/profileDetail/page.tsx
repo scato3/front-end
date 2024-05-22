@@ -12,7 +12,6 @@ import styles from "./detail.module.css";
 import NoStudy from "@/app/search_result/_component/NoStudy";
 import { IfilterType } from "@/app/type/filterType";
 import useDetailActiveStore from "../store/detailActive";
-import useFromStore from "@/utils/from";
 
 const FILTERS = ["참여신청", "참여중", "참여완료"];
 
@@ -37,7 +36,7 @@ export default function ProfileDetail() {
     setFrom("profile/profileDetail");
   }, []);
 
-  useQuery({
+  const {} = useQuery({
     queryKey: ["PROFILE_DETAIL", activeFilter, accessToken],
     queryFn: async () => {
       let fetchData;
@@ -72,49 +71,57 @@ export default function ProfileDetail() {
 
   return (
     <div className={styles.Container}>
-      <Navigation
-        dark={false}
-        isBack={true}
-        onClick={() => {
-          router.push("../profile");
-        }}
-      >
-        나의 쇼터디 현황
-      </Navigation>
-      <div className={styles.DetailContainer}>
-        {FILTERS.map((filter) => (
-          <div
-            key={filter}
-            className={`${styles.FilterItem} ${activeFilter === filter ? styles.active : ""}`}
-            onClick={() => handleFilterClick(filter)}
+      {isLoading ? (
+        <>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <Navigation
+            dark={false}
+            isBack={true}
+            onClick={() => {
+              router.push("../profile");
+            }}
           >
-            <p>{filter}</p>
-          </div>
-        ))}
-      </div>
-      <div className={styles.Separator}>
-        <div
-          className={styles.ActiveSeparator}
-          style={{
-            width: getSeparatorWidth(),
-            left: getSeparatorPosition(),
-          }}
-        ></div>
-      </div>
-      <div className={styles.ContentContainer}>
-        <div className={styles.InfoContainer}>
-          <p className={styles.InfoHeader}>총 {postData?.length}개의 쇼터디에 신청했어요</p>
-        </div>
-        {postData && postData.length !== 0 ? (
-          <div className={styles.CardBox}>
-            {postData.map((data: IfilterType, index: number) => (
-              <DetailCard key={index} data={data} isCancel={isCancel} activeFilter={activeFilter} />
+            나의 쇼터디 현황
+          </Navigation>
+          <div className={styles.DetailContainer}>
+            {FILTERS.map((filter) => (
+              <div
+                key={filter}
+                className={`${styles.FilterItem} ${activeFilter === filter ? styles.active : ""}`}
+                onClick={() => handleFilterClick(filter)}
+              >
+                <p>{filter}</p>
+              </div>
             ))}
           </div>
-        ) : (
-          <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
-        )}
-      </div>
+          <div className={styles.Separator}>
+            <div
+              className={styles.ActiveSeparator}
+              style={{
+                width: getSeparatorWidth(),
+                left: getSeparatorPosition(),
+              }}
+            ></div>
+          </div>
+          <div className={styles.ContentContainer}>
+            <div className={styles.InfoContainer}>
+              <p className={styles.InfoHeader}>총 {postData?.length}개의 쇼터디에 신청했어요</p>
+            </div>
+            {postData && postData.length !== 0 ? (
+              <div className={styles.CardBox}>
+                {postData.map((data: IfilterType, index: number) => (
+                  <DetailCard key={index} data={data} isCancel={isCancel} activeFilter={activeFilter} />
+                ))}
+              </div>
+            ) : (
+              <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

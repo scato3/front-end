@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import favoriteStudy from "../api/favoriteStudy";
 import useMemberStore from "../studyMember/store/useMemberStore";
-import setProfile from "../api/setProfile";
+import Loading from "../_component/Loading";
 
 interface IFavStudy {
   id: number;
@@ -65,6 +65,7 @@ export default function StudyInfo() {
   });
   const [userStudy, setUserStudy] = useState<IUserStudyType>({ in_complete: 0, in_progress: 0 });
   const { from } = useFromStore();
+  const [joiednMembers, setJoinedMembers] = useState<Imember[]>([]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["STUDY_INFO", studyId],
@@ -82,6 +83,7 @@ export default function StudyInfo() {
       setTendency(data.tendency);
       setDuration(data.duration);
       setStartDate(data.start_date);
+      setJoinedMembers(data.membersList.filter((member: Imember ) => member.exit_status === "None"));
 
       if (data.matching_type === "Quick") {
         setIsQuick(true);
@@ -189,7 +191,7 @@ export default function StudyInfo() {
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <p>Loading...</p>
+        <><Loading /></>
       ) : (
         <>
           <Navigation
@@ -234,7 +236,7 @@ export default function StudyInfo() {
             <p className={styles.subTitle}>학습 설정</p>
             <div className={styles.cardBox}>
               <StudySettingCard type="기간" descript={formatDuration(data.duration)}></StudySettingCard>
-              <StudySettingCard type="인원" descript={`${data.membersList.length}명`}></StudySettingCard>
+              <StudySettingCard type="인원" descript={`${joiednMembers.length}명`}></StudySettingCard>
               <StudySettingCard type="분위기" descript={formatTendency(data.tendency)}></StudySettingCard>
             </div>
           </div>
@@ -242,11 +244,14 @@ export default function StudyInfo() {
           <div className={styles.membersBox}>
             <p className={styles.subTitle}>참여 멤버</p>
             <div className={styles.members}>
-              {data.membersList.map(
-                (member: Imember, index: number) =>
-                  member.exit_status === "None" && (
-                    <MemberCard key={index} member={member} onClick={() => setWatchMember(member.nickname)} />
-                  ),
+
+              {joiednMembers.map((member: Imember, index: number) => (
+                  <MemberCard
+                    key={index}
+                    member= {member}
+                    onClick={() => setWatchMember(member.nickname)}
+                  />)
+
               )}
             </div>
           </div>

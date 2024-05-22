@@ -25,6 +25,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { IfilterType } from "../type/filterType";
 import useFromStore from "@/utils/from";
+import Loading from "../_component/Loading";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -189,6 +190,8 @@ export default function StudyList() {
 
   return (
     <div className={styles.container}>
+      {modalIsLoading ? <><Loading/></> : (
+      <>
       <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
         <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
       </Navigation>
@@ -313,6 +316,7 @@ export default function StudyList() {
           <NoStudy />
         )}
       </div>
+      </>)}
 
       {sort && (
         <ModalPortal>
