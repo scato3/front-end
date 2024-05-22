@@ -4,10 +4,32 @@ import Right from "../../../../public/icons/Btn_arrow_right.svg";
 import Out from "../../../../public/icons/Icon_out.svg";
 import Image from "next/image";
 import { ICloseModalProps } from "@/app/type/closeModalType";
+import { useRouter } from "next/navigation";
+import { it } from "node:test";
+import { url } from "node:inspector";
 
-const menuItems = [{ label: "목표관리" }, { label: "공지사항" }, { label: "사진" }, { label: "멤버" }];
+const menuItems = [
+  {
+    label: "목표관리",
+    url: ``
+  }, 
+  { 
+    label: "공지사항",
+    url: `chat/notice` 
+  }, 
+  { 
+    label: "사진",
+    url: `chat/sideMenu`
+  }, 
+  { 
+    label: "멤버",
+    url: ``, 
+  }
+];
 
 export default function Submenu({ handleCloseModal }: ICloseModalProps) {
+  const router = useRouter();
+
   return (
     <>
       <div className={styles.SubmenuContainer}>
@@ -27,9 +49,10 @@ export default function Submenu({ handleCloseModal }: ICloseModalProps) {
             <div
               key={index}
               className={`${styles.ItemContainer} ${index !== menuItems.length - 1 ? "" : styles.LastItem}`}
+              onClick={() => router.push(item.url)}
             >
               <div className={styles.Object}>{item.label}</div>
-              <Image src={Right} width={16} height={16} alt="Right Button" />
+              <Image src={Right} width={16} height={16} alt="Right Button"/>
             </div>
           ))}
         </div>
