@@ -249,7 +249,7 @@ export default function studyMember() {
             {openAlertModal &&
                 <ModalPortal>
                     <ModalContainer>
-                        <AlertModal studyId={studyId} accessToken={accessToken} handleCloseModal={handleOk}>{outMemberName}님을 내보냈어요.</AlertModal>
+                        <AlertModal handleCloseModal={handleOk}>{outMemberName}님을 내보냈어요.</AlertModal>
                     </ModalContainer>
                 </ModalPortal>
             }
