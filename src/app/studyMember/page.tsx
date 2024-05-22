@@ -22,6 +22,7 @@ import DeclineJoinStudy from "../api/declineJoinRequest";
 import moment from "moment";
 import MemberModal from "../studyInfo/_component/memberModal";
 import GetUserProfile from "../api/getUserProfile";
+import Loading from "../_component/loading";
 
 export default function studyMember() {
     const {accessToken} = useAuth();
@@ -39,7 +40,7 @@ export default function studyMember() {
     const { outMemberName, setOutMemberName, outUserId, setOutUserId, exitReasons, reqUserId, setReqUserId, startDate, isQuick } = useMemberStore();
     const [ selectedTab, setSelectedTab ] = useState<string>("");
     const [ watchMember, setWatchMember ] = useState<string>("");
-    const [userStudy, setUserStudy] = useState<IUserStudyType>({ in_complete: 0, in_progress: 0 });
+    const [ userStudy, setUserStudy ] = useState<IUserStudyType>({ in_complete: 0, in_progress: 0 });
     const [ userProfile, setUserProfile ] = useState<IUserProfileType>({
         email: "",
         nickname: "",
@@ -47,9 +48,10 @@ export default function studyMember() {
         rating: null,
         user_id: 0,
     });
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
 
     useEffect(() => {
-    if (startDate && !isQuick && moment(startDate).isSameOrAfter(moment(), "day")) {
+    if (!isQuick && moment(startDate).isSameOrAfter(moment(), "day")) {
         setIsJoinRequest(true);
         getRequestMembers();
     } else {
@@ -60,28 +62,36 @@ export default function studyMember() {
 
     const getRequestMembers = async() => {
         try{
+            setIsLoading(true);
             const res = await GetJoinRequest(studyId, accessToken);
             console.log(res);
             setJoinRequests(res.data);
         }catch(error){
             console.log(error);
         }
+        setIsLoading(false);
+
     };
 
     const getStudyMembers = async() => {
         try{
+            setIsLoading(true);
             const res = await GetStudyMembers(studyId, accessToken);
             setJoinedMembers(res.data);
             console.log(res.data);
         }catch(error){
             console.log(error);
         }
+        setIsLoading(false);
+
     ;}
 
     const outStudyMember = async() => {
         try{
+            setIsLoading(true);
             const res = await OutStudyMember(studyId, outUserId, exitReasons, accessToken);
             console.log(res);
+            setIsLoading(false);
         }catch(error){
             console.log(error);
         }
@@ -171,6 +181,7 @@ export default function studyMember() {
 
     return(
         <div className={styles.container}>
+            {isLoading && <Loading />}
             <Navigation isBack={true} dark={false} onClick={() => router.back()}>쇼터디 멤버 관리</Navigation>
             <div className={styles.hr}></div>
             <div className={styles.contentContainer}>
@@ -193,6 +204,7 @@ export default function studyMember() {
                             <MemberCard isRequest={true} 
                                         isAccepted={member.join_status === "Approved" ? true : false}
                                         isRequesting={member.join_status === "Waiting" ? true : false}
+                                        isDeclined={member.join_status === "rejected" ? true : false}
                                         key={member.user_id} 
                                         requestData={member}
                                         handleAcceptRequest={() =>  handleAcceptRequest(member)}
@@ -227,6 +239,8 @@ export default function studyMember() {
                             </ModalContainer>
                         </ModalPortal>
                     )} 
+            
+            
         </div>
     );
 }

@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import favoriteStudy from "../api/favoriteStudy";
 import useMemberStore from "../studyMember/store/useMemberStore";
-import setProfile from "../api/setProfile";
+import Loading from "../_component/loading";
 
 interface IFavStudy {
   id: number;
@@ -190,7 +190,7 @@ export default function StudyInfo() {
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <p>Loading...</p>
+        <><Loading /></>
       ) : (
         <>
           <Navigation
