@@ -25,7 +25,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import { IfilterType } from "../type/filterType";
 import useFromStore from "@/utils/from";
-import Loading from "../_component/loading";
+import Loading from "../_component/Loading";
 
 import "swiper/css";
 import "swiper/css/free-mode";
