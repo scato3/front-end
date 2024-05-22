@@ -22,7 +22,7 @@ import DeclineJoinStudy from "../api/declineJoinRequest";
 import moment from "moment";
 import MemberModal from "../studyInfo/_component/memberModal";
 import GetUserProfile from "../api/getUserProfile";
-import Loading from "../_component/loading";
+import Loading from "../_component/Loading";
 
 export default function studyMember() {
     const {accessToken} = useAuth();

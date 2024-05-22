@@ -12,7 +12,7 @@ import NoStudy from "@/app/search_result/_component/NoStudy";
 import { useQuery } from "@tanstack/react-query";
 import { IfilterType } from "@/app/type/filterType";
 import useDetailActiveStore from "../store/detailActive";
-import Loading from "@/app/_component/loading";
+import Loading from "@/app/_component/Loading";
 
 const FILTERS = ["참여신청", "참여중", "참여완료"];
 
