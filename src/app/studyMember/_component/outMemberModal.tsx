@@ -19,14 +19,11 @@ const reasons = [
 
 export default function OutMemberModal({handleCloseModal, handleOutMember}:IOutMemberModal) {
     const { exitReasons, setExitReasons, outMemberName } = useMemberStore();
-    const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
 
     const handleSelectReason = (reason: string) => {
-        if (selectedReasons.includes(reason)) {
-            setSelectedReasons(selectedReasons.filter(r => r !== reason));
+        if (exitReasons.includes(reason)) {
             setExitReasons(exitReasons.filter(r => r !== reason));
         } else {
-            setSelectedReasons([...selectedReasons, reason]);
             setExitReasons([...exitReasons, reason]);
         }
     };
@@ -43,7 +40,7 @@ export default function OutMemberModal({handleCloseModal, handleOutMember}:IOutM
                 {reasons.map((reason, index) => 
                     <div 
                         key={index} 
-                        className={`${styles.reason} ${selectedReasons.includes(reason) ? styles.selected : ""}`} 
+                        className={`${styles.reason} ${exitReasons.includes(reason) ? styles.selected : ""}`} 
                         onClick={() => handleSelectReason(reason)}
                     >
                         {reason}
@@ -51,7 +48,7 @@ export default function OutMemberModal({handleCloseModal, handleOutMember}:IOutM
                 )}
             </div>
             <div className={styles.btn}>
-                <Button size="small" onClick={handleOutMember}>확인</Button>
+                <Button size="small" property={exitReasons.length != 0 ? "default" : "disabled"}  onClick={handleOutMember}>확인</Button>
             </div>
         </div>
     );
