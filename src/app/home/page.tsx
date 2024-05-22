@@ -43,6 +43,7 @@ export default function Main_home() {
     const timer = setTimeout(getPopular, 500);
 
     return () => clearTimeout(timer);
+
   }, []);
 
   return (
