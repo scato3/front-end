@@ -5,20 +5,21 @@ import Navigation from "@/app/_component/navigation/page";
 import Button from "@/app/_component/button/Button";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Icon_X from "../../../public/icons/Icon_X.svg";
-import Icon_four from "../../../../public/icons/Icon_fourtag.svg";
-import Icon_caution from "../../../../public/icons/Icon_tagCaution.svg";
+import Icon_X from "../../../../public/icons/Icon_X.svg";
+import Icon_four from "../../../../../public/icons/Icon_fourtag.svg";
+import Icon_caution from "../../../../../public/icons/Icon_tagCaution.svg";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/useModal";
 import ModalContainer from "@/app/_component/ModalContainer";
 import ModalPortal from "@/app/_component/ModalPortal";
-import CreateModal from "../createStudy/_component/CreateModal";
-import EditStudy from "../api/editStudy";
-import GetEditStudy from "../api/getEditStudy";
+import CreateModal from "../../createStudy/_component/CreateModal";
+import EditStudy from "../../api/editStudy";
+import GetEditStudy from "../../api/getEditStudy";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-import AlertModal from "../_component/modal/alertModal";
+import AlertModal from "../../_component/modal/alertModal";
+import Loading from "../../_component/Loading";
 
 interface IStudyData {
   title: string;
@@ -140,13 +141,13 @@ export default function StudyEdit() {
 
   return (
     <div className={styles.Container}>
+      {isLoading ? (
+        <><Loading /></>
+      ) : (<>
       <Navigation dark={false} isBack={true} onClick={() => router.back()}>
         쇼터디 수정
       </Navigation>
       <div className={styles.seperator}></div>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
         <div className={styles.contentContainer}>
           <div className={styles.LastContainer}>
             <p className={styles.LastHeader}>쇼터디의 이름과 </p>
@@ -194,12 +195,12 @@ export default function StudyEdit() {
             )}
           </div>
         </div>
-      )}
       <div className={styles.ButtonContainer}>
         <Button size="large_main" property={buttonProperty} onClick={handleEditStudy}>
           쇼터디 수정하기
         </Button>
       </div>
+      </>)}
       {openModal && (
         <ModalPortal>
           <ModalContainer>
