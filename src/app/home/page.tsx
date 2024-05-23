@@ -41,77 +41,81 @@ export default function Main_home() {
       }
     };
 
-    const timer = setTimeout(getPopular, 100);
+    const timer = setTimeout(getPopular, 500);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
-      <> 
-        {isLoading ? <><Loading /></> : ( <>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
           <div className={styles.container}>
-          <Navigation dark={true} onClick={() => {}}>
-            <Image className={styles.iconBell} src={Alert} width={24} height={24} alt="bell" />
-            <Image
-              className={styles.iconSearch}
-              src={Search}
-              width={48}
-              height={48}
-              alt="search"
-              onClick={() => {
-                router.push("./search");
-              }}
-            />
-          </Navigation>
-          <div className={styles.buttonBox}>
-            <Button
-              size="medium"
-              property="confirm"
-              onClick={() => {
-                router.push("./fastMatching");
-              }}
-            >
-              빠른 매칭
-            </Button>
-            <Button
-              size="medium"
-              property="confirm"
-              onClick={() => {
-                router.push("./createStudy");
-              }}
-            >
-              쇼터디 운영
-            </Button>
-          </div>
-          <div className={styles.ButtonBox}>
-            <ButtonBox />
-          </div>
-          <div className={styles.ContentContainer}>
-            <div className={styles.line}></div>
-            <div className={styles.titleBox}>
-              <p>신규 쇼터디</p>
-              <div className={styles.moreContainer}>
-                <div className={styles.btnMore} onClick={() => router.push("./studyList")}>
-                  더보기
-                  <Image src={Btn_arrow} width={24} height={24} alt="더보기"></Image>
+            <Navigation dark={true} onClick={() => {}}>
+              <Image className={styles.iconBell} src={Alert} width={48} height={48} alt="bell" />
+              <Image
+                className={styles.iconSearch}
+                src={Search}
+                width={48}
+                height={48}
+                alt="search"
+                onClick={() => {
+                  router.push("./search");
+                }}
+              />
+            </Navigation>
+            <div className={styles.buttonBox}>
+              <Button
+                size="medium"
+                property="confirm"
+                onClick={() => {
+                  router.push("./fastMatching");
+                }}
+              >
+                빠른 매칭
+              </Button>
+              <Button
+                size="medium"
+                property="confirm"
+                onClick={() => {
+                  router.push("./createStudy");
+                }}
+              >
+                쇼터디 운영
+              </Button>
+
+            </div>
+            <div className={styles.ButtonBox}>
+              <ButtonBox />
+            </div>
+            <div className={styles.ContentContainer}>
+              <div className={styles.line}></div>
+              <div className={styles.titleBox}>
+                <p>신규 쇼터디</p>
+                <div className={styles.moreContainer}>
+                  <div className={styles.btnMore} onClick={() => router.push("./studyList")}>
+                    더보기
+                    <Image src={Btn_arrow} width={24} height={24} alt="더보기"></Image>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className={styles.card}>
-              {postData.length > 0 ? (
-                postData.slice(0, 3).map((data, index) => <Card key={index} data={data} />)
-              ) : (
-                <div className={styles.NoStudy}>
-                  <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
-                </div>
-              )}
+              <div className={styles.card}>
+                {postData.length > 0 ? (
+                  postData.slice(0, 3).map((data, index) => <Card key={index} data={data} />)
+                ) : (
+                  <div className={styles.NoStudy}>
+                    <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div className={styles.footerBox}>
-        <Footer />
-        </div>
-      </>
+          <div className={styles.footerBox}>
+            <Footer />
+          </div>
+        </>
       )}
     </>
   );
