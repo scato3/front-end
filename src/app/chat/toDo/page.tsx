@@ -17,6 +17,8 @@ import ToDoInputBox from "./_component/ToDoInputBox";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import GetStudyInfo from "@/app/api/getStudyInfo";
+import Loading from "@/app/_component/Loading";
+import useAuth from "@/hooks/useAuth";
 import CheckedIcon from "../../../../public/icons/chatting/Checked_Checkbox.svg";
 import UncheckedIcon from "../../../../public/icons/chatting/Unchecked_Checkbox.svg";
 import EditIcon from "../../../../public/icons/chatting/Edit.svg";
@@ -26,7 +28,6 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 
-const MEMBERS = ["나", "너", "우리", "7팀", "스위프", "쇼터디"];
 const FILTERS = ["전체", "미완료", "완료"];
 
 export default function Todo(){
@@ -37,6 +38,8 @@ export default function Todo(){
     const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
     const [ activeFilter, setActiveFilter ] = useState<string>(FILTERS[0]);
     const [memberList, setMemberList] = useState<Imember[]>([]);
+    const [ isOwner, setIsOwner ] = useState<boolean>(false);
+    const { user } = useAuth();
 
     const { data:studyData, isLoading, error } = useQuery({
         queryKey: ["STUDY_INFO", studyId],
@@ -45,24 +48,33 @@ export default function Todo(){
 
     useEffect(() => {
         if(studyData){
-            setMemberList(studyData.membersList);
-            //항상 owner가 맨 앞에 있도록 정렬
-            memberList.sort((a, b) => {
-                if (a._owner && !b._owner) {
+            const members = studyData.membersList;
+
+            const isMember = memberList.filter((member: Imember) => member.nickname === user?.nickname);
+            if (isMember.length > 0) {
+                isMember[0]?._owner === true ? setIsOwner(true) : setIsOwner(false);
+            }
+
+            members.sort((a:Imember, b:Imember) => {
+                if (a.nickname === user?.nickname) {
                     return -1;
                 }
-                if (!a._owner && b._owner) {
+                if (b.nickname === user?.nickname) {
                     return 1;
                 }
                 return 0;
             });
-            console.log(memberList);
+            setMemberList(members);
 
         }
+        console.log(memberList);
+
+        
     })
 
     return(
         <div className={styles.Container}>
+            {isLoading ? <><Loading /></> : <>
             <Navigation isBack={true} dark={false} onClick={()=>{router.back()}}>목표관리</Navigation>
             <div className={styles.TopContainer}>
                 <div className={styles.Top}>
@@ -79,8 +91,8 @@ export default function Todo(){
                         spaceBetween={12}
                         autoHeight={true}
                     >
-                        {MEMBERS.map((member, index) => (
-                            <SwiperSlide><Member key={index} nickname={member}/></SwiperSlide>
+                        {memberList.map((member, index) => (
+                            <SwiperSlide><Member key={index} member={member} isOwner={isOwner}/></SwiperSlide>
                         ))}
                     </Swiper>
                 </div>
@@ -99,6 +111,11 @@ export default function Todo(){
                 </div>
                 <div className={styles.PublicToDoBox}>
                     <p className={styles.ToDoTitle}>공통 할 일</p>
+                    {isOwner &&
+                        <div className={styles.InputBox}>
+                            <ToDoInputBox />
+                        </div>
+                    }
                 </div>
                 <div className={styles.MyToDoBox}>
                     <p className={styles.ToDoTitle}>나의 할 일</p>
@@ -116,14 +133,7 @@ export default function Todo(){
             </ModalPortal>
             }
 
-            {/* {openProfile &&
-            <ModalPortal>
-                <ModalContainer handleCloseModal={handleCloseProfile}>
-                    <MemberModal handleCloseModal={handleCloseProfile} user={} study={}></MemberModal>
-                </ModalContainer>
-            </ModalPortal>
-
-            } */}
+            </> }
         </div>
     );
 }

@@ -30,9 +30,17 @@
     align-items: center;
 }
 
+.ImgContainer {
+    border-radius: 50%;
+    width: 68px;
+    height: 68px;
+    overflow: hidden;
+    cursor: pointer;
+
+}
+
 .MemberProfileImg{
     border-radius: 50%;
-    cursor: pointer;
 }
 
 .MemberNickname {
