@@ -38,6 +38,7 @@ export default function Todo(){
     const studyIdString = searchParams.get("studyId");
     const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
     const [ activeFilter, setActiveFilter ] = useState<string>(FILTERS[0]);
+    const {activeMember, setActiveMember} = useToDoStore();
     const [memberList, setMemberList] = useState<Imember[]>([]);
     const [ isOwner, setIsOwner ] = useState<boolean>(false);
     const {selectedDate} = useToDoStore();
@@ -48,15 +49,10 @@ export default function Todo(){
         queryFn: async () => GetStudyInfo(studyId),
     });
 
+
     useEffect(() => {
         if(studyData){
             const members = studyData.membersList;
-
-            const isMember = memberList.filter((member: Imember) => member.nickname === user?.nickname);
-            if (isMember.length > 0) {
-                isMember[0]?._owner === true ? setIsOwner(true) : setIsOwner(false);
-            }
-
             members.sort((a:Imember, b:Imember) => {
                 if (a.nickname === user?.nickname) {
                     return -1;
@@ -67,11 +63,16 @@ export default function Todo(){
                 return 0;
             });
             setMemberList(members);
+            setActiveMember(memberList[0]);
+            if (members[0]?._owner) setIsOwner(true);
         }
-        console.log(memberList);
+        console.log(memberList, isOwner);
 
-        
-    })
+    },[studyData]);
+
+    const handleMemberClick = (member:Imember) => {
+        setActiveMember(member);
+    };
 
     return(
         <div className={styles.Container}>
@@ -93,7 +94,7 @@ export default function Todo(){
                         autoHeight={true}
                     >
                         {memberList.map((member, index) => (
-                            <SwiperSlide><Member key={index} member={member} isOwner={isOwner}/></SwiperSlide>
+                            <SwiperSlide><Member key={index} member={member} handleMemberClick={() => handleMemberClick(member)}/></SwiperSlide>
                         ))}
                     </Swiper>
                 </div>
@@ -126,6 +127,12 @@ export default function Todo(){
                     <div className={styles.InputBox}>
                         <ToDoInputBox />
                     </div>
+                    </>}
+                    {activeFilter === "미완료" && <>
+                    
+                    </>}
+                    {activeFilter === "완료" && <>
+                    
                     </>}
                 </div>
             </div>

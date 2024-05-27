@@ -22,8 +22,6 @@
 
 
 .MemberContainer {
-    width: 68px;
-    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,16 +29,18 @@
 }
 
 .ImgContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
     width: 68px;
     height: 68px;
     overflow: hidden;
     cursor: pointer;
-
 }
 
-.MemberProfileImg{
-    border-radius: 50%;
+.ImgContainer.active {
+    border: 4px solid var(--main-200);
 }
 
 .MemberNickname {
@@ -51,7 +51,7 @@
 }
 
 .ToDoContainer {
-
+    
 }
 
 .ToDoInput {
