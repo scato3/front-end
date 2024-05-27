@@ -69,8 +69,12 @@ const _post = async ({ endpoint, body, authorization, apiType }: IPostOptions) =
   return _fetch({ method: "POST", endpoint, body, authorization, apiType });
 };
 
-const _patch = async ({ endpoint, body, authorization }: IPostOptions) => {
-  return _fetch({ method: "PATCH", endpoint, body, authorization });
+const _patch = async ({ endpoint, body, authorization, apiType }: IPostOptions) => {
+  return _fetch({ method: "PATCH", endpoint, body, authorization, apiType });
+};
+
+const _put = async ({ endpoint, body, authorization, apiType }: IPostOptions) => {
+  return _fetch({ method: "PUT", endpoint, body, authorization, apiType });
 };
 
 const _delete = async ({ endpoint, authorization }: IDeleteOptions) => {
@@ -81,6 +85,7 @@ const api = {
   get: _get,
   post: _post,
   patch: _patch,
+  put: _put,
   delete: _delete,
 };
 

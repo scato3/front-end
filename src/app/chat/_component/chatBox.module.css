@@ -8,6 +8,16 @@
   margin: 10px 0 50px 0;
 }
 
+.joinDateBox {
+  width: 436px;
+  height: 40px;
+  background-color: var(--gray-100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
 .chatDateBox {
   width: 436px;
   height: 40px;

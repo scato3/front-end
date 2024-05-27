@@ -1,11 +1,15 @@
 "use client";
 import useAuth from "@/hooks/useAuth";
+import { useModal } from "@/hooks/useModal";
 import { IChat } from "@/interfaces/chat/IChat";
+import { IJoinDate } from "@/interfaces/chat/IJoinDate";
 import { IMessage } from "@/interfaces/chat/IMessage";
+import { IUser } from "@/interfaces/chat/IUser";
+import useFromStore from "@/utils/from";
 import animationData from "@/utils/typing.json";
 import { Box, Button, FormControl, Input, InputGroup, InputRightElement, Spinner, useToast } from "@chakra-ui/react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Lottie from "react-lottie";
 import io, { Socket } from "socket.io-client";
@@ -15,22 +19,24 @@ import Arrow from "../../../public/icons/Icon_down_arrow.svg";
 import More from "../../../public/icons/Icon_more.svg";
 import Noti from "../../../public/icons/Icon_noti.svg";
 import Search from "../../../public/icons/Icon_search.svg";
-import Submenu from "./_component/SubMenu";
-import chat from "../api/chat/chat";
-import getMessage from "../api/chat/getMessage";
-import postMessage from "../api/chat/postMessage";
-import ChatBox from "./_component/chatBox";
-import styles from "./chat.module.css";
-import useFromStore from "@/utils/from";
-import { useRouter } from "next/navigation";
-import { useModal } from "@/hooks/useModal";
-import ChatModalContainer from "../_component/ChatModalContainer";
 import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
+import addJoinToGroup from "../api/chat/addJoinToGroup";
+import getChat from "../api/chat/getChat";
+import getMessage from "../api/chat/getMessage";
+import postMessage from "../api/chat/postMessage";
+import Submenu from "./_component/SubMenu";
+import ChatBox from "./_component/chatBox";
+import styles from "./chat.module.css";
 
 export default function ChatPage() {
   interface IChatData extends IChat {
     chatName: string;
+    joinDates: IJoinDate[];
+  }
+
+  interface IJoinData extends IJoinDate {
+    userInfo: IUser;
   }
   const defaultOptions = {
     loop: true,
@@ -47,6 +53,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [newMessage, setNewMessage] = useState<string>("");
+  const [joinDate, setJoinDate] = useState<IJoinData[]>([]);
 
   const searchParams = useSearchParams();
   const studyId = searchParams.get("studyId") as string;
@@ -63,7 +70,7 @@ export default function ChatPage() {
   };
 
   useEffect(() => {
-    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_PROD_API as string);
+    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_DEV_API as string);
     newSocket.emit("setup", user);
     newSocket.on("connected", () => setSocketConnected(true));
     newSocket.on("typing", () => setIsTyping(true));
@@ -83,21 +90,25 @@ export default function ChatPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [chatData] = await Promise.all([chat(studyId, accessToken)]);
+        const chatData = await getChat(studyId, accessToken);
         if (chatData) {
+          if (chatData?.joinDates.length > 0) {
+            setJoinDate(
+              chatData?.joinDates.map((date: IJoinDate, idx: number) => {
+                return { userInfo: chatData.users[idx + 1], ...date };
+              }),
+            );
+          }
           setChatData(chatData);
         }
       } catch (error) {}
     };
     fetchData();
-  }, []);
+  }, [accessToken]);
 
   useEffect(() => {
     if (socket) {
-      console.log(socket);
-      socket.on("message received", (newMessageReceived: IMessage) => {
-        console.log(newMessageReceived);
-      });
+      socket.on("message received", (newMessageReceived: IMessage) => {});
 
       socket.on("message received", (newMessageReceived: IMessage) => {
         setMessages([...messages, newMessageReceived]);
@@ -139,7 +150,15 @@ export default function ChatPage() {
       const data = await getMessage(chatData?._id, accessToken);
       setMessages(data);
       setLoading(false);
-      if (socket) socket.emit("join chat", chatData?._id);
+      if (
+        socket &&
+        chatData?.groupAdmin !== user?.userObjectId &&
+        !chatData?.joinDates?.find((x) => x.userId == user?.userObjectId)
+      ) {
+        socket.emit("join chat", chatData?._id);
+        await addJoinToGroup(studyId, accessToken);
+        setChatData(chatData);
+      }
     } catch (error) {
       console.log(error);
       toast({
@@ -242,7 +261,7 @@ export default function ChatPage() {
         </div>
       ) : (
         <div className={styles.messageBox} ref={messageBoxRef}>
-          {<ChatBox messages={messages} userId={user?.userObjectId as string} />}
+          {<ChatBox messages={messages} userId={user?.userObjectId as string} joinDates={joinDate} />}
           {isTyping ? (
             <div>
               <Lottie options={defaultOptions} height={50} width={70} style={{ marginBottom: 15, marginLeft: 0 }} />
