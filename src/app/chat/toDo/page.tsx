@@ -12,9 +12,11 @@ import ModalContainer from "@/app/_component/ModalContainer";
 import ModalPortal from "@/app/_component/ModalPortal";
 import { useModal } from "@/hooks/useModal";
 import Calendar from "./_component/Calendar";
-import MemberModal from "@/app/studyInfo/_component/memberModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToDoInputBox from "./_component/ToDoInputBox";
+import { useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import GetStudyInfo from "@/app/api/getStudyInfo";
 import CheckedIcon from "../../../../public/icons/chatting/Checked_Checkbox.svg";
 import UncheckedIcon from "../../../../public/icons/chatting/Unchecked_Checkbox.svg";
 import EditIcon from "../../../../public/icons/chatting/Edit.svg";
@@ -30,10 +32,34 @@ const FILTERS = ["전체", "미완료", "완료"];
 export default function Todo(){
     const router = useRouter();
     const { openModal:openCalender , handleOpenModal:handleOpenCalendar, handleCloseModal:handleCloseCalendar} = useModal();
-    const { openModal:openProfile , handleOpenModal:handleOpenProfile, handleCloseModal:handleCloseProfile} = useModal();
+    const searchParams = useSearchParams();
+    const studyIdString = searchParams.get("studyId");
+    const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
     const [ activeFilter, setActiveFilter ] = useState<string>(FILTERS[0]);
+    const [memberList, setMemberList] = useState<Imember[]>([]);
 
+    const { data:studyData, isLoading, error } = useQuery({
+        queryKey: ["STUDY_INFO", studyId],
+        queryFn: async () => GetStudyInfo(studyId),
+    });
 
+    useEffect(() => {
+        if(studyData){
+            setMemberList(studyData.membersList);
+            //항상 owner가 맨 앞에 있도록 정렬
+            memberList.sort((a, b) => {
+                if (a._owner && !b._owner) {
+                    return -1;
+                }
+                if (!a._owner && b._owner) {
+                    return 1;
+                }
+                return 0;
+            });
+            console.log(memberList);
+
+        }
+    })
 
     return(
         <div className={styles.Container}>
