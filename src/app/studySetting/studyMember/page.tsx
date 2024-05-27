@@ -1,29 +1,30 @@
 "use client";
 
 import styles from "./studyMember.module.css";
-import Navigation from "../_component/navigation/page";
-import GetJoinRequest from "../api/getJoinRequest";
-import GetStudyMembers from "../api/getStudyMembers";
-import Button from "../_component/button/Button";
+import Navigation from "@/app/_component/navigation/page";
+import GetJoinRequest from "@/app/api/getJoinRequest";
+import GetStudyMembers from "@/app/api/getStudyMembers";
+import Button from "@/app/_component/button/Button";
 import MemberCard from "./_component/memberCard";
 import useAuth from "@/hooks/useAuth";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import OutStudyMember from "../api/outStudyMember";
-import ModalContainer from "../_component/ModalContainer";
-import ModalPortal from "../_component/ModalPortal";
+import OutStudyMember from "@/app/api/outStudyMember";
+import ModalContainer from "@/app/_component/ModalContainer";
+import ModalPortal from "@/app/_component/ModalPortal";
 import { useModal } from "@/hooks/useModal";
 import OutMemberModal from "./_component/outMemberModal";
 import useMemberStore from "./store/useMemberStore";
-import AlertModal from "../_component/modal/alertModal";
+import AlertModal from "@/app/_component/modal/alertModal";
 import { useRouter } from "next/navigation";
-import AcceptJoinStudy from "../api/acceptJoinRequest";
-import DeclineJoinStudy from "../api/declineJoinRequest";
+import AcceptJoinStudy from "@/app/api/acceptJoinRequest";
+import DeclineJoinStudy from "@/app/api/declineJoinRequest";
 import moment from "moment";
-import MemberModal from "../studyInfo/_component/memberModal";
-import GetUserProfile from "../api/getUserProfile";
-import Loading from "../_component/Loading";
+import MemberModal from "@/app/studyInfo/_component/memberModal";
+import GetUserProfile from "@/app/api/getUserProfile";
+import Loading from "@/app/_component/Loading";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import NoMember from "./_component/NoMember";
 
 export default function studyMember() {
   const { accessToken } = useAuth();
@@ -127,7 +128,7 @@ export default function studyMember() {
   useEffect(() => {
     if (joinData) {
       setJoinedMembers(studyData.data);
-    }
+    } 
   }, [studyData]);
 
   const outStudyMember = useMutation({
@@ -226,30 +227,36 @@ export default function studyMember() {
           </Button>
         </div>
         <div className={styles.membersBox}>
-          {isJoinMember &&
+          {isJoinMember && 
             joinedMembers.map((member) => (
-              <MemberCard
-                isMember={true}
-                key={member.user_id}
-                memberData={member}
-                handleOutMember={() => handleOutMember(member)}
-                onClick={() => setWatchMember(member.nickname)}
-              />
+                <MemberCard
+                    isMember={true}
+                    key={member.user_id}
+                    memberData={member}
+                    handleOutMember={() => handleOutMember(member)}
+                    onClick={() => setWatchMember(member.nickname)}
+                />
             ))}
-          {isJoinRequest &&
+            {isJoinMember && joinedMembers.length === 0 &&
+                (<NoMember>참여 멤버가 없어요</NoMember>)
+            }
+          {isJoinRequest && 
             JoinRequests.map((member) => (
-              <MemberCard
-                isRequest={true}
-                isAccepted={member.join_status === "Approved" ? true : false}
-                isRequesting={member.join_status === "Waiting" ? true : false}
-                isDeclined={member.join_status === "Rejected" ? true : false}
-                key={member.user_id}
-                requestData={member}
-                handleAcceptRequest={() => handleAcceptRequest(member)}
-                handleDeclineRequest={() => handleDeclineRequest(member)}
-                onClick={() => setWatchMember(member.nickname)}
-              />
+                <MemberCard
+                    isRequest={true}
+                    isAccepted={member.join_status === "Approved" ? true : false}
+                    isRequesting={member.join_status === "Waiting" ? true : false}
+                    isDeclined={member.join_status === "Rejected" ? true : false}
+                    key={member.user_id}
+                    requestData={member}
+                    handleAcceptRequest={() => handleAcceptRequest(member)}
+                    handleDeclineRequest={() => handleDeclineRequest(member)}
+                    onClick={() => setWatchMember(member.nickname)}
+                />
             ))}
+            {isJoinRequest && JoinRequests.length === 0 &&
+                <NoMember>받은 신청이 없어요</NoMember>
+            }
         </div>
       </div>
 
