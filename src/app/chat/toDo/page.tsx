@@ -19,6 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import GetStudyInfo from "@/app/api/getStudyInfo";
 import Loading from "@/app/_component/Loading";
 import useAuth from "@/hooks/useAuth";
+import useToDoStore from "../store/useToDoStore";
 import CheckedIcon from "../../../../public/icons/chatting/Checked_Checkbox.svg";
 import UncheckedIcon from "../../../../public/icons/chatting/Unchecked_Checkbox.svg";
 import EditIcon from "../../../../public/icons/chatting/Edit.svg";
@@ -39,6 +40,7 @@ export default function Todo(){
     const [ activeFilter, setActiveFilter ] = useState<string>(FILTERS[0]);
     const [memberList, setMemberList] = useState<Imember[]>([]);
     const [ isOwner, setIsOwner ] = useState<boolean>(false);
+    const {selectedDate} = useToDoStore();
     const { user } = useAuth();
 
     const { data:studyData, isLoading, error } = useQuery({
@@ -65,7 +67,6 @@ export default function Todo(){
                 return 0;
             });
             setMemberList(members);
-
         }
         console.log(memberList);
 
@@ -109,19 +110,23 @@ export default function Todo(){
                         </p>
                     ))}
                 </div>
-                <div className={styles.PublicToDoBox}>
-                    <p className={styles.ToDoTitle}>공통 할 일</p>
-                    {isOwner &&
-                        <div className={styles.InputBox}>
-                            <ToDoInputBox />
-                        </div>
-                    }
-                </div>
-                <div className={styles.MyToDoBox}>
-                    <p className={styles.ToDoTitle}>나의 할 일</p>
-                </div>
-                <div className={styles.InputBox}>
-                    <ToDoInputBox />
+                <div className={styles.ContentBox}>
+                    {activeFilter === "전체" && <>
+                    <div className={styles.PublicToDoBox}>
+                        <p className={styles.ToDoTitle}>공통 할 일</p>
+                        {isOwner &&
+                            <div className={styles.InputBox}>
+                                <ToDoInputBox />
+                            </div>
+                        }
+                    </div>
+                    <div className={styles.MyToDoBox}>
+                        <p className={styles.ToDoTitle}>나의 할 일</p>
+                    </div>
+                    <div className={styles.InputBox}>
+                        <ToDoInputBox />
+                    </div>
+                    </>}
                 </div>
             </div>
             
