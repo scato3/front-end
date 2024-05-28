@@ -24,7 +24,7 @@ import InfoAlertModal from "../_component/modal/infoAlertModal";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import favoriteStudy from "../api/favoriteStudy";
-import useMemberStore from "../studyMember/store/useMemberStore";
+import useMemberStore from "../studySetting/studyMember/store/useMemberStore";
 import Loading from "../_component/Loading";
 
 interface IFavStudy {

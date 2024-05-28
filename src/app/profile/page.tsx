@@ -15,6 +15,7 @@ import ModalPortal from "../_component/ModalPortal";
 import Logout from "../_component/logout/logout";
 import useDetailActiveStore from "./store/detailActive";
 import ProfileEditModal from "./_component/profileEditModal";
+import Loading from "../_component/Loading";
 
 export default function Profile() {
   interface IMyProfileData {
@@ -25,6 +26,7 @@ export default function Profile() {
     user_id: number;
   }
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [myProfileData, setMyProfileData] = useState<IMyProfileData | null>(null);
   const [profileStudyMenu, setProfileStudyMenu] = useState<{ [key: string]: number }[] | null>(null);
   const { setFrom } = useFromStore();
@@ -73,12 +75,15 @@ export default function Profile() {
           setProfileStudyMenu(profileMenuLabeling(profileData?.study_count));
         }
       } catch (error) {}
+      setIsLoading(false);
+
     };
     if (accessToken) fetchData();
   }, [accessToken]);
 
   return (
     <>
+    {isLoading ? <Loading /> : <>
       <div className={styles.container}>
         <div className={styles.contentsBox}>
           <div className={styles.nav}></div>
@@ -146,6 +151,8 @@ export default function Profile() {
       <div className={styles.footer}>
         <Footer selectedIndex={3} />
       </div>
+      </>
+      }
       {openModal && (
         <ModalPortal>
           <ModalContainer>
@@ -159,6 +166,7 @@ export default function Profile() {
           <ModalContainer>
             <ProfileEditModal
               handleCloseModal={handleCloseEditModal}
+              nickname={myProfileData?.nickname ?? ""}
               profileImage={myProfileData?.profile_img ?? null}
             />
           </ModalContainer>

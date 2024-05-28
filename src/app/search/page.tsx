@@ -190,7 +190,7 @@ export default function Search() {
   };
 
   return (
-    <>
+    <>{isLoading ? <Loading /> : <>
       <div className={styles.container}>
         <Navigation dark={true} onClick={handleGoBefore}>
           <Image className={styles.iconBell} src={IconBell} width={48} height={48} alt="bell" />
@@ -252,6 +252,8 @@ export default function Search() {
       <div className={styles.footerBox}>
         <Footer selectedIndex={1} />
       </div>
+      </>
+      } 
     </>
   );
 }

@@ -8,7 +8,7 @@ import Alert from "../../../public/icons/_main01/Icon_alert.svg";
 import Button from "../_component/button/Button";
 import ButtonBox from "../_component/main_home/ButtonBox";
 import Card from "../_component/main_home/Card";
-import Btn_arrow from "../../../public/icons/Btn_arrow_sm.svg";
+import Btn_arrow from "../../../public/icons/Btn_arrow_sm_right.svg";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import { useEffect, useState } from "react";
@@ -85,6 +85,7 @@ export default function Main_home() {
               >
                 쇼터디 운영
               </Button>
+
             </div>
             <div className={styles.ButtonBox}>
               <ButtonBox />

@@ -63,11 +63,11 @@ export default function StudySetting() {
       <div className={styles.contentsBox}>
         <p className={styles.h1}>쇼터디 정보</p>
         <div className={styles.menuBox}>
-          <p className={styles.menu} onClick={() => router.push(`/studyEdit?studyId=${studyId}`)}>
+          <p className={styles.menu} onClick={() => router.push(`studySetting/studyEdit?studyId=${studyId}`)}>
             수정하기
             <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow" />
           </p>
-          <p className={styles.menu} onClick={() => router.push(`/studyMember?studyId=${studyId}`)}>
+          <p className={styles.menu} onClick={() => router.push(`studySetting/studyMember?studyId=${studyId}`)}>
             멤버관리
             {membersCount ? (
               <div className={styles.count}>

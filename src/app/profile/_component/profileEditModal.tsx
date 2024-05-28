@@ -16,21 +16,22 @@ import uploadImage from "../../api/uploadImage";
 import useEditProfileStore from "../store/editProfile";
 
 interface IProfile {
-  nickname: string | null;
+  nickname: string;
   profileImage: string | ArrayBuffer | null;
 }
 
 interface ImemberModal {
-  handleCloseModal: () => void;
-  profileImage: string | ArrayBuffer | null;
+    nickname: string;
+    handleCloseModal: () => void;
+    profileImage: string | ArrayBuffer | null;
 }
 
-export default function ProfileEditModal({ profileImage, handleCloseModal }: ImemberModal) {
-  const { previewImg, postImg, setPreviewImg } = useEditProfileStore();
+export default function ProfileEditModal({ nickname, profileImage, handleCloseModal }: ImemberModal) {
+  const { postImg, setPreviewImg } = useEditProfileStore();
   const { accessToken } = useAuth();
   const currentUser = useAuth((state) => state.user);
   const [profileData, setProfileData] = useState<IProfile>({
-    nickname: null,
+    nickname: nickname,
     profileImage: profileImage,
   });
 
@@ -38,7 +39,7 @@ export default function ProfileEditModal({ profileImage, handleCloseModal }: Ime
     setPreviewImg(profileImage);
   }, []);
 
-  const [validation, setValidation] = useState<string>("");
+  const [validation, setValidation] = useState<string>("availableNickname");
 
   const handleSetProfile = async () => {
     if (profileData.nickname && validation === "availableNickname") {
@@ -57,7 +58,11 @@ export default function ProfileEditModal({ profileImage, handleCloseModal }: Ime
 
   const handleInputNickname = async (inputData: string) => {
     setValidation("");
-    setProfileData({ ...profileData, nickname: inputData });
+    if(inputData === nickname){
+        setValidation("availableNickname");
+    }else{
+        setProfileData({ ...profileData, nickname: inputData });
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -116,6 +121,7 @@ export default function ProfileEditModal({ profileImage, handleCloseModal }: Ime
           className={styles.input}
           type="text"
           placeholder="2-10자 사이의 한글, 영문, 숫자만 가능해요"
+          defaultValue={nickname}
           minLength={2}
           maxLength={10}
           onKeyDown={handleKeyDown}
