@@ -42,6 +42,7 @@ interface ITodos {
   id: number;
   content: string;
   complete: boolean;
+  todo_parent_id: number;
 }
 
 export default function Todo() {
@@ -56,7 +57,6 @@ export default function Todo() {
   const searchParams = useSearchParams();
   const studyIdString = searchParams.get("studyId");
   const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
-  const [activeFilter, setActiveFilter] = useState<string>(FILTERS[0]);
   const [memberList, setMemberList] = useState<Imember[]>([]);
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [todos, setTodos] = useState<ITodos[]>([]);
@@ -110,6 +110,7 @@ export default function Todo() {
       setTodos(toDoData.member_todo.personal_todos);
       setPercent(toDoData.percent);
       setTeamPercent(toDoData.group_percent);
+      console.log(toDoData);
     }
     if (toDoError) {
       console.log(toDoError);
@@ -207,7 +208,7 @@ export default function Todo() {
                   팀 평균 달성률<span className={styles.Percent}>{teamPercent}%</span>
                 </p>
                 <p className={styles.PercentTitle}>
-                  나의 달성률<span className={styles.Percent}>{percent}%</span>
+                  유저 달성률<span className={styles.Percent}>{percent}%</span>
                 </p>
               </div>
             </div>
@@ -224,88 +225,79 @@ export default function Todo() {
           <div className={styles.Hr}></div>
           <div className={styles.BottomContainer}>
             <div className={styles.FilterBox}>
-              {FILTERS.map((filter) => (
-                <p
-                  className={`${styles.Filter} ${activeFilter === filter ? styles.active : ""}`}
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
-                >
-                  {filter}
-                </p>
-              ))}
+              <p className={styles.Filter}>전체</p>
+              <p className={styles.FilterSuccess}>{toDoData?.member_todo.total_num}</p>
+              <p className={styles.Filter}>미완료</p>
+              <p className={styles.FilterComplete}>{toDoData?.member_todo.incomple_num}</p>
+              <p className={styles.Filter}>완료</p>
+              <p className={styles.FilterComplete}>{toDoData?.member_todo.complete_num}</p>
             </div>
             <div className={styles.ContentBox}>
-              {activeFilter === "전체" && (
-                <>
-                  <p className={styles.ToDoTitle}>공통 할 일</p>
-                  {groupTodos.length === 0 ? (
-                    <p className={styles.TodoContent}>등록된 할 일이 없어요</p>
-                  ) : (
-                    groupTodos.map((todo) => (
-                      <div className={styles.ToDoBox}>
-                        <Image
-                          className={styles.CheckBox}
-                          src={todo.complete ? IconChecked : IconUnchecked}
-                          width={24}
-                          height={24}
-                          alt="uncheckedBox"
-                          onClick={() => {
-                            toggleCheckBox(todo);
-                          }}
-                        />
-                        <p className={styles.TodoContent} key={todo.id}>
-                          {todo.content}
-                        </p>
+              <p className={styles.ToDoTitle}>공통 할 일</p>
+              {groupTodos.length === 0 ? (
+                <p className={styles.TodoContent}>등록된 할 일이 없어요</p>
+              ) : (
+                groupTodos.map((todo) => (
+                  <div className={styles.ToDoBox}>
+                    <Image
+                      className={styles.CheckBox}
+                      src={todo.complete ? IconChecked : IconUnchecked}
+                      width={24}
+                      height={24}
+                      alt="uncheckedBox"
+                      onClick={() => {
+                        toggleCheckBox(todo);
+                      }}
+                    />
+                    <p className={styles.TodoContent} key={todo.id}>
+                      {todo.content}
+                    </p>
 
-                        <Image src={IconEdit} width={16} height={16} alt="edit" />
-                        <Image
-                          className={styles.DeleteIcon}
-                          src={IconClose}
-                          width={10.5}
-                          height={10.5}
-                          alt="DeleteBtn"
-                          onClick={() => deletePublic(todo.id)}
-                        />
-                      </div>
-                    ))
-                  )}
-                  {isOwner && <ToDoInputBox onClick={handleSetGroupToDo} />}
-                  <p className={styles.ToDoTitle}>나의 할 일</p>
-                  {todos.length === 0 ? (
-                    <p className={styles.TodoContent}>등록된 할 일이 없어요</p>
-                  ) : (
-                    todos.map((todo) => (
-                      <div className={styles.ToDoBox}>
-                        <Image
-                          className={styles.CheckBox}
-                          src={todo.complete ? IconChecked : IconUnchecked}
-                          width={24}
-                          height={24}
-                          alt="uncheckedBox"
-                          onClick={() => {
-                            toggleCheckBox(todo);
-                          }}
-                        />
-                        <p className={styles.TodoContent} key={todo.id}>
-                          {todo.content}
-                        </p>
-                        <Image src={IconEdit} width={16} height={16} alt="edit" />
-                        <Image
-                          className={styles.DeleteIcon}
-                          src={IconClose}
-                          width={10.5}
-                          height={10.5}
-                          alt="DeleteBtn"
-                          onClick={() => deletePersonal(todo.id)}
-                        />
-                      </div>
-                    ))
-                  )}
-                  <ToDoInputBox onClick={handleSetPersonalToDo} />
-                </>
+                    <Image src={IconEdit} width={16} height={16} alt="edit" />
+                    <Image
+                      className={styles.DeleteIcon}
+                      src={IconClose}
+                      width={10.5}
+                      height={10.5}
+                      alt="DeleteBtn"
+                      onClick={() => deletePublic(todo.todo_parent_id)}
+                    />
+                  </div>
+                ))
               )}
-              {activeFilter === "미완료" && <></>}
-              {activeFilter === "완료" && <></>}
+              {isOwner && <ToDoInputBox onClick={handleSetGroupToDo} />}
+              <p className={styles.ToDoTitle}>개별 할 일</p>
+              {todos.length === 0 ? (
+                <p className={styles.TodoContent}>등록된 할 일이 없어요</p>
+              ) : (
+                todos.map((todo) => (
+                  <div className={styles.ToDoBox}>
+                    <Image
+                      className={styles.CheckBox}
+                      src={todo.complete ? IconChecked : IconUnchecked}
+                      width={24}
+                      height={24}
+                      alt="uncheckedBox"
+                      onClick={() => {
+                        toggleCheckBox(todo);
+                      }}
+                    />
+                    <p className={styles.TodoContent} key={todo.id}>
+                      {todo.content}
+                    </p>
+                    <Image src={IconEdit} width={16} height={16} alt="edit" />
+                    <Image
+                      className={styles.DeleteIcon}
+                      src={IconClose}
+                      width={10.5}
+                      height={10.5}
+                      alt="DeleteBtn"
+                      onClick={() => deletePersonal(todo.id)}
+                    />
+                  </div>
+                ))
+              )}
+              <ToDoInputBox onClick={handleSetPersonalToDo} />
             </div>
           </div>
 
