@@ -10,12 +10,12 @@ interface IMemberCard {
 }
 
 export default function Member({member, handleMemberClick}:IMemberCard){
-    const {activeMember, setActiveMember} = useToDoStore();
+    const {watchNickname} = useToDoStore();
     const {user} = useAuth();
 
     return(
         <div className={styles.MemberContainer}>
-            <div className={activeMember?.nickname === member.nickname ? 
+            <div className={watchNickname === member.nickname ? 
                 `${styles.ImgContainer} ${styles.active}` : styles.ImgContainer}>
                 <Image 
                     src={member.profileImage}
