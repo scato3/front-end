@@ -136,7 +136,7 @@ export default function StudyEdit() {
 
   const handleClose = () => {
     handleCloseModal();
-    router.push(`/studyInfo?studyId=${data.id}`);
+    router.push(`/studyInfo?studyId=${studyId}`);
   };
 
   return (

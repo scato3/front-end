@@ -17,7 +17,7 @@ interface ICalendarProps {
 export default function Calendar({ handleCloseModal }: ICalendarProps) {
   const [currentDate, setCurrentDate] = useState(moment());
 
-  const [selectDate, setSelectDate] = useState<string | null>(null);
+  const [selectDate, setSelectDate] = useState<string>("");
 
   const { setSelectedDate } = useToDoStore();
   const [buttonProperty, setButtonProperty] = useState<ButtonProperty>("disabled");

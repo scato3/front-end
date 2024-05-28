@@ -15,15 +15,22 @@ import Calendar from "./_component/Calendar";
 import { useEffect, useState } from "react";
 import ToDoInputBox from "./_component/ToDoInputBox";
 import { useSearchParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import GetStudyInfo from "@/app/api/getStudyInfo";
 import Loading from "@/app/_component/Loading";
 import useAuth from "@/hooks/useAuth";
 import useToDoStore from "../store/useToDoStore";
-import CheckedIcon from "../../../../public/icons/chatting/Checked_Checkbox.svg";
-import UncheckedIcon from "../../../../public/icons/chatting/Unchecked_Checkbox.svg";
-import EditIcon from "../../../../public/icons/chatting/Edit.svg";
-import CloseIcon from "../../../../public/icons/Icon_X.svg";
+import SetGroupToDo from "@/app/api/setGroupToDo";
+import SetPersonalToDo from "@/app/api/setPersonalToDo";
+import DeleteGroupToDo from "@/app/api/deleteGroupToDo";
+import DeletePersonalToDo from "@/app/api/deletePersonalToDo";
+import CheckToDo from "@/app/api/checkToDo";
+import GetTodos from "@/app/api/getTodos";
+import moment from "moment";
+import IconChecked from "../../../../public/icons/chatting/Checked_Checkbox.svg";
+import IconUnchecked from "../../../../public/icons/chatting/Unchecked_Checkbox.svg";
+import IconEdit from "../../../../public/icons/chatting/Edit.svg";
+import IconClose from "../../../../public/icons/chatting/Icon_close.svg";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -31,24 +38,42 @@ import "swiper/css/pagination";
 
 const FILTERS = ["전체", "미완료", "완료"];
 
+interface ITodos {
+    id:number;
+    content: string;
+    complete: boolean;
+}
+
 export default function Todo(){
     const router = useRouter();
+    const queryClient = new QueryClient();
+    const now = moment().format('YYYY-MM-DD');
     const { openModal:openCalender , handleOpenModal:handleOpenCalendar, handleCloseModal:handleCloseCalendar} = useModal();
     const searchParams = useSearchParams();
     const studyIdString = searchParams.get("studyId");
     const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
     const [ activeFilter, setActiveFilter ] = useState<string>(FILTERS[0]);
-    const {activeMember, setActiveMember} = useToDoStore();
-    const [memberList, setMemberList] = useState<Imember[]>([]);
+    const [ memberList, setMemberList ] = useState<Imember[]>([]);
     const [ isOwner, setIsOwner ] = useState<boolean>(false);
-    const {selectedDate} = useToDoStore();
-    const { user } = useAuth();
+    const [ toDoId, setToDoId ] = useState<number>(-1);
+    const [ todos, setTodos ] = useState<ITodos[]>([]);
+    const [ groupTodos, setGroupTodos ] = useState<ITodos[]>([]);
+    const [ teamPercent, setTeamPercent ] = useState<number>(0);
+    const [ percent, setPercent ] = useState<number>(0);
+    const { user, accessToken } = useAuth();
+    const { selectedDate, 
+            watchNickname, 
+            setWatchNickname,
+            toDo
+            } = useToDoStore();
 
     const { data:studyData, isLoading, error } = useQuery({
-        queryKey: ["STUDY_INFO", studyId],
-        queryFn: async () => GetStudyInfo(studyId),
+        queryKey: ["MEMBER_INFO"],
+        queryFn: async () => {
+            const res = await GetStudyInfo(studyId);
+            return res;
+        },
     });
-
 
     useEffect(() => {
         if(studyData){
@@ -62,28 +87,106 @@ export default function Todo(){
                 }
                 return 0;
             });
-            setMemberList(members);
-            setActiveMember(memberList[0]);
+            setMemberList(members.filter((member: Imember ) => member.exit_status === "None"));
+            setWatchNickname(members[0].nickname);
             if (members[0]?._owner) setIsOwner(true);
         }
-        console.log(memberList, isOwner);
-
     },[studyData]);
 
+    const { data:toDoData, isLoading: isToDoLoading, error:toDoError } = useQuery({
+        queryKey: ["TODO_INFO", watchNickname, selectedDate],
+        queryFn: async () => {
+            const res = await GetTodos(studyId, watchNickname, selectedDate, accessToken);
+            return res;
+        }
+    });
+
+    useEffect(() => {
+        if(toDoData){
+            console.log(toDoData);
+            setGroupTodos(toDoData.member_todo.public_todos);
+            setTodos(toDoData.member_todo.personal_todos);
+            setPercent(toDoData.percent);
+            setTeamPercent(toDoData.group_percent);
+        }
+        if(toDoError) {
+            console.log(toDoError);
+        }
+    },[toDoData]);
+
+    const setPersonalToDo = useMutation({
+        mutationFn: () => SetPersonalToDo({content:toDo, date:now}, studyId, accessToken),
+        onSettled: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["TODO_INFO", watchNickname, selectedDate] });
+        },
+    });
+
+    const { mutate: setGroupToDo } = useMutation({
+        mutationFn: () => SetGroupToDo({content:toDo, date:now}, studyId, accessToken),
+        onSettled: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["TODO_INFO", watchNickname, selectedDate] });
+        },
+    });
+
+    const { mutate: deletePersonalToDo } = useMutation({
+        mutationFn: (todo_id:number) => DeletePersonalToDo(studyId, todo_id, accessToken),
+        onSettled: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["TODO_INFO", watchNickname, selectedDate] });
+        },
+    });
+
+    const { mutate: deleteGroupToDo } = useMutation({
+        mutationFn: (todo_id:number) => DeleteGroupToDo(studyId, todo_id, accessToken),
+        onSettled: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["TODO_INFO", watchNickname, selectedDate] });
+        },
+    });
+
+    const { mutate: checkToDo } = useMutation({
+        mutationFn: ({ todo_id, complete }: { todo_id: number; complete: boolean }) => CheckToDo(studyId, accessToken, {todo_id, complete}),
+        onSettled: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["TODO_INFO", watchNickname, selectedDate] });
+        },
+        onSuccess: () => console.log("toggle"),
+    });
+
     const handleMemberClick = (member:Imember) => {
-        setActiveMember(member);
+        setWatchNickname(member.nickname);
+    };
+
+    const handleSetPersonalToDo = () => {
+        setPersonalToDo.mutate();
+    };
+
+    const handleSetGroupToDo = () => {
+        setGroupToDo();
+    };
+
+    const deletePublic = (todo_id:number) => {
+        deleteGroupToDo(todo_id);
+    };
+
+    const deletePersonal = (todo_id: number) => {
+        deletePersonalToDo(todo_id);
+    };
+
+    const toggleCheckBox = (todo: ITodos) => {
+        const id:number = todo.id;
+        const changeStatus:boolean = !todo.complete;
+
+        checkToDo({todo_id: id, complete: changeStatus});
     };
 
     return(
         <div className={styles.Container}>
-            {isLoading ? <><Loading /></> : <>
+            {isLoading || isToDoLoading ? <><Loading /></> : <>
             <Navigation isBack={true} dark={false} onClick={()=>{router.back()}}>목표관리</Navigation>
             <div className={styles.TopContainer}>
                 <div className={styles.Top}>
                     <DateCard openModal={handleOpenCalendar}/>
                     <div className={styles.PercentageBox}>
-                        <p className={styles.PercentTitle}>팀 평균 달성률<span className={styles.Percent}>100%</span></p>
-                        <p className={styles.PercentTitle}>나의 달성률<span className={styles.Percent}>50%</span></p>
+                        <p className={styles.PercentTitle}>팀 평균 달성률<span className={styles.Percent}>{teamPercent}%</span></p>
+                        <p className={styles.PercentTitle}>나의 달성률<span className={styles.Percent}>{percent}%</span></p>
                     </div>
                 </div>
                 <div className={styles.MemberBox}>
@@ -113,20 +216,71 @@ export default function Todo(){
                 </div>
                 <div className={styles.ContentBox}>
                     {activeFilter === "전체" && <>
-                    <div className={styles.PublicToDoBox}>
                         <p className={styles.ToDoTitle}>공통 할 일</p>
+                        {groupTodos.length === 0 ? 
+                            <p className={styles.TodoContent}>등록된 할 일이 없어요</p>
+                        : groupTodos.map((todo) => (
+                        <div className={styles.ToDoBox}>
+                        <Image
+                            className={styles.CheckBox}
+                            src={todo.complete ? IconChecked : IconUnchecked}
+                            width={24}
+                            height={24}
+                            alt="uncheckedBox"
+                            onClick={()=>{toggleCheckBox(todo)}}
+                        />
+                        <p className={styles.TodoContent} key={todo.id}>{todo.content}</p>
+                        
+                        <Image
+                            src={IconEdit}
+                            width={16}
+                            height={16}
+                            alt="edit"
+                        />
+                        <Image
+                            className={styles.DeleteIcon}
+                            src={IconClose}
+                            width={10.5}
+                            height={10.5}
+                            alt="DeleteBtn"
+                            onClick={()=>deletePublic(todo.id)}
+                        />
+                        </div>                       
+                    ))}
                         {isOwner &&
-                            <div className={styles.InputBox}>
-                                <ToDoInputBox />
-                            </div>
+                            <ToDoInputBox onClick={handleSetGroupToDo}/>
                         }
-                    </div>
-                    <div className={styles.MyToDoBox}>
                         <p className={styles.ToDoTitle}>나의 할 일</p>
-                    </div>
-                    <div className={styles.InputBox}>
-                        <ToDoInputBox />
-                    </div>
+                        {todos.length === 0 ? 
+                            <p className={styles.TodoContent}>등록된 할 일이 없어요</p>
+                        : todos.map((todo) => (
+                        <div className={styles.ToDoBox}>
+                            <Image
+                                className={styles.CheckBox}
+                                src={todo.complete ? IconChecked : IconUnchecked}
+                                width={24}
+                                height={24}
+                                alt="uncheckedBox"
+                                onClick={()=>{toggleCheckBox(todo)}}
+                            />
+                            <p className={styles.TodoContent} key={todo.id}>{todo.content}</p>
+                            <Image
+                                src={IconEdit}
+                                width={16}
+                                height={16}
+                                alt="edit"
+                            />
+                            <Image
+                                className={styles.DeleteIcon}
+                                src={IconClose}
+                                width={10.5}
+                                height={10.5}
+                                alt="DeleteBtn"
+                                onClick={() => deletePersonal(todo.id)}
+                            />
+                            </div>                       
+                        ))}
+                    <ToDoInputBox onClick={handleSetPersonalToDo}/>
                     </>}
                     {activeFilter === "미완료" && <>
                     
@@ -144,7 +298,6 @@ export default function Todo(){
                 </ModalContainer>
             </ModalPortal>
             }
-
             </> }
         </div>
     );
