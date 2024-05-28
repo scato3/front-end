@@ -9,4 +9,8 @@ export interface IfilterType {
   start_date: string;
   status: string;
   title: string;
+  user_relation: {
+    is_owner: boolean;
+    is_member: boolean;
+  };
 }

@@ -5,28 +5,28 @@ import { IfilterType } from "@/app/type/filterType";
 import Button from "@/app/_component/button/Button";
 import JoinCancel from "@/app/api/joinCancel";
 import useAuth from "@/hooks/useAuth";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 interface CancelModalProps {
   handleCloseModal: () => void;
   data: IfilterType;
+  activeFilter: string;
 }
 
-export default function CancelModal({ handleCloseModal, data }: CancelModalProps) {
+export default function CancelModal({ handleCloseModal, data, activeFilter }: CancelModalProps) {
   const { accessToken } = useAuth();
   const queryClient = useQueryClient();
-  const CancelData = async () => {
-    try {
-      await JoinCancel(data.id, accessToken);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
+  const CancelData = useMutation({
+    mutationFn: () => JoinCancel(data.id, accessToken),
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["PROFILE_DETAIL", activeFilter, accessToken] });
+    },
+  });
 
   const handleCancel = () => {
-    queryClient.invalidateQueries({ queryKey: ["PROFILE_DETAIL"] });
-    CancelData();
-    window.location.reload();
+    CancelData.mutate();
   };
 
   return (

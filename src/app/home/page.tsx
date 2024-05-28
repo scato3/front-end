@@ -41,7 +41,7 @@ export default function Main_home() {
       }
     };
 
-    const timer = setTimeout(getPopular, 500);
+    const timer = setTimeout(getPopular, 700);
 
     return () => clearTimeout(timer);
   }, []);
@@ -85,7 +85,6 @@ export default function Main_home() {
               >
                 쇼터디 운영
               </Button>
-
             </div>
             <div className={styles.ButtonBox}>
               <ButtonBox />
