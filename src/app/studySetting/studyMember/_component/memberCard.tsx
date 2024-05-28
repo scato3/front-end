@@ -1,6 +1,6 @@
 import styles from "./memberCard.module.css";
 import Image from "next/image";
-import Icon from "../../../../public/icons/Icon_set_profile.svg";
+import Icon from "../../../../../public/icons/Icon_set_profile.svg";
 import { useEffect, useState } from "react";
 import Button from "@/app/_component/button/Button";
 import moment from "moment";
