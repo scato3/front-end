@@ -28,6 +28,8 @@
 .CardBox {
   height: calc(100% - 78px);
   overflow-y: scroll;
+  padding-top: 10px;
+  padding-bottom: 30px;
 }
 
 .CardContainer {
