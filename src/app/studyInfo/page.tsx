@@ -129,11 +129,6 @@ export default function StudyInfo() {
       if (res.message === "이미 가입 신청한 사용자입니다.") {
         setIsRequestJoin(true);
         setModalMsg("이미 가입 신청한 쇼터디입니다.");
-      } else if (res.message === "참가 인원이 꽉 찬 스터디입니다.") {
-        setModalMsg("참가 인원이 꽉 찬 스터디입니다.");
-        setIsJoined(true);
-      } else {
-        setModalMsg("가입 신청을 요청했어요.");
       }
     } catch (error) {
       console.log(error);
@@ -145,6 +140,11 @@ export default function StudyInfo() {
   };
 
   const handleJoinStudy = () => {
+    if (data.max_participants_num === data.cur_participants_num) {
+      setModalMsg("참가 인원이 꽉 찬 스터디입니다.");
+    } else if (isQuick) {
+      setModalMsg("스터디 가입신청을 요청했어요.");
+    }
     accessToken && joinStudy(accessToken);
     setJoin(true);
   };
