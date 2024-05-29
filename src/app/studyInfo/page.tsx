@@ -83,7 +83,7 @@ export default function StudyInfo() {
       setTendency(data.tendency);
       setDuration(data.duration);
       setStartDate(data.start_date);
-      setJoinedMembers(data.membersList.filter((member: Imember ) => member.exit_status === "None"));
+      setJoinedMembers(data.membersList.filter((member: Imember) => member.exit_status === "None"));
 
       if (data.matching_type === "Quick") {
         setIsQuick(true);
@@ -129,6 +129,11 @@ export default function StudyInfo() {
       if (res.message === "이미 가입 신청한 사용자입니다.") {
         setIsRequestJoin(true);
         setModalMsg("이미 가입 신청한 쇼터디입니다.");
+      } else if (res.message === "참가 인원이 꽉 찬 스터디입니다." && isQuick) {
+        setModalMsg("참가 인원이 꽉 찬 스터디입니다.");
+        setIsJoined(true);
+      } else {
+        setModalMsg("가입 신청을 요청했어요.");
       }
     } catch (error) {
       console.log(error);
@@ -140,12 +145,6 @@ export default function StudyInfo() {
   };
 
   const handleJoinStudy = () => {
-    if (isQuick) {
-      setModalMsg("쇼터디에 가입했어요.");
-      setIsJoined(true);
-    } else {
-      setModalMsg("가입 신청을 요청했어요.");
-    }
     accessToken && joinStudy(accessToken);
     setJoin(true);
   };
@@ -191,7 +190,9 @@ export default function StudyInfo() {
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <><Loading /></>
+        <>
+          <Loading />
+        </>
       ) : (
         <>
           <Navigation
@@ -217,7 +218,7 @@ export default function StudyInfo() {
           </Navigation>
           <div className={styles.hrOrange}></div>
           <div className={styles.filterBox}>
-            {isQuick && <StudyQuickBtn />}
+            {data.matching_type === "Quick" && <StudyQuickBtn />}
             <Category>{data.category}</Category>
           </div>
           <div className={styles.studyDetail}>
@@ -244,15 +245,9 @@ export default function StudyInfo() {
           <div className={styles.membersBox}>
             <p className={styles.subTitle}>참여 멤버</p>
             <div className={styles.members}>
-
               {joiednMembers.map((member: Imember, index: number) => (
-                  <MemberCard
-                    key={index}
-                    member= {member}
-                    onClick={() => setWatchMember(member.nickname)}
-                  />)
-
-              )}
+                <MemberCard key={index} member={member} onClick={() => setWatchMember(member.nickname)} />
+              ))}
             </div>
           </div>
           <div className={styles.footer}>
