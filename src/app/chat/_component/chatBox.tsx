@@ -1,46 +1,89 @@
 "use client";
+import { IJoinDate } from "@/interfaces/chat/IJoinDate";
 import { IMessage } from "@/interfaces/chat/IMessage";
+import { IUser } from "@/interfaces/chat/IUser";
 import { isSameSender } from "@/utils/chatLogics";
 import { Avatar } from "@chakra-ui/react";
 import moment from "moment-timezone";
 import "moment/locale/ko";
 import { useEffect, useState } from "react";
 import styles from "./chatBox.module.css";
-
-export default function ChatBox({ messages, userId }: { messages: IMessage[]; userId: string }) {
+interface IJoinData extends IJoinDate {
+  userInfo: IUser;
+}
+export default function ChatBox({
+  messages,
+  userId,
+  joinDates,
+}: {
+  messages: IMessage[];
+  userId: string;
+  joinDates: IJoinData[];
+}) {
   interface IChatGroupByDate {
-    date: string;
-    messages: IMessage[];
+    date?: string;
+    messages?: IMessage[];
+    joinDate?: string;
+    joiner?: string[];
   }
   const [chatGroupByDate, setChatGroupByDate] = useState<IChatGroupByDate[] | null>(null);
 
-  function groupedMessages(messages: IMessage[]): IChatGroupByDate[] {
-    return messages.reduce((groups: IChatGroupByDate[], message: IMessage) => {
-      const date = moment(message.createdAt).tz("Asia/Seoul").toString().slice(0, 16);
-      const existingGroup = groups.find((group) => group.date === date);
+  function groupedMessages(messages: IMessage[]) {
+    let joinGroups: Record<string, { joinDate: string; joiner: string[] }> = {};
+    let messageGroups: Record<string, { date: string; messages: IMessage[] }> = {};
 
-      if (!existingGroup) {
-        groups.push({ date, messages: [message] });
-      } else {
-        existingGroup.messages.push(message);
-      }
+    if (joinDates?.length > 0) {
+      joinDates.forEach((joinDate: IJoinData) => {
+        const date = moment(joinDate.joinedDate).tz("Asia/Seoul").toString().slice(0, 16);
+        if (!joinGroups[date]) {
+          joinGroups[date] = {
+            joinDate: date,
+            joiner: [joinDate?.userInfo?.nickname],
+          };
+        } else {
+          joinGroups[date].joiner.push(joinDate?.userInfo?.nickname);
+        }
+      });
+    }
 
-      return groups;
-    }, []);
+    if (messages?.length > 0) {
+      messages.forEach((message: IMessage) => {
+        const date = moment(message.createdAt).tz("Asia/Seoul").toString().slice(0, 16);
+        if (!messageGroups[date]) {
+          messageGroups[date] = {
+            date: date,
+            messages: [message],
+          };
+        } else {
+          messageGroups[date].messages.push(message);
+        }
+      });
+    }
+
+    const combinedKeys = new Set([...Object.keys(joinGroups), ...Object.keys(messageGroups)]);
+    const combinedArray: IChatGroupByDate[] = Array.from(combinedKeys).map((key) => ({
+      ...joinGroups[key],
+      ...messageGroups[key],
+    }));
+
+    return combinedArray;
   }
 
   useEffect(() => {
-    if (messages.length > 0) setChatGroupByDate(groupedMessages(messages));
-  }, [messages]);
+    if (messages?.length > 0 || joinDates?.length > 0) setChatGroupByDate(groupedMessages(messages));
+  }, [messages, joinDates]);
 
   return (
     <div className={styles.chatBox}>
       {chatGroupByDate &&
-        chatGroupByDate.map((group) => (
-          <div key={group.date} className={styles.chatContainer}>
+        chatGroupByDate.map((group, idx) => (
+          <div key={idx} className={styles.chatContainer}>
             <div className={styles.chatDateBox}>
               <h2 className={styles.chatDate}>{moment(group.date).format("YYYY년 MM월 DD일 dddd")}</h2>
             </div>
+            {group?.joinDate &&
+              group?.joiner &&
+              group?.joiner.map((join) => <div className={styles.joinDateBox}>{join}님이 참여했어요</div>)}
             {group.messages &&
               group.messages.map((message: IMessage, idx: number) => (
                 <div
