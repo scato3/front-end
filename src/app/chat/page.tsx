@@ -22,7 +22,6 @@ import Search from "../../../public/icons/Icon_search.svg";
 import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
 import addJoinToGroup from "../api/chat/addJoinToGroup";
-import getChat from "../api/chat/getChat";
 import getMessage from "../api/chat/getMessage";
 import postMessage from "../api/chat/postMessage";
 import Submenu from "./_component/SubMenu";
@@ -54,6 +53,7 @@ export default function ChatPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [newMessage, setNewMessage] = useState<string>("");
   const [joinDate, setJoinDate] = useState<IJoinData[]>([]);
+  const [isJoin, setIsJoin] = useState<boolean>(false);
 
   const searchParams = useSearchParams();
   const studyId = searchParams.get("studyId") as string;
@@ -78,7 +78,15 @@ export default function ChatPage() {
     newSocket.on("error", (error: unknown) => {
       console.log("Socket connection error:", error);
     });
-
+    newSocket.on("user joined", (data) => {
+      if (data?.joinDates.length > 0) {
+        setJoinDate(
+          data?.joinDates.map((date: IJoinDate, idx: number) => {
+            return { userInfo: data.users[idx], ...date };
+          }),
+        );
+      }
+    });
     setSocket(newSocket);
 
     return () => {
@@ -90,26 +98,35 @@ export default function ChatPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const chatData = await getChat(studyId, accessToken);
-        if (chatData) {
+        if (accessToken) {
+          const chatData = await addJoinToGroup(studyId, accessToken);
+          setChatData(chatData);
+
           if (chatData?.joinDates.length > 0) {
             setJoinDate(
               chatData?.joinDates.map((date: IJoinDate, idx: number) => {
-                return { userInfo: chatData.users[idx + 1], ...date };
+                return { userInfo: chatData.users[idx], ...date };
               }),
             );
           }
-          setChatData(chatData);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: "데이터 불러오기 실패",
+          description: "데이터를 불러오는 중 오류가 발생했습니다.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
     };
     fetchData();
-  }, [accessToken]);
+  }, [accessToken, studyId]);
 
   useEffect(() => {
     if (socket) {
-      socket.on("message received", (newMessageReceived: IMessage) => {});
-
       socket.on("message received", (newMessageReceived: IMessage) => {
         setMessages([...messages, newMessageReceived]);
       });
@@ -144,20 +161,18 @@ export default function ChatPage() {
     }
   };
 
+  const fetchJoiner = async () => {
+    const data = await addJoinToGroup(studyId, accessToken);
+    if (data) setChatData(data);
+  };
   const fetchMessages = async () => {
     try {
       setLoading(true);
       const data = await getMessage(chatData?._id, accessToken);
       setMessages(data);
       setLoading(false);
-      if (
-        socket &&
-        chatData?.groupAdmin !== user?.userObjectId &&
-        !chatData?.joinDates?.find((x) => x.userId == user?.userObjectId)
-      ) {
-        socket.emit("join chat", chatData?._id);
-        await addJoinToGroup(studyId, accessToken);
-        setChatData(chatData);
+      if (socket && chatData) {
+        socket.emit("join chat", chatData);
       }
     } catch (error) {
       console.log(error);
@@ -195,6 +210,7 @@ export default function ChatPage() {
   useEffect(() => {
     if (chatData) fetchMessages();
   }, [chatData]);
+
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     if (messageBoxRef.current) {
