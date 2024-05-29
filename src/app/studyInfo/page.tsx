@@ -142,8 +142,10 @@ export default function StudyInfo() {
   const handleJoinStudy = () => {
     if (data.max_participants_num === data.cur_participants_num) {
       setModalMsg("참가 인원이 꽉 찬 스터디입니다.");
-    } else if (isQuick) {
-      setModalMsg("스터디 가입신청을 요청했어요.");
+    } else if (data.matching_type === "Quick") {
+      setModalMsg("스터디를 가입했어요.");
+    } else {
+      setModalMsg("스터디를 가입 신청했어요.");
     }
     accessToken && joinStudy(accessToken);
     setJoin(true);
