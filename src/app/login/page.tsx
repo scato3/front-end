@@ -6,7 +6,7 @@ import styles from "./login.module.css";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Logo from "../../../public/Brand_logo.svg";
+import Logo from "../../../public/Icon_Logo.png";
 import kakaoLogin from "../../../public/kakao_login_large_wide.svg";
 
 export default function Login() {
