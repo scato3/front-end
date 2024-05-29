@@ -17,14 +17,8 @@ export default function ToDoInputBox({ onClick }: { onClick: () => void }) {
     setInputValue(e.target.value);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && inputValue.trim() !== "") {
-      createToDo(inputValue);
-      onClick();
-    }
-  };
-
-  const handleButtonClick = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (inputValue.trim() !== "") {
       createToDo(inputValue);
       onClick();
@@ -34,19 +28,20 @@ export default function ToDoInputBox({ onClick }: { onClick: () => void }) {
   const isBeforeToday = moment(selectedDate).isBefore(moment(), "day");
 
   return (
-    <div className={styles.ToDoInputContainer}>
-      <input
-        className={styles.ToDoInput}
-        placeholder="할 일을 입력해 주세요"
-        value={inputValue}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        maxLength={20}
-        disabled={isBeforeToday}
-      />
-      <Button size="very_small" property="confirm" onClick={handleButtonClick}>
-        등록
-      </Button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div className={styles.ToDoInputContainer}>
+        <input
+          className={styles.ToDoInput}
+          placeholder="할 일을 입력해 주세요"
+          value={inputValue}
+          onChange={handleInputChange}
+          maxLength={20}
+          disabled={isBeforeToday}
+        />
+        <Button size="very_small" property="confirm">
+          등록
+        </Button>
+      </div>
+    </form>
   );
 }
