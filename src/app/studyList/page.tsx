@@ -98,7 +98,6 @@ export default function StudyList() {
 
   useEffect(() => {
     setSelectedArea(category === "전체" ? "" : category);
-    console.log(quickMatch);
   }, [category]);
 
   const {
@@ -190,133 +189,138 @@ export default function StudyList() {
 
   return (
     <div className={styles.container}>
-      {modalIsLoading ? <><Loading/></> : (
-      <>
-      <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
-        <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
-      </Navigation>
-      <div className={styles.categoryTabBox}>
-        <Swiper
-          modules={[FreeMode]}
-          slidesPerView={5.5}
-          spaceBetween={9}
-          autoHeight={true}
-          className={styles.customSwiper}
-        >
-          {categories.map((category, index) => (
-            <SwiperSlide
-              key={index}
-              onClick={() => {
-                setActiveTab(category.name);
-              }}
+      {modalIsLoading ? (
+        <>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
+            <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
+          </Navigation>
+          <div className={styles.categoryTabBox}>
+            <Swiper
+              modules={[FreeMode]}
+              slidesPerView={5.5}
+              spaceBetween={9}
+              autoHeight={true}
+              className={styles.customSwiper}
             >
-              <Link
-                href={{ pathname: "/studyList", query: { tab: category.name } }}
-                key={index}
-                className={activeTab === category.name ? styles.categoryActive : styles.category}
-              >
-                <p>{category.name}</p>
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-      <div className={styles.devider}></div>
-      <div className={styles.filterBox}>
-        <Swiper slidesPerView={4} modules={[FreeMode]} spaceBetween={15} className={styles.SwipperContainer}>
-          <SwiperSlide className={styles.slideBox}>
-            <QuickMatchBtn />
-          </SwiperSlide>
-          {filter.map((item, index) => (
-            <SwiperSlide key={index} className={`${styles.slideBox} ${selectedDuration ? styles.active : ""}`}>
-              {item === "기간" && selectedDuration && (
-                <FilterQuick
-                  property="active"
+              {categories.map((category, index) => (
+                <SwiperSlide
+                  key={index}
                   onClick={() => {
-                    handleOpenModal();
+                    setActiveTab(category.name);
                   }}
                 >
-                  {DisplayDuration(selectedDate, selectedDuration)}
-                </FilterQuick>
-              )}
-              {item === "기간" && !selectedDuration && (
-                <FilterQuick
-                  arrow={true}
-                  onClick={() => {
-                    handleOpenModal();
-                  }}
-                >
-                  {item}
-                </FilterQuick>
-              )}
-              {item === "인원수" && minCount && (
-                <FilterQuick
-                  property="active"
-                  onClick={() => {
-                    handleOpenModal();
-                  }}
-                >
-                  {minCount}인 - {maxCount}인
-                </FilterQuick>
-              )}
-              {item === "인원수" && !minCount && (
-                <FilterQuick
-                  arrow={true}
-                  onClick={() => {
-                    handleOpenModal();
-                  }}
-                >
-                  {item}
-                </FilterQuick>
-              )}
-              {item === "타입" && selectedTendency.length > 0 && selectedTendency[0].name && (
-                <FilterQuick property="active" onClick={handleOpenModal}>
-                  {selectedTendency[0].name}
-                </FilterQuick>
-              )}
-              {item === "타입" && selectedTendency.length === 0 && (
-                <FilterQuick arrow={true} onClick={handleOpenModal}>
-                  {item}
-                </FilterQuick>
-              )}
-              {item === "타입1" && selectedTendency.length > 1 && selectedTendency[1].name && (
-                <FilterQuick property="active" onClick={handleOpenModal}>
-                  {selectedTendency[1].name}
-                </FilterQuick>
-              )}
-              {item === "타입2" && selectedTendency.length > 2 && selectedTendency[2].name && (
-                <FilterQuick property="active" onClick={handleOpenModal}>
-                  {selectedTendency[2].name}
-                </FilterQuick>
-              )}
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-      <div className={styles.infoContainer}>
-        <div className={styles.infoBox}>
-          {modalData && <p>{`총 ${modalData.totalCount}개의 쇼터디가 있어요`}</p>}
-          <button className={styles.sortButton} onClick={() => setSort(true)}>
-            {getSortSelectedName(sortSelected)}
-            <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
-          </button>
-        </div>
-        {modalData && modalData.totalCount !== 0 ? (
-          <div
-            className={styles.cardBox}
-            onClick={() => {
-              handleFrom();
-            }}
-          >
-            {modalData.data.map((data: IfilterType, index: number) => (
-              <Card key={index} data={data} />
-            ))}
+                  <Link
+                    href={{ pathname: "/studyList", query: { tab: category.name } }}
+                    key={index}
+                    className={activeTab === category.name ? styles.categoryActive : styles.category}
+                  >
+                    <p>{category.name}</p>
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
-        ) : (
-          <NoStudy />
-        )}
-      </div>
-      </>)}
+          <div className={styles.devider}></div>
+          <div className={styles.filterBox}>
+            <Swiper slidesPerView={4} modules={[FreeMode]} spaceBetween={15} className={styles.SwipperContainer}>
+              <SwiperSlide className={styles.slideBox}>
+                <QuickMatchBtn />
+              </SwiperSlide>
+              {filter.map((item, index) => (
+                <SwiperSlide key={index} className={`${styles.slideBox} ${selectedDuration ? styles.active : ""}`}>
+                  {item === "기간" && selectedDuration && (
+                    <FilterQuick
+                      property="active"
+                      onClick={() => {
+                        handleOpenModal();
+                      }}
+                    >
+                      {DisplayDuration(selectedDate, selectedDuration)}
+                    </FilterQuick>
+                  )}
+                  {item === "기간" && !selectedDuration && (
+                    <FilterQuick
+                      arrow={true}
+                      onClick={() => {
+                        handleOpenModal();
+                      }}
+                    >
+                      {item}
+                    </FilterQuick>
+                  )}
+                  {item === "인원수" && minCount && (
+                    <FilterQuick
+                      property="active"
+                      onClick={() => {
+                        handleOpenModal();
+                      }}
+                    >
+                      {minCount}인 - {maxCount}인
+                    </FilterQuick>
+                  )}
+                  {item === "인원수" && !minCount && (
+                    <FilterQuick
+                      arrow={true}
+                      onClick={() => {
+                        handleOpenModal();
+                      }}
+                    >
+                      {item}
+                    </FilterQuick>
+                  )}
+                  {item === "타입" && selectedTendency.length > 0 && selectedTendency[0].name && (
+                    <FilterQuick property="active" onClick={handleOpenModal}>
+                      {selectedTendency[0].name}
+                    </FilterQuick>
+                  )}
+                  {item === "타입" && selectedTendency.length === 0 && (
+                    <FilterQuick arrow={true} onClick={handleOpenModal}>
+                      {item}
+                    </FilterQuick>
+                  )}
+                  {item === "타입1" && selectedTendency.length > 1 && selectedTendency[1].name && (
+                    <FilterQuick property="active" onClick={handleOpenModal}>
+                      {selectedTendency[1].name}
+                    </FilterQuick>
+                  )}
+                  {item === "타입2" && selectedTendency.length > 2 && selectedTendency[2].name && (
+                    <FilterQuick property="active" onClick={handleOpenModal}>
+                      {selectedTendency[2].name}
+                    </FilterQuick>
+                  )}
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div className={styles.infoContainer}>
+            <div className={styles.infoBox}>
+              {modalData && <p>{`총 ${modalData.totalCount}개의 쇼터디가 있어요`}</p>}
+              <button className={styles.sortButton} onClick={() => setSort(true)}>
+                {getSortSelectedName(sortSelected)}
+                <Image src={arrowIcon} width={20} height={20} alt="arrowBtn" />
+              </button>
+            </div>
+            {modalData && modalData.totalCount !== 0 ? (
+              <div
+                className={styles.cardBox}
+                onClick={() => {
+                  handleFrom();
+                }}
+              >
+                {modalData.data.map((data: IfilterType, index: number) => (
+                  <Card key={index} data={data} />
+                ))}
+              </div>
+            ) : (
+              <NoStudy />
+            )}
+          </div>
+        </>
+      )}
 
       {sort && (
         <ModalPortal>
