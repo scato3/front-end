@@ -2,14 +2,15 @@ import { useState } from "react";
 import styles from "./component.module.css";
 import Button from "@/app/_component/button/Button";
 import useToDoStore from "../../store/useToDoStore";
+import moment from "moment";
 
 export default function ToDoInputBox({ onClick }: { onClick: () => void }) {
-  const { setToDo } = useToDoStore();
+  const { setToDo, selectedDate } = useToDoStore();
   const [inputValue, setInputValue] = useState("");
 
   const createToDo = (todo: string) => {
     setToDo(todo);
-    setInputValue(""); // Clear the input field
+    setInputValue("");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +31,8 @@ export default function ToDoInputBox({ onClick }: { onClick: () => void }) {
     }
   };
 
+  const isBeforeToday = moment(selectedDate).isBefore(moment(), "day");
+
   return (
     <div className={styles.ToDoInputContainer}>
       <input
@@ -39,6 +42,7 @@ export default function ToDoInputBox({ onClick }: { onClick: () => void }) {
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         maxLength={20}
+        disabled={isBeforeToday}
       />
       <Button size="very_small" property="confirm" onClick={handleButtonClick}>
         등록

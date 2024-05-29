@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import Button from "@/app/_component/button/Button";
 import proposerStudy from "@/app/api/proposerStudy";
 import registeredStudy from "@/app/api/registeredStudy";
 import useAuth from "@/hooks/useAuth";
@@ -15,7 +14,7 @@ import useDetailActiveStore from "../store/detailActive";
 import useFromStore from "@/utils/from";
 import Loading from "@/app/_component/Loading";
 
-const FILTERS = ["참여신청", "참여중", "참여완료"];
+const FILTERS = ["참여신청", "참여대기", "참여중", "참여완료"];
 
 export default function ProfileDetail() {
   const router = useRouter();
@@ -48,8 +47,8 @@ export default function ProfileDetail() {
         fetchData = await registeredStudy(accessToken, null);
       } else if (activeFilter === "참여완료") {
         fetchData = await registeredStudy(accessToken, "done");
-      } else {
-        fetchData = [];
+      } else if (activeFilter === "참여대기") {
+        fetchData = await registeredStudy(accessToken, "before");
       }
 
       setPostData(fetchData.data);
@@ -114,9 +113,15 @@ export default function ProfileDetail() {
             </div>
             {postData && postData.length !== 0 ? (
               <div className={styles.CardBox}>
-                {postData.map((data: IfilterType, index: number) => (
-                  <DetailCard key={index} data={data} isCancel={isCancel} activeFilter={activeFilter} />
-                ))}
+                {postData.map((data: IfilterType, index: number) => {
+                  const cancelStatus =
+                    activeFilter === "참여신청"
+                      ? true
+                      : activeFilter === "참여중" || activeFilter === "참여완료"
+                        ? false
+                        : data.user_relation?.is_owner === false;
+                  return <DetailCard key={index} data={data} isCancel={cancelStatus} activeFilter={activeFilter} />;
+                })}
               </div>
             ) : (
               <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
