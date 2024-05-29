@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: "나와 딱 맞는 온라인 스터디메이트를 만나 매일 할일을 공유하고 함께 목표를 달성하세요",
     images: [
       {
-        url: "/Icon_shortudy.ico",
+        url: "/Icon_Logo.png",
         width: 1900,
         height: 600,
       },
