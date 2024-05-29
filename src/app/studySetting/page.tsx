@@ -3,7 +3,7 @@
 import styles from "./setting.module.css";
 import Navigation from "../_component/navigation/page";
 import Image from "next/image";
-import Icon from "../../../public/icons/Btn_arrow_sm.svg";
+import Icon from "../../../public/icons/Btn_arrow_sm_right.svg";
 import DeleteStudy from "../api/deleteStudy";
 import DeleteModal from "../_component/modal/deleteModal";
 import { useModal } from "@/hooks/useModal";
@@ -71,8 +71,7 @@ export default function StudySetting() {
             멤버관리
             {membersCount ? (
               <div className={styles.count}>
-                {membersCount}
-                {membersCount >= 10 ? "+" : null}
+                {membersCount >= 10 ? "10+" : membersCount}
               </div>
             ) : null}
             <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow" />
