@@ -129,7 +129,7 @@ export default function StudyInfo() {
       if (res.message === "이미 가입 신청한 사용자입니다.") {
         setIsRequestJoin(true);
         setModalMsg("이미 가입 신청한 쇼터디입니다.");
-      } else if (res.message === "참가 인원이 꽉 찬 스터디입니다." && isQuick) {
+      } else if (res.message === "참가 인원이 꽉 찬 스터디입니다.") {
         setModalMsg("참가 인원이 꽉 찬 스터디입니다.");
         setIsJoined(true);
       } else {
