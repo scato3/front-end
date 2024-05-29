@@ -77,6 +77,10 @@
   height: 40px;
 }
 
+.input:focus {
+  outline: none;
+}
+
 .messageBox {
   overflow: scroll;
   height: 100%;
