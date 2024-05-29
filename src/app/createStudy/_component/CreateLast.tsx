@@ -22,6 +22,7 @@ export default function CreateLast() {
   const [description, setDescription] = useState<string>("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
+  const [creationInProgress, setCreationInProgress] = useState<boolean>(false);
   const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
 
@@ -88,6 +89,11 @@ export default function CreateLast() {
   }, []);
 
   const handleNext = async () => {
+    if (creationInProgress) {
+      return;
+    }
+
+    setCreationInProgress(true);
     const postData: any = {
       category: selectedField,
       title,
@@ -107,10 +113,11 @@ export default function CreateLast() {
 
     try {
       const result = await setStudy(postData, accessToken);
-      console.log(postData);
       handleOpenModal();
     } catch (error) {
       console.error(error);
+    } finally {
+      setCreationInProgress(false);
     }
   };
 

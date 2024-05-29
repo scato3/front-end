@@ -6,29 +6,32 @@ import Image from "next/image";
 import { ICloseModalProps } from "@/app/type/closeModalType";
 import { useRouter } from "next/navigation";
 import { it } from "node:test";
-import { url } from "node:inspector";
+import { useSearchParams } from "next/navigation";
 
-const menuItems = [
-  {
-    label: "목표관리",
-    url: ``
-  }, 
-  { 
-    label: "공지사항",
-    url: `chat/notice` 
-  }, 
-  { 
-    label: "사진",
-    url: `chat/sideMenu`
-  }, 
-  { 
-    label: "멤버",
-    url: ``, 
-  }
-];
 
 export default function Submenu({ handleCloseModal }: ICloseModalProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const studyId = searchParams.get("studyId") as string;
+
+  const menuItems = [
+    {
+      label: "목표관리",
+      url: `chat/toDo?studyId=${studyId}`
+    }, 
+    { 
+      label: "공지사항",
+      url: `chat/notice?studyId=${studyId}` 
+    }, 
+    { 
+      label: "사진",
+      url: `chat/sideMenu?studyId=${studyId}`
+    }, 
+    { 
+      label: "멤버",
+      url: ``, 
+    }
+  ];
 
   return (
     <>

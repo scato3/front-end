@@ -23,9 +23,9 @@ export default function MemberModal({user, study, handleCloseModal}:ImemberModal
             </div>
             <div className={styles.studyBox}>
                 <p className={styles.studyType}>진행중</p>
-                <p className={styles.studyNum}>{study.in_complete}</p>
-                <p className={styles.studyType}>참여완료</p>
                 <p className={styles.studyNum}>{study.in_progress}</p>
+                <p className={styles.studyType}>참여완료</p>
+                <p className={styles.studyNum}>{study.in_complete}</p>
             </div>
             <div className={styles.ratingBox}>
                 <RatingBox user={user}/>

@@ -166,6 +166,7 @@ export default function Profile() {
           <ModalContainer>
             <ProfileEditModal
               handleCloseModal={handleCloseEditModal}
+              nickname={myProfileData?.nickname ?? ""}
               profileImage={myProfileData?.profile_img ?? null}
             />
           </ModalContainer>

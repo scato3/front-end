@@ -3,10 +3,10 @@ import moment from "moment";
 import "moment/locale/ko";
 import styles from "./calendar.module.css";
 import Image from "next/image";
-import Btn_arrow_left from "../../../../public/icons/Btn_arrow_left.svg";
-import Btn_arrow_right from "../../../../public/icons/Btn_arrow_right.svg";
+import Btn_arrow_left from "../../../../../public/icons/Btn_arrow_left.svg";
+import Btn_arrow_right from "../../../../../public/icons/Btn_arrow_right.svg";
 import Button from "@/app/_component/button/Button";
-import useCreateStore from "../store/CreateStore";
+import useToDoStore from "@/app/chat/store/useToDoStore";
 
 type ButtonProperty = "disabled" | "confirm" | "default" | "pressed";
 
@@ -17,9 +17,9 @@ interface ICalendarProps {
 export default function Calendar({ handleCloseModal }: ICalendarProps) {
   const [currentDate, setCurrentDate] = useState(moment());
 
-  const [selectDate, setSelectDate] = useState<string | null>(null);
+  const [selectDate, setSelectDate] = useState<string>("");
 
-  const { setSelectedDate } = useCreateStore();
+  const { setSelectedDate } = useToDoStore();
   const [buttonProperty, setButtonProperty] = useState<ButtonProperty>("disabled");
 
   const goToPreviousMonth = () => {

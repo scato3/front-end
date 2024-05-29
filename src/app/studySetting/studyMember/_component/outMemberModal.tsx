@@ -1,5 +1,5 @@
 import styles from "./outMemberModal.module.css";
-import X_Icon from "../../../../public/icons/Icon_close_.svg";
+import X_Icon from "../../../../../public/icons/Icon_close_.svg";
 import Image from "next/image";
 import Button from "@/app/_component/button/Button";
 import useMemberStore from "../store/useMemberStore";
