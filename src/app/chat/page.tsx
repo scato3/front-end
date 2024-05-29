@@ -53,7 +53,6 @@ export default function ChatPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [newMessage, setNewMessage] = useState<string>("");
   const [joinDate, setJoinDate] = useState<IJoinData[]>([]);
-  const [isJoin, setIsJoin] = useState<boolean>(false);
 
   const searchParams = useSearchParams();
   const studyId = searchParams.get("studyId") as string;
@@ -161,10 +160,6 @@ export default function ChatPage() {
     }
   };
 
-  const fetchJoiner = async () => {
-    const data = await addJoinToGroup(studyId, accessToken);
-    if (data) setChatData(data);
-  };
   const fetchMessages = async () => {
     try {
       setLoading(true);

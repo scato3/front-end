@@ -29,7 +29,7 @@ export default function ChatBox({
   const [chatGroupByDate, setChatGroupByDate] = useState<IChatGroupByDate[] | null>(null);
 
   function groupedMessages(messages: IMessage[]) {
-    let joinGroups: Record<string, { joinDate: string; joiner: string }> = {};
+    let joinGroups: Record<string, { joinDate: string; joiner: string[] }> = {};
     let messageGroups: Record<string, { date: string; messages: IMessage[] }> = {};
 
     if (joinDates?.length > 0) {
