@@ -123,9 +123,17 @@ export default function ProfileDetail() {
                   return <DetailCard key={index} data={data} isCancel={cancelStatus} activeFilter={activeFilter} />;
                 })}
               </div>
-            ) : (
-              <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
-            )}
+            ) : (() => {
+              const comment =
+              activeFilter === "참여신청"
+                  ? "신청 중인 쇼터디가 없어요"
+                  : activeFilter === "참여대기"
+                  ? "대기 중인 쇼터디가 없어요"
+                  : activeFilter === "참여중"
+                  ? "참여 중인 쇼터디가 없어요"
+                  : "참여 완료된 쇼터디가 없어요"
+                return <NoStudy>{comment}</NoStudy>;
+            }) ()}
           </div>
         </>
       )}
