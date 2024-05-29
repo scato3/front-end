@@ -65,7 +65,6 @@ export default function ChatBox({
       ...joinGroups[key],
       ...messageGroups[key],
     }));
-
     return combinedArray;
   }
 
@@ -83,7 +82,7 @@ export default function ChatBox({
             </div>
             {group?.joinDate &&
               group?.joiner &&
-              group?.joiner.map((join) => <div className={styles.joinDateBox}>{join}님이 참여했어요</div>)}
+              group?.joiner.map((join) => join && <div className={styles.joinDateBox}>{join}님이 참여했어요</div>)}
             {group.messages &&
               group.messages.map((message: IMessage, idx: number) => (
                 <div
