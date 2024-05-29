@@ -81,7 +81,7 @@ export default function ChatPage() {
       if (data?.joinDates.length > 0) {
         setJoinDate(
           data?.joinDates.map((date: IJoinDate, idx: number) => {
-            return { userInfo: data.users[idx], ...date };
+            return { userInfo: data.users[idx + 1], ...date };
           }),
         );
       }
