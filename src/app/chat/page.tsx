@@ -69,7 +69,7 @@ export default function ChatPage() {
   };
 
   useEffect(() => {
-    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_DEV_API as string);
+    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_PROD_API as string);
     newSocket.emit("setup", user);
     newSocket.on("connected", () => setSocketConnected(true));
     newSocket.on("typing", () => setIsTyping(true));
