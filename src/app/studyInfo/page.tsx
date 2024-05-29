@@ -1,31 +1,30 @@
 "use client";
 
-import styles from "./studyInfo.module.css";
-import GetStudyInfo from "../api/getStudyInfo";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
-import Navigation from "../_component/navigation/page";
-import Icon_setting from "../../../public/icons/Icon_setting.svg";
-import Image from "next/image";
-import StudyQuickBtn from "./_component/studyQuickBtn";
-import StudySettingCard from "./_component/studySettingCard";
-import ButtonFooter from "../_component/footer/ButtonFooter";
-import { useSearchParams } from "next/navigation";
-import MemberCard from "./_component/MemberCard";
-import Category from "./_component/category";
+import useAuth from "@/hooks/useAuth";
 import { useModal } from "@/hooks/useModal";
+import useFromStore from "@/utils/from";
+import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Icon_setting from "../../../public/icons/Icon_setting.svg";
+import Loading from "../_component/Loading";
 import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
-import MemberModal from "./_component/memberModal";
-import GetUserProfile from "../api/getUserProfile";
-import useAuth from "@/hooks/useAuth";
-import JoinStudy from "../api/joinStudy";
+import ButtonFooter from "../_component/footer/ButtonFooter";
 import InfoAlertModal from "../_component/modal/infoAlertModal";
-import { useRouter } from "next/navigation";
-import useFromStore from "@/utils/from";
+import Navigation from "../_component/navigation/page";
 import favoriteStudy from "../api/favoriteStudy";
+import GetStudyInfo from "../api/getStudyInfo";
+import GetUserProfile from "../api/getUserProfile";
+import JoinStudy from "../api/joinStudy";
 import useMemberStore from "../studySetting/studyMember/store/useMemberStore";
-import Loading from "../_component/Loading";
+import MemberCard from "./_component/MemberCard";
+import Category from "./_component/category";
+import MemberModal from "./_component/memberModal";
+import StudyQuickBtn from "./_component/studyQuickBtn";
+import StudySettingCard from "./_component/studySettingCard";
+import styles from "./studyInfo.module.css";
 
 interface IFavStudy {
   id: number;
@@ -83,7 +82,7 @@ export default function StudyInfo() {
       setTendency(data.tendency);
       setDuration(data.duration);
       setStartDate(data.start_date);
-      setJoinedMembers(data.membersList.filter((member: Imember ) => member.exit_status === "None"));
+      setJoinedMembers(data.membersList.filter((member: Imember) => member.exit_status === "None"));
 
       if (data.matching_type === "Quick") {
         setIsQuick(true);
@@ -140,6 +139,7 @@ export default function StudyInfo() {
   };
 
   const handleJoinStudy = () => {
+    console.log(isQuick, "isQuick 여부");
     if (isQuick) {
       setModalMsg("쇼터디에 가입했어요.");
       setIsJoined(true);
@@ -191,7 +191,9 @@ export default function StudyInfo() {
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <><Loading /></>
+        <>
+          <Loading />
+        </>
       ) : (
         <>
           <Navigation
@@ -244,15 +246,9 @@ export default function StudyInfo() {
           <div className={styles.membersBox}>
             <p className={styles.subTitle}>참여 멤버</p>
             <div className={styles.members}>
-
               {joiednMembers.map((member: Imember, index: number) => (
-                  <MemberCard
-                    key={index}
-                    member= {member}
-                    onClick={() => setWatchMember(member.nickname)}
-                  />)
-
-              )}
+                <MemberCard key={index} member={member} onClick={() => setWatchMember(member.nickname)} />
+              ))}
             </div>
           </div>
           <div className={styles.footer}>
