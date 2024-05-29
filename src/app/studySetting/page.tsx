@@ -71,8 +71,7 @@ export default function StudySetting() {
             멤버관리
             {membersCount ? (
               <div className={styles.count}>
-                {membersCount}
-                {membersCount >= 10 ? "+" : null}
+                {membersCount >= 10 ? "10+" : membersCount}
               </div>
             ) : null}
             <Image className={styles.icon} src={Icon} width={16} height={16} alt="arrow" />
