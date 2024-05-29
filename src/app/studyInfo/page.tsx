@@ -139,12 +139,10 @@ export default function StudyInfo() {
   };
 
   const handleJoinStudy = () => {
-    console.log(isQuick, "isQuick 여부");
-    if (isQuick) {
-      setModalMsg("쇼터디에 가입했어요.");
-      setIsJoined(true);
-    } else {
-      setModalMsg("가입 신청을 요청했어요.");
+    if (data.max_participants_num === data.cur_participants_num) {
+      setModalMsg("참가 인원이 꽉 찬 스터디입니다.");
+    } else if (isQuick) {
+      setModalMsg("스터디 가입신청을 요청했어요.");
     }
     accessToken && joinStudy(accessToken);
     setJoin(true);
@@ -219,7 +217,7 @@ export default function StudyInfo() {
           </Navigation>
           <div className={styles.hrOrange}></div>
           <div className={styles.filterBox}>
-            {isQuick && <StudyQuickBtn />}
+            {data.matching_type === "Quick" && <StudyQuickBtn />}
             <Category>{data.category}</Category>
           </div>
           <div className={styles.studyDetail}>

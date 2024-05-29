@@ -64,7 +64,7 @@ export default function Todo() {
   const [teamPercent, setTeamPercent] = useState<number>(0);
   const [percent, setPercent] = useState<number>(0);
   const { user, accessToken } = useAuth();
-  const { selectedDate, watchNickname, setWatchNickname, toDo } = useToDoStore();
+  const { selectedDate, watchNickname, setWatchNickname, toDo, setSelectedDate } = useToDoStore();
 
   const { data: studyData, isLoading } = useQuery({
     queryKey: ["MEMBER_INFO"],
@@ -73,6 +73,10 @@ export default function Todo() {
       return res;
     },
   });
+
+  useEffect(() => {
+    setSelectedDate(moment().format("YYYY-MM-DD"));
+  }, []);
 
   useEffect(() => {
     if (studyData) {

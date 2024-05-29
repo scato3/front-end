@@ -75,7 +75,7 @@ export default function DetailCard({
       {openModal && (
         <ModalPortal>
           <ModalContainer handleCloseModal={handleCloseModal}>
-            <CancelModal handleCloseModal={handleCloseModal} data={data} />
+            <CancelModal handleCloseModal={handleCloseModal} data={data} activeFilter={activeFilter} />
           </ModalContainer>
         </ModalPortal>
       )}

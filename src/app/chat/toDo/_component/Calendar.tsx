@@ -40,10 +40,8 @@ export default function Calendar({ handleCloseModal }: ICalendarProps) {
   };
 
   useEffect(() => {
-    if (selectDate && moment(selectDate).isSameOrAfter(moment(), "day")) {
+    if (selectDate) {
       setButtonProperty("confirm");
-    } else {
-      setButtonProperty("disabled");
     }
   }, [selectDate]);
 
