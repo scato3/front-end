@@ -27,6 +27,7 @@ export default function CancelModal({ handleCloseModal, data, activeFilter }: Ca
 
   const handleCancel = () => {
     CancelData.mutate();
+    handleCloseModal();
   };
 
   return (
