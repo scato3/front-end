@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-interface IUserState {
+export interface IUserState {
   accessToken: string;
   email: string;
   joinDate: string;
