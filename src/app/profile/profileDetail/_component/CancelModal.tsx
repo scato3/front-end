@@ -5,7 +5,6 @@ import { IfilterType } from "@/app/type/filterType";
 import Button from "@/app/_component/button/Button";
 import JoinCancel from "@/app/api/joinCancel";
 import useAuth from "@/hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 interface CancelModalProps {

@@ -37,9 +37,9 @@ export default function MemberCard({
   const [hoursRemaining, setHoursRemaining] = useState<number | null>(null);
   const requestTime = moment(requestData?.request_date);
   const nowTime = moment();
-  const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
   const [src, setSrc] = useState<string>(Icon);
   const [nickname, setNickname] = useState<string>("");
+  const [autoDeclined, setAutoDeclined] = useState<boolean>(false);
 
   useEffect(() => {
     if (isRequest) {
@@ -52,22 +52,14 @@ export default function MemberCard({
   });
 
   useEffect(() => {
-    if (isRequest && requestData?.request_date) {
-      const duration = moment.duration(requestTime.add(72, "hours").diff(nowTime));
-      const hours = duration.asHours();
-      setHoursRemaining(hours > 0 ? Math.ceil(hours) : 0);
-    }
-  });
-
-  useEffect(() => {
     const interval = setInterval(() => {
       if (isRequest && requestData?.request_date) {
         const duration = moment.duration(requestTime.add(72, "hours").diff(nowTime));
-        const seconds = duration.asSeconds();
-        setSecondsRemaining(seconds > 0 ? Math.ceil(seconds) : 0);
+        const secondsRemaining = duration.asSeconds();
 
-        if (seconds <= 0) {
-          handleDeclineRequest && handleDeclineRequest();
+        if (secondsRemaining <= 0) {
+            setAutoDeclined(true);
+            handleDeclineRequest && handleDeclineRequest();
         }
       }
     }, 1000);
@@ -96,6 +88,11 @@ export default function MemberCard({
           {isRequest && isDeclined && (
             <Button size="very_small" property="disabled">
               거절완료
+            </Button>
+          )}
+          {isRequest && autoDeclined && (
+            <Button size="very_small" property="disabled">
+              자동거절
             </Button>
           )}
           {isMember && (

@@ -34,8 +34,7 @@
 
 .CardContainer {
   position: relative;
-  margin-left: 32px;
-  margin-top: 8px;
+  margin: 8px 0 15px 32px;
   width: calc(100% - 64px);
   height: 260px;
   background-color: var(--gray-100);

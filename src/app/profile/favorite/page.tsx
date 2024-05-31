@@ -9,7 +9,7 @@ import useAuth from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
 import Card from "@/app/_component/main_home/Card";
 import { IfilterType } from "@/app/type/filterType";
-import NoStudy from "@/app/search_result/_component/NoStudy";
+import NoStudy from "@/app/_component/noStudy/NoStudy";
 
 export default function Favorite() {
   const router = useRouter();
