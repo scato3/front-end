@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import { useEffect, useState } from "react";
 import { IfilterType } from "@/app/type/filterType";
-import NoStudy from "../search_result/_component/NoStudy";
+import NoStudy from "../_component/noStudy/NoStudy";
 import getFilter from "../api/getFilter";
 import Navigation from "../_component/navigation/page";
 import Loading from "../_component/Loading";

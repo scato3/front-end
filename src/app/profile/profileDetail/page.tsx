@@ -8,7 +8,7 @@ import useAuth from "@/hooks/useAuth";
 import DetailCard from "./_component/DetailCard";
 import Navigation from "@/app/_component/navigation/page";
 import styles from "./detail.module.css";
-import NoStudy from "@/app/search_result/_component/NoStudy";
+import NoStudy from "@/app/_component/noStudy/NoStudy";
 import { IfilterType } from "@/app/type/filterType";
 import useDetailActiveStore from "../store/detailActive";
 import useFromStore from "@/utils/from";

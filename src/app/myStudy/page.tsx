@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { IMyStudyType } from "./type/myStudyType";
 import moment from "moment";
 import useFromStore from "@/utils/from";
-import NoStudy from "../search_result/_component/NoStudy";
+import NoStudy from "../_component/noStudy/NoStudy";
 import Loading from "../_component/Loading";
 
 export default function MyStudy() {

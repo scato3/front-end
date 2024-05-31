@@ -15,7 +15,7 @@ import { useModal } from "@/hooks/useModal";
 import ModalContainer from "@/app/_component/ModalContainer";
 import ModalPortal from "@/app/_component/ModalPortal";
 import SortModal from "./_component/SortModal";
-import NoStudy from "./_component/NoStudy";
+import NoStudy from "../_component/noStudy/NoStudy";
 import useFilterStore from "../_component/modalFilter/store/useFilterStore";
 import useSortStore from "./store/useSortStore";
 import ModalFilter from "../_component/modalFilter/page";
@@ -187,6 +187,11 @@ export default function StudyList() {
     setFrom("studyList");
   };
 
+  const handleGoBefore = () => {
+    if (from === "home") router.push("./home");
+    else if (from === "search") router.push("./search");
+  };
+
   return (
     <div className={styles.container}>
       {modalIsLoading ? (
@@ -195,7 +200,7 @@ export default function StudyList() {
         </>
       ) : (
         <>
-          <Navigation isBack={true} onClick={() => router.push("./home")} dark={false}>
+          <Navigation isBack={true} onClick={handleGoBefore} dark={false}>
             <p className={styles.title}>{getSortSelectedName(sortSelected)}</p>
           </Navigation>
           <div className={styles.categoryTabBox}>
@@ -316,7 +321,7 @@ export default function StudyList() {
                 ))}
               </div>
             ) : (
-              <NoStudy />
+              <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
             )}
           </div>
         </>

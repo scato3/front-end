@@ -15,7 +15,7 @@ import { useModal } from "@/hooks/useModal";
 import ModalContainer from "@/app/_component/ModalContainer";
 import ModalPortal from "@/app/_component/ModalPortal";
 import SortModal from "./_component/SortModal";
-import NoStudy from "./_component/NoStudy";
+import NoStudy from "../_component/noStudy/NoStudy";
 import useFilterStore from "../_component/modalFilter/store/useFilterStore";
 import ModalFilter from "../_component/modalFilter/page";
 import DisplayDuration from "./_component/utils/displayDuration";
@@ -31,6 +31,7 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import Search_Input from "../_component/input/Search_Input";
 import useAuth from "@/hooks/useAuth";
+import Loading from "../_component/Loading";
 
 const categories = [
   {
@@ -214,6 +215,7 @@ export default function SearchResult() {
 
   return (
     <div className={styles.container}>
+      {modalIsLoading ? <Loading/> : <>
       <Navigation isBack={true} onClick={handleGoBefore} dark={false}>
         <p className={styles.title}>전체</p>
       </Navigation>
@@ -340,7 +342,9 @@ export default function SearchResult() {
         ) : (
           <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
         )}
+        
       </div>
+      </>}
 
       {sort && (
         <ModalPortal>

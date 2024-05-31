@@ -7,7 +7,7 @@ import Navigation from "@/app/_component/navigation/page";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useRouter } from "next/navigation";
-import NoStudy from "@/app/search_result/_component/NoStudy";
+import NoStudy from "@/app/_component/noStudy/NoStudy";
 
 import "swiper/css";
 import "swiper/css/effect-cards";
