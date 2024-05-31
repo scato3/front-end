@@ -37,9 +37,9 @@ export default function MemberCard({
   const [hoursRemaining, setHoursRemaining] = useState<number | null>(null);
   const requestTime = moment(requestData?.request_date);
   const nowTime = moment();
-  const [secondsRemaining, setSecondsRemaining] = useState<number>(0);
   const [src, setSrc] = useState<string>(Icon);
   const [nickname, setNickname] = useState<string>("");
+  const [declined, setDeclined] = useState<boolean>(isDeclined ?? false);
 
   useEffect(() => {
     if (isRequest) {
@@ -63,11 +63,11 @@ export default function MemberCard({
     const interval = setInterval(() => {
       if (isRequest && requestData?.request_date) {
         const duration = moment.duration(requestTime.add(72, "hours").diff(nowTime));
-        const seconds = duration.asSeconds();
-        setSecondsRemaining(seconds > 0 ? Math.ceil(seconds) : 0);
+        const secondsRemaining = duration.asSeconds();
 
-        if (seconds <= 0) {
-          handleDeclineRequest && handleDeclineRequest();
+        if (secondsRemaining <= 0) {
+            setDeclined(true);
+            handleDeclineRequest && handleDeclineRequest();
         }
       }
     }, 1000);
@@ -93,7 +93,7 @@ export default function MemberCard({
               수락완료
             </Button>
           )}
-          {isRequest && isDeclined && (
+          {isRequest && declined && (
             <Button size="very_small" property="disabled">
               거절완료
             </Button>

@@ -62,6 +62,7 @@ export default function studyMember() {
     outUserId,
     setOutUserId,
     exitReasons,
+    setExitReasons,
     setAcceptUserId,
     setDeclineUserId,
     acceptUserId,
@@ -81,7 +82,6 @@ export default function studyMember() {
   });
 
   useEffect(() => {
-    console.log("rerender", studyId);
     if (!isQuick && moment(startDate).isSameOrAfter(moment(), "day")) {
       setIsJoinRequest(true);
     } else {
@@ -189,6 +189,7 @@ export default function studyMember() {
 
   const handleOk = () => {
     handleCloseAlertModal();
+    setExitReasons([]);
   };
 
   const handleAcceptRequest = (member: IRequestMember) => {
