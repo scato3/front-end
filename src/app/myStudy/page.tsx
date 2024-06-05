@@ -17,7 +17,7 @@ import Loading from "../_component/Loading";
 
 export default function MyStudy() {
   const router = useRouter();
-  const { accessToken } = useAuth();
+  const { accessToken, isLogin } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [studyData, setStudyData] = useState<IMyStudyType[]>([]);
   const [progress, setProgress] = useState<number>(0);
@@ -50,10 +50,6 @@ export default function MyStudy() {
     router.push(`./studyInfo?studyId=${page}`);
   };
 
-  const handleGoList = () => {
-    router.push("./studyList");
-  };
-
   return (
     <>
       {isLoading ? (
@@ -64,17 +60,24 @@ export default function MyStudy() {
             <Navigation dark={true} onClick={() => {}}>
               <Image className={styles.iconBell} src={IconBell} width={48} height={48} alt="bell" />
             </Navigation>
-            <p className={styles.Header}>총 {studyData.length}개의 쇼터디에 참여중이에요!</p>
-            {studyData.length === 0 ? (
-              <>
-                <NoStudy>참여중인 쇼터디가 없어요</NoStudy>
+            {studyData.length === 0 && isLogin? (
                 <div className={styles.NoContainer}>
-                  <div className={styles.NoStudyBtn} onClick={handleGoList}>
+                <NoStudy>참여중인 쇼터디가 없어요</NoStudy>
+                  <div className={styles.NoStudyBtn} onClick={() => router.push("./studyList")}>
                     쇼터디 둘러보기
                   </div>
                 </div>
-              </>
-            ) : (
+            ) :
+            isLogin === false ? (
+              <div className={styles.NoContainer}>
+              <NoStudy type="NoLogin">로그인이 필요해요</NoStudy>
+              <div className={styles.NoStudyBtn} onClick={() => router.push("./login")}>
+                로그인 / 회원가입
+              </div>
+          </div>
+            )
+            : (<>
+              <p className={styles.Header}>총 {studyData.length}개의 쇼터디에 참여중이에요!</p>
               <div className={styles.CardBox}>
                 {studyData.map((data, index) => (
                   <div
@@ -120,7 +123,7 @@ export default function MyStudy() {
                   </div>
                 ))}
               </div>
-            )}
+              </>)}
           </div>
           <div className={styles.FooterContainer}>
             <Footer selectedIndex={2} />

@@ -50,6 +50,7 @@ export default function Profile() {
 
   useEffect(() => {
     setFrom("profile");
+    
   }, []);
 
   useEffect(() => {
