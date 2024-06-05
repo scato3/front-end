@@ -50,12 +50,9 @@ export default function Profile() {
 
   useEffect(() => {
     setFrom("profile");
-    
-  }, []);
 
-  useEffect(() => {
     if (profileData) {
-      console.log(myProfileData);
+      console.log(profileData);
       setMyProfileData(profileData.profile);
       setProfileStudyMenu(profileMenuLabeling(profileData.study_count));
     } else {
@@ -68,7 +65,7 @@ export default function Profile() {
           user_id: -1,
       })
     }
-  }, [accessToken]);
+  }, []);
 
   const keyLabels = {
     in_favorite: "찜한 스터디",
@@ -84,8 +81,6 @@ export default function Profile() {
         data[key],
     }));
   };
-
-  
 
   return (
     <>
@@ -123,7 +118,6 @@ export default function Profile() {
                 {myProfileData && <RatingBox user={myProfileData} type="myPage" isLogin={isLogin}/>}
               </div>
             </div>
-
             <div className={styles.ProfileMenuBox}>
               {profileStudyMenu &&
                 profileStudyMenu?.map((menu, idx: number) => {
