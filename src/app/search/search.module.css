@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: 100%;
-  height: calc(100% - 78px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: var(--gray-50);
@@ -19,13 +19,13 @@
   justify-content: center;
   align-items: end;
   width: 100%;
-  height: 72px;
+  height: fit-content;
   background-color: var(--gray-800);
 }
 
 .recentSearchBox {
   color: var(--gray-800);
-  margin: 20px 30px 15px 30px;
+  margin: 20px 30px 0 30px;
 }
 
 .recentBoxTop {
@@ -48,7 +48,7 @@
 }
 
 .hrLine {
-  margin-top: 16px;
+  margin-top: 14px;
   width: 100%;
   height: 7px;
   background-color: var(--gray-100);
@@ -109,7 +109,7 @@
 .iconBox {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .icon {
