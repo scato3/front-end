@@ -16,20 +16,23 @@ import Logout from "../_component/logout/logout";
 import useDetailActiveStore from "./store/detailActive";
 import ProfileEditModal from "./_component/profileEditModal";
 import Loading from "../_component/Loading";
+import Profile_img from "../../../public/Profile.svg";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export default function Profile() {
   interface IMyProfileData {
-    email: string;
+    email: string | null;
     nickname: string;
     profile_img: string;
-    rating: number;
+    rating: number | null;
     user_id: number;
   }
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [myProfileData, setMyProfileData] = useState<IMyProfileData | null>(null);
   const [profileStudyMenu, setProfileStudyMenu] = useState<{ [key: string]: number }[] | null>(null);
   const { setFrom } = useFromStore();
+  const router = useRouter();
   const { openModal, handleCloseModal, handleOpenModal } = useModal();
   const {
     openModal: openEditModal,
@@ -37,19 +40,34 @@ export default function Profile() {
     handleOpenModal: handleOpenEditModal,
   } = useModal();
   const { setSelectedInfo } = useDetailActiveStore();
-  const { accessToken } = useAuth();
+  const { accessToken, isLogin } = useAuth();
+
+  const { data:profileData, isLoading, error } = useQuery({
+    queryKey: ["USER_INFO", accessToken],
+    queryFn: async () => myProfile(accessToken),
+    enabled: !!accessToken, 
+  });
 
   useEffect(() => {
     setFrom("profile");
   }, []);
 
-  const fetchProfileData = async (token: string) => {
-    const myProfileData = await myProfile(token);
-    if (myProfileData) {
+  useEffect(() => {
+    if (profileData) {
       console.log(myProfileData);
-      return myProfileData;
+      setMyProfileData(profileData.profile);
+      setProfileStudyMenu(profileMenuLabeling(profileData.study_count));
+    } else {
+      !isLogin &&
+        setMyProfileData({
+          email: null, 
+          nickname: "로그인・회원가입 >", 
+          profile_img: Profile_img,
+          rating: null,
+          user_id: -1,
+      })
     }
-  };
+  }, [accessToken]);
 
   const keyLabels = {
     in_favorite: "찜한 스터디",
@@ -66,20 +84,7 @@ export default function Profile() {
     }));
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [profileData] = await Promise.all([fetchProfileData(accessToken)]);
-        if (profileData) {
-          setMyProfileData(profileData?.profile);
-          setProfileStudyMenu(profileMenuLabeling(profileData?.study_count));
-        }
-      } catch (error) {}
-      setIsLoading(false);
-
-    };
-    if (accessToken) fetchData();
-  }, [accessToken]);
+  
 
   return (
     <>
@@ -97,15 +102,24 @@ export default function Profile() {
                 style={{ borderRadius: "100px" }}
               />
               <div className={styles.ProfileEditBox}>
-                <p className={styles.nickname}>{myProfileData?.nickname}</p>
-                <p className={styles.editProfile} onClick={handleOpenEditModal}>
-                  프로필 편집
-                </p>
+              {isLogin ? <>
+                <p className={styles.Nickname}>{myProfileData?.nickname}</p>
+                  <p className={styles.editProfile} onClick={handleOpenEditModal}>
+                    프로필 편집
+                  </p>
+                </> 
+                :<>
+                  <p className={styles.noLoginName} onClick={() => router.push("./login")}>{myProfileData?.nickname}</p>
+                  <p className={styles.noLoginSub}>
+                    쇼터디로 나에게 맞는 스터디를 찾아보세요
+                  </p>
+                </>
+                }
               </div>
             </div>
             <div className={styles.ProfileRatingBox}>
               <div className={styles.ratingBoxTop}>
-                {myProfileData && <RatingBox user={myProfileData} type="myPage" />}
+                {myProfileData && <RatingBox user={myProfileData} type="myPage" isLogin={isLogin}/>}
               </div>
             </div>
 
@@ -142,9 +156,11 @@ export default function Profile() {
             <p className={styles.serviceInfo}>서비스 안내</p>
             <p className={styles.service}>이용약관</p>
             <p className={styles.service}>개인정보 처리방침</p>
+            {isLogin &&
             <p className={styles.service} onClick={handleOpenModal}>
               로그아웃
             </p>
+            }
           </div>
         </div>
       </div>

@@ -28,10 +28,23 @@
   gap: 5px;
 }
 
-.nickname {
+.Nickname {
   font-size: 16px;
   line-height: 26.88px;
   color: var(--gray-800);
+}
+
+.noLoginName {
+  font-size: 16px;
+  line-height: 26.88px;
+  color: var(--gray-800);
+  cursor: pointer;
+}
+
+.noLoginSub {
+  font-size: 16px;
+  color: var(--gray-400);
+  line-height: 26.88px;
 }
 
 .editProfile {
