@@ -16,6 +16,10 @@
   bottom: 0;
 }
 
+.noStudyBox {
+
+}
+
 .Header {
   margin-left: 38px;
   margin-top: 16px;
@@ -143,7 +147,10 @@
 
 .NoContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  margin-top: 50px;
 }
 
 .NoStudyBtn {

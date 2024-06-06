@@ -17,12 +17,14 @@ import NoStudy from "../_component/noStudy/NoStudy";
 import getFilter from "../api/getFilter";
 import Navigation from "../_component/navigation/page";
 import Loading from "../_component/Loading";
+import useAuth from "@/hooks/useAuth";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [postData, setPostData] = useState<IfilterType[]>([]);
   const { setFrom } = useFromStore();
   const router = useRouter();
+  const {isLogin} = useAuth();
 
   useEffect(() => {
     setFrom("home");
@@ -42,9 +44,8 @@ export default function Main_home() {
     };
 
     const timer = setTimeout(getPopular, 700);
-
     return () => clearTimeout(timer);
-  }, []);
+    }, []);
 
   return (
     <>
@@ -71,7 +72,9 @@ export default function Main_home() {
                 size="medium"
                 property="confirm"
                 onClick={() => {
-                  router.push("./fastMatching");
+                  isLogin ?
+                  router.push("./fastMatching")
+                  :router.push("./login")
                 }}
               >
                 빠른 매칭
@@ -80,7 +83,9 @@ export default function Main_home() {
                 size="medium"
                 property="confirm"
                 onClick={() => {
-                  router.push("./createStudy");
+                  isLogin ?
+                  router.push("./createStudy")
+                  :router.push("./login")
                 }}
               >
                 쇼터디 운영

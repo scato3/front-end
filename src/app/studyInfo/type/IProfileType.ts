@@ -1,5 +1,5 @@
 interface IUserProfileType {
-    email: string;
+    email: string | null;
     nickname: string;
     profile_img: string;
     rating: number | null;
