@@ -42,10 +42,14 @@ export default function Profile() {
   const { setSelectedInfo } = useDetailActiveStore();
   const { accessToken, isLogin } = useAuth();
 
-  const { data:profileData, isLoading, error } = useQuery({
+  const {
+    data: profileData,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["USER_INFO", accessToken],
     queryFn: async () => myProfile(accessToken),
-    enabled: !!accessToken, 
+    enabled: !!accessToken,
   });
 
   useEffect(() => {
@@ -58,14 +62,14 @@ export default function Profile() {
     } else {
       !isLogin &&
         setMyProfileData({
-          email: null, 
-          nickname: "로그인・회원가입 >", 
+          email: null,
+          nickname: "로그인・회원가입 >",
           profile_img: Profile_img,
           rating: null,
           user_id: -1,
-      })
+        });
     }
-  }, []);
+  }, [profileData, isLogin]);
 
   const keyLabels = {
     in_favorite: "찜한 스터디",
@@ -84,86 +88,91 @@ export default function Profile() {
 
   return (
     <>
-    {isLoading ? <Loading /> : <>
-      <div className={styles.container}>
-        <div className={styles.contentsBox}>
-          <div className={styles.nav}></div>
-          <div className={styles.ProfileTop}>
-            <div className={styles.ProfileBox}>
-              <Image
-                src={myProfileData?.profile_img ?? (process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL as string)}
-                alt={"프로필 이미지"}
-                width={68}
-                height={68}
-                style={{ borderRadius: "100px" }}
-              />
-              <div className={styles.ProfileEditBox}>
-              {isLogin ? <>
-                <p className={styles.Nickname}>{myProfileData?.nickname}</p>
-                  <p className={styles.editProfile} onClick={handleOpenEditModal}>
-                    프로필 편집
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className={styles.container}>
+            <div className={styles.contentsBox}>
+              <div className={styles.nav}></div>
+              <div className={styles.ProfileTop}>
+                <div className={styles.ProfileBox}>
+                  <Image
+                    src={myProfileData?.profile_img ?? (process.env.NEXT_PUBLIC_UPLOAD_DEFAULT_IMAGE_URL as string)}
+                    alt={"프로필 이미지"}
+                    width={68}
+                    height={68}
+                    style={{ borderRadius: "100px" }}
+                  />
+                  <div className={styles.ProfileEditBox}>
+                    {isLogin ? (
+                      <>
+                        <p className={styles.Nickname}>{myProfileData?.nickname}</p>
+                        <p className={styles.editProfile} onClick={handleOpenEditModal}>
+                          프로필 편집
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className={styles.noLoginName} onClick={() => router.push("./login")}>
+                          {myProfileData?.nickname}
+                        </p>
+                        <p className={styles.noLoginSub}>쇼터디로 나에게 맞는 스터디를 찾아보세요</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.ProfileRatingBox}>
+                  <div className={styles.ratingBoxTop}>
+                    {myProfileData && <RatingBox user={myProfileData} type="myPage" isLogin={isLogin} />}
+                  </div>
+                </div>
+                <div className={styles.ProfileMenuBox}>
+                  {profileStudyMenu &&
+                    profileStudyMenu?.map((menu, idx: number) => {
+                      const key = Object.keys(menu)[0];
+                      const value = menu[key];
+                      const label =
+                        key === "찜"
+                          ? "favorite"
+                          : key === "승인대기"
+                            ? "proposal"
+                            : key === "진행중"
+                              ? "progress"
+                              : "complete";
+                      const pathname = label === "favorite" ? "profile/favorite" : "profile/profileDetail";
+                      return (
+                        <Link
+                          href={{ pathname }}
+                          key={idx}
+                          className={styles.ProfileMenu}
+                          onClick={() => setSelectedInfo(idx)}
+                        >
+                          <p className={styles.studyMenuKey}>{key}</p>
+                          <p className={styles.studyMenuValue}>{value}</p>
+                        </Link>
+                      );
+                    })}
+                </div>
+              </div>
+              <div className={styles.hr}></div>
+              <div className={styles.serviceInfoBox}>
+                <p className={styles.serviceInfo}>서비스 안내</p>
+                <p className={styles.service}>이용약관</p>
+                <p className={styles.service}>개인정보 처리방침</p>
+                {isLogin && (
+                  <p className={styles.service} onClick={handleOpenModal}>
+                    로그아웃
                   </p>
-                </> 
-                :<>
-                  <p className={styles.noLoginName} onClick={() => router.push("./login")}>{myProfileData?.nickname}</p>
-                  <p className={styles.noLoginSub}>
-                    쇼터디로 나에게 맞는 스터디를 찾아보세요
-                  </p>
-                </>
-                }
+                )}
               </div>
             </div>
-            <div className={styles.ProfileRatingBox}>
-              <div className={styles.ratingBoxTop}>
-                {myProfileData && <RatingBox user={myProfileData} type="myPage" isLogin={isLogin}/>}
-              </div>
-            </div>
-            <div className={styles.ProfileMenuBox}>
-              {profileStudyMenu &&
-                profileStudyMenu?.map((menu, idx: number) => {
-                  const key = Object.keys(menu)[0];
-                  const value = menu[key];
-                  const label =
-                    key === "찜"
-                      ? "favorite"
-                      : key === "승인대기"
-                        ? "proposal"
-                        : key === "진행중"
-                          ? "progress"
-                          : "complete";
-                  const pathname = label === "favorite" ? "profile/favorite" : "profile/profileDetail";
-                  return (
-                    <Link
-                      href={{ pathname }}
-                      key={idx}
-                      className={styles.ProfileMenu}
-                      onClick={() => setSelectedInfo(idx)}
-                    >
-                      <p className={styles.studyMenuKey}>{key}</p>
-                      <p className={styles.studyMenuValue}>{value}</p>
-                    </Link>
-                  );
-                })}
-            </div>
           </div>
-          <div className={styles.hr}></div>
-          <div className={styles.serviceInfoBox}>
-            <p className={styles.serviceInfo}>서비스 안내</p>
-            <p className={styles.service}>이용약관</p>
-            <p className={styles.service}>개인정보 처리방침</p>
-            {isLogin &&
-            <p className={styles.service} onClick={handleOpenModal}>
-              로그아웃
-            </p>
-            }
+          <div className={styles.footer}>
+            <Footer selectedIndex={3} />
           </div>
-        </div>
-      </div>
-      <div className={styles.footer}>
-        <Footer selectedIndex={3} />
-      </div>
-      </>
-      }
+        </>
+      )}
       {openModal && (
         <ModalPortal>
           <ModalContainer>
