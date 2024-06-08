@@ -126,7 +126,7 @@ export default function LastFast() {
   useEffect(() => {
     if (displayedIndex === 6) setButtonProperty("disabled");
     if (displayedIndex + 3 >= totalCount) setButtonProperty("disabled");
-  }, [displayedIndex]);
+  }, [displayedIndex, totalCount]);
 
   const handleNextClick = () => {
     setDisplayedIndex((prev) => prev + 3);
