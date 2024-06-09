@@ -26,6 +26,7 @@ import { FreeMode } from "swiper/modules";
 import { IfilterType } from "../type/filterType";
 import useFromStore from "@/utils/from";
 import Loading from "../_component/Loading";
+import RequireLoginModal from "../_component/modal/requireLoginModal";
 
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -90,6 +91,7 @@ export default function StudyList() {
   const category = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState<string | null>("전체");
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
+  const { openModal:openLoginModal, handleOpenModal:handleOpenLoginModal, handleCloseModal:handleCloseLoginModal } = useModal();
   const [sort, setSort] = useState<boolean>(false);
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
@@ -317,7 +319,7 @@ export default function StudyList() {
                 }}
               >
                 {modalData.data.map((data: IfilterType, index: number) => (
-                  <Card key={index} data={data} />
+                  <Card key={index} data={data} handleOpenModal={handleOpenLoginModal}/>
                 ))}
               </div>
             ) : (
@@ -341,6 +343,13 @@ export default function StudyList() {
           </ModalContainer>
         </ModalPortal>
       )}
+      {openLoginModal && (
+            <ModalPortal>
+              <ModalContainer handleCloseModal={handleCloseLoginModal}>
+                <RequireLoginModal handleCloseModal={handleCloseLoginModal} />
+              </ModalContainer>
+            </ModalPortal>
+        )}
     </div>
   );
 }

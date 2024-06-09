@@ -32,6 +32,7 @@ import "swiper/css/pagination";
 import Search_Input from "../_component/input/Search_Input";
 import useAuth from "@/hooks/useAuth";
 import Loading from "../_component/Loading";
+import RequireLoginModal from "../_component/modal/requireLoginModal";
 
 const categories = [
   {
@@ -93,6 +94,7 @@ export default function SearchResult() {
   const category = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState<string | null>("전체");
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
+  const { openModal:openLoginModal, handleOpenModal:handleOpenLoginModal, handleCloseModal:handleCloseLoginModal } = useModal();
   const [sort, setSort] = useState<boolean>(false);
   const { selectedArea, selectedDate, selectedDuration, minCount, maxCount, selectedTendency, setSelectedArea } =
     useFilterStore();
@@ -336,7 +338,7 @@ export default function SearchResult() {
             }}
           >
             {modalData.data.map((data: IfilterType, index: number) => (
-              <Card key={index} data={data} />
+              <Card key={index} data={data} handleOpenModal={handleOpenLoginModal}/>
             ))}
           </div>
         ) : (
@@ -360,6 +362,13 @@ export default function SearchResult() {
           </ModalContainer>
         </ModalPortal>
       )}
+      {openLoginModal && (
+            <ModalPortal>
+              <ModalContainer handleCloseModal={handleCloseLoginModal}>
+                <RequireLoginModal handleCloseModal={handleCloseLoginModal} />
+              </ModalContainer>
+            </ModalPortal>
+        )}
     </div>
   );
 }

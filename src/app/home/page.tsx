@@ -112,7 +112,9 @@ export default function Main_home() {
               </div>
               <div className={styles.card}>
                 {postData.length > 0 ? (
-                  postData.slice(0, 3).map((data, index) => <Card key={index} data={data} />)
+                  postData.slice(0, 3).map((data, index) => 
+                  <Card key={index} data={data} handleOpenModal={handleOpenLoginModal}/>
+                )
                 ) : (
                   <div className={styles.NoStudy}>
                     <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
