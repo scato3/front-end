@@ -14,18 +14,19 @@ interface IButtonFooter {
     children: React.ReactNode;
     isFav: boolean;
     setIsFav: React.Dispatch<React.SetStateAction<boolean>>;
-}
+    handleOpenLoginModal?: () => void;
+} 
 
-export default function ButtonFooter({study_id, onClick, children, isFav, setIsFav }:IButtonFooter) {
-    const { accessToken } = useAuth();
+export default function ButtonFooter({study_id, onClick, children, isFav, setIsFav, handleOpenLoginModal=()=>{return} }:IButtonFooter) {
+    const { accessToken, isLogin} = useAuth();
 
     useEffect(() => {
-        if(isFav){
+        if(isFav && isLogin){
             setIsFav(true);
         }else{
             setIsFav(false);
         }
-    });
+    }, []);
 
     const addFav = async() => {
         try{
@@ -47,12 +48,16 @@ export default function ButtonFooter({study_id, onClick, children, isFav, setIsF
     }
 
     const toggleFavStudy = () => {
-        if(isFav){
-            setIsFav(false);
-            DeleteFav();
-        }else {
-            setIsFav(true);
-            addFav();
+        if(isLogin){
+            if(isFav){
+                setIsFav(false);
+                DeleteFav();
+            }else {
+                setIsFav(true);
+                addFav();
+            }
+        }else{
+            handleOpenLoginModal();
         }
     };
 

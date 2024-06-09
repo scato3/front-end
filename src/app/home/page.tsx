@@ -18,6 +18,10 @@ import getFilter from "../api/getFilter";
 import Navigation from "../_component/navigation/page";
 import Loading from "../_component/Loading";
 import useAuth from "@/hooks/useAuth";
+import RequireLoginModal from "../_component/modal/requireLoginModal";
+import { useModal } from "@/hooks/useModal";
+import ModalContainer from "../_component/ModalContainer";
+import ModalPortal from "../_component/ModalPortal";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -25,6 +29,7 @@ export default function Main_home() {
   const { setFrom } = useFromStore();
   const router = useRouter();
   const {isLogin} = useAuth();
+  const {handleOpenModal:handleOpenLoginModal, openModal:openLoginModal, handleCloseModal:handleCloseLoginModal} = useModal();
 
   useEffect(() => {
     setFrom("home");
@@ -71,22 +76,22 @@ export default function Main_home() {
               <Button
                 size="medium"
                 property="confirm"
-                onClick={() => {
+                onClick={
                   isLogin ?
-                  router.push("./fastMatching")
-                  :router.push("./login")
-                }}
+                  () => {router.push("./fastMatching")}
+                  : handleOpenLoginModal
+                }
               >
                 빠른 매칭
               </Button>
               <Button
                 size="medium"
                 property="confirm"
-                onClick={() => {
+                onClick={
                   isLogin ?
-                  router.push("./createStudy")
-                  :router.push("./login")
-                }}
+                  () => {router.push("./createStudy")}
+                  : handleOpenLoginModal
+                }
               >
                 쇼터디 운영
               </Button>
@@ -119,6 +124,13 @@ export default function Main_home() {
           <div className={styles.footerBox}>
             <Footer />
           </div>
+          {openLoginModal &&
+            <ModalPortal>
+              <ModalContainer handleCloseModal={handleCloseLoginModal}>
+                <RequireLoginModal handleCloseModal={handleCloseLoginModal} />
+              </ModalContainer>
+            </ModalPortal>
+        }
         </>
       )}
     </>
