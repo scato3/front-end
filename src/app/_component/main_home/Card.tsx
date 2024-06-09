@@ -7,7 +7,11 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 
-export default function Card({ data, handleOpenModal }: { data: IfilterType, handleOpenModal: ()=>void }) {
+interface CardProps {
+  data: IfilterType;
+  handleOpenModal?: ()=>void;
+}
+export default function Card({ data, handleOpenModal=()=>{return}}: CardProps) {
   const startDate = moment(data.start_date).format("MM-DD");
   const endDate = data.end_date ? moment(data.end_date).format("MM-DD") : "미정";
   const router = useRouter();
