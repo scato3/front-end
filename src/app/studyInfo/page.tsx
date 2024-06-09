@@ -188,6 +188,15 @@ export default function StudyInfo() {
     setWatchMember("");
   };
 
+  function convertNewlinesToBreaks(text: string) {
+    return text.split("\n").map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  }
+
   return (
     <div className={styles.container}>
       {isLoading ? (
@@ -224,7 +233,7 @@ export default function StudyInfo() {
           </div>
           <div className={styles.studyDetail}>
             <p className={styles.studyTitle}>{data.title}</p>
-            <p className={styles.studyDescription}>{data.description}</p>
+            <p className={styles.studyDescription}>{convertNewlinesToBreaks(data.description)}</p>
             <div className={styles.tagBox}>
               {data.tags.map((tag: string, index: number) => (
                 <p key={index} className={styles.tag}>
