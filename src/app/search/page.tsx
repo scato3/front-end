@@ -80,7 +80,7 @@ export default function Search() {
       console.log(recentKeywords);
       getRecent();
     } else {
-      const recentNoLogin = sessionStorage.getItem("recentKeywords");
+      const recentNoLogin = localStorage.getItem("recentKeywords");
       if (recentNoLogin !== null) {
         const parsedRecent = JSON.parse(recentNoLogin);
         setRecentKeywords(parsedRecent);
@@ -92,7 +92,7 @@ export default function Search() {
 
   useEffect(() => {
     if (!isLogin) {
-      sessionStorage.setItem("recentKeywords", JSON.stringify(recentKeywords));
+      localStorage.setItem("recentKeywords", JSON.stringify(recentKeywords));
     }
   }, [recentKeywords]);
 
@@ -155,13 +155,14 @@ export default function Search() {
         console.log(error);
       }
     } else {
-      sessionStorage.removeItem("recentKeywords");
+      localStorage.removeItem("recentKeywords");
       setRecentKeywords([]);
     }
   };
 
   const handleGoKeyword = (keyword: string) => {
     setQueryString(keyword);
+    addRecentKeyword({ keyword, id: recentKeywords.length });
     setInputValue(keyword);
     router.push(`./search_result?queryString=${queryString}`);
   };

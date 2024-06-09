@@ -23,9 +23,18 @@ const useSearchStore = create<IsearchStore>((set) => ({
   recentKeywords: [],
   setRecentKeywords: (keyword: recent[]) => set({recentKeywords: keyword}),
   addRecentKeyword: (keyword: recent) =>
-    set((state) => ({
-      recentKeywords: [...state.recentKeywords, keyword],
-    })),
+    set((state) => {
+      const updatedKeywords = [
+        keyword,
+        ...state.recentKeywords.filter((k) => k.keyword !== keyword.keyword),
+      ];
+
+      if (updatedKeywords.length > 10) {
+        updatedKeywords.pop();
+      }
+
+      return { recentKeywords: updatedKeywords };
+    }),
   type: "recent",
   setType: (t: string) => set({type: t}),
   inputValue: "",
