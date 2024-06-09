@@ -5,18 +5,22 @@ import styles from "./card.module.css";
 import { IfilterType } from "@/app/type/filterType";
 import moment from "moment";
 import { useRouter } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
 
-export default function Card({ data }: { data: IfilterType }) {
+export default function Card({ data, handleOpenModal }: { data: IfilterType, handleOpenModal: ()=>void }) {
   const startDate = moment(data.start_date).format("MM-DD");
   const endDate = data.end_date ? moment(data.end_date).format("MM-DD") : "미정";
   const router = useRouter();
+  const {isLogin} = useAuth();
 
   return (
     <div
       className={styles.container}
-      onClick={() => {
-        router.push(`/studyInfo?studyId=${data.id}`);
-      }}
+      onClick={
+        isLogin ?
+        () => {router.push(`/studyInfo?studyId=${data.id}`)}
+        : handleOpenModal
+      }
     >
       <div className={styles.cardBox}>
         <div className={styles.titleBox}>
