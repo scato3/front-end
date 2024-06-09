@@ -188,8 +188,8 @@ export default function StudyList() {
   };
 
   const handleGoBefore = () => {
-    if (from === "home") router.push("./home");
-    else if (from === "search") router.push("./search");
+    if (from === "search") router.push("./search");
+    else router.push("./home");
   };
 
   return (

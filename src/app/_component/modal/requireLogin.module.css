@@ -1,0 +1,25 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 340px;
+    height: 158px;
+    background-color: var(--gray-800);
+    border-radius: 4px;
+}
+
+.Content {
+    font-size: 18px;
+    line-height: 30px;
+    color: var(--gray-50);
+    text-align: center;
+    margin-top: 10px;
+}
+
+.BtnBox{
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+
+}

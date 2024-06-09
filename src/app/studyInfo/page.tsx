@@ -1,30 +1,32 @@
 "use client";
 
-import useAuth from "@/hooks/useAuth";
-import { useModal } from "@/hooks/useModal";
-import useFromStore from "@/utils/from";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import Icon_setting from "../../../public/icons/Icon_setting.svg";
-import Loading from "../_component/Loading";
-import ModalContainer from "../_component/ModalContainer";
-import ModalPortal from "../_component/ModalPortal";
-import ButtonFooter from "../_component/footer/ButtonFooter";
-import InfoAlertModal from "../_component/modal/infoAlertModal";
-import Navigation from "../_component/navigation/page";
-import favoriteStudy from "../api/favoriteStudy";
+import styles from "./studyInfo.module.css";
 import GetStudyInfo from "../api/getStudyInfo";
-import GetUserProfile from "../api/getUserProfile";
-import JoinStudy from "../api/joinStudy";
-import useMemberStore from "../studySetting/studyMember/store/useMemberStore";
-import MemberCard from "./_component/MemberCard";
-import Category from "./_component/category";
-import MemberModal from "./_component/memberModal";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import Navigation from "../_component/navigation/page";
+import Icon_setting from "../../../public/icons/Icon_setting.svg";
+import Image from "next/image";
 import StudyQuickBtn from "./_component/studyQuickBtn";
 import StudySettingCard from "./_component/studySettingCard";
-import styles from "./studyInfo.module.css";
+import ButtonFooter from "../_component/footer/ButtonFooter";
+import { useSearchParams } from "next/navigation";
+import MemberCard from "./_component/MemberCard";
+import Category from "./_component/category";
+import { useModal } from "@/hooks/useModal";
+import ModalContainer from "../_component/ModalContainer";
+import ModalPortal from "../_component/ModalPortal";
+import RequireLoginModal from "../_component/modal/requireLoginModal";
+import MemberModal from "./_component/memberModal";
+import GetUserProfile from "../api/getUserProfile";
+import useAuth from "@/hooks/useAuth";
+import JoinStudy from "../api/joinStudy";
+import InfoAlertModal from "../_component/modal/infoAlertModal";
+import { useRouter } from "next/navigation";
+import useFromStore from "@/utils/from";
+import favoriteStudy from "../api/favoriteStudy";
+import useMemberStore from "../studySetting/studyMember/store/useMemberStore";
+import Loading from "../_component/Loading";
 
 interface IFavStudy {
   id: number;
@@ -41,13 +43,14 @@ interface IFavStudy {
 export default function StudyInfo() {
   const router = useRouter();
   const { openModal, handleOpenModal, handleCloseModal } = useModal();
+  const { openModal:openLoginModal, handleOpenModal:handleOpenLoginModal, handleCloseModal:handleCloseLoginModal } = useModal();
   const params = useSearchParams();
   const studyIdString = params.get("studyId");
   const studyId: number = studyIdString ? parseInt(studyIdString) : -1;
   const [tendency, setTendency] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
   const [watchMember, setWatchMember] = useState<string>("");
-  const { accessToken, user } = useAuth();
+  const { accessToken, user, isLogin } = useAuth();
   const [modalMsg, setModalMsg] = useState<string>("");
   const [join, setJoin] = useState<boolean>(false);
   const [isJoined, setIsJoined] = useState<boolean>(false);
@@ -82,7 +85,7 @@ export default function StudyInfo() {
       setTendency(data.tendency);
       setDuration(data.duration);
       setStartDate(data.start_date);
-      setJoinedMembers(data.membersList.filter((member: Imember) => member.exit_status === "None"));
+      setJoinedMembers(data.membersList.filter((member: Imember ) => member.exit_status === "None"));
 
       if (data.matching_type === "Quick") {
         setIsQuick(true);
@@ -94,7 +97,7 @@ export default function StudyInfo() {
         isMember[0]?._owner === true ? setIsOwner(true) : setIsOwner(false);
       }
     }
-    if (error) console.log(error);
+    if(error) console.log(error);
 
     if (favStudyData) {
       const favStudyIdList: number[] = favStudyData.data.map((study: IFavStudy) => study.id);
@@ -104,7 +107,7 @@ export default function StudyInfo() {
   }, [data, favStudyData]);
 
   useEffect(() => {
-    if (watchMember !== "") {
+    if (watchMember !== "" && isLogin) {
       getUserProfile();
       console.log(watchMember, userProfile);
       handleOpenModal();
@@ -139,12 +142,11 @@ export default function StudyInfo() {
   };
 
   const handleJoinStudy = () => {
-    if (data.max_participants_num === data.cur_participants_num) {
-      setModalMsg("참가 인원이 꽉 찬 스터디입니다.");
-    } else if (data.matching_type === "Quick") {
-      setModalMsg("스터디를 가입했어요.");
+    if (isQuick) {
+      setModalMsg("쇼터디에 가입했어요.");
+      setIsJoined(true);
     } else {
-      setModalMsg("스터디를 가입 신청했어요.");
+      setModalMsg("가입 신청을 요청했어요.");
     }
     accessToken && joinStudy(accessToken);
     setJoin(true);
@@ -200,9 +202,7 @@ export default function StudyInfo() {
   return (
     <div className={styles.container}>
       {isLoading ? (
-        <>
-          <Loading />
-        </>
+        <><Loading /></>
       ) : (
         <>
           <Navigation
@@ -228,7 +228,7 @@ export default function StudyInfo() {
           </Navigation>
           <div className={styles.hrOrange}></div>
           <div className={styles.filterBox}>
-            {data.matching_type === "Quick" && <StudyQuickBtn />}
+            {isQuick && <StudyQuickBtn />}
             <Category>{data.category}</Category>
           </div>
           <div className={styles.studyDetail}>
@@ -256,8 +256,14 @@ export default function StudyInfo() {
             <p className={styles.subTitle}>참여 멤버</p>
             <div className={styles.members}>
               {joiednMembers.map((member: Imember, index: number) => (
-                <MemberCard key={index} member={member} onClick={() => setWatchMember(member.nickname)} />
-              ))}
+                  <MemberCard
+                    key={index}
+                    member= {member}
+                    onClick={isLogin? 
+                      () => setWatchMember(member.nickname)
+                    :handleOpenLoginModal}
+                  />)
+              )}
             </div>
           </div>
           <div className={styles.footer}>
@@ -266,22 +272,36 @@ export default function StudyInfo() {
                 isFav={isFav}
                 setIsFav={setIsFav}
                 study_id={studyId}
-                onClick={() => {
-                  router.push(`../chat?studyId=${studyId}`);
-                }}
+                onClick={
+                  () => {router.push(`../chat?studyId=${studyId}`)}
+                }
               >
                 입장하기
               </ButtonFooter>
             ) : (
-              <ButtonFooter isFav={isFav} setIsFav={setIsFav} study_id={studyId} onClick={handleJoinStudy}>
+              <ButtonFooter 
+                isFav={isFav} 
+                setIsFav={setIsFav} 
+                study_id={studyId} 
+                handleOpenLoginModal={handleOpenLoginModal}
+                onClick={
+                  isLogin ? handleJoinStudy : handleOpenLoginModal}
+              >
                 가입하기
               </ButtonFooter>
             )}
           </div>
-          {openModal && (
+          {openModal && isLogin && (
             <ModalPortal>
               <ModalContainer handleCloseModal={handleCloseProfileModal}>
                 <MemberModal handleCloseModal={handleCloseProfileModal} user={userProfile} study={userStudy} />
+              </ModalContainer>
+            </ModalPortal>
+          )}
+          {openLoginModal && (
+            <ModalPortal>
+              <ModalContainer handleCloseModal={handleCloseLoginModal}>
+                <RequireLoginModal handleCloseModal={handleCloseLoginModal} />
               </ModalContainer>
             </ModalPortal>
           )}
