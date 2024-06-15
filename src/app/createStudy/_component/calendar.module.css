@@ -69,6 +69,11 @@
   color: var(--main-200);
 }
 
+.disabledDate {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .ButtonContainer {
   position: absolute;
   width: 100%;
