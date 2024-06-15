@@ -16,9 +16,7 @@ interface ICalendarProps {
 
 export default function AreaCalendar({ handleCloseModal }: ICalendarProps) {
   const [currentDate, setCurrentDate] = useState(moment());
-
   const [selectDate, setSelectDate] = useState<string | null>(null);
-
   const { setSelectedDate } = useFilterStore();
   const [buttonProperty, setButtonProperty] = useState<ButtonProperty>("disabled");
 
@@ -31,7 +29,9 @@ export default function AreaCalendar({ handleCloseModal }: ICalendarProps) {
   };
 
   const handleDateClick = (date: string) => {
-    setSelectDate(date);
+    if (moment(date).isSameOrAfter(moment(), "day")) {
+      setSelectDate(date);
+    }
   };
 
   const handleClickBtn = () => {
@@ -69,11 +69,12 @@ export default function AreaCalendar({ handleCloseModal }: ICalendarProps) {
       const week: JSX.Element[] = [];
       for (let i = 0; i < 7; i++) {
         const date = currentDay.format("YYYY-MM-DD");
+        const isPastDate = currentDay.isBefore(moment(), "day");
         const isSelected = date === selectDate;
         week.push(
           <div
             key={date}
-            className={`${styles.dayCell} ${isSelected ? styles.selectedDate : ""}`}
+            className={`${styles.dayCell} ${isSelected ? styles.selectedDate : ""} ${isPastDate ? styles.disabledDate : ""}`}
             onClick={() => handleDateClick(date)}
           >
             {currentDay.month() === currentDate.month() ? currentDay.format("D") : ""}
@@ -95,11 +96,11 @@ export default function AreaCalendar({ handleCloseModal }: ICalendarProps) {
     <div className={styles.calendarContainer}>
       <div className={styles.header}>
         <button className={styles.navigationButton} onClick={goToPreviousMonth}>
-          <Image src={Btn_arrow_left} width={36} height={36} alt="왼쪽 버튼" />
+          <Image src={Btn_arrow_left} width={24} height={24} alt="왼쪽 버튼" />
         </button>
         <div className={styles.monthYear}>{currentDate.format("YYYY년 MM월")}</div>
         <button className={styles.navigationButton} onClick={goToNextMonth}>
-          <Image src={Btn_arrow_right} width={36} height={36} alt="오른쪽 버튼" />
+          <Image src={Btn_arrow_right} width={24} height={24} alt="오른쪽 버튼" />
         </button>
       </div>
       <div className={styles.daysOfWeek}>{renderDaysOfWeek()}</div>

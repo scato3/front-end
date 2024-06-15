@@ -9,12 +9,13 @@ import Button from "@/app/_component/button/Button";
 import useFastStore from "../store/FastStore";
 import { ICloseModalProps } from "@/app/type/closeModalType";
 
-export default function FastCalendar({ handleCloseModal }: ICloseModalProps) {
-  const [currentDate, setCurrentDate] = useState(moment());
+type ButtonProperty = "disabled" | "confirm" | "default" | "pressed";
 
+export default function Calendar({ handleCloseModal }: ICloseModalProps) {
+  const [currentDate, setCurrentDate] = useState(moment());
   const [selectDate, setSelectDate] = useState<string | null>(null);
   const { setSelectedDate } = useFastStore();
-  const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
+  const [buttonProperty, setButtonProperty] = useState<ButtonProperty>("disabled");
 
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => moment(prevDate).subtract(1, "month"));
@@ -25,7 +26,9 @@ export default function FastCalendar({ handleCloseModal }: ICloseModalProps) {
   };
 
   const handleDateClick = (date: string) => {
-    setSelectDate(date);
+    if (moment(date).isSameOrAfter(moment(), "day")) {
+      setSelectDate(date);
+    }
   };
 
   const handleClickBtn = () => {
@@ -63,11 +66,12 @@ export default function FastCalendar({ handleCloseModal }: ICloseModalProps) {
       const week: JSX.Element[] = [];
       for (let i = 0; i < 7; i++) {
         const date = currentDay.format("YYYY-MM-DD");
+        const isPastDate = currentDay.isBefore(moment(), "day");
         const isSelected = date === selectDate;
         week.push(
           <div
             key={date}
-            className={`${styles.dayCell} ${isSelected ? styles.selectedDate : ""}`}
+            className={`${styles.dayCell} ${isSelected ? styles.selectedDate : ""} ${isPastDate ? styles.disabledDate : ""}`}
             onClick={() => handleDateClick(date)}
           >
             {currentDay.month() === currentDate.month() ? currentDay.format("D") : ""}

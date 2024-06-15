@@ -1,8 +1,8 @@
 .calendarContainer {
   position: relative;
-  padding-top: 45px;
   width: 500px;
   height: 550px;
+  padding-top: 30px;
   background-color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -10,17 +10,18 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 24px;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 36px;
   padding: 0 14px;
 }
 
 .monthYear {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
   color: var(--gray-400);
-  line-height: 35.2px;
+  line-height: 32px;
 }
 
 .navigationButton {
@@ -33,8 +34,8 @@
   display: flex;
   justify-content: space-between;
   font-weight: 500;
-  font-size: 22px;
-  line-height: 35.2px;
+  font-size: 20px;
+  line-height: 32px;
   color: var(--gray-400);
   padding: 0 8px;
 }
@@ -56,9 +57,9 @@
   justify-content: center;
   align-items: center;
   margin-top: 15px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
-  line-height: 40px;
+  line-height: 32px;
   color: var(--gray-400);
   cursor: pointer;
   width: 100%;
@@ -66,6 +67,11 @@
 
 .selectedDate {
   color: var(--main-200);
+}
+
+.disabledDate {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .ButtonContainer {
@@ -109,16 +115,15 @@
 
 @media (max-width: 500px) {
   .calendarContainer {
-    width: 450px;
+    width: 500px;
   }
   .DurationContainer {
     width: 382px;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
   .ButtonContainer {
-    width: 380px;
-    left: 55px;
+    width: calc(100% - 24px);
   }
 }

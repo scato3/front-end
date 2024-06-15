@@ -2,7 +2,7 @@
   position: relative;
   width: 500px;
   height: 550px;
-  padding-top: 20px;
+  padding-top: 30px;
   background-color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -69,6 +69,11 @@
   color: var(--main-200);
 }
 
+.disabledDate {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .ButtonContainer {
   position: absolute;
   width: 100%;
@@ -82,7 +87,7 @@
 .DurationContainer {
   position: relative;
   padding: 40px 32px 0 32px;
-  width: 436px;
+  width: 500px;
   height: 550px;
   background-color: white;
   border-top-left-radius: 10px;

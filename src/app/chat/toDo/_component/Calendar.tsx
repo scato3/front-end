@@ -14,11 +14,9 @@ interface ICalendarProps {
   handleCloseModal: () => void;
 }
 
-export default function Calendar({ handleCloseModal }: ICalendarProps) {
+export default function AreaCalendar({ handleCloseModal }: ICalendarProps) {
   const [currentDate, setCurrentDate] = useState(moment());
-
   const [selectDate, setSelectDate] = useState<string>("");
-
   const { setSelectedDate } = useToDoStore();
   const [buttonProperty, setButtonProperty] = useState<ButtonProperty>("disabled");
 
@@ -31,7 +29,9 @@ export default function Calendar({ handleCloseModal }: ICalendarProps) {
   };
 
   const handleDateClick = (date: string) => {
-    setSelectDate(date);
+    if (moment(date).isSameOrAfter(moment(), "day")) {
+      setSelectDate(date);
+    }
   };
 
   const handleClickBtn = () => {
@@ -40,8 +40,10 @@ export default function Calendar({ handleCloseModal }: ICalendarProps) {
   };
 
   useEffect(() => {
-    if (selectDate) {
+    if (selectDate && moment(selectDate).isSameOrAfter(moment(), "day")) {
       setButtonProperty("confirm");
+    } else {
+      setButtonProperty("disabled");
     }
   }, [selectDate]);
 
@@ -67,11 +69,12 @@ export default function Calendar({ handleCloseModal }: ICalendarProps) {
       const week: JSX.Element[] = [];
       for (let i = 0; i < 7; i++) {
         const date = currentDay.format("YYYY-MM-DD");
+        const isPastDate = currentDay.isBefore(moment(), "day");
         const isSelected = date === selectDate;
         week.push(
           <div
             key={date}
-            className={`${styles.dayCell} ${isSelected ? styles.selectedDate : ""}`}
+            className={`${styles.dayCell} ${isSelected ? styles.selectedDate : ""} ${isPastDate ? styles.disabledDate : ""}`}
             onClick={() => handleDateClick(date)}
           >
             {currentDay.month() === currentDate.month() ? currentDay.format("D") : ""}
