@@ -4,14 +4,14 @@ import styles from "./profileEditModal.module.css";
 import Image from "next/image";
 import IconClose from "../../../../public/icons/studyInfo/Icon_close.svg";
 import Button from "@/app/_component/button/Button";
-
+import editProfile from "@/app/api/editProfile";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import usedNickname from "../../../../public/Caution_editProfile_used.svg";
 import validationNickname from "../../../../public/Caution_editProfile_validation.svg";
 import EditProfileImage from "@/app/_component/profile/EditProfileImage";
 import checkDupNickname from "../../api/checkDupNickname";
-import setProfile from "../../api/setProfile";
+
 import uploadImage from "../../api/uploadImage";
 import useEditProfileStore from "../store/editProfile";
 
@@ -52,7 +52,7 @@ export default function ProfileEditModal({ nickname, profileImage, handleCloseMo
         }
 
         setProfileData({ ...profileData, profileImage: updatedProfileImage });
-        const res = await setProfile({ ...profileData, profileImage: updatedProfileImage }, accessToken);
+        const res = await editProfile({ ...profileData, profileImage: updatedProfileImage }, accessToken);
         }
     };
 
