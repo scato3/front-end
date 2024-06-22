@@ -68,6 +68,8 @@ export default function ChatPage() {
     setShowNotice((prevState) => !prevState);
   };
 
+  const { accessToken, user } = useAuth();
+
   useEffect(() => {
     const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_CHAT_URL as string, {
       path: "/chat/socket.io/",
@@ -80,6 +82,17 @@ export default function ChatPage() {
     newSocket.on("error", (error: unknown) => {
       console.log("Socket connection error:", error);
     });
+
+    newSocket.on("message received", (newMessageReceived: IMessage) => {
+      setMessages((prevMessages) => {
+        const messageExists = prevMessages.some((message) => message._id === newMessageReceived._id);
+        if (!messageExists) {
+          return [...prevMessages, newMessageReceived];
+        }
+        return prevMessages;
+      });
+    });
+
     newSocket.on("user joined", (data) => {
       if (data?.joinDates.length > 0) {
         setJoinDate(
@@ -89,13 +102,18 @@ export default function ChatPage() {
         );
       }
     });
+
     setSocket(newSocket);
 
+    // Clean up the socket connection and event listeners on component unmount
     return () => {
+      newSocket.off("message received");
+      newSocket.off("typing");
+      newSocket.off("stop typing");
+      newSocket.off("user joined");
       newSocket.disconnect();
     };
-  }, []);
-  const { accessToken, user } = useAuth();
+  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
