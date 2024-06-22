@@ -71,6 +71,8 @@ export default function ChatPage() {
   const { accessToken, user } = useAuth();
 
   useEffect(() => {
+    if (!user) return;
+
     const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_CHAT_URL as string, {
       path: "/chat/socket.io/",
     });
@@ -81,16 +83,6 @@ export default function ChatPage() {
     newSocket.on("stop typing", () => setIsTyping(false));
     newSocket.on("error", (error: unknown) => {
       console.log("Socket connection error:", error);
-    });
-
-    newSocket.on("message received", (newMessageReceived: IMessage) => {
-      setMessages((prevMessages) => {
-        const messageExists = prevMessages.some((message) => message._id === newMessageReceived._id);
-        if (!messageExists) {
-          return [...prevMessages, newMessageReceived];
-        }
-        return prevMessages;
-      });
     });
 
     newSocket.on("user joined", (data) => {
@@ -105,7 +97,6 @@ export default function ChatPage() {
 
     setSocket(newSocket);
 
-    // Clean up the socket connection and event listeners on component unmount
     return () => {
       newSocket.off("message received");
       newSocket.off("typing");
@@ -114,6 +105,27 @@ export default function ChatPage() {
       newSocket.disconnect();
     };
   }, [user]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("message received", (newMessageReceived: IMessage) => {
+        // Check for duplicate messages
+        setMessages((prevMessages) => {
+          const messageExists = prevMessages.some((message) => message._id === newMessageReceived._id);
+          if (!messageExists) {
+            return [...prevMessages, newMessageReceived];
+          }
+          return prevMessages;
+        });
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("message received");
+      }
+    };
+  }, [socket]);
 
   useEffect(() => {
     const fetchData = async () => {
