@@ -69,7 +69,10 @@ export default function ChatPage() {
   };
 
   useEffect(() => {
-    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_PROD_API as string);
+    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_CHAT_URL as string, {
+      path: "/chat/socket.io/",
+    });
+
     newSocket.emit("setup", user);
     newSocket.on("connected", () => setSocketConnected(true));
     newSocket.on("typing", () => setIsTyping(true));
