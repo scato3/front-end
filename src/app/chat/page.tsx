@@ -27,6 +27,7 @@ import postMessage from "../api/chat/postMessage";
 import Submenu from "./_component/SubMenu";
 import ChatBox from "./_component/chatBox";
 import styles from "./chat.module.css";
+import moment from "moment";
 
 export default function ChatPage() {
   interface IChatData extends IChat {
@@ -47,6 +48,7 @@ export default function ChatPage() {
   };
 
   const toast = useToast();
+  const currentTime = moment().toISOString();
   const [showNotice, setShowNotice] = useState<boolean>(false);
   const [chatData, setChatData] = useState<IChatData | null>(null);
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -69,6 +71,10 @@ export default function ChatPage() {
   };
 
   const { accessToken, user } = useAuth();
+
+  useEffect(() => {
+    console.log("time", currentTime);
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -112,6 +118,7 @@ export default function ChatPage() {
   useEffect(() => {
     if (socket) {
       socket.on("message received", (newMessageReceived: IMessage) => {
+        console.log(newMessageReceived);
         // Check for duplicate messages
         setMessages((prevMessages) => {
           const messageExists = prevMessages.some((message) => message._id === newMessageReceived._id);
@@ -179,6 +186,7 @@ export default function ChatPage() {
           content: newMessage,
           chat: { _id: chatData?._id as string },
           sender: { _id: user?.userObjectId as string, nickname: user?.nickname ?? "" },
+          createdAt: currentTime,
         };
         setMessages([...messages, data]);
         if (socket) socket.emit("new message", data);
@@ -199,6 +207,7 @@ export default function ChatPage() {
     try {
       setLoading(true);
       const data = await getMessage(chatData?._id, accessToken);
+      console.log(data);
       setMessages(data.messages);
       setLoading(false);
       if (socket && chatData) {
