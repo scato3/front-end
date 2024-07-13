@@ -6,7 +6,7 @@ export interface IMessage {
   content: string;
   readBy?: IUser[];
   sender: IUser;
-  createdAt?: Date;
+  createdAt: Date | string;
   updatedAt?: Date;
   __v?: number;
   _id?: string;
