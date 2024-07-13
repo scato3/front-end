@@ -75,6 +75,9 @@ export default function ChatPage() {
 
     const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_CHAT_URL as string, {
       path: "/chat/socket.io/",
+      auth: {
+        token: `Bearer ${accessToken}`,
+      },
     });
 
     newSocket.emit("setup", user);
@@ -133,6 +136,7 @@ export default function ChatPage() {
         if (accessToken) {
           const chatData = await addJoinToGroup(studyId, accessToken);
           setChatData(chatData);
+          console.log(chatData);
 
           if (chatData?.joinDates.length > 0) {
             setJoinDate(
@@ -171,15 +175,13 @@ export default function ChatPage() {
       if (e.nativeEvent.isComposing) return;
       try {
         setNewMessage("");
-        const data = await postMessage(
-          {
-            content: newMessage,
-            chatId: chatData?._id,
-          },
-          accessToken,
-        );
-        if (socket) socket.emit("new message", data);
+        const data: IMessage = {
+          content: newMessage,
+          chat: { _id: chatData?._id as string },
+          sender: { _id: user?.userObjectId as string, nickname: user?.nickname ?? "" },
+        };
         setMessages([...messages, data]);
+        if (socket) socket.emit("new message", data);
       } catch (error) {
         toast({
           title: "메시지 발송 실패",
@@ -197,7 +199,7 @@ export default function ChatPage() {
     try {
       setLoading(true);
       const data = await getMessage(chatData?._id, accessToken);
-      setMessages(data);
+      setMessages(data.messages);
       setLoading(false);
       if (socket && chatData) {
         socket.emit("join chat", chatData);
@@ -248,6 +250,7 @@ export default function ChatPage() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
   return (
     <div className={styles.chatWrapper}>
       <div className={styles.navBox}>
@@ -332,7 +335,6 @@ export default function ChatPage() {
           <div className={styles.UploadContainer}>
             <Image alt="업로드 이미지" src={Plus} width={24} height={24}></Image>
           </div>
-
           <FormControl onKeyDown={sendMessage} isRequired mt={3} id="first-name">
             <InputGroup size="small">
               <Input

@@ -25,6 +25,7 @@ export default function Kakao() {
       setAccessToken(data.accessToken);
       setIsLogin(true);
       setUser(data);
+      console.log(data);
       if (data.userId)
         getKeyData(data.userId)
           .then((key: string) => {
