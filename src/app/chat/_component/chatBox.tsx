@@ -6,7 +6,7 @@ import { isSameSender } from "@/utils/chatLogics";
 import { Avatar } from "@chakra-ui/react";
 import moment from "moment-timezone";
 import "moment/locale/ko";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from "./chatBox.module.css";
 interface IJoinData extends IJoinDate {
   userInfo: IUser;
@@ -27,6 +27,7 @@ export default function ChatBox({
     joiner?: string[];
   }
   const [chatGroupByDate, setChatGroupByDate] = useState<IChatGroupByDate[] | null>(null);
+  const chatBoxRef = useRef<HTMLDivElement | null>(null);
 
   function groupedMessages(messages: IMessage[]) {
     let joinGroups: Record<string, { joinDate: string; joiner: string[] }> = {};
@@ -69,11 +70,19 @@ export default function ChatBox({
   }
 
   useEffect(() => {
-    if (messages?.length > 0 || joinDates?.length > 0) setChatGroupByDate(groupedMessages(messages));
+    if (messages?.length > 0 || joinDates?.length > 0) {
+      setChatGroupByDate(groupedMessages(messages));
+    }
   }, [messages, joinDates]);
 
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+    }
+  }, [messages, joinDates, chatGroupByDate]);
+
   return (
-    <div className={styles.chatBox}>
+    <div className={styles.chatBox} ref={chatBoxRef}>
       {chatGroupByDate &&
         chatGroupByDate.map((group, idx) => (
           <div key={idx} className={styles.chatContainer}>
