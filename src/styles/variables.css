@@ -1,38 +1,16 @@
 :root {
-  --gray-900: #0d0d0d;
-  --gray-800: #413f3f;
-  --gray-700: #5a5857;
-  --gray-600: #757271;
-  --gray-400: #a7a5a4;
-  --gray-200: #d9d9d8;
+  --gray: #ebebeb;
   --gray-100: #e6e5e5;
-  --gray-50: #f2f2f2;
+  --gray-600: #757271;
+  --gray-000: #a1a1a1;
+  --gray-200: #d9d9d8;
+  --gray-400: #a7a5a4;
+  --gray-111: #505050;
+  --gray-700: #5a5857;
+  --gray-777: #bebebe;
+  --black-000: #413f4f;
+  --black: #000000;
+  --white: #ffffff;
 
-  --main-200: #ff6414;
-  --main-100: #ffd4bd;
-  --main-50: #fff3ec;
-
-  --bg-default: #ffffff;
-  --bg-light: #f2f2f2;
-  --bg-deep: #e6e5e5;
-  --bg-point: #fff3ec;
-
-  --text-heading: #0d0d0d;
-  --text-sub: #413f3f;
-  --text-default: #5a5857;
-  --text-info: #757271;
-  --text-disabled: #a7a5a4;
-
-  --icon-sub: #757271;
-  --icon-default: #a7a5a4;
-  --icon-disabled: #d9d9d8;
-  --icon-point: #ff6414;
-  --icon-point-light: #ffd4bd;
-
-  --border-default: #d9d9d8;
-  --border-strong: #a7a5a4;
-  --border-disabled: #e6e5e5;
-
-  --divider-default: #e6e5e5;
-  --divider-strong: #ffd4bd;
+  --orange-1: #ff6414;
 }

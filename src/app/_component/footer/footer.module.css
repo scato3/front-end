@@ -1,10 +1,10 @@
 .Container {
   width: 100%;
-  height: 78px;
+  height: 63px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: var(--gray-800);
+  background-color: var(--black);
 }
 
 .ImageContainer {

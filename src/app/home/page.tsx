@@ -22,14 +22,19 @@ import RequireLoginModal from "../_component/modal/requireLoginModal";
 import { useModal } from "@/hooks/useModal";
 import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
+import Header from "../_component/header/Header";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [postData, setPostData] = useState<IfilterType[]>([]);
   const { setFrom } = useFromStore();
   const router = useRouter();
-  const {isLogin} = useAuth();
-  const {handleOpenModal:handleOpenLoginModal, openModal:openLoginModal, handleCloseModal:handleCloseLoginModal} = useModal();
+  const { isLogin } = useAuth();
+  const {
+    handleOpenModal: handleOpenLoginModal,
+    openModal: openLoginModal,
+    handleCloseModal: handleCloseLoginModal,
+  } = useModal();
 
   useEffect(() => {
     setFrom("home");
@@ -50,7 +55,7 @@ export default function Main_home() {
 
     const timer = setTimeout(getPopular, 700);
     return () => clearTimeout(timer);
-    }, []);
+  }, []);
 
   return (
     <>
@@ -59,27 +64,17 @@ export default function Main_home() {
       ) : (
         <>
           <div className={styles.container}>
-            <Navigation dark={true} onClick={() => {}}>
-              <Image className={styles.iconBell} src={Alert} width={48} height={48} alt="bell" />
-              <Image
-                className={styles.iconSearch}
-                src={Search}
-                width={48}
-                height={48}
-                alt="search"
-                onClick={() => {
-                  router.push("./search");
-                }}
-              />
-            </Navigation>
+            <Header />
             <div className={styles.buttonBox}>
               <Button
                 size="medium"
                 property="confirm"
                 onClick={
-                  isLogin ?
-                  () => {router.push("./fastMatching")}
-                  : handleOpenLoginModal
+                  isLogin
+                    ? () => {
+                        router.push("./fastMatching");
+                      }
+                    : handleOpenLoginModal
                 }
               >
                 빠른 매칭
@@ -88,9 +83,11 @@ export default function Main_home() {
                 size="medium"
                 property="confirm"
                 onClick={
-                  isLogin ?
-                  () => {router.push("./createStudy")}
-                  : handleOpenLoginModal
+                  isLogin
+                    ? () => {
+                        router.push("./createStudy");
+                      }
+                    : handleOpenLoginModal
                 }
               >
                 쇼터디 운영
@@ -112,9 +109,9 @@ export default function Main_home() {
               </div>
               <div className={styles.card}>
                 {postData.length > 0 ? (
-                  postData.slice(0, 3).map((data, index) => 
-                  <Card key={index} data={data} handleOpenModal={handleOpenLoginModal}/>
-                )
+                  postData
+                    .slice(0, 3)
+                    .map((data, index) => <Card key={index} data={data} handleOpenModal={handleOpenLoginModal} />)
                 ) : (
                   <div className={styles.NoStudy}>
                     <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
@@ -126,13 +123,13 @@ export default function Main_home() {
           <div className={styles.footerBox}>
             <Footer />
           </div>
-          {openLoginModal &&
+          {openLoginModal && (
             <ModalPortal>
               <ModalContainer handleCloseModal={handleCloseLoginModal}>
                 <RequireLoginModal handleCloseModal={handleCloseLoginModal} />
               </ModalContainer>
             </ModalPortal>
-        }
+          )}
         </>
       )}
     </>
