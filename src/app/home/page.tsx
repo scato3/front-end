@@ -3,10 +3,7 @@
 import styles from "./main_home.module.css";
 import Footer from "../_component/footer/footer";
 import Image from "next/image";
-import Search from "../../../public/icons/Icon_search.svg";
-import Alert from "../../../public/icons/_main01/Icon_alert.svg";
-import Button from "../_component/button/Button";
-import ButtonBox from "../_component/main_home/ButtonBox";
+
 import Card from "../_component/main_home/Card";
 import Btn_arrow from "../../../public/icons/Btn_arrow_sm_right.svg";
 import { useRouter } from "next/navigation";
@@ -15,7 +12,6 @@ import { useEffect, useState } from "react";
 import { IfilterType } from "@/app/type/filterType";
 import NoStudy from "../_component/noStudy/NoStudy";
 import getFilter from "../api/getFilter";
-import Navigation from "../_component/navigation/page";
 import Loading from "../_component/Loading";
 import useAuth from "@/hooks/useAuth";
 import RequireLoginModal from "../_component/modal/requireLoginModal";
@@ -23,6 +19,7 @@ import { useModal } from "@/hooks/useModal";
 import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
 import Header from "../_component/header/Header";
+import SpeedMatchingBtn from "./components/SpeedMatchingBtn";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -63,41 +60,13 @@ export default function Main_home() {
         <Loading />
       ) : (
         <>
+          <Header />
           <div className={styles.container}>
-            <Header />
-            <div className={styles.buttonBox}>
-              <Button
-                size="medium"
-                property="confirm"
-                onClick={
-                  isLogin
-                    ? () => {
-                        router.push("./fastMatching");
-                      }
-                    : handleOpenLoginModal
-                }
-              >
-                빠른 매칭
-              </Button>
-              <Button
-                size="medium"
-                property="confirm"
-                onClick={
-                  isLogin
-                    ? () => {
-                        router.push("./createStudy");
-                      }
-                    : handleOpenLoginModal
-                }
-              >
-                쇼터디 운영
-              </Button>
+            <div className={styles.speedBtnBox}>
+              <SpeedMatchingBtn />
             </div>
-            <div className={styles.ButtonBox}>
-              <ButtonBox />
-            </div>
+            <div className={styles.ButtonBox}></div>
             <div className={styles.ContentContainer}>
-              <div className={styles.line}></div>
               <div className={styles.titleBox}>
                 <p>신규 쇼터디</p>
                 <div className={styles.moreContainer}>

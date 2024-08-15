@@ -6,19 +6,11 @@
   flex-direction: column;
 }
 
-.iconSearch,
-.iconBell {
-  position: absolute;
-  top: 16px;
-  cursor: pointer;
-}
-
-.iconSearch {
-  right: 76px;
-}
-
-.iconBell {
-  right: 24px;
+.speedBtnBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
 }
 
 .buttonBox {
@@ -69,7 +61,7 @@
 }
 
 .footerBox {
-  position: sticky;
+  position: absolute;
   width: 100%;
   bottom: 0;
 }
