@@ -1,26 +1,30 @@
-.container {
+.swiperContainer {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  padding: 10px 20px 30px 20px;
+  position: relative;
 }
 
-.imageContainer {
-  background-color: var(--gray-100);
-  width: 96px;
-  height: 96px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  cursor: pointer;
+.iconItem {
+  text-align: center;
+}
+
+.iconRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  justify-items: center;
+}
+
+.iconRowSecond {
+  width: 50%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  justify-items: start;
 }
 
 .category {
   color: var(--gray-700);
-  text-decoration: none;
-  font-size: 16px;
-  line-height: 27px;
+  font-size: 13px;
+  line-height: 21.84px;
 }

@@ -4,7 +4,6 @@ import styles from "./search.module.css";
 import Search_Input from "../_component/input/Search_Input";
 import Navigation from "../_component/navigation/page";
 import Footer from "../_component/footer/footer";
-import IconBell from "../../../public/icons/_main01/Icon_alert.svg";
 import Image from "next/image";
 import SearchTag from "./_component/SearchTag";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -66,7 +65,7 @@ export default function Search() {
   const { accessToken, isLogin } = useAuth();
   const { setQuickMatch, setSortSelected } = useSortStore();
   const { setFrom } = useFromStore();
-  const [ isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const router = useRouter();
 
@@ -191,70 +190,75 @@ export default function Search() {
   };
 
   return (
-    <>{isLoading ? <Loading /> : <>
-      <div className={styles.container}>
-        <Navigation dark={true} onClick={handleGoBefore}>
-          <Image className={styles.iconBell} src={IconBell} width={48} height={48} alt="bell" />
-        </Navigation>
-        <div className={styles.searchInputBox}>
-          <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter} />
-        </div>
-        <div className={styles.recentSearchBox}>
-          <div className={styles.recentBoxTop}>
-            <p className={styles.recent}>최근 검색어</p>
-            <p className={styles.delete} onClick={handleDeleteAll}>
-              지우기
-            </p>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <div className={styles.container}>
+            <Navigation dark={true} onClick={handleGoBefore}></Navigation>
+            <div className={styles.searchInputBox}>
+              <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter} />
+            </div>
+            <div className={styles.recentSearchBox}>
+              <div className={styles.recentBoxTop}>
+                <p className={styles.recent}>최근 검색어</p>
+                <p className={styles.delete} onClick={handleDeleteAll}>
+                  지우기
+                </p>
+              </div>
+              <div>
+                <Swiper className={styles.recentKeywordBox} modules={[FreeMode]} slidesPerView={4} spaceBetween={10}>
+                  {recentKeywords.map((item, idx) => (
+                    <SwiperSlide className={styles.recentKeyword} key={idx}>
+                      <SearchTag
+                        goKeyword={() => handleGoKeyword(item.keyword)}
+                        handleDelete={() => handleDelete(item.id)}
+                      >
+                        {item.keyword}
+                      </SearchTag>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+            <div className={styles.hrLine}></div>
+            <div className={styles.popularBox}>
+              <p>인기 검색어</p>
+              <div className={styles.popularKeywordBox}>
+                {popularKeywords &&
+                  popularKeywords.map((keyword, index) => (
+                    <p
+                      onClick={() => handleGoKeyword(keyword)}
+                      key={index}
+                      className={`${styles.popularKeyword} ${styles[`keyword${index + 1}`]}`}
+                    >{`${index + 1}. ${keyword}`}</p>
+                  ))}
+              </div>
+            </div>
+            <div className={styles.hrLine}></div>
+            <div className={styles.shortCutBox}>
+              <p>바로가기</p>
+              <div className={styles.iconBox}>
+                {shortCutIcons.map((icon, index) => (
+                  <Image
+                    onClick={() => handleShortcut(icon.ref)}
+                    className={styles.icon}
+                    key={index}
+                    src={icon.path}
+                    width={96}
+                    height={96}
+                    alt={icon.alt}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-          <div>
-            <Swiper className={styles.recentKeywordBox} modules={[FreeMode]} slidesPerView={4} spaceBetween={10}>
-              {recentKeywords.map((item, idx) => (
-                <SwiperSlide className={styles.recentKeyword} key={idx}>
-                  <SearchTag goKeyword={() => handleGoKeyword(item.keyword)} handleDelete={() => handleDelete(item.id)}>
-                    {item.keyword}
-                  </SearchTag>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+          <div className={styles.footerBox}>
+            <Footer selectedIndex={1} />
           </div>
-        </div>
-        <div className={styles.hrLine}></div>
-        <div className={styles.popularBox}>
-          <p>인기 검색어</p>
-          <div className={styles.popularKeywordBox}>
-            {popularKeywords &&
-              popularKeywords.map((keyword, index) => (
-                <p
-                  onClick={() => handleGoKeyword(keyword)}
-                  key={index}
-                  className={`${styles.popularKeyword} ${styles[`keyword${index + 1}`]}`}
-                >{`${index + 1}. ${keyword}`}</p>
-              ))}
-          </div>
-        </div>
-        <div className={styles.hrLine}></div>
-        <div className={styles.shortCutBox}>
-          <p>바로가기</p>
-          <div className={styles.iconBox}>
-            {shortCutIcons.map((icon, index) => (
-              <Image
-                onClick={() => handleShortcut(icon.ref)}
-                className={styles.icon}
-                key={index}
-                src={icon.path}
-                width={96}
-                height={96}
-                alt={icon.alt}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className={styles.footerBox}>
-        <Footer selectedIndex={1} />
-      </div>
-      </>
-      } 
+        </>
+      )}
     </>
   );
 }

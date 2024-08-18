@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./main_home.module.css";
+import styles from "./home.module.css";
 import Footer from "../_component/footer/footer";
 import Image from "next/image";
 
@@ -20,9 +20,10 @@ import ModalContainer from "../_component/ModalContainer";
 import ModalPortal from "../_component/ModalPortal";
 import Header from "../_component/header/Header";
 import SpeedMatchingBtn from "./components/SpeedMatchingBtn";
+import ButtonBox from "../_component/main_home/ButtonBox";
 
 export default function Main_home() {
-  const [isLoading, setLoading] = useState<boolean>(true);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [postData, setPostData] = useState<IfilterType[]>([]);
   const { setFrom } = useFromStore();
   const router = useRouter();
@@ -65,7 +66,9 @@ export default function Main_home() {
             <div className={styles.speedBtnBox}>
               <SpeedMatchingBtn />
             </div>
-            <div className={styles.ButtonBox}></div>
+            <div className={styles.ButtonBox}>
+              <ButtonBox swiper={true} />
+            </div>
             <div className={styles.ContentContainer}>
               <div className={styles.titleBox}>
                 <p>신규 쇼터디</p>
