@@ -17,10 +17,10 @@
 .searchInputBox {
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
   width: 100%;
-  height: fit-content;
-  background-color: var(--gray-800);
+  height: 64px;
+  background-color: var(--black);
 }
 
 .recentSearchBox {

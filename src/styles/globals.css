@@ -1,5 +1,7 @@
 @import url("./reset.css");
 @import url("./variables.css");
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
 
 body {
   ::-webkit-scrollbar {

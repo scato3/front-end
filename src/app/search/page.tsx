@@ -22,6 +22,7 @@ import GetPopularSearch from "../api/popularSearch";
 import useSortStore from "../studyList/store/useSortStore";
 import useFromStore from "@/utils/from";
 import Loading from "../_component/Loading";
+import Header from "../_component/header/Header";
 
 const shortCutIcons = [
   {
@@ -196,9 +197,9 @@ export default function Search() {
       ) : (
         <>
           <div className={styles.container}>
-            <Navigation dark={true} onClick={handleGoBefore}></Navigation>
+            <Header />
             <div className={styles.searchInputBox}>
-              <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter} />
+              <Search_Input value={inputValue} onChange={handleChange} handleEnter={handleEnter} isSearchPage={true} />
             </div>
             <div className={styles.recentSearchBox}>
               <div className={styles.recentBoxTop}>
