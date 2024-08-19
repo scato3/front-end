@@ -87,7 +87,7 @@ export default function ButtonBox({ swiper }: IButtonBoxProps) {
               <div className={styles.iconRow}>
                 {icons.slice(0, 8).map((icon, index) => (
                   <div className={styles.iconItem} key={index}>
-                    <Image src={icon.icon} alt={icon.alt} width={57} height={54} />
+                    <Image src={icon.icon} alt={icon.alt} width={57} height={54} className={styles.iconImage} />
                     <p className={styles.category}>{icon.alt}</p>
                   </div>
                 ))}
@@ -97,7 +97,7 @@ export default function ButtonBox({ swiper }: IButtonBoxProps) {
               <div className={styles.iconRowSecond}>
                 {icons.slice(8, 12).map((icon, index) => (
                   <div className={styles.iconItem} key={index}>
-                    <Image src={icon.icon} alt={icon.alt} width={57} height={54} />
+                    <Image src={icon.icon} alt={icon.alt} width={57} height={54} className={styles.iconImage} />
                     <p className={styles.category}>{icon.alt}</p>
                   </div>
                 ))}

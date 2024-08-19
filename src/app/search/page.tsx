@@ -23,6 +23,7 @@ import useSortStore from "../studyList/store/useSortStore";
 import useFromStore from "@/utils/from";
 import Loading from "../_component/Loading";
 import Header from "../_component/header/Header";
+import ShortcutIcons from "./_component/ShortcutIcons";
 
 const shortCutIcons = [
   {
@@ -203,7 +204,7 @@ export default function Search() {
             </div>
             <div className={styles.recentSearchBox}>
               <div className={styles.recentBoxTop}>
-                <p className={styles.recent}>최근 검색어</p>
+                <p className={styles.titleP}>최근 검색어</p>
                 <p className={styles.delete} onClick={handleDeleteAll}>
                   지우기
                 </p>
@@ -223,9 +224,8 @@ export default function Search() {
                 </Swiper>
               </div>
             </div>
-            <div className={styles.hrLine}></div>
             <div className={styles.popularBox}>
-              <p>인기 검색어</p>
+              <p className={styles.titleP}>인기 검색어</p>
               <div className={styles.popularKeywordBox}>
                 {popularKeywords &&
                   popularKeywords.map((keyword, index) => (
@@ -239,20 +239,7 @@ export default function Search() {
             </div>
             <div className={styles.hrLine}></div>
             <div className={styles.shortCutBox}>
-              <p>바로가기</p>
-              <div className={styles.iconBox}>
-                {shortCutIcons.map((icon, index) => (
-                  <Image
-                    onClick={() => handleShortcut(icon.ref)}
-                    className={styles.icon}
-                    key={index}
-                    src={icon.path}
-                    width={96}
-                    height={96}
-                    alt={icon.alt}
-                  />
-                ))}
-              </div>
+              <ShortcutIcons handleShortcut={handleShortcut} />
             </div>
           </div>
           <div className={styles.footerBox}>
