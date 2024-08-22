@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./noMember.module.css";
 import Image from "next/image";
-import Icon from "../../../../../public/icons/studyList/Mark_warning.svg";
+import Icon from "../../../../../public/icons/studyList/Mark_nothing.svg";
 
 interface NoStudyProps {
   children?: React.ReactNode;
