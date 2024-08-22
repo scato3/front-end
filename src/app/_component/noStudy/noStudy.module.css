@@ -1,12 +1,11 @@
 .container {
   display: flex;
-  width: 100%;
   flex-direction: column;
+  width: 100%;
   align-items: center;
 }
 
 .icon {
-  margin-top: 100px;
 }
 
 .contentTop {
@@ -17,7 +16,7 @@
 }
 
 .contentBtm {
-  color: var(--gray-400);
+  color: var(--main);
   font-size: 16px;
   line-height: 27px;
   margin-top: 8px;

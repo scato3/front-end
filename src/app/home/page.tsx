@@ -21,6 +21,7 @@ import ModalPortal from "../_component/ModalPortal";
 import Header from "../_component/header/Header";
 import SpeedMatchingBtn from "./components/SpeedMatchingBtn";
 import ButtonBox from "../_component/main_home/ButtonBox";
+import Icon_make_study from "../../../public/icons/home/Icon_add_btn.svg";
 
 export default function Main_home() {
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -75,7 +76,7 @@ export default function Main_home() {
                 <div className={styles.moreContainer}>
                   <div className={styles.btnMore} onClick={() => router.push("./studyList")}>
                     더보기
-                    <Image src={Btn_arrow} width={24} height={24} alt="더보기"></Image>
+                    <Image src={Btn_arrow} width={19} height={19} alt="더보기"></Image>
                   </div>
                 </div>
               </div>
@@ -86,7 +87,7 @@ export default function Main_home() {
                     .map((data, index) => <Card key={index} data={data} handleOpenModal={handleOpenLoginModal} />)
                 ) : (
                   <div className={styles.NoStudy}>
-                    <NoStudy>모집중인 쇼터디가 없어요</NoStudy>
+                    <NoStudy>모집중인 쇼터디가 없어요...</NoStudy>
                   </div>
                 )}
               </div>
