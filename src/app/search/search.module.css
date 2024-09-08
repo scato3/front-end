@@ -7,20 +7,13 @@
   background-color: var(--gray-50);
 }
 
-.iconBell {
-  position: absolute;
-  top: 16px;
-  right: 24px;
-  cursor: pointer;
-}
-
 .searchInputBox {
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
   width: 100%;
-  height: fit-content;
-  background-color: var(--gray-800);
+  height: 64px;
+  background-color: var(--black);
 }
 
 .recentSearchBox {
@@ -31,6 +24,13 @@
 .recentBoxTop {
   display: flex;
   justify-content: space-between;
+}
+
+.titleP {
+  color: var(--black);
+  font-size: 20px;
+  line-height: 33.6px;
+  font-weight: 600;
 }
 
 .delete {
@@ -50,7 +50,7 @@
 .hrLine {
   margin-top: 14px;
   width: 100%;
-  height: 7px;
+  height: 5px;
   background-color: var(--gray-100);
 }
 
@@ -106,18 +106,8 @@
   margin: 20px 30px 20px 30px;
 }
 
-.iconBox {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.icon {
-  cursor: pointer;
-}
-
 .footerBox {
-  position: sticky;
+  position: absolute;
   width: 100%;
   bottom: 0;
 }

@@ -1,0 +1,23 @@
+.Container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.IconBackground {
+  width: 57px;
+  height: 54px;
+  border-radius: 17px;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.BtnName {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 21.84px;
+  color: var(--gray-700);
+}

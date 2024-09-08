@@ -1,25 +1,40 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.input {
-  font-size: 16px;
-  width: 430px;
-  height: 40px;
+.Input {
+  font-size: 14px;
+  font-weight: 600;
+  width: 325px;
+  height: 38px;
   border: none;
-  background-color: var(--gray-100);
-  color: var(--gray-400);
-  margin-bottom: 10px;
-  border: none;
+  border-radius: 2px;
   padding-left: 15px;
 }
 
-.input::placeholder {
-  font-size: 16px;
-  color: var(--gray-400);
+.Input.default {
+  background-color: var(--gray);
+  color: var(--black);
 }
 
-.input:focus {
+.Input.searchPage {
+  background-color: var(--white);
+  color: var(--gray-777);
+}
+
+.Input::placeholder {
+  font-size: 14px;
+  color: var(--gray-777);
+}
+
+.Input:focus {
   outline: none;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 30px;
 }

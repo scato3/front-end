@@ -14,13 +14,7 @@ interface INavigationProps {
 
 export default function Navigation({ children, onClick, isSearch, dark, isBack }: INavigationProps) {
   return (
-    <div
-      className={styles.Container}
-      style={{
-        background: dark ? "var(--gray-800)" : "var(--gray-50)",
-        color: dark ? "var(--gray-200)" : "var(--gray-800)",
-      }}
-    >
+    <div className={styles.Container}>
       {isBack && (
         <div className={styles.BackButton}>
           <Image src={dark ? Arrow : ArrowDark} alt="뒤로가기 버튼" width={36} height={36} onClick={onClick} />

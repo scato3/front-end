@@ -73,7 +73,7 @@
 .cautionBox {
   width: 436px;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .caution {
