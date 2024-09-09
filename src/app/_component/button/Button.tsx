@@ -1,13 +1,13 @@
 import styles from "./button.module.css";
 
 interface ButtonProps {
-  size?: "small" | "medium" | "large" | "large_main" | "very_small";
-  property?: "default" | "confirm" | "pressed" | "disabled" | "cancel" | "black" | "disabledColor";
+  size?: "large" | "small" | "medium";
+  property?: "default" | "disabled" | "cancel" | "black" | "disabledColor";
   onClick?: () => void;
   children?: React.ReactNode;
 }
 
-export default function Button({ size = "medium", property = "default", onClick, children }: ButtonProps) {
+export default function Button({ size = "large", property = "default", onClick, children }: ButtonProps) {
   const isDisabled = property === "disabled";
 
   return (

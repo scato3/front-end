@@ -1,0 +1,67 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ContentsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  margin-top: 10px;
+}
+
+.seperator {
+  width: 100%;
+  height: 2px;
+  background-color: #ffebe0;
+}
+
+.progressBar {
+  width: 0;
+  height: 2px;
+  background-color: var(--main);
+  transition: width 0.5s ease;
+}
+
+.LastImageBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  background-color: var(--white);
+  width: 31px;
+  height: 31px;
+}
+
+.LastTopTextContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 140px;
+  gap: 10px;
+}
+
+.LastTopP {
+  font-size: 20px;
+  font-weight: 600px;
+  line-height: 33.6px;
+}
+
+.LastBottomP {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.LastTextButton {
+  color: var(--gray-600);
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--black);
+  padding: 5px;
+  margin-top: 30px;
+}
