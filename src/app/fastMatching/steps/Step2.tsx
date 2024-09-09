@@ -6,6 +6,7 @@ import Navigation from "@/app/_component/navigation/page";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
 import Filter from "@/app/_component/filter/Filter";
+import DurationBox from "@/app/_component/filter/DurationBox";
 
 interface IStep2 {
   onNext: () => void;
@@ -35,7 +36,7 @@ export default function Step2({ onNext, onBefore }: IStep2) {
       </div>
       <TopText step={2} />
       <div className={styles.ContentsContainer}>
-        <Filter>ㅇㅇ</Filter>
+        <DurationBox />
         <Button onClick={onNext}>다음</Button>
       </div>
     </div>

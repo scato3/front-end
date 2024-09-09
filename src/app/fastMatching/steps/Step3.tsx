@@ -5,6 +5,8 @@ import TopText from "../_component/TopText";
 import Navigation from "@/app/_component/navigation/page";
 import { useRouter } from "next/navigation";
 import useFromStore from "@/utils/from";
+import TendencyBox from "@/app/_component/filter/TendencyBox";
+import MemberScopeBox from "@/app/_component/filter/MemberScopeBox";
 
 interface IStep3 {
   onNext: () => void;
@@ -34,6 +36,12 @@ export default function Step3({ onNext, onBefore }: IStep3) {
       </div>
       <TopText step={3} />
       <div className={styles.ContentsContainer}>
+        <div>
+          <p>나의 학습 성향은?</p>
+          <TendencyBox />
+          <p>선호 인원은?</p>
+          <MemberScopeBox />
+        </div>
         <Button onClick={onNext}>다음</Button>
       </div>
     </div>
