@@ -67,7 +67,7 @@ export default function AreaDuration({ handleCloseModal }: IStudyDurationProps) 
       ))}
 
       <div className={styles.ButtonContainer}>
-        <Button size="large_main" onClick={handleClickBtn} property={buttonProperty}>
+        <Button onClick={handleClickBtn}>
           {buttonProperty === "confirm" ? `해당 기간으로 선택 완료` : `쇼터디 기간을 선택해 주세요`}
         </Button>
       </div>

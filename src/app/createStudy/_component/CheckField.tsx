@@ -88,7 +88,7 @@ export default function CheckField({ onNext }: { onNext: () => void }) {
         ))}
       </div>
       <div className={styles.ButtonContainer}>
-        <Button size="large_main" property={selectedIcon !== null ? "confirm" : "disabled"} onClick={onNext}>
+        <Button size="large_main" onClick={onNext}>
           Step 1 완료
         </Button>
       </div>

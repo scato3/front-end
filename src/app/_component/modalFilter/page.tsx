@@ -101,7 +101,6 @@ export default function ModalFilter({ handleCloseModal }: IModalFilterProps) {
             onClick={() => {
               handleCloseButton();
             }}
-            property={buttonProperty}
           >
             적용하기
           </Button>
