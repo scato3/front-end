@@ -106,9 +106,7 @@ export default function AreaCalendar({ handleCloseModal }: ICalendarProps) {
       <div className={styles.daysOfWeek}>{renderDaysOfWeek()}</div>
       {renderCalendarGrid()}
       <div className={styles.ButtonContainer}>
-        <Button size="large_main" onClick={handleClickBtn} property={buttonProperty}>
-          해당 날짜로 선택 완료
-        </Button>
+        <Button onClick={handleClickBtn}>해당 날짜로 선택 완료</Button>
       </div>
     </div>
   );
