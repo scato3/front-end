@@ -83,22 +83,20 @@ export default function FastMatching() {
     <>
       {!isLoading && (
         <div className={styles.FastContainer}>
-          <div className={styles.ContentContainer}>
-            <Funnel>
-              <Step name="step1">
-                <Step1 onNext={() => setStep("step2")}></Step1>
-              </Step>
-              <Step name="step2">
-                <Step2 onNext={() => setStep("step3")} onBefore={() => setStep("step1")}></Step2>
-              </Step>
-              <Step name="step3">
-                <Step3 onNext={() => setStep("Last")} onBefore={() => setStep("step2")}></Step3>
-              </Step>
-              <Step name="Last">
-                <LastPage onBefore={() => setStep("step3")}></LastPage>
-              </Step>
-            </Funnel>
-          </div>
+          <Funnel>
+            <Step name="step1">
+              <Step1 onNext={() => setStep("step2")}></Step1>
+            </Step>
+            <Step name="step2">
+              <Step2 onNext={() => setStep("step3")} onBefore={() => setStep("step1")}></Step2>
+            </Step>
+            <Step name="step3">
+              <Step3 onNext={() => setStep("Last")} onBefore={() => setStep("step2")}></Step3>
+            </Step>
+            <Step name="Last">
+              <LastPage onBefore={() => setStep("step3")}></LastPage>
+            </Step>
+          </Funnel>
         </div>
       )}
     </>

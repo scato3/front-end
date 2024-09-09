@@ -37,7 +37,9 @@ export default function Step2({ onNext, onBefore }: IStep2) {
       <TopText step={2} />
       <div className={styles.ContentsContainer}>
         <DurationBox />
-        <Button onClick={onNext}>다음</Button>
+        <div className={styles.ButtonContainer}>
+          <Button onClick={onNext}>다음</Button>
+        </div>
       </div>
     </div>
   );

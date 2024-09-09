@@ -2,13 +2,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .ContentsContainer {
   display: flex;
   flex-direction: column;
-  gap: 70px;
+  align-items: center;
   margin-top: 10px;
+  width: 100%;
 }
 
 .seperator {
@@ -18,10 +20,14 @@
 }
 
 .progressBar {
-  width: 0;
   height: 2px;
   background-color: var(--main);
   transition: width 0.5s ease;
+}
+
+.ButtonContainer {
+  position: absolute;
+  top: 550px;
 }
 
 .LastImageBox {
@@ -64,4 +70,25 @@
   border-bottom: 1px solid var(--black);
   padding: 5px;
   margin-top: 30px;
+}
+
+.RememberContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  color: var(--gray-600);
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 25px;
+  margin-right: 45px;
+  gap: 5px;
+}
+
+.CheckBox {
+  width: 24px;
+  height: 24px;
+  margin: 4px;
+  border: 2px solid var(--gray-600);
+  border-radius: 2px;
 }

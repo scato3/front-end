@@ -41,7 +41,9 @@ export default function Step1({ onNext }: IStep1) {
       <TopText step={1} />
       <div className={styles.ContentsContainer}>
         <ButtonBox swiper={false}></ButtonBox>
-        <Button onClick={onNext}>다음</Button>
+        <div className={styles.ButtonContainer}>
+          <Button onClick={onNext}>다음</Button>
+        </div>
       </div>
     </div>
   );
