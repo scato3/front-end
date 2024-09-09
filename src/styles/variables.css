@@ -1,5 +1,6 @@
 :root {
   --gray: #ebebeb;
+  --gray-50: #f2f2f2;
   --gray-100: #e6e5e5;
   --gray-600: #757271;
   --gray-000: #a1a1a1;
@@ -13,4 +14,8 @@
   --white: #ffffff;
 
   --main: #ff6414;
+
+  --orange-1: #ffebe0;
+  --orange-2: #ff9761;
+  --orange-3: #ff8a00;
 }

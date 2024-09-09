@@ -9,6 +9,7 @@ import Icon_left from "../../../../public/icons/categoryIcons/left_active.svg";
 import Icon_left_disabled from "../../../../public/icons/categoryIcons/left_disabled.svg";
 import Icon_right from "../../../../public/icons/categoryIcons/right_active.svg";
 import Icon_right_disabled from "../../../../public/icons/categoryIcons/right_disabled.svg";
+import { useState } from "react";
 
 const icons = [
   {
@@ -67,6 +68,15 @@ interface IButtonBoxProps {
 
 export default function ButtonBox({ swiper }: IButtonBoxProps) {
   const router = useRouter();
+  const [selectedIcon, setSelectedIcon] = useState<string>("");
+
+  const handleSelectIcon = (icon: string) => {
+    if (selectedIcon === icon) {
+      setSelectedIcon("");
+    } else {
+      setSelectedIcon(icon);
+    }
+  };
 
   const settings = {
     infinite: false,
@@ -106,7 +116,23 @@ export default function ButtonBox({ swiper }: IButtonBoxProps) {
           </Slider>
         </div>
       ) : (
-        <div></div>
+        <div className={styles.noneSwiperContainer}>
+          {icons.map(
+            (icon, index) =>
+              index !== 0 && (
+                <div className={styles.iconItem} onClick={() => handleSelectIcon(icon.alt)}>
+                  <Image
+                    src={icon.icon}
+                    alt={icon.alt}
+                    width={57}
+                    height={54}
+                    className={`${styles.iconImage} ${selectedIcon === icon.alt && styles.selectedIcon}`}
+                  />
+                  <p>{icon.alt}</p>
+                </div>
+              ),
+          )}
+        </div>
       )}
     </>
   );

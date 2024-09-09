@@ -1,6 +1,5 @@
 import styles from "./navigation.module.css";
 import Arrow from "../../../../public/icons/Btn_arrow.svg";
-import ArrowDark from "../../../../public/icons/Btn_arrow_dark.svg";
 import Search from "../../../../public/icons/Icon_search.svg";
 import Image from "next/image";
 
@@ -17,7 +16,7 @@ export default function Navigation({ children, onClick, isSearch, dark, isBack }
     <div className={styles.Container}>
       {isBack && (
         <div className={styles.BackButton}>
-          <Image src={dark ? Arrow : ArrowDark} alt="뒤로가기 버튼" width={36} height={36} onClick={onClick} />
+          <Image src={Arrow} alt="뒤로가기 버튼" width={12.67} height={22.04} onClick={onClick} />
         </div>
       )}
       {children}

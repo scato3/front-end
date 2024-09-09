@@ -14,6 +14,8 @@
 
 .iconImage {
   cursor: pointer;
+  border-radius: 17px;
+  box-sizing: border-box;
 }
 
 .iconRow {
@@ -35,4 +37,16 @@
   color: var(--gray-700);
   font-size: 13px;
   line-height: 21.84px;
+}
+
+.noneSwiperContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.selectedIcon {
+  border: 2px solid var(--main);
+  border-radius: 17px;
+  background-color: var(--main);
 }

@@ -1,0 +1,94 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ContentsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.seperator {
+  width: 100%;
+  height: 2px;
+  background-color: #ffebe0;
+}
+
+.progressBar {
+  height: 2px;
+  background-color: var(--main);
+  transition: width 0.5s ease;
+}
+
+.ButtonContainer {
+  position: absolute;
+  top: 550px;
+}
+
+.LastImageBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  background-color: var(--white);
+  width: 31px;
+  height: 31px;
+}
+
+.LastTopTextContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 140px;
+  gap: 10px;
+}
+
+.LastTopP {
+  font-size: 20px;
+  font-weight: 600px;
+  line-height: 33.6px;
+}
+
+.LastBottomP {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.LastTextButton {
+  color: var(--gray-600);
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--black);
+  padding: 5px;
+  margin-top: 30px;
+}
+
+.RememberContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  color: var(--gray-600);
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 25px;
+  margin-right: 45px;
+  gap: 5px;
+}
+
+.CheckBox {
+  width: 24px;
+  height: 24px;
+  margin: 4px;
+  border: 2px solid var(--gray-600);
+  border-radius: 2px;
+}
