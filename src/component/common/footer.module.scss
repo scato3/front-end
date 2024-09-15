@@ -12,3 +12,14 @@
 .ImageContainer {
   cursor: pointer;
 }
+
+.addImage {
+  position: fixed;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--main);
+  border-radius: 50%;
+}

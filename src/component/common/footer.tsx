@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './footer.module.scss';
 import { usePathname } from 'next/navigation';
+import { IconAdd } from '../../../public/icons';
 
 const icons = [
   {
@@ -40,6 +41,9 @@ export default function Footer() {
 
   return (
     <div className={styles.Container}>
+      <div className={styles.addImage}>
+        <Image src={IconAdd} alt="추가 이미지" width={31} height={31} />
+      </div>
       {icons.map((icon, index) => {
         const isActive =
           pathname === '/' && icon.value === ''
