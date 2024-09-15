@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useGetKakaoCode } from '@/apis/login/oauth';
 import useAuthStore from '@/store/userauth';
 import { setAppCookie, getAppCookie } from '@/utils/cookie';
 
-export default function Kakao() {
+function LoginComponent() {
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
   const { setCheckLogin } = useAuthStore();
@@ -32,4 +32,14 @@ export default function Kakao() {
       data.isNewUser ? router.push('/') : router.push('/setProfile');
     }
   }, [data, router, setCheckLogin]);
+
+  return null;
+}
+
+export default function Kakao() {
+  return (
+    <Suspense>
+      <LoginComponent />
+    </Suspense>
+  );
 }
