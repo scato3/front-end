@@ -1,23 +1,22 @@
 'use client';
 
+import { Suspense, useEffect, useState } from 'react';
+import { useForm, FormProvider, useWatch } from 'react-hook-form';
+import { useSearchParams } from 'next/navigation';
 import Navigation from '@/component/common/navigation';
-import styles from './searchResult.module.scss';
-
 import FilterOpenBtn from '@/component/filter/filterOpenBtn';
 import StudyOverView from '@/component/studyList/studyOverView';
 import FilterSwiper from '@/component/filter/filterSwiper';
-import { useEffect, useState } from 'react';
-import { useForm, FormProvider, useWatch } from 'react-hook-form';
 import { defaultCardData } from '@/data/cardInitialData';
-import { useSearchParams } from 'next/navigation';
 import { useGetCard } from '@/apis/card/getCard';
 import Card from '@/component/card/card';
 import { CardType } from '@/types/card/cardType';
 import NoStudy from '@/component/common/noStudy';
 import { GetCardType } from '@/types/card/getCardType';
 import SearchBox from '@/component/search/searchBox';
+import styles from './searchResult.module.scss';
 
-export default function SearchResult() {
+function SearchResultComponent() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>('전체');
 
@@ -116,5 +115,13 @@ export default function SearchResult() {
         </div>
       </div>
     </FormProvider>
+  );
+}
+
+export default function SearchResult() {
+  return (
+    <Suspense>
+      <SearchResultComponent />
+    </Suspense>
   );
 }
