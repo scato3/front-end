@@ -14,7 +14,10 @@
 }
 
 .addImage {
-  position: fixed;
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  transform: translateX(-50%);
   width: 54px;
   height: 54px;
   display: flex;
@@ -22,4 +25,6 @@
   align-items: center;
   background-color: var(--main);
   border-radius: 50%;
+  z-index: 20;
+  cursor: pointer;
 }

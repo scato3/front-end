@@ -61,3 +61,16 @@ export const tendencyOption = [
   { key: 'feedback', label: '학습 피드백을 주고받고 싶어요' },
   { key: 'focus', label: '조용히 집중하고 싶어요' },
 ];
+
+export const matchingTypeOption = [
+  {
+    key: 'quick',
+    label: '빠른매칭',
+    text: '직접 회원을 수락 또는 거절할 수 있어요',
+  },
+  {
+    key: 'approval',
+    label: '승인',
+    text: '모든 회원의 신청을 자동으로 수락해요',
+  },
+];

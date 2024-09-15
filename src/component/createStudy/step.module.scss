@@ -1,0 +1,265 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 64px;
+}
+
+.progressBar {
+  height: 2px;
+  background-color: var(--main);
+  transition: width 0.5s ease;
+}
+
+.seperator {
+  width: 100%;
+  height: 2px;
+  background-color: #ffebe0;
+}
+
+.buttonContainer {
+  position: fixed;
+  max-width: 390px;
+  width: 100%;
+  bottom: 45px;
+  margin-left: 50px;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 25px;
+}
+
+// Step 2
+
+.durationHeader {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 21.8px;
+  color: var(--black);
+}
+
+.durationContainer {
+  margin-top: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--gray-600);
+
+  p {
+    align-self: center;
+  }
+}
+
+.DateContainer {
+  display: flex;
+  gap: 17px;
+}
+
+.duration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 175px;
+  height: 53px;
+  border-radius: 5px;
+  background-color: var(--gray-50);
+  cursor: pointer;
+  &.active {
+    color: var(--main);
+  }
+}
+
+.participantHeader {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 21.8px;
+  margin-top: 50px;
+  color: var(--black);
+}
+
+.participantDesc {
+  margin-top: 7px;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--gray-600);
+}
+
+.participantContainer {
+  margin-top: 30px;
+  display: flex;
+}
+
+.addContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: var(--main);
+  border-radius: 50%;
+  cursor: pointer;
+
+  &.cant {
+    background-color: var(--orange-100);
+  }
+}
+
+.participantInput {
+  width: 80px;
+  text-align: center;
+  border: none;
+  outline: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 23.5px;
+}
+
+.ContentsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 21.8px;
+  color: var(--black);
+
+  .contents {
+    align-self: flex-start;
+    padding-left: 30px;
+  }
+}
+
+.optionContainer,
+.matchingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 21px;
+  text-align: center;
+  color: var(--gray-600);
+  width: calc(100% - 50px);
+}
+
+.optionBox {
+  width: 100%;
+  background-color: var(--gray);
+  margin: 8px 0;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  border-radius: 3px;
+  border: 2px solid transparent;
+}
+
+.optionBox:last-child {
+  margin-bottom: 30px;
+}
+
+.optionBox.active {
+  background-color: var(--orange-100);
+  color: var(--main);
+  border-color: var(--main);
+}
+
+.matchingContainer {
+  font-size: 12px;
+  .subText {
+    font-size: 10px;
+  }
+  .optionBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+  }
+}
+
+.title,
+.description {
+  margin: 8px 0;
+  padding-left: 10px;
+  width: 100%;
+  height: 34px;
+  background-color: var(--gray-50);
+  border-radius: 3px;
+
+  ::placeholder {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 17.6px;
+    text-align: center;
+    color: var(--gray-600);
+  }
+}
+
+.description {
+  width: calc(100% - 12px);
+  height: 75px;
+  padding: 15px 10px 10px 10px;
+}
+
+.tagsHeader {
+  width: 100%;
+  gap: 10px;
+  display: flex;
+
+  span {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 18.5px;
+    color: #a7a5a4;
+    align-self: center;
+  }
+}
+
+.tagList {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 26px;
+  gap: 4px;
+}
+
+.tagItem {
+  position: relative;
+  background-color: var(--orange-100);
+  color: var(--main);
+  width: 100px;
+  padding: 1px 10px;
+  height: 21px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 17.6px;
+}
+
+.removeTag {
+  position: absolute;
+  right: 3px;
+  bottom: 0;
+  cursor: pointer;
+}
+
+.warningContainer {
+  width: 100%;
+  display: inline-flex;
+  padding: 2px 6px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 16.8px;
+  color: var(--black);
+  background-color: var(--warning);
+  gap: 4px;
+  border-radius: 3px;
+  margin-left: 10px;
+  width: fit-content;
+}

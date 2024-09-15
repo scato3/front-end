@@ -53,5 +53,6 @@ export const config = {
     '/studyList/:path*',
     '/search/:path*',
     '/search_result/:path*',
+    '/createStudy/:path*',
   ],
 };

@@ -16,3 +16,7 @@ export { default as IconCheck } from './Icon_check.svg';
 export { default as IconCaution } from './Icon_caution.svg';
 export { default as IconActveSearch } from './Icon_search.svg';
 export { default as IconAdd } from './Icon_add.svg';
+export { default as IconBlackAdd } from './Icon_blackadd.svg';
+export { default as IconDisabledAdd } from './Icon_disabled_add.svg';
+export { default as IconMinus } from './Icon_minus.svg';
+export { default as IconDisabledMinus } from './Icon_disabled_minus.svg';

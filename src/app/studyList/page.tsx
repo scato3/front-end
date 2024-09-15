@@ -32,7 +32,6 @@ function StudyListComponent() {
     defaultValues: initialData,
   });
 
-  // 필터 값들 실시간으로 추적 (useWatch 사용)
   const [
     quickMatch,
     category,
@@ -105,7 +104,6 @@ function StudyListComponent() {
     minParticipants,
     maxParticipants,
     tendency,
-    refetch,
   ]);
 
   return (

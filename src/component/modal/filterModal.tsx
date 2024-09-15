@@ -17,6 +17,7 @@ import { sortOption, tendencyOption } from '@/data/filterData';
 import { useGetCard } from '@/apis/card/getCard';
 import { defaultCardData } from '@/data/cardInitialData';
 import { GetCardType } from '@/types/card/getCardType';
+import { useRouter, usePathname } from 'next/navigation';
 
 const filterOptions = [
   { key: 0, label: '정렬' },
@@ -57,6 +58,8 @@ export default function FilterModal({ handleCloseModal }: CloseModalProps) {
   const [secondError, setSecondError] = useState<string>('');
 
   const currentValues = getValues();
+  const router = useRouter();
+  const pathname = usePathname();
   const { refetch } = useGetCard('all', currentValues, false);
 
   const handleOpenBottomSheet = () => {
@@ -244,6 +247,9 @@ export default function FilterModal({ handleCloseModal }: CloseModalProps) {
 
   const onSubmit = () => {
     refetch();
+    category
+      ? router.replace(`./${pathname}?tab=${category}`)
+      : router.replace(`./${pathname}`);
 
     handleCloseModal();
   };

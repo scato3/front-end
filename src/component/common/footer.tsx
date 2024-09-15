@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './footer.module.scss';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { IconAdd } from '../../../public/icons';
 
 const icons = [
@@ -35,13 +35,24 @@ const icons = [
 
 export default function Footer() {
   const pathname = usePathname();
+  const router = useRouter();
 
   // 정확한 경로 체크를 위해 수정
-  if (pathname === '/sign-in' || pathname === '/fastMatching') return null;
+  if (
+    pathname === '/sign-in' ||
+    pathname === '/fastMatching' ||
+    pathname === '/createStudy'
+  )
+    return null;
 
   return (
     <div className={styles.Container}>
-      <div className={styles.addImage}>
+      <div
+        className={styles.addImage}
+        onClick={() => {
+          router.push('./createStudy');
+        }}
+      >
         <Image src={IconAdd} alt="추가 이미지" width={31} height={31} />
       </div>
       {icons.map((icon, index) => {

@@ -11,7 +11,6 @@ export default function MemScopeBox() {
       name: 'mem_scope',
     }) || [];
 
-  // 선택된 값들을 배열로 변환 (문자열이 아닌 배열로 직접 처리)
   const selectedArray: number[] = Array.isArray(selectedValues)
     ? selectedValues
     : [];

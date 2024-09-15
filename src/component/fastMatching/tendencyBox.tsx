@@ -3,10 +3,13 @@ import styles from './tendencyBox.module.scss';
 import { tendencyOption } from '@/data/filterData';
 import { useEffect } from 'react';
 
-export default function TendencyBox() {
+interface ITendencyBoxProps {
+  type?: string;
+}
+
+export default function TendencyBox({ type }: ITendencyBoxProps) {
   const { setValue, control, getValues } = useFormContext();
 
-  // useWatch로 'tendency' 값을 배열로 감시, 값이 없으면 빈 배열로 초기화
   const selectedArray: string[] = useWatch({
     control,
     name: 'tendency',
@@ -17,15 +20,25 @@ export default function TendencyBox() {
   }, [getValues]);
 
   const handleClick = (key: string) => {
-    let updatedArray;
+    let updatedValue: string | string[];
 
-    if (selectedArray.includes(key)) {
-      updatedArray = selectedArray.filter((item: string) => item !== key);
+    if (type === 'createStudy') {
+      // createStudy일 경우 하나만 선택 가능
+      if (selectedArray.includes(key)) {
+        updatedValue = '';
+      } else {
+        updatedValue = key;
+      }
     } else {
-      updatedArray = [...selectedArray, key];
+      // 다른 경우는 여러 개 선택 가능 (배열)
+      if (selectedArray.includes(key)) {
+        updatedValue = selectedArray.filter((item: string) => item !== key);
+      } else {
+        updatedValue = [...selectedArray, key];
+      }
     }
 
-    setValue('tendency', updatedArray);
+    setValue('tendency', updatedValue);
   };
 
   return (

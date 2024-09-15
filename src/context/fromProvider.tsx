@@ -17,7 +17,7 @@ const FromProvider = ({ children }: PathProviderProps) => {
     const cleanPathname = pathname.split('?')[0];
 
     if (previousPath.current) {
-      if (previousPath.current === '/studyList') {
+      if (previousPath.current === '/studyList' || '/createStudy') {
         setFrom('/');
       } else {
         setFrom(previousPath.current);
