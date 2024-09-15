@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useState } from 'react';
 
 export interface StepProps {
   name: string;
@@ -19,7 +19,9 @@ export default function useFunnel<T extends string>(defaultStep: T) {
   };
 
   const Funnel = ({ children }: FunnelProps) => {
-    const targetStep = children.find((childStep) => childStep.props.name === step);
+    const targetStep = children.find(
+      (childStep) => childStep.props.name === step
+    );
     return <>{targetStep}</>;
   };
 

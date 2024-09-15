@@ -1,0 +1,48 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 26px 31px 26px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  h2 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 33.6px;
+  }
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26.8px;
+    color: #757271;
+    cursor: pointer;
+  }
+}
+
+.tagContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  padding-top: 15px;
+  .tags {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 78px;
+    height: 21px;
+    background-color: var(--orange-100);
+    color: var(--main);
+    font-size: 11px;
+    font-weight: 500;
+    padding-left: 10px;
+  }
+  .iconX {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+  }
+}

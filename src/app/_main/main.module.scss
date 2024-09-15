@@ -1,0 +1,62 @@
+.Container {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.MainSection {
+  background-color: var(--white);
+  height: auto;
+}
+
+.SpeedBtnBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.ItemSection {
+  padding: 10px 25px 0 25px;
+  overflow-y: auto;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--gray);
+}
+
+.CardSection {
+  height: calc(100% - 85px);
+  overflow-y: scroll;
+}
+
+.ItemHeader {
+  display: flex;
+  justify-content: space-between;
+
+  h2 {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 37px;
+    color: var(--black);
+  }
+
+  .BtnContainer {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    color: var(--gray-600);
+    gap: 5px;
+    cursor: pointer;
+  }
+}
+
+.NoStudyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

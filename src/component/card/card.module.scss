@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: 12px 0;
+  background-color: var(--white);
+  border-radius: 10px;
+}
+
+.cardBox {
+  position: relative;
+  width: calc(100% - 64px);
+  height: 148px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+}
+
+.titleBox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 13px;
+  gap: 13px;
+}
+
+.flag {
+  padding: 2px 5px;
+  width: 50px;
+  height: 23px;
+  background-color: var(--main);
+  border-radius: 5px;
+  color: var(--white);
+  font-size: 15px;
+  text-align: center;
+  line-height: 26.88px;
+}
+
+.title {
+  color: var(--black);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 25px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tagBox {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+  color: var(--gray-400);
+  font-size: 14px;
+  color: var(--gray-111);
+  font-weight: 500;
+  line-height: 18.5px;
+}
+
+.tagTitle {
+  padding: 2px 6px;
+  border: 0.5px solid var(--gray-000);
+  border-radius: 50px;
+}
+
+.detailBox {
+  position: absolute;
+  bottom: 17px;
+  display: flex;
+  align-items: center;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 23.5px;
+  color: var(--gray-600);
+  margin-left: 6px;
+}
+
+.calendarImage {
+  margin-left: 38px;
+}

@@ -1,104 +1,80 @@
-"use client";
+'use client';
 
-import styles from "./fastmatching.module.css";
-import Navigation from "../_component/navigation/page";
-import { useState, useEffect } from "react";
+import styles from './fastMatching.module.scss';
+import Step1 from '@/component/fastMatching/step1';
+import Step2 from '@/component/fastMatching/step2';
+import Step3 from '@/component/fastMatching/step3';
+import LastPage from '@/component/fastMatching/lastPage';
+import { QuickMatchInitialData } from '@/data/quickMatchData';
+import useFunnel from '@/hooks/useFunnel';
+import { QuickMatchProps } from '@/types/quick/quickMatchType';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { FilterDataType } from '@/types/fastMatching/filterType';
+import { useGetStudyFilter } from '@/apis/fastMatching/filter';
 
-import { useModal } from "@/hooks/useModal";
-import ModalPortal from "../_component/ModalPortal";
-import CreateModalContainer from "../_component/createModalContainer";
-import { getFormattedDuration } from "./utils/getFormatDuration";
-import useFastStore from "./store/FastStore";
-import useAuth from "@/hooks/useAuth";
-import { useRouter, useSearchParams } from "next/navigation";
-import moment from "moment";
-import GetQuickFiler from "../api/quickFilter";
-import { fetchType } from "./type/fastType";
-import useFromStore from "@/utils/from";
-import useFunnel from "@/hooks/useFunnel";
-import Step1 from "./steps/Step1";
-import Step2 from "./steps/Step2";
-import Step3 from "./steps/Step3";
-import LastPage from "./steps/LastPage";
-
-const steps: string[] = ["step1", "step2", "step3", "Last"];
+const steps: string[] = ['Step1', 'Step2', 'Step3', 'Last'];
 
 export default function FastMatching() {
+  const { data: filterData } = useGetStudyFilter();
   const [Funnel, Step, setStep] = useFunnel(steps[0]);
 
-  const router = useRouter();
-  const [pick, setPick] = useState<string>("");
-  const [buttonProperty, setButtonProperty] = useState<"disabled" | "confirm">("disabled");
-  const [data, setData] = useState<fetchType | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { openModal, handleCloseModal, handleOpenModal } = useModal();
-  const { selectedDate, selectedDuration, selectedField } = useFastStore();
-  const { setSelectedDate, setSelectedDuration, setSelectedField, setRecruitArr, setTendency, setSave } =
-    useFastStore();
-  const { accessToken } = useAuth();
+  // useForm 초기화
+  const methods = useForm<QuickMatchProps>({
+    defaultValues: QuickMatchInitialData,
+  });
 
-  const formattedDate = selectedDate ? moment(selectedDate).format("YY.MM.DD") : "시작 날짜 선택하기";
-  const formattedDuration = selectedDuration ? getFormattedDuration(selectedDuration) : "학습 기간 선택하기";
-  const formattedField = selectedField ? selectedField : "학습 분야 선택하기";
+  const { reset } = methods;
+
+  const [data, setData] = useState<FilterDataType>();
 
   useEffect(() => {
-    if (selectedDate && selectedDuration && selectedField) setButtonProperty("confirm");
-    else setButtonProperty("disabled");
-  }, [selectedDate, selectedDuration, selectedField]);
+    if (filterData) {
+      const save = !!(
+        filterData.mem_scope?.length ||
+        filterData.tendency?.length ||
+        filterData.category ||
+        filterData.duration
+      );
 
-  // 초기 데이터 불러오기
+      const transformedData = {
+        ...QuickMatchInitialData,
+        mem_scope: filterData.mem_scope,
+        tendency: filterData.tendency,
+        category: filterData.category,
+        duration: filterData.duration,
+        save,
+      };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const postData = await GetQuickFiler(accessToken);
-        setData(postData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      setSave(true);
-      setSelectedDate(data.start_date);
-      setSelectedDuration(data.duration === "" ? "미정" : data.duration);
-      setSelectedField(data.category);
-      setRecruitArr((prevArr) => [...prevArr, ...data.mem_scope]);
-      setTendency((prevArr) => [...prevArr, ...data.tendency]);
-    } else {
-      setSave(false);
-      setSelectedDate(null);
-      setSelectedDuration(null);
-      setSelectedField(null);
-      setRecruitArr(() => []);
-      setTendency(() => []);
+      reset(transformedData);
     }
-  }, [data]);
+  }, [filterData]);
 
   return (
-    <>
-      {!isLoading && (
-        <div className={styles.FastContainer}>
-          <Funnel>
-            <Step name="step1">
-              <Step1 onNext={() => setStep("step2")}></Step1>
-            </Step>
-            <Step name="step2">
-              <Step2 onNext={() => setStep("step3")} onBefore={() => setStep("step1")}></Step2>
-            </Step>
-            <Step name="step3">
-              <Step3 onNext={() => setStep("Last")} onBefore={() => setStep("step2")}></Step3>
-            </Step>
-            <Step name="Last">
-              <LastPage onBefore={() => setStep("step3")}></LastPage>
-            </Step>
-          </Funnel>
-        </div>
-      )}
-    </>
+    <FormProvider {...methods}>
+      <div className={styles.Container}>
+        <Funnel>
+          <Step name="Step1">
+            <Step1 onNext={() => setStep('Step2')}></Step1>
+          </Step>
+          <Step name="Step2">
+            <Step2
+              onNext={() => setStep('Step3')}
+              onBefore={() => setStep('Step1')}
+            ></Step2>
+          </Step>
+          <Step name="Step3">
+            <Step3
+              onNext={() => setStep('Last')}
+              onBefore={() => setStep('Step2')}
+              setData={setData}
+            ></Step3>
+          </Step>
+          <Step name="Last">
+            <LastPage onBefore={() => setStep('Step3')} data={data}></LastPage>
+          </Step>
+        </Funnel>
+      </div>
+    </FormProvider>
   );
 }

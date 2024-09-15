@@ -1,0 +1,58 @@
+.overLay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.overLay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottomSheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 390px;
+  height: 300px;
+  background-color: white;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0, 0.57, 0.3, 0.86);
+}
+
+.bottomSheet.open {
+  transform: translateY(0);
+}
+
+.sheetContent {
+  padding: 50px 0 0 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px 20px;
+}
+
+.sheetItem {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-600);
+  cursor: pointer;
+}
+
+.active {
+  color: var(--main);
+}

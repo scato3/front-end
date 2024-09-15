@@ -1,0 +1,31 @@
+.optionContainer {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 21px;
+  text-align: center;
+  color: var(--gray-600);
+  width: calc(100% - 50px);
+}
+
+.optionBox {
+  padding: 10px 0;
+  background-color: var(--gray);
+  margin: 8px 0;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  border-radius: 3px;
+  border: 2px solid transparent;
+}
+
+.optionBox:last-child {
+  margin-bottom: 30px;
+}
+
+.optionBox.active {
+  background-color: var(--orange-100);
+  color: var(--main);
+  border-color: var(--main);
+}

@@ -1,0 +1,352 @@
+.Container {
+  height: 100dvh;
+  background-color: var(--white);
+  max-width: 390px;
+  overflow-y: scroll;
+}
+
+.navigation {
+  width: 100%;
+  height: 70px;
+  background-color: var(--black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+}
+
+.section {
+  padding: 16px 25px 0 25px;
+  position: relative;
+
+  h2 {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--black);
+    padding: 15px 0 8px 7px;
+  }
+}
+
+.filterContainer {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  font-weight: 400;
+  color: var(--black);
+  font-size: 15px;
+  line-height: 25px;
+  padding-left: 7px;
+  gap: 24.5px;
+  cursor: pointer;
+
+  .filter-option {
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .active {
+    font-weight: 700;
+    color: var(--main);
+  }
+
+  .underline {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 3px;
+    background-color: var(--main);
+    width: 100%;
+    transform: translateX(0);
+    transition:
+      transform 0.3s ease,
+      width 0.3s ease;
+  }
+}
+
+.optionContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--gray-700);
+  cursor: pointer;
+
+  .optionItem {
+    padding: 3px 5px;
+    border: 1px solid var(--gray-200);
+    border-radius: 5px;
+    width: 77px;
+    text-align: center;
+  }
+
+  .selected {
+    border-color: var(--main);
+    background-color: var(--orange-100);
+    color: var(--main);
+  }
+}
+
+.optionHeader {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  .titleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .warningContainer {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 5px;
+    padding: 2px 6px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 16.8px;
+    color: var(--black);
+    background-color: var(--warning);
+    gap: 4px;
+    border-radius: 3px;
+    margin-left: 10px;
+    width: fit-content;
+  }
+
+  span {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 18.5px;
+    color: var(--gray-400);
+    padding-top: 10px;
+  }
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+
+.verticalLine {
+  width: 100%;
+  height: 1px;
+  background-color: #eaeaea;
+  margin-top: 20px;
+}
+
+.verticalLine:last-child {
+  margin-top: 40px;
+}
+
+.dateContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 0 10px 10px;
+
+  p {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--gray-700);
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 12px;
+    width: 122px;
+    height: 34px;
+    border: 1px solid var(--gray-200);
+    border-radius: 5px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--gray-600);
+    font-size: 12px;
+  }
+
+  .dateSelect {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+
+    &.activeDateSelect {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px 0 40px;
+      color: var(--main);
+      border-color: var(--main);
+    }
+
+    &.activeStartSelect {
+      display: flex;
+      justify-content: flex-start;
+      color: var(--main);
+      border-color: var(--main);
+    }
+
+    .dateImage {
+      right: 12px;
+      position: absolute;
+    }
+  }
+
+  .dateImage {
+    position: absolute;
+  }
+}
+
+.participantContainer {
+  display: flex;
+  align-items: center;
+  margin: 0 0 10px 10px;
+}
+
+.dateContainer {
+  gap: 25px;
+}
+
+.participantContainer {
+  gap: 5px;
+  cursor: pointer;
+
+  span {
+    color: var(--gray-600);
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  p {
+    margin: 0 5px;
+  }
+}
+
+.participantSection {
+  padding: 16px 25px 0 10px;
+  position: relative;
+
+  h2 {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--black);
+    padding: 15px 0 8px 22px;
+  }
+}
+
+.participantOption {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--gray-700);
+
+  .participant {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 110px;
+    height: 34px;
+    border: 1px solid var(--gray-200);
+    border-radius: 5px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--gray-600);
+    font-size: 12px;
+  }
+  ::placeholder {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--gray-700);
+    text-align: center;
+  }
+  .active {
+    border-color: var(--main);
+    color: var(--main);
+  }
+}
+
+.tendencyItem {
+  display: flex;
+  justify-content: center;
+  width: 253px;
+  height: 24px;
+  align-items: center;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--gray-700);
+  border: 1px solid var(--gray-200);
+  border-radius: 3px;
+}
+
+.resetContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 27px;
+  }
+}
+
+.applyContainer {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+  gap: 18px;
+  cursor: pointer;
+}
+
+.checkContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  padding: 0 25px;
+  gap: 3px;
+}
+
+.filterTag {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 17.6px;
+  background-color: var(--orange-100);
+  color: var(--main);
+  height: 21px;
+  min-width: 85px;
+  padding: 8px 33px 8px 15px;
+  border-radius: 3px;
+
+  &:first-child {
+    padding-right: 15px;
+  }
+
+  .filterImage {
+    position: absolute;
+    cursor: pointer;
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

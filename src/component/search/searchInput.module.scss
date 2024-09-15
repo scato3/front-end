@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputContainer {
+  position: relative;
+}
+
+.input {
+  font-size: 14px;
+  font-weight: 600;
+  width: 325px;
+  height: 38px;
+  border: none;
+  border-radius: 2px;
+  padding-left: 15px;
+  background-color: var(--white);
+  color: var(--gray-777);
+  ::placeholder {
+    font-size: 14px;
+    color: var(--gray-777);
+  }
+}
+
+.searchIcon {
+  position: absolute;
+  top: 25%;
+  right: 20px;
+  cursor: pointer;
+}
+
+.searchButton {
+  background-color: inherit;
+}

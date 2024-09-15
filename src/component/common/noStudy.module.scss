@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.contentTop {
+  color: var(--gray-800);
+  font-size: 20px;
+  line-height: 26px;
+  margin-top: 32px;
+  font-weight: 600;
+}
+
+.contentBtm {
+  color: var(--main);
+  font-size: 14px;
+  line-height: 27px;
+  margin-top: 8px;
+  font-weight: 500;
+
+  &.active {
+    color: #9b9b9b;
+  }
+}

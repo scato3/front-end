@@ -1,0 +1,42 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 26px;
+
+  h2 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 33.6px;
+  }
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 6px;
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.gridItem {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  cursor: pointer;
+
+  span {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 30px;
+    margin-right: 10px;
+    width: 20px;
+  }
+
+  p {
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 21.8px;
+    flex-grow: 1;
+  }
+}

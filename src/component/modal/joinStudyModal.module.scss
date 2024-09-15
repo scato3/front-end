@@ -1,0 +1,28 @@
+.Container {
+  padding-top: 27px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 240px;
+  height: 123px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22.4px;
+  color: var(--black);
+  background-color: var(--white);
+  border-radius: 5px;
+
+  p {
+    margin-top: 9px;
+  }
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  background-color: var(--main);
+  border-radius: 50%;
+}

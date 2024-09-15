@@ -1,0 +1,167 @@
+.Container {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+}
+
+.Header {
+  margin-top: 30px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-800);
+}
+
+.ChoiceHeader {
+  margin-top: 72px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-800);
+}
+
+.ChoiceContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.ChoiceBox {
+  margin-top: 8px;
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.Choice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 262px;
+  height: 58px;
+  background-color: var(--gray-100);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-400);
+  cursor: pointer;
+}
+
+.Choice.selectedDate {
+  color: var(--main-200);
+  background-color: var(--main-100);
+}
+
+.ChoiceComment {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 23px;
+  color: var(--gray-400);
+}
+
+.ButtonContainer {
+  position: absolute;
+  width: 100%;
+  bottom: 32px;
+  left: 24px;
+}
+
+/* SecondPage */
+
+.SecondContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.SecondHeader {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-800);
+  margin-top: 30px;
+}
+
+.ConditionHeader {
+  margin-top: 30px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  color: black;
+}
+
+.ConditionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.Condition {
+  width: calc(100% - 32px);
+  height: 58px;
+  background-color: var(--gray-200);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--gray-400);
+  cursor: pointer;
+}
+
+.Condition.Selected,
+.Recruit.Selected {
+  background-color: var(--main-100);
+  color: var(--main-200);
+}
+
+.RecruitHeader {
+  margin-top: 32px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  color: black;
+}
+
+.RecruitContainer {
+  margin-top: 8px;
+  display: flex;
+  gap: 4px;
+}
+
+.Recruit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc((100% - 44px) / 4);
+  height: 32px;
+  background-color: var(--gray-100);
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--gray-700);
+  cursor: pointer;
+}
+
+.RememberContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  margin-right: 32px;
+}
+
+.RememberContainer p {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 23px;
+  color: var(--gray-600);
+}
+
+.CheckImg {
+  cursor: pointer;
+  margin-bottom: 2px;
+}

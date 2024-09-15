@@ -1,0 +1,15 @@
+.Container {
+  height: 100dvh;
+}
+
+.searchInputBox {
+  height: 64px;
+  background-color: var(--black);
+}
+
+.seperator {
+  margin-top: 16px;
+  height: 4px;
+  width: 100%;
+  background-color: var(--gray-100);
+}

@@ -1,0 +1,50 @@
+.large {
+  width: calc(100% - 50px);
+  height: 57px;
+  border: none;
+  font-size: 20px;
+}
+
+.Button_primary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 50px);
+  height: 57px;
+  border: 0;
+  background-color: var(--main);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 34px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &.disabled {
+    background-color: var(--gray-777);
+  }
+
+  &.cancel {
+    background-color: var(--gray-d3);
+  }
+
+  &.confirm {
+    background-color: var(--main);
+  }
+
+  &.small {
+    width: 147px;
+  }
+
+  &.large {
+    width: calc(100% - 50px);
+    height: 57px;
+    border: none;
+  }
+
+  &.medium {
+    width: 252px;
+    height: 57px;
+    border: none;
+  }
+}

@@ -1,0 +1,35 @@
+.gridContainer {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 17px;
+  width: 57px;
+  height: 54px;
+  text-align: center;
+  background-color: var(--icon);
+  cursor: pointer;
+}
+
+.image {
+  width: 57px;
+  height: 54px;
+  background-color: var(--icon);
+}
+
+.altText {
+  margin-top: 4px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 21.8px;
+  color: var(--gray-700);
+  text-align: center;
+}

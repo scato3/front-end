@@ -1,0 +1,30 @@
+.Header {
+  height: 64px;
+  max-width: 390px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 10;
+
+  .BackBtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    background-color: var(--white);
+  }
+
+  .Title {
+    color: var(--gray-33);
+    font-size: 20px;
+    line-height: 22px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+}
