@@ -21,9 +21,12 @@ import {
   usePostFavoriteStudy,
   useDeleteFavoriteStudy,
 } from '@/apis/study/favorite';
+import { useAlert } from '@/context/alertProvider';
+import Navigation from '@/component/common/navigation';
 
 export default function StudyInfoClient() {
   const searchParams = useSearchParams();
+  const { showAlert } = useAlert();
   const studyId = searchParams.get('studyId');
 
   const { data } = useGetStudyDetail(Number(studyId));
@@ -50,7 +53,7 @@ export default function StudyInfoClient() {
         handleOpenModal();
       },
       onError: (error) => {
-        console.log(error.message);
+        showAlert(error.message);
       },
     });
   };
@@ -61,7 +64,7 @@ export default function StudyInfoClient() {
         setIsFavorite(true);
       },
       onError: (error) => {
-        console.error((error as Error).message);
+        showAlert(error.message);
       },
     });
   };
@@ -72,13 +75,15 @@ export default function StudyInfoClient() {
         setIsFavorite(false);
       },
       onError: (error) => {
-        console.error((error as Error).message);
+        showAlert(error.message);
       },
     });
   };
 
   return (
     <>
+      <Navigation title={data?.title} horiz={true} />
+      <div className={styles.separator}></div>
       <div className={styles.section}>
         <div className={styles.Header}>
           <div className={styles.category}>{data?.category}</div>
