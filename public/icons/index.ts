@@ -20,3 +20,8 @@ export { default as IconBlackAdd } from './Icon_blackadd.svg';
 export { default as IconDisabledAdd } from './Icon_disabled_add.svg';
 export { default as IconMinus } from './Icon_minus.svg';
 export { default as IconDisabledMinus } from './Icon_disabled_minus.svg';
+export { default as IconHoriz } from './Icon_horiz.svg';
+export { default as IconBook } from './Icon_book.svg';
+export { default as IconOwner } from './Icon_owner.svg';
+export { default as IconHeart } from './Icon_heart.svg';
+export { default as IconActiveHeart } from './Icon_active_heart.svg';

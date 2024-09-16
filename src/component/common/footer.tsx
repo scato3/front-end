@@ -37,13 +37,9 @@ export default function Footer() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // 정확한 경로 체크를 위해 수정
-  if (
-    pathname === '/sign-in' ||
-    pathname === '/fastMatching' ||
-    pathname === '/createStudy'
-  )
-    return null;
+  const excludedPaths = /^\/(sign-in|fastMatching|createStudy|studyInfo.*)/;
+
+  if (excludedPaths.test(pathname)) return null;
 
   return (
     <div className={styles.Container}>

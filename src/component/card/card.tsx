@@ -6,6 +6,8 @@ import { CardType } from '@/types/card/cardType';
 import { useRouter } from 'next/navigation';
 import { formatDate } from '@/utils/dateformat';
 import { IconCalendar, IconPeople } from '../../../public/card';
+import { useQueryClient } from '@tanstack/react-query';
+import { getStudyDetail } from '@/apis/study/detail';
 
 interface CardProps {
   data: CardType;
@@ -13,11 +15,20 @@ interface CardProps {
 
 export default function Card({ data }: CardProps) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const prefetchStudyDetail = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: ['getStudyDetail', data.id],
+      queryFn: () => getStudyDetail(data.id),
+    });
+  };
 
   return (
     <div
       className={styles.container}
-      onClick={() => {
+      onClick={async () => {
+        await prefetchStudyDetail();
         router.push(`/studyInfo?studyId=${data.id}`);
       }}
     >

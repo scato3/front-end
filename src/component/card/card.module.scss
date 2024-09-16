@@ -48,10 +48,11 @@
 
 .tagBox {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 15px;
   color: var(--gray-400);
-  font-size: 14px;
+  font-size: 10px;
   color: var(--gray-111);
   font-weight: 500;
   line-height: 18.5px;
@@ -65,7 +66,7 @@
 
 .detailBox {
   position: absolute;
-  bottom: 17px;
+  bottom: 10px;
   display: flex;
   align-items: center;
 }
