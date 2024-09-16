@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@/component/common/button';
 import React, {
   createContext,
   useContext,
@@ -10,6 +9,8 @@ import React, {
 } from 'react';
 
 import styles from '../styles/provider.module.scss';
+import { IconCaution } from '../../public/icons';
+import Image from 'next/image';
 
 interface AlertContextType {
   alertMessage: string;
@@ -43,10 +44,10 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
       {alertMessage && (
         <div className={styles.overlay} onClick={hideAlert}>
           <div className={styles.alert} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.imageContainer}>
+              <Image src={IconCaution} alt="caution 이미지" />
+            </div>
             {alertMessage}
-            <Button confirm={true} size="small" onClick={hideAlert}>
-              닫기
-            </Button>
           </div>
         </div>
       )}

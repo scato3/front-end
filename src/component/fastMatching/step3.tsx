@@ -93,7 +93,7 @@ export default function Step3({ onNext, onBefore, setData }: IStep3) {
       <div className={styles.buttonContainer}>
         <Button
           onClick={handleNext}
-          disabled={!mem_scope || !(tendency?.length > 0)}
+          disabled={!(mem_scope?.length > 0) || !(tendency?.length > 0)}
         >
           다음
         </Button>
