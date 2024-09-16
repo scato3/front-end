@@ -97,11 +97,11 @@ export default function StudyInfoClient() {
         <div className={styles.title}>{data?.title}</div>
         {/* \n 처리 */}
         <div className={styles.description}>
-          {data?.description?.split('\n').map((line: string) => (
-            <span key={line}>
+          {data?.description?.split('\n').map((line: string, index: number) => (
+            <p key={index}>
               {line}
               <br />
-            </span>
+            </p>
           ))}
         </div>
         <div className={styles.tagsContainer}>
