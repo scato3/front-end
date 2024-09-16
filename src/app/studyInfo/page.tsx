@@ -154,7 +154,7 @@ export default function StudyInfo() {
               (member: { nickname: string; _owner: boolean }) => (
                 <div className={styles.memberBox} key={member.nickname}>
                   <div className={styles.memberCircle}>
-                    {member._owner ? (
+                    {member._owner === true ? (
                       <Image
                         src={IconOwner}
                         width={22}
@@ -163,13 +163,6 @@ export default function StudyInfo() {
                         className={styles.owner}
                       />
                     ) : null}
-                    <Image
-                      src={IconOwner}
-                      width={22}
-                      height={22}
-                      alt="방장 아이콘"
-                      className={styles.owner}
-                    />
                   </div>
                   <p className={styles.nickname}>{member.nickname}</p>
                 </div>
