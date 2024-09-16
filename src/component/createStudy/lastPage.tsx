@@ -103,7 +103,7 @@ export default function LastPage({ onBefore }: IStep4) {
     };
 
     mutate(requestData, {
-      onSuccess: (data) => {
+      onSuccess: () => {
         handleOpenModal();
       },
       onError: (error) => {
