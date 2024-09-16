@@ -53,7 +53,7 @@ export default function Landing() {
             router.push('./');
           }}
         >
-          둘러보기
+          테스트중입니다.
         </p>
       </div>
     </div>
