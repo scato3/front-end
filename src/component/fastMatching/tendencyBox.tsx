@@ -10,7 +10,7 @@ interface ITendencyBoxProps {
 export default function TendencyBox({ type }: ITendencyBoxProps) {
   const { setValue, control, getValues } = useFormContext();
 
-  const selectedArray: string[] = useWatch({
+  const selectedArray = useWatch({
     control,
     name: 'tendency',
   });
@@ -20,21 +20,23 @@ export default function TendencyBox({ type }: ITendencyBoxProps) {
   }, [getValues]);
 
   const handleClick = (key: string) => {
-    let updatedValue: string | string[];
+    let updatedValue;
+
+    const currentArray = Array.isArray(selectedArray) ? selectedArray : [];
 
     if (type === 'createStudy') {
       // createStudy일 경우 하나만 선택 가능
-      if (selectedArray.includes(key)) {
+      if (currentArray.includes(key)) {
         updatedValue = '';
       } else {
         updatedValue = key;
       }
     } else {
       // 다른 경우는 여러 개 선택 가능 (배열)
-      if (selectedArray.includes(key)) {
-        updatedValue = selectedArray.filter((item: string) => item !== key);
+      if (currentArray.includes(key)) {
+        updatedValue = currentArray.filter((item: string) => item !== key);
       } else {
-        updatedValue = [...selectedArray, key];
+        updatedValue = [...currentArray, key];
       }
     }
 
