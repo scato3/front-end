@@ -1,9 +1,9 @@
-'use client'; // 클라이언트 전용 컴포넌트
+'use client';
 
 import styles from './studyInfo.module.scss';
 import Navigation from '@/component/common/navigation';
 import { useGetStudyDetail } from '@/apis/study/detail';
-import { useSearchParams } from 'next/navigation'; // 클라이언트 훅
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { IconHoriz, IconWhite } from '../../../public/icons';
 import koreanFormatDate from '@/utils/dateformat';
@@ -24,7 +24,7 @@ import {
 } from '@/apis/study/favorite';
 
 export default function StudyInfo() {
-  const searchParams = useSearchParams(); // 클라이언트 측 훅
+  const searchParams = useSearchParams();
   const studyId = searchParams.get('studyId');
 
   const { data } = useGetStudyDetail(Number(studyId));
