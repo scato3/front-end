@@ -1,8 +1,12 @@
 .Container {
   position: relative;
-  height: calc(100vh - 125px);
+  height: calc(100vh - 80px);
   padding-top: 64px;
   overflow-y: auto;
+
+  @media (max-width: 390px) {
+    height: calc(100vh - 125px);
+  }
 }
 
 .horiz {
