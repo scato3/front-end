@@ -25,3 +25,4 @@ export { default as IconBook } from './Icon_book.svg';
 export { default as IconOwner } from './Icon_owner.svg';
 export { default as IconHeart } from './Icon_heart.svg';
 export { default as IconActiveHeart } from './Icon_active_heart.svg';
+export { default as IconBlackX } from './Icon_black_x.svg';

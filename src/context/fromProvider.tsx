@@ -16,6 +16,10 @@ const FromProvider = ({ children }: PathProviderProps) => {
   useEffect(() => {
     const cleanPathname = pathname.split('?')[0];
 
+    if (cleanPathname === 'search_result') {
+      return setFrom('/search');
+    }
+
     if (previousPath.current) {
       if (previousPath.current === '/studyList' || '/createStudy') {
         setFrom('/');

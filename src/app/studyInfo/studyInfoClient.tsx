@@ -23,11 +23,16 @@ import {
 } from '@/apis/study/favorite';
 import { useAlert } from '@/context/alertProvider';
 import Navigation from '@/component/common/navigation';
+import BottomSheet from '@/component/studyInfo/bottomSheet';
+import { useQueryClient } from '@tanstack/react-query';
+import { getUserProfile } from '@/apis/profile/userProfile';
+import { UserProfileType } from '@/types/studyList/profile';
 
 export default function StudyInfoClient() {
   const searchParams = useSearchParams();
   const { showAlert } = useAlert();
   const studyId = searchParams.get('studyId');
+  const queryClient = useQueryClient();
 
   const { data } = useGetStudyDetail(Number(studyId));
   const { mutate } = usePostJoinStudy();
@@ -35,6 +40,10 @@ export default function StudyInfoClient() {
   const [message, setMessage] = useState<string>('');
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+  const [selectedMember, setSelectedMember] = useState<UserProfileType | null>(
+    null
+  );
 
   const postFavorite = usePostFavoriteStudy();
   const deleteFavorite = useDeleteFavoriteStudy();
@@ -59,25 +68,41 @@ export default function StudyInfoClient() {
   };
 
   const handleAddFavorite = () => {
+    setIsFavorite(true);
+
     postFavorite.mutate(Number(studyId), {
-      onSuccess: () => {
-        setIsFavorite(true);
-      },
+      onSuccess: () => {},
       onError: (error) => {
+        setIsFavorite(false);
         showAlert(error.message);
       },
     });
   };
 
   const handleRemoveFavorite = () => {
+    setIsFavorite(false);
     deleteFavorite.mutate(Number(studyId), {
-      onSuccess: () => {
-        setIsFavorite(false);
-      },
+      onSuccess: () => {},
       onError: (error) => {
+        setIsFavorite(true);
         showAlert(error.message);
       },
     });
+  };
+
+  const handleCloseBottomSheet = () => {
+    setIsBottomSheetOpen(false);
+    setSelectedMember(null);
+  };
+
+  const handleMemberClick = async (nickname: string) => {
+    const userProfile = await queryClient.fetchQuery({
+      queryKey: ['getUserProfile', nickname],
+      queryFn: () => getUserProfile(nickname),
+    });
+
+    setSelectedMember(userProfile);
+    setIsBottomSheetOpen(true);
   };
 
   return (
@@ -146,16 +171,18 @@ export default function StudyInfoClient() {
           <div className={styles.memberContainer}>
             {data?.membersList?.map(
               (member: { nickname: string; _owner: boolean }) => (
-                <div className={styles.memberBox} key={member.nickname}>
+                <div
+                  className={styles.memberBox}
+                  key={member.nickname}
+                  onClick={() => {
+                    handleMemberClick(member.nickname);
+                  }}
+                >
                   <div className={styles.memberCircle}>
                     {member._owner === true ? (
-                      <Image
-                        src={IconOwner}
-                        width={22}
-                        height={22}
-                        alt="방장 아이콘"
-                        className={styles.owner}
-                      />
+                      <div className={styles.owner}>
+                        <Image src={IconOwner} alt="방장 아이콘" />
+                      </div>
                     ) : null}
                   </div>
                   <p className={styles.nickname}>{member.nickname}</p>
@@ -195,6 +222,13 @@ export default function StudyInfoClient() {
             <JoinStudyModal message={message} />
           </ModalContainer>
         </ModalPortal>
+      )}
+      {isBottomSheetOpen && (
+        <BottomSheet
+          isOpen={isBottomSheetOpen}
+          onClose={handleCloseBottomSheet}
+          memberData={selectedMember as UserProfileType}
+        />
       )}
     </>
   );

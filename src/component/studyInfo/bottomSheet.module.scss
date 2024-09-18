@@ -1,0 +1,125 @@
+.overLay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.overLay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bottomSheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: 390px;
+  height: 367px;
+  background-color: white;
+  border-radius: 30px 30px 0 0;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0, 0.57, 0.3, 0.86);
+}
+
+.bottomSheet.open {
+  transform: translateY(0);
+}
+
+.sheetContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 26px 28px;
+
+  h2 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 38.4px;
+  }
+}
+
+.iconX {
+  top: 22px;
+  right: 22px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.imageContainer {
+  margin-top: 25px;
+  width: 127px;
+  height: 127px;
+  border-radius: 50%;
+  background-color: #e1bd62;
+}
+
+.countContainer {
+  margin-top: 17.7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.inprogress,
+.incomplete {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 23.5px;
+  }
+  span {
+    font-weight: 600;
+    align-self: center;
+    color: var(--main);
+  }
+}
+
+.ratingBox {
+  padding: 11px 38px;
+  margin-top: 20px;
+  width: 100%;
+  height: 70px;
+  border-radius: 5px;
+  background-color: var(--gray-50);
+}
+
+.ratingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 23.5px;
+}
+
+.ratingBar {
+  margin-top: 10px;
+  width: 0%;
+  height: 7px;
+  background-color: var(--gray-200);
+  border-radius: 7px;
+  transition: width 1s ease-in-out;
+}
+
+.ratingBarFilled {
+  background-color: var(--main);
+}
