@@ -12,3 +12,19 @@
     line-height: 23.5px;
   }
 }
+
+.noStudyContainer {
+  width: 100%;
+  height: calc(100dvh - 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonContainer {
+  width: 390px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}

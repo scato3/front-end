@@ -1,0 +1,34 @@
+.Container {
+  height: 100dvh;
+  padding-top: 64px;
+}
+
+.section {
+  padding: 21px 0 0 32px;
+  cursor: pointer;
+
+  h2 {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 27px;
+    color: var(--black-000);
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26.8px;
+    color: var(--black-000);
+  }
+}
+
+.manage {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.delete {
+  margin-top: 45px;
+}

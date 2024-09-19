@@ -1,0 +1,51 @@
+.Container {
+  width: 240px;
+  height: 123px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.Content {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 15px;
+
+  p {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 24px;
+    margin-top: 32px;
+  }
+}
+
+.ButtonContainer {
+  display: flex;
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+}
+
+.CancelButton,
+.ConfirmButton {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  background-color: white;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.CancelButton {
+  border-right: 1px solid #e0e0e0;
+  color: #666;
+}
+
+.ConfirmButton {
+  color: #f66;
+}

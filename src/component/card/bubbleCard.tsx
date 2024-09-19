@@ -24,36 +24,38 @@ export default function BubbleCard({ data }: StudyCardType) {
 
   return (
     <div className={styles.Container}>
-      <h2>{data.title}</h2>
+      <h2>{data?.title}</h2>
       <div className={styles.infoContainer}>
         <div className={styles.people}>
           <Image src={IconPeople} alt="사람 이미지" />
           <p>
-            {data.cur_participants_num}/{data.max_participants_num}
+            {data?.cur_participants_num}/{data?.max_participants_num}
           </p>
         </div>
         <div className={styles.date}>
           <Image src={IconCalendar} alt="달력 이미지" />
           <p>
-            {formatDate(data.start_date)} ~ {formatDate(data.end_date)}
+            {formatDate(data?.start_date)} ~ {formatDate(data?.end_date)}
           </p>
         </div>
       </div>
       <div className={styles.successContainer}>
         <div className={styles.success}>
           <p>오늘 완료</p>
-          <span>{formatToTwoDigits(data.progress_todo.complete_num)}</span>
+          <span>{formatToTwoDigits(data?.progress_todo.complete_num)}</span>
         </div>
         <div className={styles.success}>
           <p>미완료</p>
           <span>
-            {formatToTwoDigits(
-              data.progress_todo.total_num - data.progress_todo.complete_num
-            )}
+            {data
+              ? formatToTwoDigits(
+                  data.progress_todo.total_num - data.progress_todo.complete_num
+                )
+              : null}
           </span>
         </div>
         <div className={styles.ratingHeader}>
-          <p>{data.progress_todo.percent}</p>
+          <p>{data?.progress_todo.percent}</p>
         </div>
         <div className={styles.ratingBox}>
           <div

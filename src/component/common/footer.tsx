@@ -37,7 +37,8 @@ export default function Footer() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const excludedPaths = /^\/(sign-in|fastMatching|createStudy|studyInfo.*)/;
+  const excludedPaths =
+    /^\/(sign-in|fastMatching|createStudy|studyInfo.*|studySetting.*)/;
 
   if (excludedPaths.test(pathname)) return null;
 
