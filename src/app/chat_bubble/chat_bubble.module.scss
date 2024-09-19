@@ -1,0 +1,14 @@
+.Container {
+  height: calc(100dvh - 78px);
+  overflow-y: scroll;
+}
+
+.section {
+  padding: 23px 25px 0 25px;
+
+  h2 {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 23.5px;
+  }
+}

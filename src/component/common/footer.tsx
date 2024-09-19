@@ -23,7 +23,7 @@ const icons = [
     default: '/footer/Icon_bubble.svg',
     checked: '/footer/Icon_bubble_check.svg',
     alt: 'Bubble',
-    value: 'bubble',
+    value: 'chat_bubble',
   },
   {
     default: '/footer/Icon_profile.svg',
@@ -64,7 +64,9 @@ export default function Footer() {
                 src={isActive ? icon.checked : icon.default}
                 alt={icon.alt}
                 width={
-                  icon.value === 'search' || icon.value === 'bubble' ? 32 : 44
+                  icon.value === 'search' || icon.value === 'chat_bubble'
+                    ? 32
+                    : 44
                 }
                 height={44}
               />
