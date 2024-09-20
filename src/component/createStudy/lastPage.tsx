@@ -12,7 +12,7 @@ import { useAlert } from '@/context/alertProvider';
 import { useModal } from '@/hooks/useModal';
 import ModalContainer from '../common/modalContainer';
 import ModalPortal from '../common/modalPortal';
-import CreateModal from '../modal/createModal';
+import CheckModal from '../modal/checkModal';
 import { useRouter } from 'next/navigation';
 
 interface IStep4 {
@@ -145,6 +145,7 @@ export default function LastPage({ onBefore }: IStep4) {
 (예시_매주 3회 이상 필수참여하실 수 있는 분들 함께해요!)`}
               value={description || ''}
               onChange={handleDescriptionChange}
+              maxLength={100}
             />
           </div>
           <div className={styles.tagsHeader}>
@@ -198,7 +199,7 @@ export default function LastPage({ onBefore }: IStep4) {
       {openModal && (
         <ModalPortal>
           <ModalContainer handleCloseModal={handleModalClose}>
-            <CreateModal />
+            <CheckModal message="쇼터디가 생성되었어요!" />
           </ModalContainer>
         </ModalPortal>
       )}

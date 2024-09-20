@@ -39,6 +39,7 @@ button {
   outline: none;
   resize: none;
   border: none;
+  box-sizing: border-box;
 }
 
 /* input, textarea의 기본 스타일 제거 */
@@ -48,7 +49,6 @@ input {
   appearance: none;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 /* 숫자 입력 필드에서 스피너 제거 (Webkit 및 Firefox) */

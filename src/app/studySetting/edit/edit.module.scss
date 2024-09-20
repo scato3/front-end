@@ -1,0 +1,122 @@
+.Container {
+  height: 100dvh;
+  padding-top: 64px;
+}
+
+.verticalLine {
+  width: 100%;
+  height: 1px;
+  background-color: #eaeaea;
+}
+
+.section {
+  padding: 22px 23px 0 22px;
+
+  h2 {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 23.5px;
+    color: var(--black);
+  }
+}
+
+.titleContainer {
+  margin-top: 47px;
+  .input {
+    margin-top: 11px;
+  }
+}
+
+.input {
+  padding-left: 9px;
+  width: 100%;
+  height: 34px;
+  border-radius: 3px;
+  background-color: var(--gray-50);
+  ::placeholder {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 17.6px;
+    color: var(--gray-600);
+  }
+}
+
+.descriptionContainer {
+  margin-top: 30px;
+
+  textarea {
+    margin-top: 11px;
+    padding: 10px 9px;
+    width: 100%;
+    height: 75px;
+    border-radius: 3px;
+    background-color: var(--gray-50);
+    ::placeholder {
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 17.6px;
+      color: var(--gray-600);
+    }
+  }
+}
+
+.tagsContainer {
+  margin-top: 35px;
+  .input {
+    margin-top: 8px;
+  }
+}
+
+.tagHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  span {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 18.5px;
+    color: #a7a5a4;
+  }
+}
+
+.tagBox {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.tag {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-width: 77px;
+  height: 22.41px;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 17.6px;
+  padding-left: 6px;
+  color: var(--main);
+  background-color: var(--orange-100);
+  border-radius: 3px;
+
+  p {
+    width: 90%;
+  }
+
+  .filterImage {
+    display: flex;
+    flex-grow: 1;
+    cursor: pointer;
+  }
+}
+
+.buttonContainer {
+  position: fixed;
+  max-width: 390px;
+  width: 100%;
+  bottom: 10px;
+  margin-left: 25px;
+}

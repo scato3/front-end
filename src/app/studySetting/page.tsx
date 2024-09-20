@@ -1,5 +1,3 @@
-'use client';
-
 import Navigation from '@/component/common/navigation';
 import styles from './studySetting.module.scss';
 import { Suspense } from 'react';
@@ -10,6 +8,7 @@ export default function StudySetting() {
     <Suspense>
       <div className={styles.Container}>
         <Navigation title="스터디 설정" />
+        <div className={styles.verticalLine}></div>
         <StudySettingClient />
       </div>
     </Suspense>

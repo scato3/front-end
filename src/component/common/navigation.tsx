@@ -24,13 +24,8 @@ export default function Navigation({ title, onClick, horiz }: NavigationProps) {
   const handleBackClick = () => {
     if (onClick) {
       onClick();
-    } else {
-      if (from) {
-        router.push(from);
-      } else {
-        router.push('/');
-      }
     }
+    router.back();
   };
 
   const handleHorizClick = () => {

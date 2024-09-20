@@ -19,10 +19,11 @@ export default function DeleteModal({
   const handleDelete = () => {
     mutate(studyId, {
       onSuccess: () => {
-        router.push('./');
         handleCloseModal();
+        router.push('./');
       },
       onError: (error) => {
+        handleCloseModal();
         showAlert(error.message);
       },
     });
