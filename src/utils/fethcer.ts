@@ -30,33 +30,14 @@ const _fetch = async ({
     ? getAppCookie(refreshTokenKey)
     : getAppCookie(accessTokenKey);
 
-  let headers: HeadersInit = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-    ...(token && { Authorization: `Bearer ${token}` }),
-  };
-
-  let requestOptions: RequestInit = {
-    method,
-    headers,
-    cache: revalidate ? 'force-cache' : 'no-cache',
-    ...(revalidate ? { next: { revalidate } } : {}),
-    ...(tags ? { next: { tags } } : {}),
-    ...(body && typeof body === 'object' ? { body: JSON.stringify(body) } : {}),
-  };
-
-  let res = await fetch(apiUrl, requestOptions);
-
-  // 토큰이 만료되었고, 리프레시 토큰 요청 중이 아닐 때만 실행
   if (token && isTokenExpired(token) && !isRefreshing) {
-    isRefreshing = true; // 리프레시 토큰 요청 진행 시작
+    isRefreshing = true;
 
     try {
-      // 401 에러가 발생한 경우, 리프레시 토큰을 사용하여 새 액세스 토큰 발급
+      // 토큰이 만료되었으면, 리프레시 토큰으로 새 액세스 토큰 발급
       const refreshResult = await postRefreshToken();
 
-      // 새로운 액세스 토큰과 리프레시 토큰을 쿠키에 저장
+      // 새로 받은 액세스 토큰과 리프레시 토큰을 쿠키에 저장
       if (refreshResult.accessToken && refreshResult.refreshToken) {
         setAppCookie(accessTokenKey, refreshResult.accessToken);
         setAppCookie(refreshTokenKey, refreshResult.refreshToken);
@@ -66,24 +47,30 @@ const _fetch = async ({
       } else {
         throw new Error('Invalid token response from refresh');
       }
-
-      headers = {
-        ...headers,
-        Authorization: `Bearer ${refreshResult.accessToken}`,
-      };
-
-      // 요청을 다시 시도
-      requestOptions = {
-        ...requestOptions,
-        headers,
-      };
-      res = await fetch(apiUrl, requestOptions);
     } catch (error) {
       throw new Error('Token refresh failed');
     } finally {
       isRefreshing = false;
     }
   }
+
+  const headers: HeadersInit = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache',
+    ...(token && { Authorization: `Bearer ${token}` }),
+  };
+
+  const requestOptions: RequestInit = {
+    method,
+    headers,
+    cache: revalidate ? 'force-cache' : 'no-cache',
+    ...(revalidate ? { next: { revalidate } } : {}),
+    ...(tags ? { next: { tags } } : {}),
+    ...(body && typeof body === 'object' ? { body: JSON.stringify(body) } : {}),
+  };
+
+  const res = await fetch(apiUrl, requestOptions);
 
   if (!res.ok) {
     const errorData = await res.json();

@@ -39,7 +39,7 @@ export default function StudySettingClient() {
             >
               스터디 멤버 관리
             </p>
-            <span>11</span>
+            {data && data?.data > 0 && <span>{data?.data}</span>}
           </div>
         </div>
         <p className={styles.delete} onClick={handleOpenModal}>

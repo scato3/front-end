@@ -25,7 +25,6 @@ const FromProvider = ({ children }: PathProviderProps) => {
       } else {
         setFrom(previousPath.current);
       }
-      console.log(from);
     }
 
     previousPath.current = cleanPathname;

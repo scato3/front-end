@@ -2,11 +2,11 @@ import api from '@/utils/fethcer';
 import { useQuery } from '@tanstack/react-query';
 
 async function getJoinRequest(studyId: number) {
-  await api.get({ url: `joinRequest/count/${studyId}` });
+  return await api.get({ url: `joinRequest/count/${studyId}` });
 }
 
-export async function useGetJoinRequest(studyId: number) {
-  useQuery({
+export function useGetJoinRequest(studyId: number) {
+  return useQuery({
     queryKey: ['joinRequest'],
     queryFn: () => getJoinRequest(studyId),
   });
