@@ -20,7 +20,7 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(customParseFormat);
 dayjs.locale('ko');
 
-interface CalendarProps {
+export interface CalendarProps {
   isOpen: boolean;
   onClose: () => void;
 }

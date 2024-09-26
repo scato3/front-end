@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState, PropsWithChildren } from 'react';
 import styles from './noStudy.module.scss';
 import Image from 'next/image';
@@ -42,13 +44,7 @@ export default function NoStudy({ type = 'NoStudy' }: NoStudyProps) {
         height={110}
       />
       <p className={styles.contentTop}>{header}</p>
-      <p
-        className={`${styles.contentBtm} ${
-          type === 'NoSpeed' ? styles.active : ''
-        }`}
-      >
-        {content}
-      </p>
+      <p className={styles.contentBtm}>{content}</p>
     </div>
   );
 }

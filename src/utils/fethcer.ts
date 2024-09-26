@@ -5,6 +5,7 @@ import { isTokenExpired } from './isTokenExpired';
 import { postRefreshToken } from '../apis/login/oauth';
 
 let isRefreshing = false;
+let refreshPromise: Promise<string> | null = null;
 
 const _fetch = async ({
   body,
@@ -15,11 +16,13 @@ const _fetch = async ({
   revalidate,
   tags,
 }: FetchOptions) => {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL!;
   const baseUrl = `${apiBaseUrl}/${url}`;
   const apiUrl = query
-    ? `${baseUrl}?${queryString.stringify(query, { skipNull: true, skipEmptyString: true })}`
+    ? `${baseUrl}?${queryString.stringify(query, {
+        skipNull: true,
+        skipEmptyString: true,
+      })}`
     : baseUrl;
 
   const refreshTokenKey = process.env
@@ -30,27 +33,30 @@ const _fetch = async ({
     ? getAppCookie(refreshTokenKey)
     : getAppCookie(accessTokenKey);
 
-  if (token && isTokenExpired(token) && !isRefreshing) {
-    isRefreshing = true;
+  if (token && isTokenExpired(token)) {
+    if (!isRefreshing) {
+      isRefreshing = true;
+      refreshPromise = postRefreshToken()
+        .then((refreshResult) => {
+          if (refreshResult.accessToken && refreshResult.refreshToken) {
+            setAppCookie(accessTokenKey, refreshResult.accessToken);
+            setAppCookie(refreshTokenKey, refreshResult.refreshToken);
+            return refreshResult.accessToken;
+          }
+        })
+        .catch((error) => {
+          throw new Error(error.message);
+        })
+        .finally(() => {
+          isRefreshing = false;
+          refreshPromise = null;
+        });
+    }
 
     try {
-      // 토큰이 만료되었으면, 리프레시 토큰으로 새 액세스 토큰 발급
-      const refreshResult = await postRefreshToken();
-
-      // 새로 받은 액세스 토큰과 리프레시 토큰을 쿠키에 저장
-      if (refreshResult.accessToken && refreshResult.refreshToken) {
-        setAppCookie(accessTokenKey, refreshResult.accessToken);
-        setAppCookie(refreshTokenKey, refreshResult.refreshToken);
-
-        // 새로운 액세스 토큰으로 토큰 업데이트
-        token = refreshResult.accessToken;
-      } else {
-        throw new Error('Invalid token response from refresh');
-      }
+      token = await refreshPromise!;
     } catch (error) {
-      throw new Error('Token refresh failed');
-    } finally {
-      isRefreshing = false;
+      throw error;
     }
   }
 
@@ -89,10 +95,12 @@ const _fetch = async ({
   }
 };
 
+// HTTP 메서드별로 fetch 함수를 생성
 const fetchMethod = (method: string) => (options: FetchOptions) => {
   return _fetch({ method, ...options });
 };
 
+// API 객체 정의
 const api = {
   get: fetchMethod('GET'),
   post: fetchMethod('POST'),

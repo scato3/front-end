@@ -102,6 +102,8 @@ export default function LastPage({ onBefore }: IStep4) {
       start_date: formData.startDate,
     };
 
+    delete requestData.startDate;
+
     mutate(requestData, {
       onSuccess: () => {
         handleOpenModal();

@@ -3,7 +3,7 @@ export interface CreateStudyDataType {
   title: string;
   description: string;
   tags: string[];
-  startDate: string;
+  startDate?: string;
   duration: string;
   max_participants_num: number;
   matching_type: string;

@@ -17,3 +17,7 @@ export const useGetCard = (
     enabled,
   });
 };
+
+export async function getFirstCard() {
+  return await api.get({ url: `study/recent` });
+}

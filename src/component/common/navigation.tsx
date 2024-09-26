@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import styles from './navigation.module.scss';
 import { IconArrow } from '../../../public/icons';
-import useFromStore from '@/store/userFrom';
 import { IconHoriz } from '../../../public/icons';
 
 interface NavigationProps {
@@ -17,7 +16,6 @@ interface NavigationProps {
 export default function Navigation({ title, onClick, horiz }: NavigationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { from } = useFromStore();
 
   const studyId = searchParams.get('studyId');
 

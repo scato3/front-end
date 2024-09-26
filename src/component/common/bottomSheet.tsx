@@ -2,7 +2,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import styles from './bottomSheet.module.scss';
 import { durationOption } from '@/data/durationData';
 
-interface BottomSheetProps {
+export interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
 }
