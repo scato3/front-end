@@ -10,7 +10,7 @@ interface PathProviderProps {
 
 const FromProvider = ({ children }: PathProviderProps) => {
   const pathname = usePathname();
-  const { from, setFrom } = useFromStore();
+  const { setFrom } = useFromStore();
   const previousPath = useRef<string | null>(null); // 이전 경로를 저장할 ref
 
   useEffect(() => {
