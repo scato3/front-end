@@ -14,6 +14,8 @@ function LoginComponent() {
 
   const { data } = useGetKakaoCode({ code });
 
+  console.log(data);
+
   useEffect(() => {
     const refreshTokenInCookie = getAppCookie(
       process.env.NEXT_PUBLIC_COOKIE_REFRESH_TOKEN_KEY as string
@@ -29,7 +31,7 @@ function LoginComponent() {
         data.refreshToken
       );
       setCheckLogin(true);
-      data.isNewUser ? router.push('/') : router.push('/setProfile');
+      data.isNewUser ? router.push('/setProfile') : router.push('/');
     }
   }, [data, router, setCheckLogin]);
 
