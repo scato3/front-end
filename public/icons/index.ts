@@ -26,3 +26,5 @@ export { default as IconOwner } from './Icon_owner.svg';
 export { default as IconHeart } from './Icon_heart.svg';
 export { default as IconActiveHeart } from './Icon_active_heart.svg';
 export { default as IconBlackX } from './Icon_black_x.svg';
+export { default as IconSetting } from './Icon_setting.svg';
+export { default as IconPencil } from './Icon_pencil.svg';

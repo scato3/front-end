@@ -1,0 +1,150 @@
+.Container {
+  height: 100dvh;
+}
+
+.navigation {
+  position: relative;
+  width: 100%;
+  height: 65px;
+  color: #000000;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.settingImg {
+  top: 22px;
+  right: 25px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.profileConainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    margin-top: 9px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 33.6px;
+    color: var(--black);
+  }
+}
+
+.profileImage {
+  margin-top: 25px;
+  width: 107px;
+  height: 107px;
+  background-color: var(--main);
+  border-radius: 50%;
+}
+
+.editContainer {
+  margin-top: 15px;
+  width: 77px;
+  height: 24px;
+  border: 0.5px solid var(--gray-000);
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 18.5px;
+  color: var(--gray-111);
+  gap: 2px;
+  cursor: pointer;
+}
+
+.section {
+  padding: 0 25px;
+  .notice {
+    margin-top: 24px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 27px;
+    color: var(--black-000);
+  }
+}
+
+.myrecord {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 23.5px;
+  color: var(--black);
+}
+
+.ratingBar {
+  margin-top: 12px;
+  width: 100%;
+  height: 7px;
+  background-color: var(--gray-600);
+  border-radius: 7px;
+  position: relative;
+}
+
+.ratingBarFilled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #ff6414 0%, #ffbb13 80%, #ffeecc 100%);
+  border-radius: 7px;
+  transition: width 0.5s ease-in-out;
+}
+
+.statusContainer {
+  margin-top: 24px;
+  height: 81px;
+  background-color: var(--gray-50);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.statusItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--gray-600);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 23.5px;
+}
+
+.statusNumber {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--black);
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.verticalLine {
+  margin-top: 56px;
+  width: 100%;
+  height: 3px;
+  background-color: #eaeaea;
+}
+
+.terms {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.termsImg {
+  cursor: pointer;
+}

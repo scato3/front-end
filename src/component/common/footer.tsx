@@ -40,18 +40,22 @@ export default function Footer() {
   const excludedPaths =
     /^\/(sign-in|fastMatching|createStudy|studyInfo.*|studySetting.*)/;
 
+  const hideIconAddPaths = ['/profile'];
+
   if (excludedPaths.test(pathname)) return null;
 
   return (
     <div className={styles.Container}>
-      <div
-        className={styles.addImage}
-        onClick={() => {
-          router.push('./createStudy');
-        }}
-      >
-        <Image src={IconAdd} alt="추가 이미지" width={31} height={31} />
-      </div>
+      {!hideIconAddPaths.includes(pathname) && (
+        <div
+          className={styles.addImage}
+          onClick={() => {
+            router.push('./createStudy');
+          }}
+        >
+          <Image src={IconAdd} alt="추가 이미지" width={31} height={31} />
+        </div>
+      )}
       {icons.map((icon, index) => {
         const isActive =
           pathname === '/' && icon.value === ''

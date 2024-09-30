@@ -15,8 +15,9 @@ const _fetch = async ({
   url,
   revalidate,
   tags,
+  token: providedToken,
 }: FetchOptions) => {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL!;
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const baseUrl = `${apiBaseUrl}/${url}`;
   const apiUrl = query
     ? `${baseUrl}?${queryString.stringify(query, {
@@ -29,9 +30,11 @@ const _fetch = async ({
     .NEXT_PUBLIC_COOKIE_REFRESH_TOKEN_KEY as string;
   const accessTokenKey = process.env.NEXT_PUBLIC_COOKIE_TOKEN_KEY as string;
 
-  let token = refreshToken
-    ? getAppCookie(refreshTokenKey)
-    : getAppCookie(accessTokenKey);
+  let token = providedToken
+    ? providedToken
+    : refreshToken
+      ? getAppCookie(refreshTokenKey)
+      : getAppCookie(accessTokenKey);
 
   if (token && isTokenExpired(token)) {
     if (!isRefreshing) {
@@ -61,7 +64,6 @@ const _fetch = async ({
   }
 
   const headers: HeadersInit = {
-    Accept: 'application/json',
     'Content-Type': 'application/json',
     'Cache-Control': 'no-cache',
     ...(token && { Authorization: `Bearer ${token}` }),
@@ -87,12 +89,13 @@ const _fetch = async ({
 
   if (contentType.includes('application/json')) {
     return await res.json();
-  } else if (
-    contentType.includes('text/plain') ||
-    contentType.includes('text/html')
-  ) {
+  }
+
+  if (contentType.includes('text/plain') || contentType.includes('text/html')) {
     return await res.text();
   }
+
+  return null; // JSON이나 텍스트가 아닌 다른 응답에 대한 기본값 처리
 };
 
 // HTTP 메서드별로 fetch 함수를 생성

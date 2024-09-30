@@ -6,4 +6,5 @@ export interface FetchOptions {
   refreshToken?: boolean;
   revalidate?: number;
   tags?: string[];
+  token?: string;
 }
