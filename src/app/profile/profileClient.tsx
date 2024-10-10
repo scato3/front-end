@@ -6,36 +6,31 @@ import { IconPencil } from '../../../public/icons';
 import { useEffect, useState } from 'react';
 import { RightArrow } from '../../../public/arrow';
 import ProfileBottomSheet from '@/component/profile/profileBottomSheet';
-import { MyProfileType } from '@/types/profile/profileType';
+import { useGetMyProfile } from '@/apis/profile/userProfile';
+import { useRouter } from 'next/navigation';
 
-interface ProfileClientProps {
-  data: MyProfileType; // props로 MyProfileType을 받음
-}
-
-export default function ProfileClient({ data }: ProfileClientProps) {
+export default function ProfileClient() {
   const [rating, setRating] = useState(0);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
-  const [nickname, setNickname] = useState(data.profile.nickname);
+  const { data } = useGetMyProfile();
+  const router = useRouter();
 
   useEffect(() => {
     setTimeout(() => {
-      setRating(data.profile.rating ?? 0);
+      setRating(data?.profile.rating ?? 0);
     }, 200);
-  }, []);
+    console.log(data);
+  }, [data]);
 
   const handleCloseBottomSheet = () => {
     setIsBottomSheetOpen(false);
   };
 
-  const handleNicknameChange = (newNickname: string) => {
-    setNickname(newNickname);
-  };
-
   return (
     <>
-      <div className={styles.profileConainer}>
+      <div className={styles.profileContainer}>
         <div className={styles.profileImage}></div>
-        <h2>{nickname}</h2>
+        <h2>{data?.profile.nickname}</h2>
         <div
           className={styles.editContainer}
           onClick={() => {
@@ -49,7 +44,7 @@ export default function ProfileClient({ data }: ProfileClientProps) {
       <div className={styles.section}>
         <div className={styles.myrecord}>
           <p>나의 쇼터디 성적표</p>
-          <p>{data.profile.rating ?? 0}점</p>
+          <p>{data?.profile.rating ?? 0}점</p>
         </div>
         <div className={styles.ratingBar}>
           <div
@@ -58,28 +53,33 @@ export default function ProfileClient({ data }: ProfileClientProps) {
           ></div>
         </div>
         <div className={styles.statusContainer}>
-          <div className={styles.statusItem}>
+          <div
+            className={styles.statusItem}
+            onClick={() => {
+              router.push('./profile/favorite');
+            }}
+          >
             <p>찜</p>
             <p className={styles.statusNumber}>
-              {data.study_count.in_favorite}
+              {data?.study_count.in_favorite}
             </p>
           </div>
           <div className={styles.statusItem}>
             <p>승인대기</p>
             <p className={styles.statusNumber}>
-              {data.study_count.in_proposal}
+              {data?.study_count.in_proposal}
             </p>
           </div>
           <div className={styles.statusItem}>
             <p>참여중</p>
             <p className={styles.statusNumber}>
-              {data.study_count.in_progress}
+              {data?.study_count.in_progress}
             </p>
           </div>
           <div className={styles.statusItem}>
             <p>완료</p>
             <p className={styles.statusNumber}>
-              {data.study_count.in_complete}
+              {data?.study_count.in_complete}
             </p>
           </div>
         </div>
@@ -111,8 +111,7 @@ export default function ProfileClient({ data }: ProfileClientProps) {
           <ProfileBottomSheet
             isOpen={isBottomSheetOpen}
             onClose={handleCloseBottomSheet}
-            nickname={nickname}
-            onNicknameChange={handleNicknameChange}
+            nickname={data?.profile.nickname || ''}
           />
         )}
       </div>

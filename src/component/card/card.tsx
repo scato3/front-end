@@ -11,9 +11,10 @@ import { getStudyDetail } from '@/apis/study/detail';
 
 interface CardProps {
   data: CardType;
+  gray?: boolean;
 }
 
-export default function Card({ data }: CardProps) {
+export default function Card({ data, gray }: CardProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -26,7 +27,7 @@ export default function Card({ data }: CardProps) {
 
   return (
     <div
-      className={styles.container}
+      className={`${styles.container} ${gray ? styles.gray : ''}`}
       onClick={async () => {
         await prefetchStudyDetail();
         router.push(`/studyInfo?studyId=${data.id}`);

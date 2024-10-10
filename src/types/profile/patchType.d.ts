@@ -1,4 +1,4 @@
 export interface PatchType {
   nickname?: string;
-  profileImage?: string;
+  profileImage?: string | File;
 }

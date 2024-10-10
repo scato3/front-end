@@ -5,6 +5,10 @@
   margin: 12px 0;
   background-color: var(--white);
   border-radius: 10px;
+
+  &.gray {
+    background-color: var(--gray-50);
+  }
 }
 
 .cardBox {

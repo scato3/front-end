@@ -7,7 +7,7 @@ import { IconNothing } from '../../../public/studyList';
 
 interface NoStudyProps {
   children?: PropsWithChildren;
-  type?: 'NoStudy' | 'NoLogin' | 'NoSpeed' | 'NoProgress';
+  type?: 'NoStudy' | 'NoLogin' | 'NoSpeed' | 'NoProgress' | 'NoFavorite';
 }
 
 export default function NoStudy({ type = 'NoStudy' }: NoStudyProps) {
@@ -32,7 +32,11 @@ export default function NoStudy({ type = 'NoStudy' }: NoStudyProps) {
       setHeader('아직 가입한 쇼터디가 없어요');
       setContent('관심있는 쇼터디에 참여해보세요!');
     }
-  }, [type]); // type이 변경될 때만 실행됨
+    if (type === 'NoFavorite') {
+      setHeader('찜한 스터디가 없어요');
+      setContent('');
+    }
+  }, [type]);
 
   return (
     <div className={styles.container}>

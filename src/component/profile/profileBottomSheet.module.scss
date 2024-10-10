@@ -60,11 +60,30 @@
 }
 
 .imageContainer {
+  position: relative;
   margin-top: 20px;
-  width: 127px;
-  height: 127px;
+}
+
+.profileImage {
   border-radius: 50%;
-  background-color: #e1bd62;
+}
+
+.cameraContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--gray-200);
+  border-radius: 50%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+
+.camera {
+  cursor: pointer;
 }
 
 .inputContainer {
