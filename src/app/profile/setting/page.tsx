@@ -11,6 +11,7 @@ import LogoutModal from '@/component/profile/logoutModal';
 
 export default function ProfileSetting() {
   const { openModal, handleCloseModal, handleOpenModal } = useModal();
+
   return (
     <div className={styles.Container}>
       <Navigation title="설정" />
