@@ -14,12 +14,14 @@ interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   nickname: string;
+  profile_image: string;
 }
 
 export default function ProfileBottomSheet({
   isOpen,
   onClose,
   nickname,
+  profile_image,
 }: BottomSheetProps) {
   const queryClient = useQueryClient();
   const [isAnimating, setIsAnimating] = useState(false);
@@ -50,22 +52,59 @@ export default function ProfileBottomSheet({
     }, 500);
   };
 
-  const handleSave = () => {
-    mutate(
-      { nickname: editedNickname, profileImage: webpImage?.name },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['myProfile'],
-            type: 'all',
-          });
-          handleClose();
-        },
-        onError: (error) => {
-          showAlert(error.message);
-        },
+  const handleSave = async () => {
+    if (!webpImage) {
+      showAlert('이미지를 선택해주세요.');
+      return;
+    }
+
+    try {
+      // 이미지 업로드 요청
+      const formData = new FormData();
+      formData.append('file', webpImage);
+      formData.append(
+        'upload_preset',
+        process.env.NEXT_PUBLIC_UPLOAD_PRESET as string
+      );
+      formData.append(
+        'cloud_name',
+        process.env.NEXT_PUBLIC_UPLOAD_CLOUD_NAME as string
+      );
+
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_UPLOAD_API as string,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('이미지 업로드에 실패했습니다.');
       }
-    );
+
+      const result = await response.json();
+      const uploadedImageUrl = result.url;
+
+      // 프로필 업데이트 요청
+      mutate(
+        { nickname: editedNickname, profileImage: uploadedImageUrl },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['myProfile'],
+              type: 'all',
+            });
+            handleClose();
+          },
+          onError: (error: any) => {
+            showAlert(error.message);
+          },
+        }
+      );
+    } catch (error: any) {
+      showAlert(error.message);
+    }
   };
 
   const handleImageChange = async (
@@ -129,12 +168,20 @@ export default function ProfileBottomSheet({
                 style={{ display: 'none' }}
               />
             </div>
-            {profileImage && (
+            {profileImage ? (
               <Image
                 src={profileImage}
                 alt="프로필 이미지 미리보기"
                 width={127}
                 height={127}
+                className={styles.profileImage}
+              />
+            ) : (
+              <Image
+                src={profile_image}
+                alt="기존 프로필 이미지"
+                width={107}
+                height={107}
                 className={styles.profileImage}
               />
             )}

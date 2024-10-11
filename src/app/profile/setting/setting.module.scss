@@ -1,0 +1,40 @@
+.Container {
+  height: 100dvh;
+  padding-top: 64px;
+}
+
+.verticalLine {
+  width: 100%;
+  height: 1px;
+  background-color: #eaeaea;
+}
+
+.section {
+  padding: 0 25px 0 32px;
+
+  h2 {
+    margin-top: 18px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26.8px;
+    color: var(--black-000);
+  }
+}
+
+.outContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.widthdraw {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26.88px;
+  color: var(--black-000);
+  cursor: pointer;
+}

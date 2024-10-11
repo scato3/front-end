@@ -52,3 +52,14 @@ export const useGetCheckDuplicateProfile = (nickname: string) => {
 export async function getMyFavoriteStudy(token?: string) {
   return await api.get({ url: 'user/favorite/study', token });
 }
+
+async function getRegisteredStudy(status: string) {
+  return await api.get({ url: `user/registered/study?status=${status}` });
+}
+
+export const useGetRegisteredStudy = (status: string) => {
+  return useQuery({
+    queryKey: ['registered', status],
+    queryFn: () => getRegisteredStudy(status),
+  });
+};

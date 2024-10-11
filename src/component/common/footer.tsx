@@ -38,10 +38,11 @@ export default function Footer() {
   const router = useRouter();
 
   const excludedPaths =
-    /^\/(sign-in|fastMatching|createStudy|studyInfo.*|studySetting.*)/;
+    /^\/(sign-in|fastMatching|createStudy|studyInfo.*|studySetting.*|profile\/.*)/;
 
   const hideIconAddPaths = ['/profile'];
 
+  // 특정 경로에서는 Footer 숨김
   if (excludedPaths.test(pathname)) return null;
 
   return (

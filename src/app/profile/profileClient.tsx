@@ -8,6 +8,7 @@ import { RightArrow } from '../../../public/arrow';
 import ProfileBottomSheet from '@/component/profile/profileBottomSheet';
 import { useGetMyProfile } from '@/apis/profile/userProfile';
 import { useRouter } from 'next/navigation';
+import { IconSetting } from '../../../public/icons';
 
 export default function ProfileClient() {
   const [rating, setRating] = useState(0);
@@ -28,8 +29,28 @@ export default function ProfileClient() {
 
   return (
     <>
+      <div className={styles.navigation}>
+        마이페이지
+        <Image
+          src={IconSetting}
+          alt="세팅 이미지"
+          className={styles.settingImg}
+          onClick={() => {
+            router.push('./profile/setting');
+          }}
+        />
+      </div>
       <div className={styles.profileContainer}>
-        <div className={styles.profileImage}></div>
+        <div className={styles.profileImage}>
+          {data?.profile.profile_img && (
+            <Image
+              src={data.profile.profile_img}
+              alt="프로필 이미지"
+              width={107}
+              height={107}
+            />
+          )}
+        </div>
         <h2>{data?.profile.nickname}</h2>
         <div
           className={styles.editContainer}
@@ -64,19 +85,34 @@ export default function ProfileClient() {
               {data?.study_count.in_favorite}
             </p>
           </div>
-          <div className={styles.statusItem}>
+          <div
+            className={styles.statusItem}
+            onClick={() => {
+              router.push('./profile/situation?tab=before');
+            }}
+          >
             <p>승인대기</p>
             <p className={styles.statusNumber}>
               {data?.study_count.in_proposal}
             </p>
           </div>
-          <div className={styles.statusItem}>
+          <div
+            className={styles.statusItem}
+            onClick={() => {
+              router.push('./profile/situation?tab=progress');
+            }}
+          >
             <p>참여중</p>
             <p className={styles.statusNumber}>
               {data?.study_count.in_progress}
             </p>
           </div>
-          <div className={styles.statusItem}>
+          <div
+            className={styles.statusItem}
+            onClick={() => {
+              router.push('./profile/situation?tab=done');
+            }}
+          >
             <p>완료</p>
             <p className={styles.statusNumber}>
               {data?.study_count.in_complete}
@@ -112,6 +148,7 @@ export default function ProfileClient() {
             isOpen={isBottomSheetOpen}
             onClose={handleCloseBottomSheet}
             nickname={data?.profile.nickname || ''}
+            profile_image={data?.profile.profile_img || ''}
           />
         )}
       </div>

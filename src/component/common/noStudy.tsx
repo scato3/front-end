@@ -7,7 +7,15 @@ import { IconNothing } from '../../../public/studyList';
 
 interface NoStudyProps {
   children?: PropsWithChildren;
-  type?: 'NoStudy' | 'NoLogin' | 'NoSpeed' | 'NoProgress' | 'NoFavorite';
+  type?:
+    | 'NoStudy'
+    | 'NoLogin'
+    | 'NoSpeed'
+    | 'NoProgress'
+    | 'NoFavorite'
+    | 'NoBefore'
+    | 'NotProgress'
+    | 'NoDone';
 }
 
 export default function NoStudy({ type = 'NoStudy' }: NoStudyProps) {
@@ -34,6 +42,18 @@ export default function NoStudy({ type = 'NoStudy' }: NoStudyProps) {
     }
     if (type === 'NoFavorite') {
       setHeader('찜한 스터디가 없어요');
+      setContent('');
+    }
+    if (type === 'NoBefore') {
+      setHeader('참여신청한 스터디가 없어요');
+      setContent('');
+    }
+    if (type === 'NotProgress') {
+      setHeader('참여중인 스터디가 없어요');
+      setContent('');
+    }
+    if (type === 'NoDone') {
+      setHeader('완료한 스터디가 없어요');
       setContent('');
     }
   }, [type]);
