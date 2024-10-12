@@ -18,7 +18,7 @@ export default function MainClient({ cardData }: MainClientProps) {
   const router = useRouter();
 
   return (
-    <div className={styles.Container}>
+    <>
       <div className={styles.MainSection}>
         <div className={styles.SpeedBtnBox}>
           <SpeedMatchingBtn />
@@ -52,6 +52,6 @@ export default function MainClient({ cardData }: MainClientProps) {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
