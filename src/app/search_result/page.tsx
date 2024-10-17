@@ -42,6 +42,7 @@ function SearchResultComponent() {
     maxParticipants,
     tendency,
     orderType,
+    recruitStatus,
   ] = useWatch({
     control: methods.control,
     name: [
@@ -53,6 +54,7 @@ function SearchResultComponent() {
       'maxParticipants',
       'tendency',
       'orderType',
+      'recruitStatus',
     ],
   });
 
@@ -65,6 +67,7 @@ function SearchResultComponent() {
     maxParticipants,
     tendency,
     orderType,
+    recruitStatus,
     search: searchQuery || '',
   });
 
@@ -87,7 +90,7 @@ function SearchResultComponent() {
     minParticipants,
     maxParticipants,
     tendency,
-    refetch,
+    recruitStatus,
   ]);
 
   return (

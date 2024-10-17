@@ -28,8 +28,8 @@ const filterOptions = [
 ];
 
 const statusOption = [
-  { key: 0, label: '모집중' },
-  { key: 1, label: '모집마감' },
+  { key: true, label: '모집중' },
+  { key: false, label: '모집마감' },
 ];
 
 const fieldOption = [
@@ -90,7 +90,7 @@ export default function FilterModal({ handleCloseModal }: CloseModalProps) {
 
   const [
     orderType,
-    status,
+    recruitStatus,
     category,
     duration,
     tendency,
@@ -100,7 +100,7 @@ export default function FilterModal({ handleCloseModal }: CloseModalProps) {
   ] = useWatch({
     name: [
       'orderType',
-      'status',
+      'recruitStatus',
       'category',
       'duration',
       'tendency',
@@ -148,11 +148,11 @@ export default function FilterModal({ handleCloseModal }: CloseModalProps) {
     setValue('orderType', value);
   };
 
-  const handleSelectStatus = (value: string) => {
-    if (getValues('status') === value) {
-      setValue('status', '');
+  const handleSelectStatus = (value: boolean) => {
+    if (getValues('recruitStatus') === value) {
+      setValue('recruitStatus', null);
     } else {
-      setValue('status', value);
+      setValue('recruitStatus', value);
     }
   };
 
@@ -314,9 +314,9 @@ export default function FilterModal({ handleCloseModal }: CloseModalProps) {
           {statusOption.map((option) => (
             <div
               key={option.label}
-              className={`${status === option.label ? styles.selected : ''} ${styles.optionItem}`}
+              className={`${recruitStatus === option.key ? styles.selected : ''} ${styles.optionItem}`}
               onClick={() => {
-                handleSelectStatus(option.label);
+                handleSelectStatus(option.key);
               }}
             >
               {option.label}

@@ -45,7 +45,7 @@ export default function BottomSheet({
         setIsAnimating(true);
       }, 50);
       setTimeout(() => {
-        setRating(96);
+        setRating(memberData?.profile.rating || 0);
       }, 200);
     } else {
       setIsAnimating(false);
@@ -72,7 +72,15 @@ export default function BottomSheet({
             onClick={handleClose}
             className={styles.iconX}
           />
-          <div className={styles.imageContainer}></div>
+          <div className={styles.imageContainer}>
+            <Image
+              src={memberData?.profile.profile_img}
+              width={127}
+              height={127}
+              alt="프로필 이미지"
+              className={styles.profileImage}
+            />
+          </div>
           <div className={styles.countContainer}>
             <div className={styles.inprogress}>
               <p>참여중</p>
@@ -86,7 +94,7 @@ export default function BottomSheet({
           <div className={styles.ratingBox}>
             <div className={styles.ratingHeader}>
               <p>쇼터디 성적표</p>
-              <p>96점</p>
+              <p>{memberData?.profile.rating || 0}점</p>
             </div>
             <div
               className={`${styles.ratingBar} ${

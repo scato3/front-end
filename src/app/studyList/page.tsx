@@ -41,6 +41,7 @@ function StudyListComponent() {
     maxParticipants,
     tendency,
     orderType,
+    recruitStatus,
   ] = useWatch({
     control: methods.control,
     name: [
@@ -52,6 +53,7 @@ function StudyListComponent() {
       'maxParticipants',
       'tendency',
       'orderType',
+      'recruitStatus',
     ],
   });
 
@@ -80,6 +82,7 @@ function StudyListComponent() {
       maxParticipants,
       tendency,
       orderType,
+      recruitStatus,
     }
   );
 
@@ -95,6 +98,7 @@ function StudyListComponent() {
   // 필터 값이 변경될 때마다 재검색 수행
   useEffect(() => {
     refetch();
+    console.log(recruitStatus);
   }, [
     orderType,
     quickMatch,
@@ -104,6 +108,7 @@ function StudyListComponent() {
     minParticipants,
     maxParticipants,
     tendency,
+    recruitStatus,
   ]);
 
   return (

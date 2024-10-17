@@ -1,0 +1,66 @@
+.Container {
+  height: calc(100dvh - 20px);
+}
+
+.Navigation {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 18px;
+  margin-top: 20px;
+  border-bottom: 1px solid #eaeaea;
+
+  h2 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 32px;
+  }
+
+  .arrowImage {
+    position: absolute;
+    left: 30px;
+    cursor: pointer;
+  }
+
+  .menuImage {
+    position: absolute;
+    right: 30px;
+    cursor: pointer;
+  }
+
+  .searchImage {
+    position: absolute;
+    right: 75px;
+    cursor: pointer;
+  }
+}
+
+.noticeContainer {
+  position: relative;
+  margin: 20px 25px 0 25px;
+  background-color: var(--gray-50);
+  height: 34px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+
+  .megaPhoneImage {
+    position: absolute;
+    top: 4px;
+    left: 13px;
+  }
+
+  p {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 21.8px;
+    padding-left: 50px;
+  }
+
+  .ArrowDownImage {
+    position: absolute;
+    right: 9px;
+  }
+}

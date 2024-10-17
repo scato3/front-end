@@ -29,3 +29,5 @@ export { default as IconBlackX } from './Icon_black_x.svg';
 export { default as IconSetting } from './Icon_setting.svg';
 export { default as IconPencil } from './Icon_pencil.svg';
 export { default as IconCamera } from './Icon_camera.svg';
+export { default as IconMenu } from './Icon_menu.svg';
+export { default as IconMegaPhone } from './Icon_megaphone.svg';

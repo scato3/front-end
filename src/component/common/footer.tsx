@@ -38,7 +38,7 @@ export default function Footer() {
   const router = useRouter();
 
   const excludedPaths =
-    /^\/(sign-in|fastMatching|createStudy|studyInfo.*|studySetting.*|profile\/.*)/;
+    /^\/(sign-in|fastMatching|createStudy|studyInfo.*|studySetting.*|profile\/.*|chat(?!_bubble).*)/;
 
   const hideIconAddPaths = ['/profile'];
 

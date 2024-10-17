@@ -19,5 +19,5 @@ export const useGetCard = (
 };
 
 export async function getFirstCard() {
-  return await api.get({ url: `study/recent` });
+  return await api.get({ url: 'study/recent' });
 }

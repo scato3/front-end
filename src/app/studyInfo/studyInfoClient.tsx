@@ -16,7 +16,7 @@ import { useModal } from '@/hooks/useModal';
 import ModalContainer from '@/component/common/modalContainer';
 import ModalPortal from '@/component/common/modalPortal';
 import JoinStudyModal from '@/component/modal/joinStudyModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   usePostFavoriteStudy,
   useDeleteFavoriteStudy,
@@ -27,6 +27,7 @@ import BottomSheet from '@/component/studyInfo/bottomSheet';
 import { useQueryClient } from '@tanstack/react-query';
 import { getUserProfile } from '@/apis/profile/userProfile';
 import { UserProfileType } from '@/types/studyList/profile';
+import { tendencyOption } from '@/data/filterData';
 
 export default function StudyInfoClient() {
   const searchParams = useSearchParams();
@@ -54,6 +55,15 @@ export default function StudyInfoClient() {
     const option = durationOption.find((item) => item.key === key);
     return option ? option.label : undefined;
   }
+
+  useEffect(() => {
+    if (data?.userRelation) {
+      setIsFavorite(data?.userRelation.is_favorite);
+      setMessage(
+        data?.userRelation.is_member ? '스터디 들어가기' : '스터디 가입하기'
+      );
+    }
+  }, [data]);
 
   const handleJoinStudy = () => {
     mutate(Number(studyId), {
@@ -165,12 +175,21 @@ export default function StudyInfoClient() {
               <Image src={IconBook} alt="책" width={15} height={15} />
               <p className={styles.subText}>성향</p>
             </div>
-            <p>{data?.tendency}</p>
+            <p>
+              {
+                tendencyOption.find((option) => option.key === data?.tendency)
+                  ?.label
+              }
+            </p>
           </div>
           <h2 className={styles.joinMember}>참여 멤버</h2>
           <div className={styles.memberContainer}>
             {data?.membersList?.map(
-              (member: { nickname: string; _owner: boolean }) => (
+              (member: {
+                nickname: string;
+                _owner: boolean;
+                profileImage: string;
+              }) => (
                 <div
                   className={styles.memberBox}
                   key={member.nickname}
@@ -179,6 +198,13 @@ export default function StudyInfoClient() {
                   }}
                 >
                   <div className={styles.memberCircle}>
+                    <Image
+                      src={member?.profileImage}
+                      width={64}
+                      height={64}
+                      alt="멤버 아이콘"
+                      className={styles.profileImage}
+                    />
                     {member._owner === true ? (
                       <div className={styles.owner}>
                         <Image src={IconOwner} alt="방장 아이콘" />
@@ -213,7 +239,7 @@ export default function StudyInfoClient() {
           />
         )}
         <Button size="medium" onClick={handleJoinStudy}>
-          스터디 가입하기
+          {message}
         </Button>
       </div>
       {openModal && (
