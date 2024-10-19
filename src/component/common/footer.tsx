@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import styles from './footer.module.scss';
 import { usePathname, useRouter } from 'next/navigation';
 import { IconAdd } from '../../../public/icons';
@@ -71,20 +70,25 @@ export default function Footer() {
             : pathname === `/${icon.value}`;
 
         return (
-          <Link key={index} href={`/${icon.value}`}>
-            <div className={styles.ImageContainer}>
-              <Image
-                src={isActive ? icon.checked : icon.default}
-                alt={icon.alt}
-                width={
-                  icon.value === 'search' || icon.value === 'chat_bubble'
-                    ? 32
-                    : 44
-                }
-                height={44}
-              />
-            </div>
-          </Link>
+          <div
+            key={index}
+            className={styles.ImageContainer}
+            onClick={() => {
+              router.push(`/${icon.value}`);
+              console.log(`경로 이동: /${icon.value}`);
+            }}
+          >
+            <Image
+              src={isActive ? icon.checked : icon.default}
+              alt={icon.alt}
+              width={
+                icon.value === 'search' || icon.value === 'chat_bubble'
+                  ? 32
+                  : 44
+              }
+              height={44}
+            />
+          </div>
         );
       })}
     </div>
