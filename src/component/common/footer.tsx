@@ -64,7 +64,7 @@ export default function Footer() {
             : pathname === `/${icon.value}`;
 
         return (
-          <Link key={index} href={`/${icon.value}`}>
+          <Link key={index} href={`./${icon.value}`}>
             <div className={styles.ImageContainer}>
               <Image
                 src={isActive ? icon.checked : icon.default}
