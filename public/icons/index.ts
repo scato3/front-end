@@ -31,3 +31,4 @@ export { default as IconPencil } from './Icon_pencil.svg';
 export { default as IconCamera } from './Icon_camera.svg';
 export { default as IconMenu } from './Icon_menu.svg';
 export { default as IconMegaPhone } from './Icon_megaphone.svg';
+export { default as IconMain } from './icon_main.svg';

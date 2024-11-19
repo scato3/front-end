@@ -7,7 +7,7 @@ import { getAppCookie } from '@/utils/cookie';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import useExploreStore from '@/store/explore';
-import { IconLogo, KakaoLoginLargeImage } from '../../../public/icons';
+import { KakaoLoginLargeImage, IconMain } from '../../../public/icons';
 
 export default function Landing() {
   const REST_API_KEY = process.env.NEXT_PUBLIC_API_KEY;
@@ -32,10 +32,10 @@ export default function Landing() {
   return (
     <div className={styles.loginContainer}>
       <div className={styles.logoBox}>
-        <Image src={IconLogo} alt="로고" width={140} height={140} />
+        <Image src={IconMain} alt="로고" />
         <div className={styles.titleContainer}>
-          <p>쇼터디</p>
-          <p>딱 맞는 온라인 스터디메이트 찾기</p>
+          <p>SHOWTUDY</p>
+          <p>당신을 위한 스터디 매칭 서비스</p>
         </div>
       </div>
       <div className={styles.joinBox}>

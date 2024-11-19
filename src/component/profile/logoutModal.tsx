@@ -6,12 +6,14 @@ import { CloseModalProps } from '@/types/modalHookType';
 import { useRouter } from 'next/navigation';
 import { removeCookie } from '@/utils/cookie';
 import useAuthStore from '@/store/userauth';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function LogoutModal({ handleCloseModal }: CloseModalProps) {
   const [progress, setProgress] = useState<number>(0);
   const [isLoggedOut, setIsLoggedOut] = useState<boolean>(false);
   const { setCheckLogin } = useAuthStore();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -42,10 +44,13 @@ export default function LogoutModal({ handleCloseModal }: CloseModalProps) {
 
   const handleConfirm = () => {
     setIsLoggedOut(true);
+    queryClient.clear();
 
     removeCookie(process.env.NEXT_PUBLIC_COOKIE_TOKEN_KEY as string);
     removeCookie(process.env.NEXT_PUBLIC_COOKIE_REFRESH_TOKEN_KEY as string);
     setCheckLogin(false);
+    router.push('./sign-in');
+    router.refresh();
   };
 
   return (

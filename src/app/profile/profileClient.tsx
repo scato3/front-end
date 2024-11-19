@@ -48,6 +48,8 @@ export default function ProfileClient() {
               alt="프로필 이미지"
               width={107}
               height={107}
+              objectFit="cover"
+              className={styles.profileImage}
             />
           )}
         </div>

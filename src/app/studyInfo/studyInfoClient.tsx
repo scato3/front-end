@@ -2,7 +2,7 @@
 
 import styles from './studyInfo.module.scss';
 import { useGetStudyDetail } from '@/apis/study/detail';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { IconWhite } from '../../../public/icons';
 import koreanFormatDate from '@/utils/dateformat';
@@ -34,11 +34,13 @@ export default function StudyInfoClient() {
   const { showAlert } = useAlert();
   const studyId = searchParams.get('studyId');
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { data } = useGetStudyDetail(Number(studyId));
   const { mutate } = usePostJoinStudy();
   const { openModal, handleCloseModal, handleOpenModal } = useModal();
   const [message, setMessage] = useState<string>('');
+  const [btnMsg, setBtnMsg] = useState<string>('');
 
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -60,21 +62,27 @@ export default function StudyInfoClient() {
     if (data?.userRelation) {
       setIsFavorite(data?.userRelation.is_favorite);
       setMessage(
-        data?.userRelation.is_member ? '스터디 들어가기' : '스터디 가입하기'
+        data?.userRelation.is_member || data?.userRelation.is_owner
+          ? '스터디 들어가기'
+          : '스터디 가입하기'
       );
     }
   }, [data]);
 
   const handleJoinStudy = () => {
-    mutate(Number(studyId), {
-      onSuccess: (res) => {
-        setMessage(res.message);
-        handleOpenModal();
-      },
-      onError: (error) => {
-        showAlert(error.message);
-      },
-    });
+    if (message === '스터디 들어가기') {
+      router.push(`/chat?studyId=${studyId}`);
+    } else {
+      mutate(Number(studyId), {
+        onSuccess: (res) => {
+          setBtnMsg(res.message);
+          handleOpenModal();
+        },
+        onError: (error) => {
+          showAlert(error.message);
+        },
+      });
+    }
   };
 
   const handleAddFavorite = () => {
@@ -245,7 +253,7 @@ export default function StudyInfoClient() {
       {openModal && (
         <ModalPortal>
           <ModalContainer handleCloseModal={handleCloseModal}>
-            <JoinStudyModal message={message} />
+            <JoinStudyModal message={btnMsg} />
           </ModalContainer>
         </ModalPortal>
       )}

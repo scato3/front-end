@@ -43,7 +43,7 @@ export default function Footer() {
   }, [pathname]); // pathname이 변경될 때마다 실행
 
   const excludedPaths =
-    /^\/(sign-in|fastMatching|createStudy|studyInfo.*|studySetting.*|profile\/.*|chat(?!_bubble).*)/;
+    /^\/(sign-in|fastMatching|createStudy|studyInfo.*|studySetting.*|profile\/.*|chat(?!_bubble).*|setProfile)/;
 
   const hideIconAddPaths = ['/profile'];
 

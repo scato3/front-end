@@ -9,6 +9,11 @@ export async function middleware(req: NextRequest) {
   const checkLogin = req.cookies.get('checkLogin')?.value;
   const explore = req.cookies.get('explore')?.value;
 
+  // explore가 true라면 재갱신 로직 건너뜀
+  if (explore === 'true') {
+    return NextResponse.next();
+  }
+
   // 비정상 상태 : 토큰, 리프레시토큰, 비로그인 상태
   if (!accessToken || !refreshToken || !checkLogin) {
     if (!explore) {
@@ -44,11 +49,13 @@ export async function middleware(req: NextRequest) {
       console.error('토큰 재갱신 실패', error);
     }
   }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
+    '/',
     '/studyList/:path*',
     '/search/:path*',
     '/search_result/:path*',

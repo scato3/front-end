@@ -7,6 +7,7 @@ import localFont from 'next/font/local';
 import Footer from '@/component/common/footer';
 import { AlertProvider } from '@/context/alertProvider';
 import FromProvider from '@/context/fromProvider';
+import TourProvider from '@/context/tourProvider';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -47,7 +48,9 @@ export default function RootLayout({
         <QueryProvider>
           <AlertProvider>
             <FromProvider>
-              <div className="root_container">{children}</div>
+              <TourProvider>
+                <div className="root_container">{children}</div>
+              </TourProvider>
             </FromProvider>
           </AlertProvider>
           <Footer />

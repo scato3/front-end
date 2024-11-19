@@ -9,6 +9,7 @@ import { convertToWebP } from '@/utils/convertToWebP';
 import { processImageFile } from '@/utils/processImageFile';
 import { useQueryClient } from '@tanstack/react-query';
 import { useGetCheckDuplicateProfile } from '@/apis/profile/userProfile';
+import { IconWarning } from '../../../public/icons';
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ export default function ProfileBottomSheet({
 
   const [isDuplicateChecked, setIsDuplicateChecked] = useState(false);
   const [isDuplicate, setIsDuplicate] = useState<boolean | null>(false);
+  const [nicknameError, setNicknameError] = useState<string | null>(null);
   const { refetch } = useGetCheckDuplicateProfile(editedNickname);
 
   useEffect(() => {
@@ -125,6 +127,18 @@ export default function ProfileBottomSheet({
   };
 
   const handleCheckDuplicate = async () => {
+    // 닉네임 유효성 검사
+    const nicknameRegex = /^[a-zA-Z0-9가-힣]{2,10}$/;
+    if (!nicknameRegex.test(editedNickname)) {
+      setIsDuplicateChecked(true);
+      setIsDuplicate(false);
+      setNicknameError('2-10자 사이의 한글, 영문, 숫자만 가능해요.');
+      return;
+    }
+
+    // 유효성 검사가 통과되었으므로 에러 메시지 초기화
+    setNicknameError(null);
+
     try {
       const { isFetching, data } = await refetch();
       if (!isFetching && data) {
@@ -195,11 +209,14 @@ export default function ProfileBottomSheet({
             <div className={styles.duplicate} onClick={handleCheckDuplicate}>
               중복확인
             </div>
-            {isDuplicateChecked && (
+          </div>
+          <div className={styles.errContainer}>
+            {(nicknameError || isDuplicate) && (
               <p className={styles.duplicateMessage}>
-                {isDuplicate
-                  ? '이미 사용 중인 닉네임입니다.'
-                  : '사용 가능한 닉네임입니다.'}
+                <Image src={IconWarning} alt="오류 메시지" />
+                {nicknameError
+                  ? '2-10자 사이의 한글, 영문, 숫자만 가능해요.'
+                  : '이미 누군가 사용중이에요.'}
               </p>
             )}
           </div>
@@ -207,7 +224,7 @@ export default function ProfileBottomSheet({
         <div className={styles.ButtonContainer}>
           <Button
             onClick={handleSave}
-            disabled={!isDuplicateChecked || isDuplicate === true}
+            disabled={!isDuplicateChecked || isDuplicate || !!nicknameError}
           >
             저장
           </Button>
