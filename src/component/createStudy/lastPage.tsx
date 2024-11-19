@@ -75,7 +75,7 @@ export default function LastPage({ onBefore }: IStep4) {
       return;
     }
 
-    if (e.key === 'Enter' && inputValue.trim()) {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing && inputValue.trim()) {
       if (tags.includes(inputValue.trim())) {
         setError('이미 등록한 태그에요');
         clearErrorMessage();
