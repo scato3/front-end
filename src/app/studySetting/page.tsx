@@ -5,12 +5,12 @@ import StudySettingClient from './studySettingClient';
 
 export default function StudySetting() {
   return (
-    <div className={styles.Container}>
-      <Navigation title="스터디 설정" />
-      <div className={styles.verticalLine}></div>
-      <Suspense>
+    <Suspense>
+      <div className={styles.Container}>
+        <Navigation title="스터디 설정" />
+        <div className={styles.verticalLine}></div>
         <StudySettingClient />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }

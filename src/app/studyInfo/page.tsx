@@ -4,10 +4,10 @@ import { Suspense } from 'react';
 
 export default function StudyInfo() {
   return (
-    <div className={styles.Container}>
-      <Suspense>
+    <Suspense>
+      <div className={styles.Container}>
         <StudyInfoClient />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }

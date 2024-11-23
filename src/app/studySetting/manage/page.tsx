@@ -5,12 +5,12 @@ import { Suspense } from 'react';
 
 export default function StudyManage() {
   return (
-    <div className={styles.Container}>
-      <Navigation title="스터디 멤버 관리" />
-      <div className={styles.verticalLine}></div>
-      <Suspense>
+    <Suspense>
+      <div className={styles.Container}>
+        <Navigation title="스터디 멤버 관리" />
+        <div className={styles.verticalLine}></div>
         <StudyManageClient />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }

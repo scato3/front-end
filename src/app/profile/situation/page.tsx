@@ -5,12 +5,12 @@ import { Suspense } from 'react';
 
 export default function ProfileSit() {
   return (
-    <div className={styles.Container}>
-      <Navigation title="나의 스터디 현황" />
-      <div className={styles.verticalLine}></div>
-      <Suspense>
+    <Suspense>
+      <div className={styles.Container}>
+        <Navigation title="나의 스터디 현황" />
+        <div className={styles.verticalLine}></div>
         <ProfileSitClient />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }

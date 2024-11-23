@@ -5,12 +5,12 @@ import ProfileSettingClient from './settingClient';
 
 export default function ProfileSetting() {
   return (
-    <div className={styles.Container}>
-      <Navigation title="설정" />
-      <div className={styles.verticalLine}></div>
-      <Suspense>
+    <Suspense>
+      <div className={styles.Container}>
+        <Navigation title="설정" />
+        <div className={styles.verticalLine}></div>
         <ProfileSettingClient />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }

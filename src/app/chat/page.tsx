@@ -4,10 +4,10 @@ import { Suspense } from 'react';
 
 export default function Chat() {
   return (
-    <div className={styles.Container}>
-      <Suspense>
+    <Suspense>
+      <div className={styles.Container}>
         <ChatClient />
-      </Suspense>
-    </div>
+      </div>
+    </Suspense>
   );
 }
