@@ -61,7 +61,7 @@ export default function Step3({ onNext, onBefore, setData }: IStep3) {
   };
 
   return (
-    <>
+    <div className={styles.Container}>
       <Navigation title="스피드 매칭" onClick={onBefore} />
       <div className={styles.seperator}>
         <div
@@ -98,6 +98,6 @@ export default function Step3({ onNext, onBefore, setData }: IStep3) {
           다음
         </Button>
       </div>
-    </>
+    </div>
   );
 }

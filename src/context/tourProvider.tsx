@@ -5,7 +5,14 @@ import { usePathname } from 'next/navigation';
 import { getAppCookie } from '@/utils/cookie';
 import { useAlert } from './alertProvider';
 
-const ALLOWED_ROUTES = ['/', '/search', '/search_result', '/studyList'];
+const ALLOWED_ROUTES = [
+  '/',
+  '/search',
+  '/search_result',
+  '/studyList',
+  '/fastMatching',
+  '/profile',
+];
 
 export default function TourProvider({
   children,
