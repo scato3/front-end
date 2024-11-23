@@ -5,12 +5,12 @@ import { Suspense } from 'react';
 
 export default function StudyEdit() {
   return (
-    <Suspense>
-      <div className={styles.Container}>
-        <Navigation title="스터디 수정" />
-        <div className={styles.verticalLine}></div>
+    <div className={styles.Container}>
+      <Navigation title="스터디 수정" />
+      <div className={styles.verticalLine}></div>
+      <Suspense>
         <StudyEditClient />
-      </div>
-    </Suspense>
+      </Suspense>
+    </div>
   );
 }
