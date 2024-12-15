@@ -125,7 +125,7 @@ export default function StudyInfoClient() {
 
   return (
     <>
-      <Navigation title={data?.title} horiz={true} />
+      <Navigation title={data?.title} horiz={data?.userRelation.is_owner} />
       <div className={styles.separator}></div>
       <div className={styles.section}>
         <div className={styles.Header}>
@@ -138,7 +138,6 @@ export default function StudyInfoClient() {
           ) : null}
         </div>
         <div className={styles.title}>{data?.title}</div>
-        {/* \n 처리 */}
         <div className={styles.description}>
           {data?.description?.split('\n').map((line: string, index: number) => (
             <p key={index}>

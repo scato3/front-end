@@ -16,6 +16,9 @@ import { ArrowDown } from '../../../public/arrow';
 import { getAppCookie } from '@/utils/cookie';
 import { useGetRecentChat } from '@/apis/chat/chat';
 import { IMessageType } from '@/types/chat/chat';
+import { IconAdd, IconOut } from '../../../public/icons';
+import { RightArrow } from '../../../public/arrow';
+import { menuItems } from '@/data/menu';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
@@ -31,6 +34,7 @@ export default function ChatClient() {
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true); // 스크롤이 맨 아래에 있는지 여부
   const animationFrameId = useRef<number | null>(null);
+  const [menuVisible, setMenuVisible] = useState(false);
 
   const searchParams = useSearchParams();
   const studyId = Number(searchParams.get('studyId'));
@@ -58,19 +62,11 @@ export default function ChatClient() {
       // join chat 이벤트 호출
       newSocket.emit('join chat', studyId);
 
-      // typing 이벤트
-      newSocket.on('typing', () => {
-        console.log('A user is typing...');
-      });
-
-      // stop typing 이벤트
-      newSocket.on('stop typing', () => {
-        console.log('A user stopped typing.');
-      });
-
       // message received 이벤트
       newSocket.on('message received', (message: IMessageType) => {
         setMessages((prev) => [...prev, message]);
+        console.log(messages);
+        console.log(message);
       });
 
       newSocket.on('my message', (message: IMessageType) => {
@@ -90,6 +86,15 @@ export default function ChatClient() {
       newSocket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    console.log(myMessages);
+  }, [myMessages]);
+
+  // 메뉴 토글 함수
+  const toggleMenu = () => {
+    setMenuVisible((prev) => !prev);
+  };
 
   const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && newMessage.trim() && socket) {
@@ -143,12 +148,6 @@ export default function ChatClient() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (messageBoxRef.current) {
-  //     messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
-  //   }
-  // }, [messages, myMessages]);
-
   // const handleFileUpload = (file: File) => {
   //   console.log('Uploaded file:', file);
   // };
@@ -156,7 +155,7 @@ export default function ChatClient() {
   // 채팅이 새로 생기면 항상 아래를 본다.
 
   return (
-    <>
+    <div className={styles.Container}>
       {/* Navigation Bar */}
       <div className={styles.Navigation}>
         <Image
@@ -169,8 +168,13 @@ export default function ChatClient() {
             router.back();
           }}
         />
-        <h2>채팅방: {studyId}</h2>
-        <Image src={IconMenu} alt="메뉴 아이콘" className={styles.menuImage} />
+        <h2>{data?.chat.chatName}</h2>
+        <Image
+          src={IconMenu}
+          alt="메뉴 아이콘"
+          className={styles.menuImage}
+          onClick={toggleMenu}
+        />
         <Image
           src={IconSearch}
           alt="서치 아이콘"
@@ -178,6 +182,59 @@ export default function ChatClient() {
           height={18}
           className={styles.searchImage}
         />
+      </div>
+      {/* 메뉴 오버레이 */}
+      <div
+        className={`${styles.menuOverlay} ${menuVisible ? styles.visible : styles.unvisible}`}
+        onClick={toggleMenu}
+      >
+        <div
+          className={`${styles.menuContent} ${
+            menuVisible ? styles.visible : styles.unvisible
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className={styles.menuHeaderWrapper}>
+            <h2>스터디 캔버스</h2>
+            <Image
+              src={IconAdd}
+              alt="X 아이콘"
+              className={styles.IconAdd}
+              width={16.4}
+              height={16.4}
+              onClick={toggleMenu}
+            />
+          </div>
+          <section className={styles.menuSection}>
+            {menuItems.map((item) =>
+              item.isSectionHeader ? (
+                <div key={item.label} className={styles.sectionHeader}>
+                  {item.label}
+                </div>
+              ) : (
+                <div key={item.label} className={styles.menuItem}>
+                  <span>{item.label}</span>
+                  {item.hasMemberIcons && (
+                    <div className={styles.memberIcons}>
+                      <div className={styles.memberCircle} />
+                      <div className={styles.memberCircle} />
+                      <div className={styles.memberCircle} />
+                    </div>
+                  )}
+                  <Image
+                    src={RightArrow}
+                    alt="Right Arrow Icon"
+                    className={styles.arrowIcon}
+                  />
+                </div>
+              )
+            )}
+          </section>
+          <div className={styles.buttonWrapper}>
+            <Image src={IconOut} alt="나가기 아이콘" />
+            <button className={styles.button}>스터디 나가기</button>
+          </div>
+        </div>
       </div>
 
       {/* Notice Bar */}
@@ -197,7 +254,7 @@ export default function ChatClient() {
           .sort(
             (a, b) =>
               new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-          ) // 시간 순 정렬
+          )
           .map((message, index, allMessages) => {
             const isMyMessage = myMessages.includes(message); // 내 메시지 여부 확인
             const isFirstMessageByUser =
@@ -278,6 +335,6 @@ export default function ChatClient() {
           className={styles.inputAddIcon}
         />
       </div>
-    </>
+    </div>
   );
 }
