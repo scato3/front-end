@@ -101,9 +101,9 @@ export default function ChatClient() {
     }
   }, [messages]);
 
-  const handleFileUpload = (file: File) => {
-    console.log('Uploaded file:', file);
-  };
+  // const handleFileUpload = (file: File) => {
+  //   console.log('Uploaded file:', file);
+  // };
 
   useEffect(() => {
     if (messageBoxRef.current) {
@@ -230,7 +230,6 @@ export default function ChatClient() {
           src={IconBlackAdd}
           alt="이미지 더하기"
           className={styles.inputAddIcon}
-          onClick={() => uploadFile(handleFileUpload)}
         />
       </div>
     </>
