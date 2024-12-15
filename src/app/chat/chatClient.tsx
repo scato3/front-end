@@ -29,6 +29,8 @@ export default function ChatClient() {
   const [newMessage, setNewMessage] = useState<string>('');
   const router = useRouter();
   const messageBoxRef = useRef<HTMLDivElement>(null);
+  const [isAtBottom, setIsAtBottom] = useState(true); // 스크롤이 맨 아래에 있는지 여부
+  const animationFrameId = useRef<number | null>(null);
 
   const searchParams = useSearchParams();
   const studyId = Number(searchParams.get('studyId'));
@@ -100,24 +102,58 @@ export default function ChatClient() {
     }
   };
 
+  //** TODO 코드 학습 필요**
+
+  // 스크롤 위치 감지
+  const handleScroll = () => {
+    if (messageBoxRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = messageBoxRef.current;
+      const atBottom = Math.abs(scrollTop + clientHeight - scrollHeight) <= 10;
+      setIsAtBottom(atBottom);
+    }
+  };
+
+  // 메시지가 추가될 때 스크롤 처리
+  const scrollToBottom = () => {
+    if (messageBoxRef.current) {
+      animationFrameId.current = requestAnimationFrame(() => {
+        messageBoxRef.current!.scrollTop = messageBoxRef.current!.scrollHeight;
+      });
+    }
+  };
+
+  // 메시지가 변경될 때 처리
+  useEffect(() => {
+    if (isAtBottom) {
+      scrollToBottom();
+    }
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, [messages, myMessages]);
+
+  // 스크롤 이벤트 리스너 등록
   useEffect(() => {
     if (messageBoxRef.current) {
-      messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+      const box = messageBoxRef.current;
+      box.addEventListener('scroll', handleScroll);
+      return () => box.removeEventListener('scroll', handleScroll);
     }
-  }, [messages]);
+  }, []);
+
+  // useEffect(() => {
+  //   if (messageBoxRef.current) {
+  //     messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+  //   }
+  // }, [messages, myMessages]);
 
   // const handleFileUpload = (file: File) => {
   //   console.log('Uploaded file:', file);
   // };
 
-  useEffect(() => {
-    if (messageBoxRef.current) {
-      messageBoxRef.current.scrollTo({
-        top: messageBoxRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, [messages, myMessages]);
+  // 채팅이 새로 생기면 항상 아래를 본다.
 
   return (
     <>
