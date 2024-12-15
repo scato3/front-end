@@ -1,5 +1,8 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import io, { Socket } from 'socket.io-client';
 import styles from './chat.module.scss';
 import Image from 'next/image';
 import {
@@ -10,101 +13,107 @@ import {
 } from '../../../public/icons';
 import { IconSearch } from '../../../public/footer';
 import { ArrowDown } from '../../../public/arrow';
-// import io, { Socket } from 'socket.io-client';
-import { useRef, useState } from 'react';
-// import { getAppCookie } from '@/utils/cookie';
-// import { useSearchParams } from 'next/navigation';
-import { uploadFile } from '@/utils/fileUpload';
-
-// interface IMessage {
-//   sender: string;
-//   content: string;
-//   timestamp: string;
-// }
+import { getAppCookie } from '@/utils/cookie';
+import { useGetRecentChat } from '@/apis/chat/chat';
+import { IMessageType } from '@/types/chat/chat';
 
 export default function ChatClient() {
-  // const [socket, setSocket] = useState<null | typeof Socket>(null);
-  // const [messages, setMessages] = useState<IMessage[]>([]);
+  const [socket, setSocket] = useState<null | typeof Socket>(null);
+  const [messages, setMessages] = useState<IMessageType[]>([]);
+  const [myMessages, setMyMessages] = useState<IMessageType[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
-  // const [isTyping, setIsTyping] = useState<boolean>(false);
-  // const [socketConnected, setSocketConnected] = useState<boolean>(false); // 연결 여부 상태
-  // const accessToken = getAppCookie(
-  //   process.env.NEXT_PUBLIC_COOKIE_TOKEN_KEY as string
-  // );
+  const router = useRouter();
   const messageBoxRef = useRef<HTMLDivElement>(null);
-  // const [joinDate, setJoinDate] = useState<IJoinData[]>([]);
 
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
+  const studyId = Number(searchParams.get('studyId'));
+  const accessToken = getAppCookie(
+    process.env.NEXT_PUBLIC_COOKIE_TOKEN_KEY as string
+  );
 
-  // useEffect(() => {
-  //   if (!user) return;
+  const { data } = useGetRecentChat(studyId);
 
-  //   const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_CHAT_URL as string, {
-  //     path: '/chat/socket.io/',
-  //     auth: {
-  //       token: `Bearer ${accessToken}`,
-  //     },
-  //   });
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
-  //   newSocket.emit('setup', user);
-  //   newSocket.on('connected', () => setSocketConnected(true));
-  //   newSocket.on('typing', () => setIsTyping(true));
-  //   newSocket.on('stop typing', () => setIsTyping(false));
-  //   newSocket.on('error', (error: unknown) => {
-  //     console.log('Socket connection error:', error);
-  //   });
-  //   newSocket.on('user joined', (data) => {
-  //     if (data?.joinDates.length > 0) {
-  //       setJoinDate(
-  //         data?.joinDates.map((date: IJoinDate, idx: number) => {
-  //           return { userInfo: data.users[idx + 1], ...date };
-  //         })
-  //       );
-  //     }
-  //   });
+  useEffect(() => {
+    if (!accessToken || !studyId) return;
 
-  //   setSocket(newSocket);
+    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_CHAT_URL as string, {
+      path: '/chat/socket.io/',
+      auth: {
+        token: `Bearer ${accessToken}`,
+      },
+    });
 
-  //   return () => {
-  //     newSocket.off('message received');
-  //     newSocket.off('typing');
-  //     newSocket.off('stop typing');
-  //     newSocket.off('user joined');
-  //     newSocket.disconnect();
-  //   };
-  // }, [socket]);
+    newSocket.on('connect', () => {
+      // join chat 이벤트 호출
+      newSocket.emit('join chat', studyId);
 
-  // const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === 'Enter' && newMessage && socket) {
-  //     socket.emit('new message', { content: newMessage, sender: 'user' });
-  //     setMessages((prevMessages) => [
-  //       ...prevMessages,
-  //       {
-  //         sender: 'user',
-  //         content: newMessage,
-  //         timestamp: new Date().toISOString(),
-  //       },
-  //     ]);
-  //     setNewMessage('');
-  //   }
-  // };
+      // typing 이벤트
+      newSocket.on('typing', () => {
+        console.log('A user is typing...');
+      });
 
-  // const scrollToBottom = () => {
-  //   if (messageBoxRef.current) {
-  //     messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
-  //   }
-  // };
+      // stop typing 이벤트
+      newSocket.on('stop typing', () => {
+        console.log('A user stopped typing.');
+      });
 
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [messages]);
+      // message received 이벤트
+      newSocket.on('message received', (message: IMessageType) => {
+        setMessages((prev) => [...prev, message]);
+      });
+
+      newSocket.on('my message', (message: IMessageType) => {
+        console.log(message);
+        setMyMessages((prev) => [...prev, message]);
+      });
+
+      // disconnect 이벤트
+      newSocket.on('disconnect', () => {
+        console.log('Socket disconnected');
+      });
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && newMessage.trim() && socket) {
+      const message = {
+        content: newMessage,
+        studyId,
+      };
+      socket.emit('new message', message);
+      setNewMessage('');
+    }
+  };
+
+  useEffect(() => {
+    if (messageBoxRef.current) {
+      messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const handleFileUpload = (file: File) => {
     console.log('Uploaded file:', file);
   };
 
+  useEffect(() => {
+    if (messageBoxRef.current) {
+      messageBoxRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, myMessages]);
+
   return (
     <>
+      {/* Navigation Bar */}
       <div className={styles.Navigation}>
         <Image
           src={IconArrow}
@@ -112,8 +121,11 @@ export default function ChatClient() {
           width={12.67}
           height={22}
           className={styles.arrowImage}
+          onClick={() => {
+            router.back();
+          }}
         />
-        <h2>스터디명</h2>
+        <h2>채팅방: {studyId}</h2>
         <Image src={IconMenu} alt="메뉴 아이콘" className={styles.menuImage} />
         <Image
           src={IconSearch}
@@ -124,6 +136,7 @@ export default function ChatClient() {
         />
       </div>
 
+      {/* Notice Bar */}
       <div className={styles.noticeContainer}>
         <Image
           src={IconMegaPhone}
@@ -134,21 +147,83 @@ export default function ChatClient() {
         <Image src={ArrowDown} alt="메가폰" className={styles.ArrowDownImage} />
       </div>
 
+      {/* Message Container */}
       <div className={styles.messageContainer} ref={messageBoxRef}>
-        {/* {messages.map((message, index) => (
-          <div key={index} className={styles.message}>
-            <span className={styles.sender}>{message.sender}:</span>
-            <span className={styles.content}>{message.content}</span>
-          </div>
-        ))} */}
+        {[...messages, ...myMessages]
+          .sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          ) // 시간 순 정렬
+          .map((message, index, allMessages) => {
+            const isMyMessage = myMessages.includes(message); // 내 메시지 여부 확인
+            const isFirstMessageByUser =
+              index === 0 ||
+              allMessages[index - 1]?.sender._id !== message.sender._id; // 작성자 변경 감지
+
+            return (
+              <div
+                key={message._id}
+                className={
+                  isMyMessage
+                    ? styles.myMessageContainer
+                    : styles.otherMessageContainer
+                }
+              >
+                {/* 프로필 및 닉네임 표시 */}
+                {!isMyMessage && isFirstMessageByUser && (
+                  <div className={styles.profile}>
+                    <Image
+                      src={message.sender.pic}
+                      alt={message.sender.nickname}
+                      width={64}
+                      height={64}
+                    />
+                  </div>
+                )}
+
+                {/* 메시지 내용 */}
+                <div
+                  className={`${styles.messageContent} ${
+                    isFirstMessageByUser ? '' : styles.messageIndent
+                  }`}
+                >
+                  {isFirstMessageByUser && !isMyMessage && (
+                    <span className={styles.sender}>
+                      {message.sender.nickname}
+                    </span>
+                  )}
+                  {/* 시간 위치: 내 메시지면 왼쪽, 상대 메시지면 오른쪽 */}
+                  {isMyMessage && (
+                    <span className={styles.messageTimeLeft}>
+                      {new Date(message.createdAt).toLocaleTimeString()}
+                    </span>
+                  )}
+                  {/* 시간 위치: 상대 메시지면 오른쪽 */}
+                  {!isMyMessage && (
+                    <span className={styles.messageTimeRight}>
+                      {new Date(message.createdAt).toLocaleTimeString()}
+                    </span>
+                  )}
+                  <div
+                    className={
+                      isMyMessage ? styles.myMessage : styles.otherMessage
+                    }
+                  >
+                    <span className={styles.content}>{message.content}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
       </div>
 
+      {/* Input Box */}
       <div className={styles.inputBoxContainer}>
         <input
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          // onKeyDown={sendMessage}
+          onKeyDown={sendMessage}
           className={styles.inputBox}
         />
         <Image
