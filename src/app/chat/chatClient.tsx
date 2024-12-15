@@ -14,11 +14,12 @@ import {
 import { IconSearch } from '../../../public/footer';
 import { ArrowDown } from '../../../public/arrow';
 import { getAppCookie } from '@/utils/cookie';
-import { useGetRecentChat } from '@/apis/chat/chat';
+import { useGetRecentChat, useGetTargetChat } from '@/apis/chat/chat';
 import { IMessageType, JoinedType } from '@/types/chat/chat';
 import { IconAdd, IconOut } from '../../../public/icons';
 import { RightArrow } from '../../../public/arrow';
 import { menuItems } from '@/data/menu';
+import { IGetRecentChatResponse } from '@/types/chat/chat';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
@@ -28,7 +29,6 @@ dayjs.locale('ko');
 export default function ChatClient() {
   const [socket, setSocket] = useState<null | typeof Socket>(null);
   const [messages, setMessages] = useState<IMessageType[]>([]);
-  const [myMessages, setMyMessages] = useState<IMessageType[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
   const router = useRouter();
   const messageBoxRef = useRef<HTMLDivElement>(null);
@@ -44,21 +44,39 @@ export default function ChatClient() {
   );
 
   const { data } = useGetRecentChat(studyId);
+  const [startIndex, setStartIndex] = useState<number | null>(null);
+  const startIndexRef = useRef<number | null>(null);
+
+  const params = {
+    startIndex: startIndex ?? 0,
+    findIndex: startIndex && startIndex > 30 ? startIndex - 30 : 0,
+  };
+
+  const { isFetching, refetch } = useGetTargetChat(studyId, {
+    ...params,
+    onSuccess: (newData: IGetRecentChatResponse) => {
+      if (newData) {
+        const newMinIndex = Math.min(
+          ...newData.messages.map((message) => message.index)
+        );
+        setStartIndex(newMinIndex);
+        startIndexRef.current = newMinIndex;
+      }
+    },
+  });
 
   useEffect(() => {
-    if (!myId || !data?.messages) return;
+    if (!data?.messages) return;
 
-    // 메시지 순회하여 분류
-    const myMessages = data.messages.filter(
-      (message: IMessageType) => message.sender._id === myId
-    );
-    const otherMessages = data.messages.filter(
-      (message: IMessageType) => message.sender._id !== myId
-    );
+    const minIndex = Math.min(...data.messages.map((message) => message.index));
+    setStartIndex(minIndex);
+    startIndexRef.current = minIndex;
 
-    setMyMessages(myMessages);
-    setMessages(otherMessages);
-  }, [myId, data]);
+    // 모든 메시지를 messages 상태로 저장
+    setMessages(data.messages);
+
+    console.log('최소 index:', minIndex);
+  }, [data]);
 
   useEffect(() => {
     if (!accessToken || !studyId) return;
@@ -87,7 +105,7 @@ export default function ChatClient() {
 
       newSocket.on('my message', (message: IMessageType) => {
         console.log(message);
-        setMyMessages((prev) => [...prev, message]);
+        setMessages((prev) => [...prev, message]);
       });
 
       // disconnect 이벤트
@@ -102,10 +120,6 @@ export default function ChatClient() {
       newSocket.disconnect();
     };
   }, []);
-
-  useEffect(() => {
-    console.log(myMessages);
-  }, [myMessages]);
 
   // 메뉴 토글 함수
   const toggleMenu = () => {
@@ -128,7 +142,23 @@ export default function ChatClient() {
   // 스크롤 위치 감지
   const handleScroll = () => {
     if (messageBoxRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = messageBoxRef.current;
+      const { scrollTop } = messageBoxRef.current;
+
+      // 스크롤이 맨 위에 닿으면 refetch 호출
+      if (scrollTop === 0 && !isFetching && startIndexRef.current !== 0) {
+        console.log('Fetching previous messages...');
+        console.log({
+          startIndex: startIndexRef.current,
+          findIndex:
+            startIndexRef.current && startIndexRef.current > 30
+              ? startIndexRef.current - 30
+              : 0,
+        });
+        refetch();
+      }
+
+      // 스크롤 하단 감지
+      const { scrollHeight, clientHeight } = messageBoxRef.current;
       const atBottom = Math.abs(scrollTop + clientHeight - scrollHeight) <= 10;
       setIsAtBottom(atBottom);
     }
@@ -153,7 +183,7 @@ export default function ChatClient() {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [messages, myMessages]);
+  }, [messages]);
 
   // 스크롤 이벤트 리스너 등록
   useEffect(() => {
@@ -167,8 +197,6 @@ export default function ChatClient() {
   // const handleFileUpload = (file: File) => {
   //   console.log('Uploaded file:', file);
   // };
-
-  // 채팅이 새로 생기면 항상 아래를 본다.
 
   return (
     <div className={styles.Container}>
@@ -264,76 +292,98 @@ export default function ChatClient() {
         <Image src={ArrowDown} alt="메가폰" className={styles.ArrowDownImage} />
       </div>
 
-      {/* Message Container */}
+      {/* Date */}
       <div className={styles.messageContainer} ref={messageBoxRef}>
-        {[...messages, ...myMessages]
+        {messages
           .sort(
             (a, b) =>
               new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           )
-          .map((message, index, allMessages) => {
-            const isMyMessage = myMessages.includes(message); // 내 메시지 여부 확인
-            const isFirstMessageByUser =
-              index === 0 ||
-              allMessages[index - 1]?.sender._id !== message.sender._id; // 작성자 변경 감지
+          .reduce(
+            (acc: { date: string; messages: IMessageType[] }[], message) => {
+              const messageDate = dayjs(message.createdAt).format('YYYY-MM-DD');
+              const lastGroup = acc[acc.length - 1];
 
-            return (
-              <div
-                key={message._id}
-                className={
-                  isMyMessage
-                    ? styles.myMessageContainer
-                    : styles.otherMessageContainer
-                }
-              >
-                {/* 프로필 및 닉네임 표시 */}
-                {!isMyMessage && isFirstMessageByUser && (
-                  <div className={styles.profile}>
-                    <Image
-                      src={message.sender.pic}
-                      alt={message.sender.nickname}
-                      width={64}
-                      height={64}
-                    />
-                  </div>
-                )}
+              if (!lastGroup || lastGroup.date !== messageDate) {
+                acc.push({ date: messageDate, messages: [message] });
+              } else {
+                lastGroup.messages.push(message);
+              }
 
-                {/* 메시지 내용 */}
-                <div
-                  className={`${styles.messageContent} ${
-                    isFirstMessageByUser ? '' : styles.messageIndent
-                  }`}
-                >
-                  {isFirstMessageByUser && !isMyMessage && (
-                    <span className={styles.sender}>
-                      {message.sender.nickname}
-                    </span>
-                  )}
-                  <div className={styles.messageWrapper}>
-                    {/* 시간 위치: 내 메시지면 왼쪽, 상대 메시지면 오른쪽 */}
-                    {isMyMessage && (
-                      <span className={styles.messageTimeLeft}>
-                        {dayjs(message.createdAt).format('A h:mm')}
-                      </span>
+              return acc;
+            },
+            []
+          )
+          .map((group) => (
+            <div key={group.date}>
+              {/* 날짜 출력 */}
+              <div className={styles.dateContainer}>
+                <p>{dayjs(group.date).format('YYYY년 M월 D일 dddd')}</p>
+              </div>
+
+              {/* 메시지 출력 */}
+              {group.messages.map((message, index, allMessages) => {
+                const isMyMessage = message.sender._id === myId; // 내 메시지 확인
+                const isFirstMessageByUser =
+                  index === 0 ||
+                  allMessages[index - 1]?.sender._id !== message.sender._id;
+
+                return (
+                  <div
+                    key={message._id}
+                    className={
+                      isMyMessage
+                        ? styles.myMessageContainer
+                        : styles.otherMessageContainer
+                    }
+                  >
+                    {!isMyMessage && isFirstMessageByUser && (
+                      <div className={styles.profile}>
+                        <Image
+                          src={message.sender.pic}
+                          alt={message.sender.nickname}
+                          width={64}
+                          height={64}
+                        />
+                      </div>
                     )}
                     <div
-                      className={
-                        isMyMessage ? styles.myMessage : styles.otherMessage
-                      }
+                      className={`${styles.messageContent} ${
+                        isFirstMessageByUser ? '' : styles.messageIndent
+                      }`}
                     >
-                      <span className={styles.content}>{message.content}</span>
+                      {isFirstMessageByUser && !isMyMessage && (
+                        <span className={styles.sender}>
+                          {message.sender.nickname}
+                        </span>
+                      )}
+                      <div className={styles.messageWrapper}>
+                        {isMyMessage && (
+                          <span className={styles.messageTimeLeft}>
+                            {dayjs(message.createdAt).format('A h:mm')}
+                          </span>
+                        )}
+                        <div
+                          className={
+                            isMyMessage ? styles.myMessage : styles.otherMessage
+                          }
+                        >
+                          <span className={styles.content}>
+                            {message.content}
+                          </span>
+                        </div>
+                        {!isMyMessage && (
+                          <span className={styles.messageTimeRight}>
+                            {dayjs(message.createdAt).format('A h:mm')}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    {/* 시간 위치: 상대 메시지면 오른쪽 */}
-                    {!isMyMessage && (
-                      <span className={styles.messageTimeRight}>
-                        {dayjs(message.createdAt).format('A h:mm')}
-                      </span>
-                    )}
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          ))}
       </div>
 
       {/* Input Box */}

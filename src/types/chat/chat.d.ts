@@ -42,3 +42,9 @@ export interface JoinedType {
   reqUserId: string;
   roomId: string;
 }
+
+export interface TargetType {
+  [key: string]: unknown;
+  startIndex: number;
+  findIndex: number;
+}

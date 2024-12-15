@@ -68,6 +68,26 @@
   }
 }
 
+.dateContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20.16px;
+  color: #0d0d0d;
+}
+
+.dateContainer::before,
+.dateContainer::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #eaeaea;
+  margin: 0 8px;
+}
+
 .messageContainer {
   width: 100%;
   display: flex;
