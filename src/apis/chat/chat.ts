@@ -12,6 +12,5 @@ export const useGetRecentChat = (studyId: number) => {
   return useQuery({
     queryKey: ['chat', 'recent', studyId],
     queryFn: () => getRecentChat(studyId),
-    staleTime: 0,
   });
 };

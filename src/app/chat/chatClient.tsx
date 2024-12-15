@@ -15,7 +15,7 @@ import { IconSearch } from '../../../public/footer';
 import { ArrowDown } from '../../../public/arrow';
 import { getAppCookie } from '@/utils/cookie';
 import { useGetRecentChat } from '@/apis/chat/chat';
-import { IMessageType } from '@/types/chat/chat';
+import { IMessageType, JoinedType } from '@/types/chat/chat';
 import { IconAdd, IconOut } from '../../../public/icons';
 import { RightArrow } from '../../../public/arrow';
 import { menuItems } from '@/data/menu';
@@ -32,9 +32,10 @@ export default function ChatClient() {
   const [newMessage, setNewMessage] = useState<string>('');
   const router = useRouter();
   const messageBoxRef = useRef<HTMLDivElement>(null);
-  const [isAtBottom, setIsAtBottom] = useState(true); // 스크롤이 맨 아래에 있는지 여부
+  const [isAtBottom, setIsAtBottom] = useState(true);
   const animationFrameId = useRef<number | null>(null);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [myId, setMyId] = useState('');
 
   const searchParams = useSearchParams();
   const studyId = Number(searchParams.get('studyId'));
@@ -45,8 +46,19 @@ export default function ChatClient() {
   const { data } = useGetRecentChat(studyId);
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    if (!myId || !data?.messages) return;
+
+    // 메시지 순회하여 분류
+    const myMessages = data.messages.filter(
+      (message: IMessageType) => message.sender._id === myId
+    );
+    const otherMessages = data.messages.filter(
+      (message: IMessageType) => message.sender._id !== myId
+    );
+
+    setMyMessages(myMessages);
+    setMessages(otherMessages);
+  }, [myId, data]);
 
   useEffect(() => {
     if (!accessToken || !studyId) return;
@@ -61,6 +73,10 @@ export default function ChatClient() {
     newSocket.on('connect', () => {
       // join chat 이벤트 호출
       newSocket.emit('join chat', studyId);
+
+      newSocket.on('joined chat', (message: JoinedType) => {
+        setMyId(message.reqUserId);
+      });
 
       // message received 이벤트
       newSocket.on('message received', (message: IMessageType) => {

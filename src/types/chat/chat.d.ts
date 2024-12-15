@@ -37,3 +37,8 @@ export interface IGetRecentChatResponse {
   chat: IChatInfo;
   messages: IMessageType[];
 }
+
+export interface JoinedType {
+  reqUserId: string;
+  roomId: string;
+}
