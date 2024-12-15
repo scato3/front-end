@@ -17,6 +17,11 @@ import { getAppCookie } from '@/utils/cookie';
 import { useGetRecentChat } from '@/apis/chat/chat';
 import { IMessageType } from '@/types/chat/chat';
 
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
+
 export default function ChatClient() {
   const [socket, setSocket] = useState<null | typeof Socket>(null);
   const [messages, setMessages] = useState<IMessageType[]>([]);
@@ -192,24 +197,26 @@ export default function ChatClient() {
                       {message.sender.nickname}
                     </span>
                   )}
-                  {/* 시간 위치: 내 메시지면 왼쪽, 상대 메시지면 오른쪽 */}
-                  {isMyMessage && (
-                    <span className={styles.messageTimeLeft}>
-                      {new Date(message.createdAt).toLocaleTimeString()}
-                    </span>
-                  )}
-                  {/* 시간 위치: 상대 메시지면 오른쪽 */}
-                  {!isMyMessage && (
-                    <span className={styles.messageTimeRight}>
-                      {new Date(message.createdAt).toLocaleTimeString()}
-                    </span>
-                  )}
-                  <div
-                    className={
-                      isMyMessage ? styles.myMessage : styles.otherMessage
-                    }
-                  >
-                    <span className={styles.content}>{message.content}</span>
+                  <div className={styles.messageWrapper}>
+                    {/* 시간 위치: 내 메시지면 왼쪽, 상대 메시지면 오른쪽 */}
+                    {isMyMessage && (
+                      <span className={styles.messageTimeLeft}>
+                        {dayjs(message.createdAt).format('A h:mm')}
+                      </span>
+                    )}
+                    <div
+                      className={
+                        isMyMessage ? styles.myMessage : styles.otherMessage
+                      }
+                    >
+                      <span className={styles.content}>{message.content}</span>
+                    </div>
+                    {/* 시간 위치: 상대 메시지면 오른쪽 */}
+                    {!isMyMessage && (
+                      <span className={styles.messageTimeRight}>
+                        {dayjs(message.createdAt).format('A h:mm')}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>

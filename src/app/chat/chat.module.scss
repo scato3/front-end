@@ -109,6 +109,20 @@
     color: #555;
   }
 
+  .messageWrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+
+    .messageTimeLeft,
+    .messageTimeRight {
+      font-weight: 500;
+      font-size: 10px;
+      line-height: 16px;
+      color: var(--gray-600);
+    }
+  }
+
   .myMessage,
   .otherMessage {
     border-radius: 12px;
