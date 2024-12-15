@@ -68,6 +68,7 @@
 }
 
 .messageContainer {
+  width: 100%;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -89,13 +90,8 @@
   .messageContent {
     display: flex;
     flex-direction: column;
-    max-width: 70%;
+    max-width: 85%;
     word-wrap: break-word;
-  }
-
-  .myMessageContent {
-    display: flex;
-    align-items: flex-end;
   }
 
   .messageIndent {
@@ -118,8 +114,8 @@
     .messageTimeRight {
       font-weight: 500;
       font-size: 10px;
-      line-height: 16px;
       color: var(--gray-600);
+      white-space: nowrap; // 줄바꿈 방지
     }
   }
 
@@ -128,6 +124,8 @@
     border-radius: 12px;
     padding: 7.5px 12px;
     display: inline-block;
+    word-break: break-word;
+    max-width: 100%;
   }
 
   .myMessage {
@@ -156,7 +154,6 @@
 }
 
 .inputBox {
-  position: relative;
   width: 100%;
   height: 46px;
   border: 1px solid #eaeaea;

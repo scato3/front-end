@@ -112,13 +112,12 @@ export default function ChatClient() {
 
   useEffect(() => {
     if (messageBoxRef.current) {
-      // 스크롤을 항상 맨 아래로 이동
       messageBoxRef.current.scrollTo({
         top: messageBoxRef.current.scrollHeight,
         behavior: 'smooth',
       });
     }
-  }, [messages, myMessages, newMessage]);
+  }, [messages, myMessages]);
 
   return (
     <>
