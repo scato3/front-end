@@ -11,7 +11,6 @@ const ALLOWED_ROUTES = [
   '/search_result',
   '/studyList',
   '/fastMatching',
-  '/profile',
 ];
 
 export default function TourProvider({

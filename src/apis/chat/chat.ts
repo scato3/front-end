@@ -20,7 +20,7 @@ async function getTargetChat(
   data: TargetType
 ): Promise<IGetRecentChatResponse> {
   return await api.get({
-    url: `chat/api/message/${studyId}/index`,
+    url: `chat/api/message/${studyId}`,
     query: data,
   });
 }
