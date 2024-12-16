@@ -18,7 +18,7 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
 
     const groupedMessages = sortedMessages.reduce(
       (acc: { date: string; messages: IMessageType[] }[], message) => {
-        const messageDate = message.createdAt.split('T')[0]; // ISO 날짜에서 시간 제거
+        const messageDate = message.createdAt.split('T')[0];
         const lastGroup = acc[acc.length - 1];
 
         if (!lastGroup || lastGroup.date !== messageDate) {
@@ -36,7 +36,6 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
       <div ref={ref} className={styles.messageContainer}>
         {groupedMessages.map((group) => (
           <div key={group.date}>
-            {/* 날짜 포맷 */}
             <div className={styles.dateContainer}>
               <p>{formatKoreanDate(group.date)}</p>
             </div>

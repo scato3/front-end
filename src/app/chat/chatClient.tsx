@@ -22,6 +22,8 @@ export default function ChatClient() {
   const [socket, setSocket] = useState<null | typeof Socket>(null);
   const [messages, setMessages] = useState<IMessageType[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
+  const [isSearchActive, setIsSearchActive] = useState(false);
+
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const animationFrameId = useRef<number | null>(null);
@@ -39,7 +41,12 @@ export default function ChatClient() {
   useEffect(() => {
     if (!data?.messages) return;
     setMessages(data.messages);
+    console.log(data);
   }, [data]);
+
+  const toggleSearch = () => {
+    setIsSearchActive((prev) => !prev);
+  };
 
   useEffect(() => {
     if (!accessToken || !studyId) return;
@@ -149,9 +156,10 @@ export default function ChatClient() {
       <ChatNavigation
         chatName={data?.chat.chatName || '채팅방'}
         onMenuToggle={() => setMenuVisible(!menuVisible)}
+        onSearchToggle={toggleSearch}
       />
       <ChatMenu visible={menuVisible} onClose={() => setMenuVisible(false)} />
-      <ChatNotice />
+      <ChatNotice isSearchActive={isSearchActive} studyId={studyId} />
       <MessageGroup messages={messages} myId={myId} ref={messageBoxRef} />
       <InputBox
         value={newMessage}

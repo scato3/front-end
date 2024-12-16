@@ -7,11 +7,13 @@ import { IconSearch } from '../../../../public/footer';
 interface NavigationBarProps {
   chatName: string;
   onMenuToggle: () => void;
+  onSearchToggle: () => void;
 }
 
 export const ChatNavigation = ({
   chatName,
   onMenuToggle,
+  onSearchToggle,
 }: NavigationBarProps) => {
   const router = useRouter();
 
@@ -38,6 +40,7 @@ export const ChatNavigation = ({
         width={18}
         height={18}
         className={styles.searchImage}
+        onClick={onSearchToggle}
       />
     </div>
   );

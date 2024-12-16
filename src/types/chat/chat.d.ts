@@ -48,3 +48,9 @@ export interface TargetType {
   startIndex: number;
   findIndex: number;
 }
+
+export interface FindType {
+  [key: string]: unknown;
+  findText: string;
+  startIndex: number;
+}

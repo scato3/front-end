@@ -64,5 +64,6 @@ export const config = {
     '/studySetting/:path*',
     '/profile/:path*',
     '/chat/:path*',
+    '/fastMatching/:path*',
   ],
 };
