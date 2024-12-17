@@ -1,6 +1,6 @@
-## [배포 주소](https://showtudy.vercel.app/)
+## [배포 주소](https://shortudy.vercel.app/)
 
-# 📚Showtudy
+# 📚Shortudy
 
 ## Stack
 

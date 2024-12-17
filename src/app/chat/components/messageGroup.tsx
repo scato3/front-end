@@ -1,53 +1,54 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { IMessageType } from '@/types/chat/chat';
 import styles from '../chat.module.scss';
 import Image from 'next/image';
 import { formatKoreanDate, formatKoreanTime } from '@/utils/dateformat';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
 interface MessageGroupProps {
   messages: IMessageType[];
   myId: string;
+  onTopVisible: () => void; // 맨 위 메시지가 보일 때 실행할 함수
 }
 
 export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
-  ({ messages, myId }, ref) => {
-    const sortedMessages = [...messages].sort(
-      (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
+  ({ messages, myId, onTopVisible }, ref) => {
+    const topItemRef = useRef<HTMLDivElement | null>(null);
 
-    const groupedMessages = sortedMessages.reduce(
-      (acc: { date: string; messages: IMessageType[] }[], message) => {
-        const messageDate = message.createdAt.split('T')[0];
-        const lastGroup = acc[acc.length - 1];
+    const { observe } = useIntersectionObserver(onTopVisible, {
+      threshold: 0.1,
+    });
 
-        if (!lastGroup || lastGroup.date !== messageDate) {
-          acc.push({ date: messageDate, messages: [message] });
-        } else {
-          lastGroup.messages.push(message);
-        }
+    useEffect(() => {
+      if (messages.length) {
+        observe(topItemRef.current); // 맨 위 아이템을 관측
+      }
+    }, [messages, observe]);
 
-        return acc;
-      },
-      []
-    );
+    const groupedMessages = messages.reduce<{
+      [date: string]: IMessageType[];
+    }>((acc, message) => {
+      const date = message.createdAt.split('T')[0];
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(message);
+      return acc;
+    }, {});
 
     return (
       <div ref={ref} className={styles.messageContainer}>
-        {groupedMessages.map((group) => (
-          <div key={group.date}>
-            <div className={styles.dateContainer}>
-              <p>{formatKoreanDate(group.date)}</p>
-            </div>
-            {group.messages.map((message, index, allMessages) => {
+        {Object.entries(groupedMessages).map(([date, groupMessages], idx) => (
+          <div key={date}>
+            <div className={styles.dateContainer}>{formatKoreanDate(date)}</div>
+            {groupMessages.map((message, index) => {
               const isMyMessage = message.sender._id === myId;
               const isFirstMessageByUser =
                 index === 0 ||
-                allMessages[index - 1]?.sender._id !== message.sender._id;
+                groupMessages[index - 1]?.sender._id !== message.sender._id;
 
               return (
                 <div
                   key={message._id}
+                  ref={idx === 0 && index === 0 ? topItemRef : null} // 맨 위 메시지에 ref 할당
                   className={
                     isMyMessage
                       ? styles.myMessageContainer

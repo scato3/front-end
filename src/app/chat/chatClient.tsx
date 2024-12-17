@@ -15,6 +15,7 @@ import { ChatMenu } from './components/menu';
 import { ChatNotice } from './components/notice';
 import { InputBox } from './components/inputBox';
 import { ChatNavigation } from './components/chatNavigation';
+import { useGetTargetChat } from '@/apis/chat/chat';
 
 dayjs.locale('ko');
 
@@ -29,6 +30,8 @@ export default function ChatClient() {
   const animationFrameId = useRef<number | null>(null);
   const [menuVisible, setMenuVisible] = useState(false);
   const [myId, setMyId] = useState('');
+  const [startIndex, setStartIndex] = useState<number>(0);
+  const [findIndex, setFindIndex] = useState<number>(0);
 
   const searchParams = useSearchParams();
   const studyId = Number(searchParams.get('studyId'));
@@ -41,11 +44,54 @@ export default function ChatClient() {
   useEffect(() => {
     if (!data?.messages) return;
     setMessages(data.messages);
-    console.log(data);
+    const minIndex = Math.min(...data.messages.map((message) => message.index));
+    setStartIndex(minIndex);
+    setFindIndex(Math.max(minIndex - 30, 0));
   }, [data]);
 
   const toggleSearch = () => {
     setIsSearchActive((prev) => !prev);
+  };
+
+  const { refetch: refetchTargetData, isFetching } = useGetTargetChat(studyId, {
+    startIndex,
+    findIndex: Math.max(startIndex - 30, 0),
+  });
+
+  const handleRefetch = async () => {
+    if (isFetching || findIndex <= 0) return;
+
+    const prevScrollHeight = messageBoxRef.current?.scrollHeight || 0;
+
+    const { data } = await refetchTargetData();
+    if (data?.messages) {
+      setMessages((prevMessages) => {
+        // 기존 메시지와 병합 후 중복 제거
+        const combinedMessages = [
+          ...data.messages,
+          ...prevMessages.filter(
+            (msg) => !data.messages.some((newMsg) => newMsg._id === msg._id)
+          ),
+        ].sort((a, b) => a.index - b.index);
+
+        // 가장 낮은 index를 기준으로 startIndex 업데이트
+        const newStartIndex = Math.min(
+          ...combinedMessages.map((msg) => msg.index)
+        );
+        setStartIndex(newStartIndex);
+        setFindIndex(Math.max(newStartIndex - 30, 0));
+
+        return combinedMessages;
+      });
+
+      // 스크롤 위치 유지
+      requestAnimationFrame(() => {
+        if (messageBoxRef.current) {
+          const newScrollHeight = messageBoxRef.current.scrollHeight;
+          messageBoxRef.current.scrollTop = newScrollHeight - prevScrollHeight;
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -160,7 +206,12 @@ export default function ChatClient() {
       />
       <ChatMenu visible={menuVisible} onClose={() => setMenuVisible(false)} />
       <ChatNotice isSearchActive={isSearchActive} studyId={studyId} />
-      <MessageGroup messages={messages} myId={myId} ref={messageBoxRef} />
+      <MessageGroup
+        messages={messages}
+        myId={myId}
+        ref={messageBoxRef}
+        onTopVisible={handleRefetch}
+      />
       <InputBox
         value={newMessage}
         onChange={setNewMessage}
