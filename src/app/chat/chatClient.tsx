@@ -31,7 +31,6 @@ export default function ChatClient() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [myId, setMyId] = useState('');
   const [startIndex, setStartIndex] = useState<number>(0);
-  const [findIndex, setFindIndex] = useState<number>(0);
 
   const searchParams = useSearchParams();
   const studyId = Number(searchParams.get('studyId'));
@@ -46,7 +45,6 @@ export default function ChatClient() {
     setMessages(data.messages);
     const minIndex = Math.min(...data.messages.map((message) => message.index));
     setStartIndex(minIndex);
-    setFindIndex(Math.max(minIndex - 30, 0));
   }, [data]);
 
   const toggleSearch = () => {
@@ -59,32 +57,33 @@ export default function ChatClient() {
   });
 
   const handleRefetch = async () => {
-    if (isFetching || findIndex <= 0) return;
+    if (isFetching || startIndex <= 0) return;
 
     const prevScrollHeight = messageBoxRef.current?.scrollHeight || 0;
 
+    // 데이터 요청
     const { data } = await refetchTargetData();
-    if (data?.messages) {
-      setMessages((prevMessages) => {
-        // 기존 메시지와 병합 후 중복 제거
-        const combinedMessages = [
-          ...data.messages,
-          ...prevMessages.filter(
-            (msg) => !data.messages.some((newMsg) => newMsg._id === msg._id)
-          ),
-        ].sort((a, b) => a.index - b.index);
+    console.log('Fetched data:', data);
 
-        // 가장 낮은 index를 기준으로 startIndex 업데이트
-        const newStartIndex = Math.min(
-          ...combinedMessages.map((msg) => msg.index)
+    const fetchedMessages: IMessageType[] = Array.isArray(data) ? data : [];
+
+    if (fetchedMessages.length > 0) {
+      setMessages((prevMessages) => {
+        const uniqueMessages = new Map(
+          [...fetchedMessages, ...prevMessages].map((msg) => [msg._id, msg])
         );
+
+        const combinedMessages = Array.from(uniqueMessages.values()).sort(
+          (a, b) => a.index - b.index
+        );
+
+        const newStartIndex =
+          Math.min(...combinedMessages.map((msg) => msg.index)) - 1;
+
         setStartIndex(newStartIndex);
-        setFindIndex(Math.max(newStartIndex - 30, 0));
 
         return combinedMessages;
       });
-
-      // 스크롤 위치 유지
       requestAnimationFrame(() => {
         if (messageBoxRef.current) {
           const newScrollHeight = messageBoxRef.current.scrollHeight;

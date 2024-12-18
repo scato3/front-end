@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   FindType,
   IGetRecentChatResponse,
+  IMessageType,
   TargetType,
 } from '@/types/chat/chat';
 
@@ -22,9 +23,9 @@ export const useGetRecentChat = (studyId: number) => {
 async function getTargetChat(
   studyId: number,
   data: TargetType
-): Promise<IGetRecentChatResponse> {
+): Promise<IMessageType> {
   return await api.get({
-    url: `chat/api/message/${studyId}`,
+    url: `chat/api/message/${studyId}/index`,
     query: data,
   });
 }
@@ -39,7 +40,7 @@ export const useGetTargetChat = (studyId: number, data: TargetType) => {
 
 async function getFindChat(studyId: number, data: FindType) {
   return await api.get({
-    url: `chat/api/message/${studyId}`,
+    url: `chat/api/message/${studyId}/text`,
     query: data,
   });
 }
