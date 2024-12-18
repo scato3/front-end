@@ -20,7 +20,7 @@ export const ChatNotice = ({
 
   const { data: searchData, refetch } = useGetFindChat(studyId, {
     findText: searchQuery,
-    startIndex: 0,
+    startIndex: 105,
   });
 
   const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {

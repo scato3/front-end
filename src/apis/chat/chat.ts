@@ -1,6 +1,7 @@
 import api from '@/utils/fethcer';
 import { useQuery } from '@tanstack/react-query';
 import {
+  FindTextResponseType,
   FindType,
   IGetRecentChatResponse,
   IMessageType,
@@ -38,7 +39,10 @@ export const useGetTargetChat = (studyId: number, data: TargetType) => {
   });
 };
 
-async function getFindChat(studyId: number, data: FindType) {
+async function getFindChat(
+  studyId: number,
+  data: FindType
+): Promise<FindTextResponseType> {
   return await api.get({
     url: `chat/api/message/${studyId}/text`,
     query: data,

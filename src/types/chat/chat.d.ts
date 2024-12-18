@@ -54,3 +54,8 @@ export interface FindType {
   findText: string;
   startIndex: number;
 }
+
+export interface FindTextResponseType {
+  indexList: number[];
+  messages: IMessageType[];
+}

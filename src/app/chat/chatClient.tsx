@@ -42,10 +42,22 @@ export default function ChatClient() {
 
   useEffect(() => {
     if (!data?.messages) return;
-    setMessages(data.messages);
-    const minIndex = Math.min(...data.messages.map((message) => message.index));
+    console.log(data);
+
+    const sortedMessages = [...data.messages].sort(
+      (a, b) => Number(a.index) - Number(b.index)
+    );
+
+    setMessages(sortedMessages);
+
+    // 가장 작은 index 설정
+    const minIndex = Math.min(
+      ...sortedMessages.map((message) => message.index)
+    );
     setStartIndex(minIndex);
   }, [data]);
+
+  console.log(messages);
 
   const toggleSearch = () => {
     setIsSearchActive((prev) => !prev);
