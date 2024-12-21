@@ -24,6 +24,7 @@ export default function Navigation({ title, onClick, horiz }: NavigationProps) {
       onClick();
     }
     router.back();
+    router.refresh();
   };
 
   const handleHorizClick = () => {

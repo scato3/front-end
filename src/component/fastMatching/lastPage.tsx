@@ -31,6 +31,7 @@ export default function LastPage({ onBefore, data }: ILastPage) {
           <Button
             onClick={() => {
               router.push('./');
+              router.refresh();
             }}
           >
             홈으로 돌아가기

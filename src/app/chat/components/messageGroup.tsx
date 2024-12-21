@@ -76,6 +76,7 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
                         alt={message.sender.nickname}
                         width={64}
                         height={64}
+                        className={styles.profileImage}
                       />
                     </div>
                   )}

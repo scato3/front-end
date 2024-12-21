@@ -72,7 +72,14 @@ export default function ChatClient() {
   const handleRefetch = async () => {
     if (isFetching || startIndex <= 0) return;
 
-    const prevScrollHeight = messageBoxRef.current?.scrollHeight || 0;
+    const messageBox = messageBoxRef.current;
+
+    // 스크롤이 생기지 않는 경우 데이터 페칭 방지
+    if (messageBox && messageBox.scrollHeight <= messageBox.clientHeight) {
+      return;
+    }
+
+    const prevScrollHeight = messageBox?.scrollHeight || 0;
 
     // 데이터 요청
     const { data } = await refetchTargetData();
@@ -97,10 +104,11 @@ export default function ChatClient() {
 
         return combinedMessages;
       });
+
       requestAnimationFrame(() => {
-        if (messageBoxRef.current) {
-          const newScrollHeight = messageBoxRef.current.scrollHeight;
-          messageBoxRef.current.scrollTop = newScrollHeight - prevScrollHeight;
+        if (messageBox) {
+          const newScrollHeight = messageBox.scrollHeight;
+          messageBox.scrollTop = newScrollHeight - prevScrollHeight;
         }
       });
     }
