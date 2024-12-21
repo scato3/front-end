@@ -52,7 +52,8 @@ export default function ChatClient() {
 
     // 가장 작은 index 설정
     const minIndex = Math.min(
-      ...sortedMessages.map((message) => message.index)
+      ...sortedMessages.map((message) => message.index),
+      Number.MAX_SAFE_INTEGER
     );
     setStartIndex(minIndex);
   }, [data]);
