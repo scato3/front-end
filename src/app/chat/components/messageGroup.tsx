@@ -4,16 +4,18 @@ import styles from '../chat.module.scss';
 import Image from 'next/image';
 import { formatKoreanDate, formatKoreanTime } from '@/utils/dateformat';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useChatStore } from '@/store/chatStore';
 
 interface MessageGroupProps {
   messages: IMessageType[];
   myId: string;
-  onTopVisible: () => void; // 맨 위 메시지가 보일 때 실행할 함수
+  onTopVisible: () => void;
 }
 
 export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
   ({ messages, myId, onTopVisible }, ref) => {
     const topItemRef = useRef<HTMLDivElement | null>(null);
+    const { searchResults, currentSearchIndex } = useChatStore();
 
     const { observe } = useIntersectionObserver(onTopVisible, {
       threshold: 0.1,
@@ -21,9 +23,29 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
 
     useEffect(() => {
       if (messages.length) {
-        observe(topItemRef.current); // 맨 위 아이템을 관측
+        observe(topItemRef.current);
       }
     }, [messages, observe]);
+
+    // 검색된 메시지로 스크롤
+    useEffect(() => {
+      if (searchResults.length > 0) {
+        const targetIndex = searchResults[currentSearchIndex];
+        const targetMessage = messages.find((msg) => msg.index === targetIndex);
+        if (targetMessage) {
+          const element = document.getElementById(
+            `message-${targetMessage._id}`
+          );
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            element.classList.add(styles.highlighted);
+            setTimeout(() => {
+              element.classList.remove(styles.highlighted);
+            }, 2000);
+          }
+        }
+      }
+    }, [currentSearchIndex, searchResults, messages]);
 
     const groupedMessages = messages.reduce<{
       [date: string]: IMessageType[];
@@ -41,17 +63,14 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
             <div className={styles.dateContainer}>{formatKoreanDate(date)}</div>
             {groupMessages.map((message, index) => {
               const isMyMessage = message.sender._id === myId;
-
               const currentTime = formatKoreanTime(message.createdAt);
               const prevTime =
                 index > 0
                   ? formatKoreanTime(groupMessages[index - 1].createdAt)
                   : null;
-
               const isSameTimeAndUser =
                 prevTime === currentTime &&
                 groupMessages[index - 1]?.sender._id === message.sender._id;
-
               const isLastMessageInTimeGroup =
                 index === groupMessages.length - 1 ||
                 formatKoreanTime(groupMessages[index + 1]?.createdAt) !==
@@ -61,14 +80,12 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
               return (
                 <div
                   key={message._id}
-                  className={
-                    isMyMessage
-                      ? styles.myMessageContainer
-                      : styles.otherMessageContainer
-                  }
-                  ref={idx === 0 && index === 0 ? topItemRef : null} // 맨 위 메시지에 ref 할당
+                  id={`message-${message._id}`}
+                  className={`
+                    ${isMyMessage ? styles.myMessageContainer : styles.otherMessageContainer}
+                  `}
+                  ref={idx === 0 && index === 0 ? topItemRef : null}
                 >
-                  {/* 프로필 및 닉네임 (첫 메시지만 표시) */}
                   {!isMyMessage && !isSameTimeAndUser && (
                     <div className={styles.profile}>
                       <Image
@@ -86,7 +103,6 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
                       isSameTimeAndUser ? styles.messageIndent : ''
                     }`}
                   >
-                    {/* 닉네임 표시 */}
                     {isMyMessage || isSameTimeAndUser ? null : (
                       <span className={styles.sender}>
                         {message.sender.nickname}

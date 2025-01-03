@@ -58,15 +58,13 @@ export default function ChatClient() {
     setStartIndex(minIndex);
   }, [data]);
 
-  console.log(messages);
-
   const toggleSearch = () => {
     setIsSearchActive((prev) => !prev);
   };
 
   const { refetch: refetchTargetData, isFetching } = useGetTargetChat(studyId, {
     startIndex,
-    findIndex: Math.max(startIndex - 30, 0),
+    findIndex: 0,
   });
 
   const handleRefetch = async () => {
@@ -217,6 +215,48 @@ export default function ChatClient() {
   //   console.log('Uploaded file:', file);
   // };
 
+  // 검색한 인덱스까지 메시지를 로드하는 함수
+  const handleSearch = async (targetIndex: number) => {
+    try {
+      // 데이터 요청
+      setStartIndex(targetIndex);
+      const { data } = await refetchTargetData();
+
+      if (Array.isArray(data) && data.length > 0) {
+        return new Promise<void>((resolve) => {
+          // 새로운 메시지 배열 생성
+          const newMessages = [...data, ...messages].sort(
+            (a, b) => a.index - b.index
+          );
+          const uniqueMessages = Array.from(
+            new Map(newMessages.map((msg) => [msg._id, msg])).values()
+          );
+
+          // 메시지 업데이트
+          setMessages(uniqueMessages);
+
+          // DOM 업데이트를 기다린 후 스크롤
+          setTimeout(() => {
+            const targetMessage = uniqueMessages.find(
+              (msg) => msg.index === targetIndex
+            );
+            if (targetMessage) {
+              const element = document.getElementById(
+                `message-${targetMessage._id}`
+              );
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+            resolve();
+          }, 100);
+        });
+      }
+    } catch (error) {
+      console.error('Error in handleSearch:', error);
+    }
+  };
+
   return (
     <div className={styles.Container}>
       <ChatNavigation
@@ -225,7 +265,12 @@ export default function ChatClient() {
         onSearchToggle={toggleSearch}
       />
       <ChatMenu visible={menuVisible} onClose={() => setMenuVisible(false)} />
-      <ChatNotice isSearchActive={isSearchActive} studyId={studyId} />
+      <ChatNotice
+        isSearchActive={isSearchActive}
+        studyId={studyId}
+        handleSearchClick={handleSearch}
+        refetchTargetData={refetchTargetData}
+      />
       <MessageGroup
         messages={messages}
         myId={myId}

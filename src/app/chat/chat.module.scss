@@ -142,6 +142,20 @@
     align-items: flex-end;
     gap: 14px;
     margin-bottom: 8px;
+
+    &.searchResult {
+      .myMessage,
+      .otherMessage {
+        background-color: rgba(255, 255, 0, 0.2);
+      }
+    }
+
+    &.currentSearchResult {
+      .myMessage,
+      .otherMessage {
+        background-color: rgba(255, 255, 0, 0.4);
+      }
+    }
   }
 
   .myMessageContainer {
@@ -381,4 +395,9 @@
 
 .profileImage {
   border-radius: 50%;
+}
+
+.highlight {
+  font-weight: bold;
+  background-color: rgba(255, 255, 0, 0.3);
 }
