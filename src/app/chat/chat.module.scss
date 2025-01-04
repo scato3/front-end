@@ -401,3 +401,15 @@
   font-weight: bold;
   background-color: rgba(255, 255, 0, 0.3);
 }
+
+.searchedMessage {
+  &.myMessage {
+    color: #000000 !important;
+    font-weight: bold !important;
+  }
+
+  &.otherMessage {
+    color: var(--main) !important;
+    font-weight: bold !important;
+  }
+}

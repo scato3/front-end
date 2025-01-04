@@ -23,7 +23,7 @@ export default function PopularBox({ data }: PopularBoxProps) {
       <div className={styles.gridContainer}>
         {displayData.map((item, index) => (
           <div
-            key={item?.id}
+            key={index}
             className={styles.gridItem}
             onClick={() => {
               if (item) {

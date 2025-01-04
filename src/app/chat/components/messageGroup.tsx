@@ -76,6 +76,7 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
                 formatKoreanTime(groupMessages[index + 1]?.createdAt) !==
                   currentTime ||
                 groupMessages[index + 1]?.sender._id !== message.sender._id;
+              const isSearchedMessage = searchResults.includes(message.index);
 
               return (
                 <div
@@ -116,9 +117,10 @@ export const MessageGroup = forwardRef<HTMLDivElement, MessageGroupProps>(
                         </span>
                       )}
                       <div
-                        className={
-                          isMyMessage ? styles.myMessage : styles.otherMessage
-                        }
+                        className={`
+                          ${isMyMessage ? styles.myMessage : styles.otherMessage}
+                          ${isSearchedMessage ? styles.searchedMessage : ''}
+                        `}
                       >
                         <span className={styles.content}>
                           {message.content}

@@ -16,6 +16,7 @@ import { ChatNotice } from './components/notice';
 import { InputBox } from './components/inputBox';
 import { ChatNavigation } from './components/chatNavigation';
 import { useGetTargetChat } from '@/apis/chat/chat';
+import { useChatStore } from '@/store/chatStore';
 
 dayjs.locale('ko');
 
@@ -39,6 +40,7 @@ export default function ChatClient() {
   );
 
   const { data } = useGetRecentChat(studyId);
+  const { resetSearch } = useChatStore();
 
   useEffect(() => {
     if (!data?.messages) return;
@@ -256,6 +258,12 @@ export default function ChatClient() {
       console.error('Error in handleSearch:', error);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      resetSearch();
+    };
+  }, [resetSearch]);
 
   return (
     <div className={styles.Container}>

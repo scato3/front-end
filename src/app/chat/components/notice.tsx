@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from '../chat.module.scss';
 import { IconMegaPhone } from '../../../../public/icons';
@@ -23,11 +23,14 @@ export const ChatNotice = ({
   refetchTargetData,
 }: ChatNoticeProps) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [noResults, setNoResults] = useState(false);
+
   const {
     setSearchResults,
     setCurrentSearchIndex,
     searchResults,
     currentSearchIndex,
+    resetSearch,
   } = useChatStore();
 
   const { refetch } = useGetFindChat(studyId, {
@@ -35,10 +38,19 @@ export const ChatNotice = ({
     startIndex: searchResults[currentSearchIndex] || 0,
   });
 
+  useEffect(() => {
+    if (!isSearchActive) {
+      setSearchQuery('');
+      setNoResults(false);
+      resetSearch();
+    }
+  }, [isSearchActive, resetSearch]);
+
   const handleSearchSubmit = async (
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (e.key === 'Enter' && searchQuery.trim()) {
+      setNoResults(false);
       const result = await refetch();
 
       if (result.data?.indexList && result.data.indexList.length > 0) {
@@ -52,9 +64,14 @@ export const ChatNotice = ({
           startIndex: maxIndex,
           findIndex: 0,
         }).then(() => {
-          // 데이터 로드가 완료되면 첫 번째 검색 결과로 스크롤
           handleSearchClick(result.data.indexList[0]);
         });
+      } else {
+        // 검색 결과가 없을 때
+        setNoResults(true);
+        setSearchResults([]);
+        setCurrentSearchIndex(0);
+        setSearchQuery(''); // 검색어 초기화
       }
     }
   };
@@ -96,14 +113,29 @@ export const ChatNotice = ({
             alt="검색 아이콘"
             className={styles.searchIcon}
           />
-          <input
-            type="text"
-            placeholder="검색어를 입력하세요"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleSearchSubmit}
-            className={styles.searchInput}
-          />
+          {noResults ? (
+            <div
+              className={styles.searchInput}
+              onClick={() => {
+                setNoResults(false);
+                setSearchQuery('');
+              }}
+            >
+              검색 결과가 없습니다
+            </div>
+          ) : (
+            <input
+              type="text"
+              placeholder="검색어를 입력하세요"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setNoResults(false);
+              }}
+              onKeyDown={handleSearchSubmit}
+              className={styles.searchInput}
+            />
+          )}
           <div className={styles.searchArrows}>
             <Image
               src={ArrowDown}

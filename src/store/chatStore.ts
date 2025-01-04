@@ -5,6 +5,7 @@ interface ChatStore {
   currentSearchIndex: number;
   setSearchResults: (results: number[]) => void;
   setCurrentSearchIndex: (index: number) => void;
+  resetSearch: () => void;
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -12,4 +13,5 @@ export const useChatStore = create<ChatStore>((set) => ({
   currentSearchIndex: 0,
   setSearchResults: (results) => set({ searchResults: results }),
   setCurrentSearchIndex: (index) => set({ currentSearchIndex: index }),
+  resetSearch: () => set({ searchResults: [], currentSearchIndex: 0 }),
 }));
