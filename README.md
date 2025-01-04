@@ -1,8 +1,8 @@
 ![Shortudy](https://private-user-images.githubusercontent.com/58322578/345798266-dc530728-a45d-4a32-8abc-6587f6db0ae8.svg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzU5OTQwNzgsIm5iZiI6MTczNTk5Mzc3OCwicGF0aCI6Ii81ODMyMjU3OC8zNDU3OTgyNjYtZGM1MzA3MjgtYTQ1ZC00YTMyLThhYmMtNjU4N2Y2ZGIwYWU4LnN2Zz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAxMDQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMTA0VDEyMjkzOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTFkMjAwYjljYWEyNWJiMzMwZTEwNGZmM2IwMDRjZjRjNzRkM2UyY2ExM2I3MzRhY2E5NGNmOTU0YWVmYTVjYmImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.gi375Ue2A0P0frKvTtGai_pSYASIucqpG2T8Rfb_PP0)
 
-# 🌟 Shortudy
+# 🌟 Showtudy
 
-> 스터디 매칭 플랫폼 Shortudy(쇼터디)입니다. 짧은 기간 동안 집중적으로 스터디를 진행하고 싶은 사람들을 위한 서비스입니다
+> 스터디 매칭 플랫폼 Showtudy(쇼터디)입니다. 짧은 기간 동안 집중적으로 스터디를 진행하고 싶은 사람들을 위한 서비스입니다
 
 ## 🛠 Tech Stack
 
